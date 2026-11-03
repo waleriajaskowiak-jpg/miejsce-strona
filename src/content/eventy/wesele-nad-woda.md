@@ -3,7 +3,7 @@ title: "Wesele"
 adres_url: wesele-nad-woda
 kolejnosc: 5
 tag: "Para młoda · 100 osób"
-lead: "Od przysięgi na wodzie po ostatni taniec."
+lead: "Od przysięgi na wodzie po ostatni taniec"
 opis_seo: "Wesele nad Wisłą: ceremonia w altanie na wodzie, przyjęcie i parkiet."
 przestrzen: "DUŻE MIEJSCE"
 program:
@@ -28,6 +28,6 @@ zdjecia:
   - "/img/gallery/ws06.jpg"
   - "/img/gallery/ws01.jpg"
   - "/img/gallery/ws15.jpg"
----
 
+---
 Najważniejszy dzień, bez sali bankietowej z wykładziną. Altana na wodzie, stoły nad rzeką, taniec na barce.

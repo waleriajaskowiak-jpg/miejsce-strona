@@ -178,6 +178,8 @@ const monthShort = (name) => name.replace(".", "").slice(0, 3);
         if (field) field.value = value;
       });
     });
+    const preset = new URLSearchParams(location.search).get("typ");
+    if (preset) root.querySelector(`[data-group="typ"][data-value="${preset}"]`)?.dispatchEvent(new Event("click"));
 
     form.addEventListener("submit", (event) => {
       event.preventDefault();

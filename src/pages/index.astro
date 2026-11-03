@@ -4,6 +4,7 @@ import Base from "../layouts/Base.astro";
 import Budzet from "../components/Budzet.astro";
 import Plan from "../components/Plan.astro";
 import Gallery from "../components/Gallery.astro";
+import Slider from "../components/Slider.astro";
 import { sortByOrder, venueJsonLd } from "../lib/nav.js";
 
 const strona = (await getEntry("ustawienia", "strona"))!.data;
@@ -40,6 +41,7 @@ const klimatIcons = ["fala", "box", "star"];
   description={strona.opis_seo}
   image={strona.hero_zdjecie}
   jsonLd={[venueJsonLd(kontakt, strona.opis_seo)]}
+  overlay={true}
 >
   <section class="cine">
     <div class="cine-media" id="heroMedia">
@@ -59,16 +61,29 @@ const klimatIcons = ["fala", "box", "star"];
       }
     </div>
     <div class="cine-shade"></div>
-    <div class="wrap cine-copy">
-      <p class="kicker">{strona.hero_kicker}</p>
-      <h1>{strona.hero_h1}</h1>
-      <p class="lede">{strona.hero_lead}</p>
-      <div class="btn-row">
-        <a class="btn btn-primary" href="/kontakt/">{strona.cta_glowny}</a>
-        <a class="btn btn-ghost" href="/przestrzenie/">{strona.cta_drugi}</a>
+    <div class="wrap cine-bottom">
+      <div>
+        <p class="kicker">{strona.hero_kicker}</p>
+        <h1>{strona.hero_h1}</h1>
       </div>
-      <div class="hero-dots" id="heroDots" aria-hidden="true"></div>
+      <div>
+        <p class="lede">{strona.hero_lead}</p>
+        <div class="btn-row">
+          <a class="btn btn-primary" href="/kontakt/">{strona.cta_glowny}</a>
+          <a class="btn btn-ghost" href="/przestrzenie/">{strona.cta_drugi}</a>
+        </div>
+      </div>
     </div>
+    <div class="wrap">
+      <ul class="fact-strip">
+        <li><b data-count="350">350</b><span>gości</span></li>
+        <li><b data-count="2">2</b><span>barki</span></li>
+        <li><b data-count="1">1</b><span>ogród</span></li>
+        <li><b>10 min</b><span>od centrum Warszawy</span></li>
+      </ul>
+    </div>
+    <a class="scroll-cue" href="#plan" aria-label="Przewiń dalej"><span></span></a>
+    <div class="hero-dots" id="heroDots" aria-hidden="true"></div>
   </section>
 
   <section class="sec">
@@ -204,39 +219,16 @@ const klimatIcons = ["fala", "box", "star"];
     </div>
   </section>
 
-  <section class="sec sec-tint">
-    <div class="wrap">
-      <div class="sec-head">
-        <h2>{sekcje.atrakcje_h}</h2>
-        <p class="sec-note">{sekcje.atrakcje_note}</p>
-      </div>
-      <div class="ex-top">
-        {
-          sekcje.atrakcje.map((item) => (
-            <figure>
-              <img src={item.zdjecie} alt="" loading="lazy" />
-              <figcaption><b>{item.tytul}</b><span>{item.opis}</span></figcaption>
-            </figure>
-          ))
-        }
-      </div>
-    </div>
-  </section>
-
-  <section class="sec">
-    <div class="wrap">
-      <div class="sec-head">
-        <h2>{sekcje.film_h}</h2>
-        <p class="sec-note">{sekcje.film_note}</p>
-      </div>
-      <div class="film-row">
-        {sekcje.film_zdjecia.map((src) => (
-          <figure><img src={src} alt="" loading="lazy" /></figure>
-        ))}
-      </div>
-      <p class="lede" style="margin-top:20px">{sekcje.film_body}</p>
-    </div>
-  </section>
+  <Slider
+    title={sekcje.atrakcje_h}
+    note={sekcje.atrakcje_note}
+    items={sekcje.atrakcje.map((item) => ({ src: item.zdjecie, title: item.tytul, caption: item.opis, alt: item.tytul }))}
+  />
+  <Slider
+    title={sekcje.film_h}
+    note={sekcje.film_body}
+    items={sekcje.film_zdjecia.map((src, index) => ({ src, alt: `${sekcje.film_h} ${index + 1}`, title: sekcje.film_note }))}
+  />
 
   <section class="sec">
     <div class="wrap">

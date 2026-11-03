@@ -2,6 +2,7 @@
 import { getEntry } from "astro:content";
 import Base from "../layouts/Base.astro";
 import Crumbs from "../components/Crumbs.astro";
+import NextBand from "../components/NextBand.astro";
 import { crumbsJsonLd } from "../lib/nav.js";
 
 const jedzenie = (await getEntry("ustawienia", "jedzenie"))!.data;
@@ -87,6 +88,16 @@ const crumbs = [{ href: "/jedzenie-i-bar/", label: "Jedzenie i bar" }];
       </div>
     </div>
   </section>
+  <NextBand
+    kicker="Następny krok"
+    title="Dobierz budżet do menu"
+    links={[
+      { href: "/ceny/", label: "Ceny i open bar" },
+      { href: "/eventy/", label: "Scenariusze" },
+      { href: "/kontakt/", label: "Brief" },
+    ]}
+    cta="Wyślij brief"
+  />
 </Base>
 
 <script>

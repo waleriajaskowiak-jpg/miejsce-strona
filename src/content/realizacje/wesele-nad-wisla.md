@@ -18,8 +18,8 @@ zdjecia:
   - "/img/gallery/ws06.jpg"
   - "/img/gallery/ws14.jpg"
   - "/img/gallery/ws04.jpg"
----
 
+---
 **Szkic realizacji.** Fakty poniżej pochodzą z obecnej strony MIEJSCA. Nie podajemy liczby gości ani imion pary — nie ma ich w materiałach.
 
 Znane z materiału: przyjęcie weselne, wrzesień 2026, Duże Miejsce.

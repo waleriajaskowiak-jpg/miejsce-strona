@@ -1,0 +1,73 @@
+---
+const { title, note = "", items = [] } = Astro.props;
+---
+
+<section class="reel-sec">
+  <div class="wrap reel-head">
+    <div>
+      <h2>{title}</h2>
+      {note && <p class="sec-lead">{note}</p>}
+    </div>
+    <div class="reel-nav">
+      <button type="button" class="reel-btn" data-prev aria-label="Poprzednie"></button>
+      <button type="button" class="reel-btn reel-next" data-next aria-label="Następne"></button>
+    </div>
+  </div>
+  <div class="reel" data-reel tabindex="0" aria-label={title}>
+    <div class="reel-track">
+      {
+        items.map((item) => (
+          <article class="reel-card">
+            <img src={item.src} alt={item.alt || ""} loading="lazy" />
+            {(item.title || item.caption) && (
+              <figcaption>
+                {item.title && <b>{item.title}</b>}
+                {item.caption && <span>{item.caption}</span>}
+              </figcaption>
+            )}
+          </article>
+        ))
+      }
+    </div>
+  </div>
+  <div class="wrap"><div class="reel-bar" aria-hidden="true"><span data-bar></span></div></div>
+</section>
+
+<script>
+  document.querySelectorAll("[data-reel]").forEach((reel) => {
+    const track = reel.querySelector(".reel-track");
+    const bar = reel.parentElement?.querySelector("[data-bar]") || reel.closest(".reel-sec")?.querySelector("[data-bar]");
+    const root = reel.closest(".reel-sec");
+    if (!track) return;
+    const card = () => track.querySelector(".reel-card")?.getBoundingClientRect().width || 320;
+    const sync = () => {
+      if (!bar) return;
+      const max = track.scrollWidth - track.clientWidth;
+      const ratio = max > 0 ? track.scrollLeft / max : 1;
+      bar.style.width = `${Math.max(12, ratio * 100)}%`;
+    };
+    root?.querySelector("[data-prev]")?.addEventListener("click", () => track.scrollBy({ left: -(card() + 16), behavior: "smooth" }));
+    root?.querySelector("[data-next]")?.addEventListener("click", () => track.scrollBy({ left: card() + 16, behavior: "smooth" }));
+    track.addEventListener("scroll", sync, { passive: true });
+    reel.addEventListener("keydown", (event) => {
+      if (event.key === "ArrowRight") track.scrollBy({ left: card() + 16, behavior: "smooth" });
+      if (event.key === "ArrowLeft") track.scrollBy({ left: -(card() + 16), behavior: "smooth" });
+    });
+    let down = false;
+    let startX = 0;
+    let startLeft = 0;
+    track.addEventListener("pointerdown", (event) => {
+      down = true;
+      startX = event.clientX;
+      startLeft = track.scrollLeft;
+      track.setPointerCapture(event.pointerId);
+    });
+    track.addEventListener("pointermove", (event) => {
+      if (!down) return;
+      track.scrollLeft = startLeft - (event.clientX - startX);
+    });
+    track.addEventListener("pointerup", () => { down = false; });
+    track.addEventListener("pointercancel", () => { down = false; });
+    sync();
+  });
+</script>

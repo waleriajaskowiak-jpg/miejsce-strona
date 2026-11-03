@@ -2,7 +2,7 @@
 title: "DUŻE MIEJSCE"
 adres_url: duze-miejsce
 kolejnosc: 1
-lead: "Parkiet, bar, kominek i 120 m² zadaszonego tarasu nad wodą."
+lead: "Parkiet, bar, kominek i 120 m² zadaszonego tarasu nad wodą"
 meta: "80 m² wnętrza · 120 m² tarasu · do 130 osób zimą"
 opis_seo: "Barka z parkietem, barem, kominkiem i całorocznym tarasem nad Wisłą. Do około 120 osób zimą."
 cena_od: 6000
@@ -37,6 +37,6 @@ zdjecia:
   - "/img/gallery/dm24.jpg"
   - "/img/gallery/dm20.jpg"
   - "/img/gallery/dm06.jpg"
----
 
+---
 To tutaj najczęściej kończą się konferencje, zaczynają imprezy i robi się późno. W środku mamy około 80 m², a razem z całorocznym, zadaszonym tarasem możemy również zimą komfortowo organizować eventy dla około 120 osób.

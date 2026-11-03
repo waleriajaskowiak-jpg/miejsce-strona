@@ -5,8 +5,8 @@ kolejnosc: 1
 szkic: true
 opis: "Szkic artykułu z briefu. Bez wyliczonej kwoty, dopóki nie powstanie redakcja na własnych realizacjach."
 opis_seo: "Szkic artykułu z briefu. Bez wyliczonej kwoty, dopóki nie powstanie redakcja na własnych realizacjach."
----
 
+---
 **Szkic do uzupełnienia przez MIEJSCE.** Tego tekstu nie traktuj jako porady ani wyceny.
 
 Tytuł jest z briefu i czeka na materiał redakcyjny: realne widełki z realizacji, bez uśrednionych „cen z internetu”.

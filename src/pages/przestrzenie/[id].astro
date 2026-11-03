@@ -2,6 +2,7 @@
 import { getCollection, render } from "astro:content";
 import Base from "../../layouts/Base.astro";
 import Crumbs from "../../components/Crumbs.astro";
+import NextBand from "../../components/NextBand.astro";
 import { crumbsJsonLd, sortByOrder, zloty } from "../../lib/nav.js";
 
 export async function getStaticPaths() {
@@ -96,4 +97,15 @@ const crumbs = [
       </ul>
     </div>
   </section>
+  <NextBand
+    kicker="Następny krok"
+    title="Sprawdź, czy budżet się mieści"
+    links={[
+      { href: "/ceny/#budzet", label: "Moduł budżetu" },
+      { href: "/eventy/", label: "Scenariusze" },
+      { href: "/jedzenie-i-bar/", label: "Jedzenie i bar" },
+    ]}
+    cta={`Zapytaj o ${entry.data.title}`}
+    href={`/kontakt/?wiadomosc=${encodeURIComponent("Chcę zapytać o " + entry.data.title)}#brief`}
+  />
 </Base>

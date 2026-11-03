@@ -3,7 +3,7 @@ title: "Event dla klientów / premiera"
 adres_url: event-premium
 kolejnosc: 4
 tag: "Firma · 40 osób"
-lead: "Zachód słońca nad Wisłą, koktajle i kolacja w dobrym towarzystwie."
+lead: "Zachód słońca nad Wisłą, koktajle i kolacja w dobrym towarzystwie"
 opis_seo: "Kameralny event dla klientów albo premiera: taras, kolacja i bar."
 przestrzen: "DUŻE MIEJSCE"
 program:
@@ -26,6 +26,6 @@ zdjecia:
   - "/img/gallery/kn08.jpg"
   - "/img/gallery/kn03.jpg"
   - "/img/gallery/dm20.jpg"
----
 
+---
 Krótki, gęsty wieczór dla klientów: powitanie na tarasie, kolacja i rozmowy przy barze.

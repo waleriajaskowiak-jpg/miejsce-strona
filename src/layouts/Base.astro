@@ -10,6 +10,7 @@ const {
   image = "/img/pdf/hero-main.jpg",
   robots = "index,follow",
   jsonLd = [],
+  overlay = false,
 } = Astro.props;
 
 const canonical = new URL(Astro.url.pathname, Astro.site);
@@ -50,13 +51,14 @@ const jsonBlocks = jsonLd.map((obj) => JSON.stringify(obj).replace(/</g, "\\u003
       document.documentElement.classList.add("js");
     </script>
   </head>
-  <body>
+  <body class:list={[overlay && "has-overlay"]}>
     <a class="skip" href="#main">Przejdź do treści</a>
     <Header />
     <main id="main">
       <slot />
     </main>
     <Footer />
+    <a class="mob-cta btn btn-primary" href="/kontakt/">Zapytaj o termin</a>
     <script>
       const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
       const nodes = document.querySelectorAll(".reveal");

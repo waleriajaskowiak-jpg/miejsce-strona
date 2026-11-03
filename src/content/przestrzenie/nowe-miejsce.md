@@ -38,6 +38,6 @@ zdjecia:
   - "/img/gallery/mm15.jpg"
   - "/img/gallery/mm16.jpg"
   - "/img/gallery/mm11.jpg"
----
 
+---
 NOWE MIEJSCE to najbardziej konferencyjna część naszego kompleksu: około 80 m² przestrzeni dla gości i 60 m² zadaszonego tarasu nad wodą. Można zrobić prezentację, szkolenie czy premierę, a później podać jedzenie, otworzyć bar i płynnie przejść do networkingu albo afterparty.

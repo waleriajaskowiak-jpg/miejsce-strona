@@ -36,8 +36,8 @@ zdjecia:
   - "/img/gallery/cm01.jpg"
   - "/img/gallery/og03.jpg"
   - "/img/gallery/dm04.jpg"
----
 
+---
 Przy większych wydarzeniach łączymy wszystko w jeden kompleks. Część oficjalna może odbywać się w NOWYM MIEJSCU, catering i networking na tarasach, ogród przejąć rolę strefy chillout, a DUŻE MIEJSCE wieczorem zamienić się w parkiet.
 
 Każda przestrzeń ma własny bar, toalety i wejście, ale goście mogą swobodnie poruszać się pomiędzy nimi.

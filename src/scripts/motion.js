@@ -56,5 +56,37 @@ if (!reduced) {
       io.unobserve(entry.target);
     });
   }, { threshold: 0.12 });
-  document.querySelectorAll(".reveal, .feature-list, .climate-list, .ex-top, .film-row").forEach((el) => io.observe(el));
+  document.querySelectorAll(".reveal, .feature-list, .climate-list, .ex-top, .film-row, .stats").forEach((el) => io.observe(el));
+
+  const count = (el) => {
+    const to = Number(el.dataset.count);
+    if (!Number.isFinite(to)) return;
+    const start = performance.now();
+    const step = (now) => {
+      const k = Math.min(1, (now - start) / 1100);
+      el.textContent = String(Math.round(to * (1 - Math.pow(1 - k, 3))));
+      if (k < 1) requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
+  };
+  const statsIO = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (!entry.isIntersecting) return;
+      entry.target.querySelectorAll("[data-count]").forEach(count);
+      statsIO.unobserve(entry.target);
+    });
+  }, { threshold: 0.4 });
+  document.querySelectorAll(".stats, .fact-strip").forEach((el) => statsIO.observe(el));
+
+  if (matchMedia("(hover: hover) and (pointer: fine)").matches) {
+    document.querySelectorAll(".btn-primary").forEach((button) => {
+      button.addEventListener("pointermove", (event) => {
+        const rect = button.getBoundingClientRect();
+        const x = (event.clientX - rect.left - rect.width / 2) * 0.18;
+        const y = (event.clientY - rect.top - rect.height / 2) * 0.25;
+        button.style.transform = `translate(${x}px, ${y}px)`;
+      });
+      button.addEventListener("pointerleave", () => { button.style.transform = ""; });
+    });
+  }
 }

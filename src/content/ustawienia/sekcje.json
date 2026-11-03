@@ -5,11 +5,11 @@
   "klimat_punkty": [
     {
       "tytul": "Bliskość natury",
-      "opis": "Unikalna lokalizacja bezpośrednio na wodzie, zapewniająca ciszę i relaks w centrum miasta."
+      "opis": "Unikalna lokalizacja bezpośrednio na wodzie, zapewniająca ciszę i relaks w centrum miasta"
     },
     {
       "tytul": "Industrialny design",
-      "opis": "Architektura oparta na kontenerach morskich tworzy niezapomniany klimat i wspomnienia."
+      "opis": "Architektura oparta na kontenerach morskich tworzy niezapomniany klimat i wspomnienia"
     },
     {
       "tytul": "Doceniana marka",
@@ -20,22 +20,22 @@
     {
       "ikona": "woda",
       "tytul": "Nad Wisłą",
-      "opis": "Widok na rzekę i bezpośredni dostęp do nabrzeża."
+      "opis": "Widok na rzekę i bezpośredni dostęp do nabrzeża"
     },
     {
       "ikona": "barka",
       "tytul": "Dwie barki",
-      "opis": "Parkiet, bary i zadaszone tarasy nad wodą."
+      "opis": "Parkiet, bary i zadaszone tarasy nad wodą"
     },
     {
       "ikona": "pin",
       "tytul": "Dogodny dojazd",
-      "opis": "10 minut od centrum, parking dla gości."
+      "opis": "10 minut od centrum, parking dla gości"
     },
     {
       "ikona": "lisc",
       "tytul": "Otoczenie natury",
-      "opis": "Zieleń, świeże powietrze i spokojna atmosfera."
+      "opis": "Zieleń, świeże powietrze i spokojna atmosfera"
     }
   ],
   "atrakcje_h": "Dodatkowe atrakcje",

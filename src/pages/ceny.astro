@@ -3,6 +3,7 @@ import { getEntry } from "astro:content";
 import Base from "../layouts/Base.astro";
 import Crumbs from "../components/Crumbs.astro";
 import Budzet from "../components/Budzet.astro";
+import NextBand from "../components/NextBand.astro";
 import { crumbsJsonLd, zloty } from "../lib/nav.js";
 
 const cennik = (await getEntry("ustawienia", "cennik"))!.data;
@@ -22,7 +23,24 @@ const crumbs = [{ href: "/ceny/", label: "Ceny" }];
     <p class="fine">{cennik.netto_info}</p>
   </header>
 
-  <section class="sec" style="padding-top:1.5rem">
+  <section class="sec" id="wynajem" style="padding-top:1rem">
+    <div class="wrap">
+      <div class="price-cards">
+        {
+          cennik.wynajem.map((row, index) => (
+            <article class:list={["price-card", index === 1 && "is-hot"]}>
+              <p class="kicker">{row.dopisek}</p>
+              <h2>{row.nazwa}</h2>
+              <span class="sum">od {zloty(row.cena_od)}</span>
+              <p>netto, orientacyjnie</p>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" style="padding-top:0">
     <div class="wrap split">
       <div>
         <h2>{cennik.wynajem_h}</h2>
@@ -44,7 +62,7 @@ const crumbs = [{ href: "/ceny/", label: "Ceny" }];
     </div>
   </section>
 
-  <section class="sec" style="padding-top:0">
+  <section class="sec" id="jedzenie" style="padding-top:0">
     <div class="wrap split">
       <div>
         <h2>{cennik.catering_h}</h2>
@@ -111,9 +129,19 @@ const crumbs = [{ href: "/ceny/", label: "Ceny" }];
     </div>
   </section>
 
-  <section class="sec" style="padding-top:0">
+  <section class="sec sec-dark" id="budzet-sekcja" style="padding-top:48px">
     <div class="wrap">
       <Budzet cennik={cennik} wariant="pelny" />
     </div>
   </section>
+  <NextBand
+    kicker="Następny krok"
+    title="Ułóż menu albo napisz do nas"
+    links={[
+      { href: "/jedzenie-i-bar/", label: "Jedzenie i bar" },
+      { href: "/eventy/", label: "Scenariusze eventów" },
+      { href: "/przestrzenie/", label: "Przestrzenie" },
+    ]}
+    cta="Wyślij brief"
+  />
 </Base>

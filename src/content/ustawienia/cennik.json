@@ -10,7 +10,7 @@
   "bar_info": "3 stałe bary + możliwość ustawienia baru mobilnego.",
   "dodatki_h": "Obsługa, AV, DJ i dodatki",
   "dodatki_lead": "Tego nie zamykamy w cenniku na stronie. Wyceniamy pod scenariusz, liczbę gości i długość eventu.",
-  "budzet_h": "Masz budżet? Sprawdźmy, co możemy z nim zrobić.",
+  "budzet_h": "Masz budżet? Sprawdźmy, co możemy z nim zrobić",
   "netto_info": "Ceny netto, zgodne z ofertą MIEJSCE EVENTY 2026. To widełki „od”, nie wycena końcowa.",
   "pdf": "/pdf/MIEJSCE-oferta-2026-PL.pdf",
   "pdf_etykieta": "Pobierz ofertę 2026 (PDF)",
@@ -41,21 +41,21 @@
       "nazwa": "Solidna podstawa",
       "cena": 180,
       "jednostka": "zł netto/os.",
-      "opis": "Solidny zestaw na event, bez trzygodzinnej kolacji."
+      "opis": "Solidny zestaw na event, bez trzygodzinnej kolacji"
     },
     {
       "id": "srodek",
       "nazwa": "Złoty środek",
       "cena": 220,
       "jednostka": "zł netto/os.",
-      "opis": "Więcej dań i swobody w układzie stołu."
+      "opis": "Więcej dań i swobody w układzie stołu"
     },
     {
       "id": "wypas",
       "nazwa": "Konkretny wypas",
       "cena": 250,
       "jednostka": "zł netto/os.",
-      "opis": "Pełniejszy stół, kiedy jedzenie ma być równą częścią wieczoru."
+      "opis": "Pełniejszy stół, kiedy jedzenie ma być równą częścią wieczoru"
     }
   ],
   "open_bar": [
@@ -64,21 +64,21 @@
       "nazwa": "Piwo, wino, softy",
       "cena": 150,
       "jednostka": "zł netto/os.",
-      "opis": "Piwo, wino i napoje bezalkoholowe."
+      "opis": "Piwo, wino i napoje bezalkoholowe"
     },
     {
       "id": "standard",
       "nazwa": "Bar z mocnymi",
       "cena": 190,
       "jednostka": "zł netto/os./5h",
-      "opis": "Do tego wódka, whisky i drinki."
+      "opis": "Do tego wódka, whisky i drinki"
     },
     {
       "id": "pelny",
       "nazwa": "Cocktail bar",
       "cena": 230,
       "jednostka": "zł netto/os./5h",
-      "opis": "Do tego gin, Aperol, prosecco i pełniejszy cocktail bar."
+      "opis": "Do tego gin, Aperol, prosecco i pełniejszy cocktail bar"
     }
   ],
   "dodatki": [
@@ -92,7 +92,7 @@
     },
     {
       "nazwa": "DJ i muzyka",
-      "opis": "DJ, nagłośnienie albo muzyka na żywo — na zamówienie."
+      "opis": "DJ, nagłośnienie albo muzyka na żywo — na zamówienie"
     },
     {
       "nazwa": "Bar mobilny",
@@ -215,15 +215,15 @@
   ],
   "wyniki": {
     "A": {
-      "tytul": "Spokojnie się mieścimy.",
+      "tytul": "Spokojnie się mieścimy",
       "tresc": "Tu możemy już trochę poszaleć. Jedzenie, bar, przestrzeń i obsługa spokojnie się zmieszczą. Porozmawiajmy o dodatkach."
     },
     "B": {
-      "tytul": "Da się. Trzeba tylko dobrze poukładać budżet.",
+      "tytul": "Da się. Trzeba tylko dobrze poukładać budżet",
       "tresc": "Dużo zależy od menu, baru i terminu."
     },
     "C": {
-      "tytul": "Trochę ciasno. Ale nie skreślamy tego.",
+      "tytul": "Trochę ciasno. Ale nie skreślamy tego",
       "tresc": "Termin, dzień tygodnia, inna przestrzeń albo zmiana konfiguracji cateringu i baru potrafią sporo zmienić.\n\nNapisz do nas. Zobaczymy, co da się z tego zrobić."
     }
   },

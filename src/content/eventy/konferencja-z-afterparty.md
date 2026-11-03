@@ -3,7 +3,7 @@ title: "Konferencja + networking + after"
 adres_url: konferencja-z-afterparty
 kolejnosc: 1
 tag: "Firma, zespół · 50 osób"
-lead: "Całodzienne spotkanie, od sali konferencyjnej po parkiet."
+lead: "Całodzienne spotkanie, od sali konferencyjnej po parkiet"
 opis_seo: "Konferencja, networking na tarasie i wieczorne afterparty w jednym adresie nad Wisłą."
 przestrzen: "NOWE MIEJSCE i DUŻE MIEJSCE"
 program:
@@ -27,6 +27,6 @@ zdjecia:
   - "/img/gallery/mm10.jpg"
   - "/img/gallery/ins076.jpg"
   - "/img/gallery/dm06.jpg"
----
 
+---
 Cały dzień zostaje pod jednym adresem: rano sala, po południu taras, wieczorem kolacja i parkiet.

@@ -18,8 +18,8 @@ zdjecia:
   - "/img/gallery/mm27.jpg"
   - "/img/gallery/mm30.jpg"
   - "/img/gallery/mm25.jpg"
----
 
+---
 **Szkic realizacji.** Fakty poniżej pochodzą z obecnej strony MIEJSCA.
 
 Znane z materiału: dzień prasowy SADVA × Kołodka na nowej barce. W nowym układzie przestrzeni to NOWE MIEJSCE (wcześniej opisywane jako Małe Miejsce).

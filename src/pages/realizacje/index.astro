@@ -3,6 +3,7 @@ import { getCollection, getEntry } from "astro:content";
 import Base from "../../layouts/Base.astro";
 import Crumbs from "../../components/Crumbs.astro";
 import Gallery from "../../components/Gallery.astro";
+import NextBand from "../../components/NextBand.astro";
 import { crumbsJsonLd, sortByOrder } from "../../lib/nav.js";
 
 const realizacje = sortByOrder(await getCollection("realizacje"));
@@ -42,4 +43,14 @@ const crumbs = [{ href: "/realizacje/", label: "Realizacje" }];
     </div>
   </section>
   <Gallery galeria={galeria} limit={9} />
+  <NextBand
+    kicker="Następny krok"
+    title="Zróbmy podobny wieczór"
+    links={[
+      { href: "/galeria/", label: "Cała galeria" },
+      { href: "/eventy/", label: "Scenariusze" },
+      { href: "/ceny/", label: "Ceny" },
+    ]}
+    cta="Zapytaj o termin"
+  />
 </Base>

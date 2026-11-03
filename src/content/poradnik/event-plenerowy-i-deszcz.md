@@ -5,8 +5,8 @@ kolejnosc: 2
 szkic: true
 opis: "Szkic artykułu o planie B na deszcz. Bez poradnika zmyślonego pod SEO."
 opis_seo: "Szkic artykułu o planie B na deszcz. Bez poradnika zmyślonego pod SEO."
----
 
+---
 **Szkic do uzupełnienia przez MIEJSCE.**
 
 Tytuł jest z briefu. Gotowy tekst powinien opowiedzieć, jak w Porcie Czerniakowskim układacie plan B: co zostaje na zadaszonych tarasach, co przenosicie z ogrodu, o której godzinie zapada decyzja.

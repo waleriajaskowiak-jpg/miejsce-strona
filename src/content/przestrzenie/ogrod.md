@@ -2,7 +2,7 @@
 title: "OGRÓD"
 adres_url: ogrod
 kolejnosc: 3
-lead: "300 m² zieleni, własny bar i trochę mniej formalności."
+lead: "300 m² zieleni, własny bar i trochę mniej formalności"
 meta: "ok. 300 m² · ok. 100 osób · własny bar"
 opis_seo: "Osobna przestrzeń eventowa na cieplejszą część roku. Około 300 m² zieleni i własny bar."
 najlepiej:
@@ -36,6 +36,6 @@ zdjecia:
   - "/img/gallery/og11.jpg"
   - "/img/gallery/og19.jpg"
   - "/img/gallery/og20.jpg"
----
 
+---
 OGRÓD to osobna, pełnoprawna przestrzeń eventowa na cieplejszą część roku. Są drzewa, światła, zadaszona część, wysokie i niskie stoliki, trybuny ze schodkami i miejsca do siedzenia. Można zrobić tu garden party, integrację, wesele albo po prostu przenieść część większego wydarzenia na zewnątrz.

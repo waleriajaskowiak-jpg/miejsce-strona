@@ -3,7 +3,7 @@ title: "Letnia integracja nad wodą"
 adres_url: integracja-firmowa
 kolejnosc: 3
 tag: "Firma · 80 osób"
-lead: "Grill, woda i muzyka, sprawdzony przepis na udaną integrację."
+lead: "Grill, woda i muzyka, sprawdzony przepis na udaną integrację"
 opis_seo: "Letnia integracja nad Wisłą: grill, bar i afterparty."
 przestrzen: "DUŻE MIEJSCE i OGRÓD"
 program:
@@ -23,6 +23,6 @@ zdjecia:
   - "/img/gallery/og16.jpg"
   - "/img/gallery/og24.jpg"
   - "/img/gallery/og11.jpg"
----
 
+---
 Grill, woda i muzyka. Integracja, która nie udaje kolejnego wyjścia do sali konferencyjnej.

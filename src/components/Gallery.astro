@@ -16,6 +16,10 @@ const payload = JSON.stringify({ cats: cats.map((cat) => ({ id: cat.id, nazwa: c
       <h2>{galeria.naglowek}</h2>
       <p class="sec-note">{galeria.opis}</p>
     </div>
+    <div class="gal-filters" role="tablist" aria-label="Filtr galerii">
+      <button type="button" class="is-on" data-filter="all">Wszystkie</button>
+      {cats.map((cat) => <button type="button" data-filter={cat.id}>{cat.nazwa}</button>)}
+    </div>
     <div class="gal-masonry">
       {
         shown.map((item) => (
@@ -106,6 +110,15 @@ const payload = JSON.stringify({ cats: cats.map((cat) => ({ id: cat.id, nazwa: c
       document.body.classList.remove("lb-open");
     };
 
+    root.querySelectorAll(".gal-filters [data-filter]").forEach((button) => {
+      button.addEventListener("click", () => {
+        const filter = button.getAttribute("data-filter");
+        root.querySelectorAll(".gal-filters button").forEach((peer) => peer.classList.toggle("is-on", peer === button));
+        root.querySelectorAll(".gal-item").forEach((item) => {
+          item.hidden = filter !== "all" && item.getAttribute("data-cat") !== filter;
+        });
+      });
+    });
     root.querySelector("[data-open-all]")?.addEventListener("click", () => openSet("all"));
     root.querySelectorAll(".gal-item").forEach((button) => {
       button.addEventListener("click", () => openSet(button.getAttribute("data-cat"), button.getAttribute("data-full")));

@@ -18,8 +18,8 @@ zdjecia:
   - "/img/gallery/pez082.jpg"
   - "/img/gallery/pez083.jpg"
   - "/img/gallery/pez084.jpg"
----
 
+---
 **Szkic realizacji.** Fakty poniżej pochodzą z obecnej strony MIEJSCA. Nie dopisujemy liczby gości, menu ani baru, bo nie ma ich w briefie ani w materiałach strony.
 
 Znane z materiału: event premium Pezet × Spotify, oprawa neonowa, Duże Miejsce.

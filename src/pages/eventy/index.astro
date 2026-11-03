@@ -2,6 +2,7 @@
 import { getCollection } from "astro:content";
 import Base from "../../layouts/Base.astro";
 import Crumbs from "../../components/Crumbs.astro";
+import NextBand from "../../components/NextBand.astro";
 import { crumbsJsonLd, sortByOrder } from "../../lib/nav.js";
 
 const eventy = sortByOrder(await getCollection("eventy"));
@@ -16,27 +17,41 @@ const crumbs = [{ href: "/eventy/", label: "Eventy" }];
   <header class="wrap page-hero">
     <Crumbs items={crumbs} />
     <p class="kicker">Scenariusze</p>
-    <h1>Tak może wyglądać dzień.</h1>
+    <h1>Tak może wyglądać dzień</h1>
     <p class="lede">Sześć układów, od sali konferencyjnej po parkiet. Program dnia jest z obecnej oferty, ceny są na osobnej stronie.</p>
   </header>
-  <section class="sec" style="padding-top:1rem">
+  <section class="sec sec-tint" style="padding-top:1rem">
     <div class="wrap">
-      <ol class="scenario-index">
+      <div class="scenario-cards">
         {
-          eventy.map((event, index) => (
-            <li>
-              <a href={`/eventy/${event.id}/`}>
-                <span class="num">{String(index + 1).padStart(2, "0")}</span>
-                <span>
-                  <strong>{event.data.title}</strong>
-                  <em>{event.data.lead}</em>
-                </span>
-                <img src={event.data.cover} alt="" loading="lazy" />
-              </a>
-            </li>
+          eventy.map((event) => (
+            <article class="scenario-card">
+              <a href={`/eventy/${event.id}/`}><img src={event.data.cover} alt="" loading="lazy" /></a>
+              <div>
+                <span class="kicker">{event.data.tag}</span>
+                <a href={`/eventy/${event.id}/`}><strong>{event.data.title}</strong></a>
+                <p>{event.data.lead}</p>
+                <p class="meta-line">{event.data.przestrzen}</p>
+                <div class="chips-inline">
+                  {event.data.zakres.slice(0, 4).map((item) => <span>{item}</span>)}
+                </div>
+                <p><a href={`/ceny/?typ=${event.id.includes("wesele") ? "wesele" : event.id.includes("szkol") ? "szkolenie" : event.id.includes("integr") ? "integracja" : event.id.includes("premium") ? "premiera" : event.id.includes("garden") ? "garden-party" : "konferencja"}#budzet`}>Sprawdź budżet</a></p>
+              </div>
+            </article>
           ))
         }
-      </ol>
+      </div>
     </div>
   </section>
+  <NextBand
+    kicker="Następny krok"
+    title="Dobierz przestrzeń albo budżet"
+    links={[
+      { href: "/przestrzenie/", label: "Zobacz przestrzenie" },
+      { href: "/ceny/", label: "Ceny i moduł budżetu" },
+      { href: "/jedzenie-i-bar/", label: "Jedzenie i bar" },
+    ]}
+    cta="Wyślij brief"
+    href="/kontakt/"
+  />
 </Base>

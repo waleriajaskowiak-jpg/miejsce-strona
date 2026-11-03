@@ -3,7 +3,7 @@ title: "Duży event / garden party"
 adres_url: garden-party
 kolejnosc: 6
 tag: "Firma · 300 osób"
-lead: "Urodziny firmy, jubileusz albo podsumowanie roku z całym zespołem."
+lead: "Urodziny firmy, jubileusz albo podsumowanie roku z całym zespołem"
 opis_seo: "Duży event i garden party: cały kompleks, ogród, bufety i parkiet. Do 350 osób."
 przestrzen: "CAŁE MIEJSCE"
 program:
@@ -27,6 +27,6 @@ zdjecia:
   - "/img/gallery/og20.jpg"
   - "/img/gallery/og21.jpg"
   - "/img/gallery/og25.jpg"
----
 
+---
 Kiedy zespół nie mieści się na jednej barce, otwieramy obie i ogród. Kilka stref jednego wieczoru.

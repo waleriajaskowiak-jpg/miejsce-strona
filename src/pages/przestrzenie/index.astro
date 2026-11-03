@@ -3,6 +3,7 @@ import { getCollection } from "astro:content";
 import Base from "../../layouts/Base.astro";
 import Crumbs from "../../components/Crumbs.astro";
 import Plan from "../../components/Plan.astro";
+import NextBand from "../../components/NextBand.astro";
 import { crumbsJsonLd, sortByOrder } from "../../lib/nav.js";
 
 const przestrzenie = sortByOrder(await getCollection("przestrzenie"));
@@ -18,7 +19,7 @@ const description = "Dwie barki, zadaszone tarasy i ogród w Porcie Czerniakowsk
   <header class="wrap page-hero">
     <Crumbs items={crumbs} />
     <p class="kicker">Port Czerniakowski</p>
-    <h1>Jedno MIEJSCE. Trzy przestrzenie.</h1>
+    <h1>Jedno MIEJSCE. Trzy przestrzenie</h1>
     <p class="lede">Mamy dwie barki, ogród, zadaszone tarasy i całkiem sporo możliwości, żeby poukładać z tego unikalny event.</p>
   </header>
   <div class="wrap" style="padding-bottom:24px">
@@ -48,4 +49,14 @@ const description = "Dwie barki, zadaszone tarasy i ogród w Porcie Czerniakowsk
       </ul>
     </div>
   </section>
+  <NextBand
+    kicker="Następny krok"
+    title="Wybierz scenariusz albo policz budżet"
+    links={[
+      { href: "/eventy/", label: "Scenariusze eventów" },
+      { href: "/ceny/", label: "Ceny" },
+      { href: "/kontakt/", label: "Umów oględziny" },
+    ]}
+    cta="Zapytaj o termin"
+  />
 </Base>
