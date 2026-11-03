@@ -1,0 +1,40 @@
+---
+import { getEntry } from "astro:content";
+import { NAV } from "../lib/nav.js";
+
+const kontakt = (await getEntry("ustawienia", "kontakt"))?.data;
+---
+
+<footer class="site-foot">
+  <div class="wrap foot-grid">
+    <div>
+      <a class="brand" href="/" aria-label="MIEJSCE">
+        <img src="/img/wordmark.png" alt="" width="900" height="258" />
+      </a>
+      <p>
+        {kontakt?.ulica}<br />
+        {kontakt?.kod} {kontakt?.miasto}<br />
+        {kontakt?.dzielnica}
+      </p>
+    </div>
+    <div>
+      <p class="foot-label">Na stronie</p>
+      <ul>
+        {NAV.map((item) => (
+          <li><a href={item.href}>{item.label}</a></li>
+        ))}
+      </ul>
+    </div>
+    <div>
+      <p class="foot-label">Kontakt</p>
+      <ul>
+        <li><a href={`mailto:${kontakt?.email}`}>{kontakt?.email}</a></li>
+        <li><a href={`tel:${kontakt?.telefon_href}`}>{kontakt?.telefon_wyswietlany}</a></li>
+        <li><a href="/kontakt/">Umów oględziny</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="wrap foot-note">
+    <p>MIEJSCE · eventy nad wodą · Port Czerniakowski · miejsce.to</p>
+  </div>
+</footer>

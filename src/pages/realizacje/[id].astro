@@ -1,0 +1,86 @@
+---
+import { getCollection, render } from "astro:content";
+import Base from "../../layouts/Base.astro";
+import PageHero from "../../components/PageHero.astro";
+import NextBand from "../../components/NextBand.astro";
+import SectionHeader from "../../components/SectionHeader.astro";
+import { crumbsJsonLd } from "../../lib/nav.js";
+
+export async function getStaticPaths() {
+  const entries = await getCollection("realizacje");
+  return entries.map((entry) => ({ params: { id: entry.id }, props: { entry } }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const crumbs = [
+  { href: "/realizacje/", label: "Realizacje" },
+  { label: entry.data.title },
+];
+const articleLd = entry.data.szkic
+  ? null
+  : {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      headline: entry.data.title,
+      description: entry.data.opis_seo,
+      image: new URL(entry.data.cover, "https://miejsce.to").href,
+      mainEntityOfPage: `https://miejsce.to/realizacje/${entry.id}/`,
+      author: { "@type": "Organization", name: "MIEJSCE" },
+      publisher: { "@type": "Organization", name: "MIEJSCE" },
+    };
+---
+
+<Base
+  title={`${entry.data.title} | Realizacje | MIEJSCE`}
+  description={entry.data.opis_seo}
+  image={entry.data.cover}
+  robots={entry.data.szkic ? "noindex,follow" : "index,follow"}
+  jsonLd={[
+    crumbsJsonLd([{ href: "/", label: "MIEJSCE" }, { href: "/realizacje/", label: "Realizacje" }, { href: `/realizacje/${entry.id}/`, label: entry.data.title }]),
+    ...(articleLd ? [articleLd] : []),
+  ]}
+>
+  <PageHero
+    crumbs={crumbs}
+    kicker={entry.data.typ}
+    title={entry.data.title}
+    lede={entry.data.lead}
+    image={entry.data.cover}
+    imageAlt={entry.data.title}
+  />
+  <section class="band">
+    <div class="wrap split">
+      <div class="stack">
+        {entry.data.szkic && <p class="szkic-banner">Szkic do uzupełnienia w CMS. Nie indeksujemy tej strony, dopóki pole „szkic” jest włączone.</p>}
+        <p class="meta">{entry.data.meta}</p>
+        <p class="meta">Goście: do uzupełnienia</p>
+        <div class="prose"><Content /></div>
+      </div>
+      <dl class="sheet">
+        <div><dt>Przestrzenie</dt><dd>{entry.data.przestrzenie}</dd></div>
+        <div><dt>Jedzenie</dt><dd>{entry.data.jedzenie}</dd></div>
+        <div><dt>Bar</dt><dd>{entry.data.bar}</dd></div>
+        <div><dt>Atrakcje i technika</dt><dd>{entry.data.atrakcje}</dd></div>
+      </dl>
+    </div>
+  </section>
+  <section class="band band-dark">
+    <div class="wrap stack-lg">
+      <SectionHeader eyebrow="Zdjęcia" title="Klatki z tego wieczoru" />
+      <div class="gallery-row">
+        {entry.data.zdjecia.slice(0, 3).map((src, index) => <img src={src} alt={`${entry.data.title}, zdjęcie ${index + 1}`} />)}
+      </div>
+    </div>
+  </section>
+  <NextBand
+    kicker="Następny krok"
+    title="Chcesz podobny układ?"
+    links={[
+      { href: "/realizacje/", label: "Wszystkie realizacje" },
+      { href: "/ceny/", label: "Ceny" },
+      { href: "/eventy/", label: "Scenariusze" },
+    ]}
+    cta="Zapytaj o termin"
+  />
+</Base>

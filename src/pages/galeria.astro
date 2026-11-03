@@ -1,0 +1,24 @@
+---
+import { getEntry } from "astro:content";
+import Base from "../layouts/Base.astro";
+import Crumbs from "../components/Crumbs.astro";
+import Gallery from "../components/Gallery.astro";
+import { crumbsJsonLd } from "../lib/nav.js";
+
+const galeria = (await getEntry("ustawienia", "galeria"))!.data;
+const crumbs = [{ href: "/galeria/", label: "Galeria" }];
+---
+
+<Base
+  title="Galeria zdjęć | MIEJSCE"
+  description={galeria.opis}
+  jsonLd={[crumbsJsonLd([{ href: "/", label: "MIEJSCE" }, ...crumbs])]}
+>
+  <header class="wrap page-hero">
+    <Crumbs items={crumbs} />
+    <p class="kicker">Port Czerniakowski</p>
+    <h1>{galeria.naglowek}</h1>
+    <p class="lede">{galeria.opis}</p>
+  </header>
+  <Gallery galeria={galeria} limit={24} />
+</Base>

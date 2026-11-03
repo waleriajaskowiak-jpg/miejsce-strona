@@ -1,0 +1,261 @@
+---
+import { getCollection, getEntry, render } from "astro:content";
+import Base from "../layouts/Base.astro";
+import Budzet from "../components/Budzet.astro";
+import Plan from "../components/Plan.astro";
+import Gallery from "../components/Gallery.astro";
+import Slider from "../components/Slider.astro";
+import SectionHeader from "../components/SectionHeader.astro";
+import MediaCard from "../components/MediaCard.astro";
+import StatRow from "../components/StatRow.astro";
+import { sortByOrder, venueJsonLd } from "../lib/nav.js";
+
+const strona = (await getEntry("ustawienia", "strona"))!.data;
+const cennik = (await getEntry("ustawienia", "cennik"))!.data;
+const kontakt = (await getEntry("ustawienia", "kontakt"))!.data;
+const loga = (await getEntry("ustawienia", "loga"))!.data;
+const sekcje = (await getEntry("ustawienia", "sekcje"))!.data;
+const galeria = (await getEntry("ustawienia", "galeria"))!.data;
+const jedzenie = (await getEntry("ustawienia", "jedzenie"))!.data;
+const przestrzenie = sortByOrder(await getCollection("przestrzenie"));
+const eventy = sortByOrder(await getCollection("eventy"));
+const realizacje = sortByOrder(await getCollection("realizacje"));
+const faqAll = sortByOrder(await getCollection("faq")).slice(0, 5);
+const faq = [];
+for (const entry of faqAll) {
+  const { Content } = await render(entry);
+  faq.push({ entry, Content });
+}
+const heroSlides = [strona.hero_zdjecie, "/img/gallery/dm22.jpg", strona.hero_zdjecie_2, "/img/gallery/ws01.jpg", "/img/gallery/mm12.jpg"];
+const icons = {
+  woda: `<path d="M2 7c2.5 0 2.5 2 5 2s2.5-2 5-2 2.5 2 5 2 2.5-2 5-2"/><path d="M2 13c2.5 0 2.5 2 5 2s2.5-2 5-2 2.5 2 5 2 2.5-2 5-2"/><path d="M2 19c2.5 0 2.5 2 5 2s2.5-2 5-2 2.5 2 5 2 2.5-2 5-2"/>`,
+  barka: `<path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/>`,
+  pin: `<path d="M12 21s7-5.5 7-11a7 7 0 1 0-14 0c0 5.5 7 11 7 11z"/><circle cx="12" cy="10" r="2.6"/>`,
+  lisc: `<path d="M4 20c0-8 5-13 16-13 0 9-5 13-11 13H4z"/><path d="M4 20c3-5 7-8 12-9.5"/>`,
+  fala: `<path d="M2 8c2.5 0 2.5 2 5 2s2.5-2 5-2 2.5 2 5 2 2.5-2 5-2"/><path d="M2 15c2.5 0 2.5 2 5 2s2.5-2 5-2 2.5 2 5 2 2.5-2 5-2"/>`,
+  box: `<rect x="3" y="7" width="18" height="11" rx="1"/><path d="M7 7v11M11 7v11M15 7v11M19 7v11"/>`,
+  star: `<path d="M12 3.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.9l-5.2 2.7 1-5.8-4.3-4.1 5.9-.9z"/>`,
+};
+const klimatIcons = ["fala", "box", "star"];
+---
+
+<Base
+  title={strona.tytul_seo}
+  description={strona.opis_seo}
+  image={strona.hero_zdjecie}
+  jsonLd={[venueJsonLd(kontakt, strona.opis_seo)]}
+  overlay={true}
+>
+  <section class="cine">
+    <div class="cine-media" id="heroMedia">
+      {
+        heroSlides.map((src, index) => (
+          <img
+            class:list={["hs", index === 0 && "is-on"]}
+            src={index === 0 ? src : undefined}
+            data-src={index === 0 ? undefined : src}
+            alt={index === 0 ? strona.hero_zdjecie_alt : ""}
+            data-parallax={index === 0 ? "" : undefined}
+            width="1465"
+            height="1700"
+            fetchpriority={index === 0 ? "high" : undefined}
+          />
+        ))
+      }
+    </div>
+    <div class="cine-shade"></div>
+    <div class="wrap cine-bottom">
+      <div>
+        <p class="eyebrow">{strona.hero_kicker}</p>
+        <h1>{strona.hero_h1}</h1>
+      </div>
+      <div>
+        <p class="lede">{strona.hero_lead}</p>
+        <div class="btn-row">
+          <a class="btn btn-primary" href="/kontakt/">{strona.cta_glowny}</a>
+          <a class="btn btn-ghost" href="/przestrzenie/">{strona.cta_drugi}</a>
+        </div>
+      </div>
+    </div>
+    <div class="wrap">
+      <StatRow
+        items={[
+          { value: "350", count: "350", label: "gości" },
+          { value: "2", count: "2", label: "barki" },
+          { value: "1", count: "1", label: "ogród" },
+          { value: "10 min", label: "od centrum Warszawy" },
+        ]}
+      />
+    </div>
+  </section>
+
+  <section class="band">
+    <div class="wrap stack-lg">
+      <div class="split">
+        <blockquote class="quote">
+          <p>„{strona.cytat}”</p>
+          <footer><b>{strona.cytat_autor}</b><span>{strona.cytat_rola}</span></footer>
+        </blockquote>
+        <ul class="feature-list">
+          {
+            sekcje.cechy.map((item) => (
+              <li>
+                <svg class="fi" viewBox="0 0 24 24" aria-hidden="true" set:html={icons[item.ikona] || icons.woda} />
+                <h3>{item.tytul}</h3>
+                <p>{item.opis}</p>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+      <p class="since">{strona.od_roku}</p>
+    </div>
+  </section>
+
+  <section class="climate">
+    <figure class="climate-media">
+      <img src={sekcje.klimat_foto} alt="" data-parallax />
+      <figcaption>
+        <p class="eyebrow">Port</p>
+        <h2>{sekcje.klimat_h}</h2>
+        <p class="lead">{sekcje.klimat_lead}</p>
+      </figcaption>
+    </figure>
+    <ul class="climate-list">
+      {
+        sekcje.klimat_punkty.map((item, index) => (
+          <li>
+            <svg class="fi" viewBox="0 0 24 24" aria-hidden="true" set:html={icons[klimatIcons[index]]} />
+            <h3>{item.tytul}</h3>
+            <p>{item.opis}</p>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+
+  <section class="plan-band" id="plan">
+    <div class="wrap">
+      <SectionHeader eyebrow="Przestrzenie" title={strona.przestrzenie_h} lead={strona.przestrzenie_lead} />
+      <Plan spaces={przestrzenie} />
+    </div>
+  </section>
+
+  <section class="band">
+    <div class="wrap">
+      <SectionHeader eyebrow="Eventy" title={strona.eventy_h} lead={strona.eventy_lead} />
+      <div class="cards-3">
+        {
+          eventy.map((event) => (
+            <MediaCard
+              href={`/eventy/${event.id}/`}
+              image={event.data.cover}
+              eyebrow={event.data.tag}
+              title={event.data.title}
+              text={event.data.lead}
+              meta={event.data.przestrzen}
+              cta="Zobacz scenariusz"
+            />
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="band band-ink" id="budzet-home">
+    <div class="wrap">
+      <Budzet cennik={cennik} wariant="krotki" />
+    </div>
+  </section>
+
+  <section class="band band-dark" id="kuchnia">
+    <div class="wrap stack-lg">
+      <SectionHeader eyebrow="Jedzenie i bar" title={strona.jedzenie_h} lead={strona.jedzenie_lead} />
+      <div class="kitchen">
+        <div class="kitchen-photos">
+          {jedzenie.zdjecia.slice(0, 3).map((src) => <img src={src} alt="Jedzenie z kuchni MIEJSCA" />)}
+        </div>
+        <ul class="kitchen-points">
+          {
+            cennik.catering.map((pakiet) => (
+              <li>
+                <span>{pakiet.cena} {pakiet.jednostka}</span>
+                <b>{pakiet.nazwa}</b>
+                <p>{pakiet.opis}</p>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+      <p><a class="btn btn-primary" href="/jedzenie-i-bar/">Zobacz pełne menu</a></p>
+    </div>
+  </section>
+
+  <Slider
+    title={sekcje.atrakcje_h}
+    note={sekcje.atrakcje_note}
+    items={sekcje.atrakcje.map((item) => ({ src: item.zdjecie, title: item.tytul, caption: item.opis, alt: item.tytul }))}
+  />
+  <Slider
+    title={sekcje.film_h}
+    note={sekcje.film_body}
+    items={sekcje.film_zdjecia.map((src, index) => ({ src, alt: `${sekcje.film_h}, zdjęcie ${index + 1}`, title: sekcje.film_note }))}
+  />
+
+  <section class="band">
+    <div class="wrap">
+      <SectionHeader eyebrow="Wybrane wieczory" title={strona.realizacje_h} lead={strona.realizacje_lead} />
+      <div class="cards-3">
+        {
+          realizacje.map((item) => (
+            <MediaCard
+              href={`/realizacje/${item.id}/`}
+              image={item.data.cover}
+              eyebrow={item.data.szkic ? `Szkic · ${item.data.typ}` : item.data.typ}
+              title={item.data.title}
+              text={item.data.lead}
+              meta={item.data.meta}
+              cta="Zobacz realizację"
+            />
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <Gallery galeria={galeria} limit={11} anchor={true} />
+
+  <section class="band">
+    <div class="wrap">
+      <SectionHeader eyebrow="Przed eventem" title={strona.wiedza_h} lead="Krótkie odpowiedzi. Reszta jest na osobnej stronie." />
+      {
+        faq.map(({ entry, Content }) => (
+          <details class="acc">
+            <summary>{entry.data.pytanie}</summary>
+            <div class="acc-body"><Content /></div>
+          </details>
+        ))
+      }
+      <p class="btn-row"><a class="btn btn-ghost" href="/warto-wiedziec/">Wszystkie odpowiedzi</a></p>
+    </div>
+  </section>
+
+  <section class="band band-surface">
+    <div class="wrap stack">
+      <p class="eyebrow">{strona.zaufali_h}</p>
+      <div class="logo-row">
+        {loga.loga.map((logo) => <img src={logo.src} alt={logo.alt || ""} />)}
+      </div>
+    </div>
+  </section>
+
+  <section class="visit">
+    <img src="/img/pdf/contact.jpg" alt="" width="1700" height="893" />
+    <div class="visit-copy">
+      <h2>{strona.kontakt_h}</h2>
+      <p class="lede">{strona.kontakt_lead}</p>
+      <a class="btn btn-primary" href="/kontakt/">Umów oględziny</a>
+      <a class="phone" href={`tel:${kontakt.telefon_href}`}>{kontakt.telefon_wyswietlany}</a>
+    </div>
+  </section>
+</Base>

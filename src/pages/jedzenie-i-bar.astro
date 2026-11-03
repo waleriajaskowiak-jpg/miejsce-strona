@@ -1,0 +1,168 @@
+---
+import { getEntry } from "astro:content";
+import Base from "../layouts/Base.astro";
+import NextBand from "../components/NextBand.astro";
+import PageHero from "../components/PageHero.astro";
+import { crumbsJsonLd } from "../lib/nav.js";
+
+const jedzenie = (await getEntry("ustawienia", "jedzenie"))!.data;
+const cennik = (await getEntry("ustawienia", "cennik"))!.data;
+const crumbs = [{ href: "/jedzenie-i-bar/", label: "Jedzenie i bar" }];
+const foodPhoto = ["/img/pdf/menu-1.jpg", "/img/pdf/menu-2.jpg", "/img/pdf/menu-3.jpg"];
+const barPhoto = ["/img/pdf/menu-4.jpg", "/img/pdf/menu-5.jpg", "/img/gallery/kn08.jpg"];
+---
+
+<Base
+  title="Jedzenie i bar | MIEJSCE"
+  description={jedzenie.opis_seo}
+  image={jedzenie.zdjecia[0]}
+  jsonLd={[crumbsJsonLd([{ href: "/", label: "MIEJSCE" }, ...crumbs])]}
+>
+  <PageHero
+    crumbs={crumbs}
+    kicker="Kuchnia na miejscu"
+    title={jedzenie.naglowek}
+    lede={jedzenie.lead}
+    image={jedzenie.zdjecia[0]}
+    imageAlt="Jedzenie na evencie"
+  />
+
+  <section class="band">
+    <div class="wrap">
+      <div class="tablist" role="tablist" aria-label="Jedzenie i bar">
+        <button type="button" role="tab" id="tab-catering" aria-controls="panel-catering" aria-selected="true">Catering</button>
+        <button type="button" role="tab" id="tab-bar" aria-controls="panel-bar" aria-selected="false" tabindex="-1">Bar</button>
+      </div>
+
+      <div class="person-toggle">
+        <label class="slider-block">
+          <span class="slider-k">Przelicz na liczbę gości</span>
+          <output data-people>dla 80 osób</output>
+          <input type="range" min="10" max="350" step="5" value="80" data-people-range />
+        </label>
+      </div>
+
+      <div role="tabpanel" id="panel-catering" aria-labelledby="tab-catering">
+        <div class="stack-lg">
+          <div class="kitchen-photos">
+            {jedzenie.zdjecia.slice(0, 3).map((src) => <img src={src} alt="Jedzenie na evencie w MIEJSCU" />)}
+          </div>
+          <div class="tier-grid">
+            {
+              cennik.catering.map((pakiet, index) => (
+                <article class="tier-card">
+                  <img src={foodPhoto[index]} alt="" />
+                  <div class="card-body">
+                    <h3>{pakiet.nazwa}</h3>
+                    <p class="price" data-rate={pakiet.cena}>{pakiet.cena} <small>{pakiet.jednostka}</small></p>
+                    <p data-line={pakiet.cena}></p>
+                    <p>{pakiet.opis}</p>
+                    <ul class="included">
+                      {jedzenie.specjalizacja.slice(index, index + 3).map((item) => <li>{item}</li>)}
+                    </ul>
+                  </div>
+                </article>
+              ))
+            }
+          </div>
+        </div>
+      </div>
+
+      <div role="tabpanel" id="panel-bar" aria-labelledby="tab-bar" hidden>
+        <div class="stack-lg">
+          <div class="kitchen-photos">
+            {jedzenie.zdjecia.slice(2, 5).map((src) => <img src={src} alt="Bar na evencie w MIEJSCU" />)}
+          </div>
+          <div class="tier-grid">
+            {
+              cennik.open_bar.map((pakiet, index) => (
+                <article class="tier-card">
+                  <img src={barPhoto[index]} alt="" />
+                  <div class="card-body">
+                    <h3>{pakiet.nazwa}</h3>
+                    <p class="price" data-rate={pakiet.cena}>{pakiet.cena} <small>{pakiet.jednostka}</small></p>
+                    <p data-line={pakiet.cena}></p>
+                    <p>{pakiet.opis}</p>
+                    <ul class="included">
+                      <li>{pakiet.opis}</li>
+                      <li>{cennik.bar_info}</li>
+                      <li>{jedzenie.diety}</li>
+                    </ul>
+                  </div>
+                </article>
+              ))
+            }
+          </div>
+          <p class="fine">{cennik.bar_info}</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band band-dark">
+    <div class="wrap eat-grid">
+      <div class="eat-copy">
+        <p class="eyebrow">Kuchnia</p>
+        <h2>Jak jemy na evencie</h2>
+        <p class="lead">{jedzenie.filozofia}</p>
+        <p>{jedzenie.diety}</p>
+        <p>{jedzenie.bary}</p>
+        <p><a class="btn btn-primary" href={jedzenie.pdf}>{jedzenie.pdf_etykieta}</a></p>
+      </div>
+      <div class="eat-side">
+        <p class="eyebrow">Specjalizacja</p>
+        <ul class="included">
+          {jedzenie.specjalizacja.map((item) => <li>{item}</li>)}
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <NextBand
+    kicker="Następny krok"
+    title="Dobierz budżet do menu"
+    links={[
+      { href: "/ceny/", label: "Ceny i estymator" },
+      { href: "/eventy/", label: "Scenariusze" },
+      { href: "/kontakt/", label: "Brief" },
+    ]}
+    cta="Wyślij brief"
+  />
+</Base>
+
+<script>
+  const tabs = [...document.querySelectorAll('[role="tab"]')];
+  const panels = [...document.querySelectorAll('[role="tabpanel"]')];
+  const select = (index) => {
+    tabs.forEach((tab, i) => {
+      const on = i === index;
+      tab.setAttribute("aria-selected", on ? "true" : "false");
+      tab.tabIndex = on ? 0 : -1;
+      panels[i].hidden = !on;
+    });
+  };
+  tabs.forEach((tab, index) => {
+    tab.addEventListener("click", () => select(index));
+    tab.addEventListener("keydown", (event) => {
+      if (event.key !== "ArrowRight" && event.key !== "ArrowLeft") return;
+      event.preventDefault();
+      const next = event.key === "ArrowRight" ? (index + 1) % tabs.length : (index - 1 + tabs.length) % tabs.length;
+      select(next);
+      tabs[next].focus();
+    });
+  });
+
+  const range = document.querySelector("[data-people-range]");
+  const out = document.querySelector("[data-people]");
+  const money = new Intl.NumberFormat("pl-PL");
+  const paint = () => {
+    const n = Number(range.value);
+    out.textContent = `dla ${n} osób`;
+    document.querySelectorAll("[data-line]").forEach((node) => {
+      const rate = Number(node.getAttribute("data-line"));
+      node.textContent = `${n} × ${rate} zł = ${money.format(n * rate)} zł netto`;
+    });
+  };
+  range?.addEventListener("input", paint);
+  paint();
+</script>

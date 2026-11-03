@@ -1,0 +1,70 @@
+---
+const { typy = [] } = Astro.props;
+---
+
+<form
+  id="brief"
+  name="brief"
+  method="POST"
+  action="/dziekujemy/"
+  data-netlify="true"
+  netlify-honeypot="bot-field"
+  class="form-grid"
+>
+  <input type="hidden" name="form-name" value="brief" />
+  <p class="hp">
+    <label>Nie wypełniaj tego pola <input name="bot-field" tabindex="-1" autocomplete="off" /></label>
+  </p>
+  <label class="field">
+    <span>Rodzaj wydarzenia</span>
+    <select name="rodzaj" required>
+      <option value="">Wybierz</option>
+      {typy.map((typ) => <option value={typ.id}>{typ.nazwa}</option>)}
+    </select>
+  </label>
+  <label class="field">
+    <span>Data</span>
+    <input name="data" type="text" autocomplete="off" placeholder="np. czwartek, czerwiec 2026" />
+  </label>
+  <label class="field">
+    <span>Liczba osób</span>
+    <input name="osoby" type="number" inputmode="numeric" min="1" />
+  </label>
+  <label class="field">
+    <span>Budżet</span>
+    <input name="budzet" type="text" inputmode="numeric" placeholder="np. 40 000" />
+  </label>
+  <label class="field">
+    <span>Telefon</span>
+    <input name="telefon" type="tel" autocomplete="tel" inputmode="tel" />
+  </label>
+  <label class="field">
+    <span>E-mail</span>
+    <input name="email" type="email" autocomplete="email" required />
+  </label>
+  <label class="field">
+    <span>Wiadomość</span>
+    <textarea name="wiadomosc" required></textarea>
+  </label>
+  <input type="hidden" name="wynik" value="" />
+  <input type="hidden" name="przestrzen" value="" />
+  <button class="btn" type="submit">Wyślij brief</button>
+  <p class="fine">Odezwiemy się z terminem albo propozycją oględzin. Formularz trafia do skrzynki MIEJSCA przez Netlify Forms.</p>
+</form>
+
+<script>
+  const form = document.querySelector("#brief");
+  if (form instanceof HTMLFormElement) {
+    const params = new URLSearchParams(window.location.search);
+    const map = ["rodzaj", "data", "osoby", "budzet", "wynik", "przestrzen", "wiadomosc"];
+    for (const name of map) {
+      const value = params.get(name);
+      const field = form.elements.namedItem(name);
+      if (!value || !field || !("value" in field)) continue;
+      field.value = value;
+    }
+    if (params.has("rodzaj") || params.has("budzet")) {
+      form.scrollIntoView({ block: "start" });
+    }
+  }
+</script>

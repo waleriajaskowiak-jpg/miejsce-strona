@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /dziekujemy/
+
+Sitemap: https://miejsce.to/sitemap.xml

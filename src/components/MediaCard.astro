@@ -1,0 +1,16 @@
+---
+const { href, image, imageAlt = "", eyebrow = "", title, text = "", meta = "", cta = "" } = Astro.props;
+---
+
+<article class="media-card">
+  <a href={href}>
+    <img src={image} alt={imageAlt} width="760" height="570" loading="lazy" />
+    <div class="card-body">
+      {eyebrow && <p class="eyebrow">{eyebrow}</p>}
+      <h3>{title}</h3>
+      {text && <p>{text}</p>}
+      {meta && <p class="meta">{meta}</p>}
+      {cta && <span class="btn btn-ghost">{cta}</span>}
+    </div>
+  </a>
+</article>

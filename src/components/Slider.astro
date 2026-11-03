@@ -1,0 +1,122 @@
+---
+const { title, note = "", items = [] } = Astro.props;
+---
+
+<section class="band band-dark reel-sec">
+  <div class="wrap reel-head">
+    <div>
+      <h2>{title}</h2>
+      {note && <p class="lead">{note}</p>}
+    </div>
+    <div class="reel-nav">
+      <button type="button" class="reel-btn" data-prev aria-label="Poprzednie"></button>
+      <button type="button" class="reel-btn reel-next" data-next aria-label="Następne"></button>
+    </div>
+  </div>
+  <div class="wrap">
+    <div class="reel" data-reel tabindex="0" aria-roledescription="karuzela" aria-label={title}>
+      <div class="reel-track">
+        {
+          items.map((item) => (
+            <article class="reel-card">
+              <img src={item.src} alt={item.alt || ""} draggable="false" />
+              {(item.title || item.caption) && (
+                <figcaption>
+                  {item.title && <b>{item.title}</b>}
+                  {item.caption && <span>{item.caption}</span>}
+                </figcaption>
+              )}
+            </article>
+          ))
+        }
+      </div>
+    </div>
+    <div class="reel-bar" aria-hidden="true"><span data-bar></span></div>
+  </div>
+</section>
+
+<script>
+  document.querySelectorAll("[data-reel]").forEach((reel) => {
+    const track = reel.querySelector(".reel-track");
+    const root = reel.closest(".reel-sec");
+    const bar = root?.querySelector("[data-bar]");
+    if (!track) return;
+    const cards = () => [...track.querySelectorAll(".reel-card")];
+    const leftOf = (card) => {
+      const trackBox = track.getBoundingClientRect();
+      const cardBox = card.getBoundingClientRect();
+      return cardBox.left - trackBox.left + track.scrollLeft;
+    };
+    const nearest = () => {
+      const list = cards();
+      let best = 0;
+      let dist = Infinity;
+      list.forEach((card, index) => {
+        const delta = Math.abs(leftOf(card) - track.scrollLeft);
+        if (delta < dist) {
+          dist = delta;
+          best = index;
+        }
+      });
+      return best;
+    };
+    const go = (index) => {
+      const list = cards();
+      if (!list.length) return;
+      const next = Math.max(0, Math.min(list.length - 1, index));
+      track.scrollLeft = leftOf(list[next]);
+    };
+    const sync = () => {
+      if (!bar) return;
+      const max = track.scrollWidth - track.clientWidth;
+      const ratio = max > 0 ? track.scrollLeft / max : 1;
+      bar.style.width = `${Math.max(8, ratio * 100)}%`;
+    };
+    root?.querySelector("[data-prev]")?.addEventListener("click", () => go(nearest() - 1));
+    root?.querySelector("[data-next]")?.addEventListener("click", () => go(nearest() + 1));
+    track.addEventListener("scroll", sync, { passive: true });
+    reel.addEventListener("keydown", (event) => {
+      if (event.key === "ArrowRight") {
+        event.preventDefault();
+        go(nearest() + 1);
+      }
+      if (event.key === "ArrowLeft") {
+        event.preventDefault();
+        go(nearest() - 1);
+      }
+    });
+    let pointer = null;
+    let startX = 0;
+    let startLeft = 0;
+    let dragged = false;
+    track.addEventListener("pointerdown", (event) => {
+      if (event.button !== 0) return;
+      pointer = event.pointerId;
+      startX = event.clientX;
+      startLeft = track.scrollLeft;
+      dragged = false;
+      track.setPointerCapture(event.pointerId);
+    });
+    track.addEventListener("pointermove", (event) => {
+      if (pointer !== event.pointerId) return;
+      const dx = event.clientX - startX;
+      if (Math.abs(dx) > 6) {
+        dragged = true;
+        track.classList.add("is-dragging");
+      }
+      if (!dragged) return;
+      event.preventDefault();
+      track.scrollLeft = startLeft - dx;
+    });
+    const end = (event) => {
+      if (pointer !== event.pointerId) return;
+      pointer = null;
+      track.classList.remove("is-dragging");
+      if (dragged) go(nearest());
+      dragged = false;
+    };
+    track.addEventListener("pointerup", end);
+    track.addEventListener("pointercancel", end);
+    sync();
+  });
+</script>

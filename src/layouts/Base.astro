@@ -1,0 +1,103 @@
+---
+import "../styles/tokens.css";
+import "../styles/system.css";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+
+const {
+  title,
+  description,
+  image = "/img/pdf/hero-main.jpg",
+  robots = "index,follow",
+  jsonLd = [],
+  overlay = false,
+} = Astro.props;
+
+const canonical = new URL(Astro.url.pathname, Astro.site);
+const absImage = new URL(image, Astro.site).href;
+const jsonBlocks = jsonLd.map((obj) => JSON.stringify(obj).replace(/</g, "\\u003c"));
+---
+
+<!doctype html>
+<html lang="pl">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical.href} />
+    <meta name="robots" content={robots} />
+    <meta name="theme-color" content="#ffffff" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Stencil+Display:wght@700&family=Plus+Jakarta+Sans:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="pl_PL" />
+    <meta property="og:site_name" content="MIEJSCE" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical.href} />
+    <meta property="og:image" content={absImage} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={absImage} />
+    {jsonBlocks.map((block) => <script type="application/ld+json" set:html={block} />)}
+    <script is:inline>
+      document.documentElement.classList.add("js");
+    </script>
+  </head>
+  <body class:list={[overlay && "has-overlay"]}>
+    <a class="skip" href="#main">Przejdź do treści</a>
+    <Header />
+    <main id="main">
+      <slot />
+    </main>
+    <Footer />
+    <a class="mob-cta btn btn-primary" href="/kontakt/">Zapytaj o termin</a>
+    <script>
+      const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      const nodes = document.querySelectorAll(".reveal");
+      if (reduce) {
+        nodes.forEach((el) => el.classList.add("is-in"));
+      } else {
+        const io = new IntersectionObserver(
+          (entries) => {
+            for (const entry of entries) {
+              if (!entry.isIntersecting) continue;
+              entry.target.classList.add("is-in");
+              io.unobserve(entry.target);
+            }
+          },
+          { threshold: 0.12, rootMargin: "0px 0px -8% 0px" },
+        );
+        nodes.forEach((el) => io.observe(el));
+      }
+
+      const root = document.querySelector("main");
+      const skip = new Set(["SCRIPT", "STYLE", "TEXTAREA", "INPUT", "SELECT"]);
+      const glue = (node) => {
+        if (node.nodeType === 3 && node.nodeValue) {
+          node.nodeValue = node.nodeValue.replace(/(^|\s)([aiouwzAIOUWZ])\s+/g, "$1$2\u00A0");
+          return;
+        }
+        if (node.nodeType === 1 && !skip.has(node.nodeName)) {
+          node.childNodes.forEach(glue);
+        }
+      };
+      if (root) glue(root);
+
+      const head = document.querySelector(".site-head");
+      const onScroll = () => head?.classList.toggle("is-stuck", window.scrollY > 8);
+      onScroll();
+      window.addEventListener("scroll", onScroll, { passive: true });
+    </script>
+    <script>
+      import "../scripts/motion.js";
+    </script>
+  </body>
+</html>

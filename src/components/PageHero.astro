@@ -1,0 +1,16 @@
+---
+import Crumbs from "./Crumbs.astro";
+
+const { crumbs = [], kicker, title, lede, image, imageAlt = "" } = Astro.props;
+---
+
+<header class="page-hero-media">
+  <img src={image} alt={imageAlt} />
+  <div class="shade"></div>
+  <div class="wrap">
+    <Crumbs items={crumbs} />
+    <p class="kicker">{kicker}</p>
+    <h1>{title}</h1>
+    {lede && <p class="lede">{lede}</p>}
+  </div>
+</header>

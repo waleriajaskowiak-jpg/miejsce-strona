@@ -1,0 +1,229 @@
+---
+import { getCollection, getEntry, render } from "astro:content";
+import Base from "../layouts/Base.astro";
+import Budzet from "../components/Budzet.astro";
+import NextBand from "../components/NextBand.astro";
+import PageHero from "../components/PageHero.astro";
+import SectionHeader from "../components/SectionHeader.astro";
+import { crumbsJsonLd, sortByOrder, zloty } from "../lib/nav.js";
+
+const cennik = (await getEntry("ustawienia", "cennik"))!.data;
+const faqEntries = sortByOrder(await getCollection("faq")).slice(0, 8);
+const faq = [];
+for (const entry of faqEntries) {
+  const { Content } = await render(entry);
+  faq.push({ entry, Content });
+}
+const crumbs = [{ href: "/ceny/", label: "Ceny" }];
+const cardPhoto = { nowe: "/img/gallery/mm12.jpg", duze: "/img/gallery/dm22.jpg", cale: "/img/gallery/og05.jpg" };
+const foodPhoto = ["/img/pdf/menu-1.jpg", "/img/pdf/menu-2.jpg", "/img/pdf/menu-3.jpg"];
+const barPhoto = ["/img/pdf/menu-4.jpg", "/img/pdf/menu-5.jpg", "/img/gallery/dm06.jpg"];
+const payload = JSON.stringify({
+  wynajem: cennik.wynajem,
+  catering: cennik.catering,
+  bar: cennik.open_bar,
+}).replace(/</g, "\\u003c");
+---
+
+<Base
+  title="Ile kosztuje event w MIEJSCU? | Ceny"
+  description={cennik.opis_seo}
+  jsonLd={[crumbsJsonLd([{ href: "/", label: "MIEJSCE" }, ...crumbs])]}
+>
+  <PageHero
+    crumbs={crumbs}
+    kicker="Oferta 2026 · netto"
+    title={cennik.naglowek}
+    lede={`${cennik.lead} ${cennik.netto_info}`}
+    image="/img/gallery/og16.jpg"
+    imageAlt="Taras nad wodą"
+  />
+
+  <section class="band" id="wynajem">
+    <div class="wrap">
+      <SectionHeader eyebrow="Przestrzeń" title="Wybierz pakiet" lead="Kliknij kartę. Estymator poniżej przeliczy widełki z opublikowanych cen." />
+      <div class="price-cards" data-packages>
+        {
+          cennik.wynajem.map((row) => (
+            <button type="button" class:list={["price-card", row.id === "duze" && "is-on"]} data-space={row.id} aria-pressed={row.id === "duze" ? "true" : "false"}>
+              <img src={cardPhoto[row.id]} alt="" />
+              <span class="card-body">
+                <span class="eyebrow">{row.dopisek}</span>
+                <h3>{row.nazwa}</h3>
+                <span class="price">od {zloty(row.cena_od)}</span>
+                <span class="meta">netto, orientacyjnie</span>
+              </span>
+            </button>
+          ))
+        }
+      </div>
+
+      <div class="estimator" data-estimator>
+        <script type="application/json" id="estimator-data" set:html={payload} />
+        <div class="controls">
+          <h3>Estymator</h3>
+          <label class="slider-block">
+            <span class="slider-k">Liczba gości</span>
+            <span class="slider-val" data-est-guests>80<small>osób</small></span>
+            <input type="range" min="10" max="350" step="5" value="80" data-guests />
+          </label>
+          <div>
+            <p class="eyebrow">Catering</p>
+            <div class="chips">
+              {cennik.catering.map((row, index) => (
+                <button type="button" class="choice" data-catering={row.id} aria-pressed={index === 0 ? "true" : "false"}>{row.nazwa}</button>
+              ))}
+            </div>
+          </div>
+          <div>
+            <p class="eyebrow">Bar</p>
+            <div class="chips">
+              {cennik.open_bar.map((row, index) => (
+                <button type="button" class="choice" data-bar={row.id} aria-pressed={index === 0 ? "true" : "false"}>{row.nazwa}</button>
+              ))}
+            </div>
+          </div>
+        </div>
+        <div class="total">
+          <p class="eyebrow">Orientacyjnie</p>
+          <p class="total-num" data-total>od 0 zł</p>
+          <p>netto. Bez obsługi, AV i DJ-a. To widełki „od” z oferty 2026, nie wycena końcowa.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band band-dark">
+    <div class="wrap stack-lg">
+      <SectionHeader eyebrow="W cenie pakietu" title={cennik.catering_h} lead={cennik.catering_lead} />
+      <div class="cards-3">
+        {cennik.catering.map((row, index) => (
+          <article class="tier-card">
+            <img src={foodPhoto[index]} alt="" />
+            <div class="card-body">
+              <h3>{row.nazwa}</h3>
+              <p class="price">{row.cena} <small>{row.jednostka}</small></p>
+              <p>{row.opis}</p>
+            </div>
+          </article>
+        ))}
+      </div>
+      <SectionHeader eyebrow="Open bar" title={cennik.bar_h} lead={cennik.bar_info} />
+      <div class="cards-3">
+        {cennik.open_bar.map((row, index) => (
+          <article class="tier-card">
+            <img src={barPhoto[index]} alt="" />
+            <div class="card-body">
+              <h3>{row.nazwa}</h3>
+              <p class="price">{row.cena} <small>{row.jednostka}</small></p>
+              <p>{row.opis}</p>
+            </div>
+          </article>
+        ))}
+      </div>
+      <SectionHeader eyebrow="Poza cennikiem strony" title={cennik.dodatki_h} lead={cennik.dodatki_lead} />
+      <div class="cards-2">
+        {cennik.dodatki.map((row) => (
+          <article class="info-card">
+            <h3>{row.nazwa}</h3>
+            <p>{row.opis}</p>
+          </article>
+        ))}
+      </div>
+      <p><a class="btn btn-ghost" href={cennik.pdf}>{cennik.pdf_etykieta}</a></p>
+    </div>
+  </section>
+
+  <section class="band band-ink" id="budzet">
+    <div class="wrap">
+      <Budzet cennik={cennik} wariant="pelny" />
+    </div>
+  </section>
+
+  <section class="band">
+    <div class="wrap">
+      <SectionHeader eyebrow="Pytania" title="Zanim wyślesz brief" lead="Krótkie odpowiedzi. Tam, gdzie nie mamy liczby, potwierdzamy ją pod termin." />
+      {
+        faq.map(({ entry, Content }) => (
+          <details class="acc">
+            <summary>{entry.data.pytanie}</summary>
+            <div class="acc-body"><Content /></div>
+          </details>
+        ))
+      }
+    </div>
+  </section>
+
+  <NextBand
+    kicker="Następny krok"
+    title="Ułóż menu albo napisz do nas"
+    links={[
+      { href: "/jedzenie-i-bar/", label: "Jedzenie i bar" },
+      { href: "/eventy/", label: "Scenariusze eventów" },
+      { href: "/przestrzenie/", label: "Przestrzenie" },
+    ]}
+    cta="Wyślij brief"
+  />
+</Base>
+
+<script>
+  const root = document.querySelector("[data-estimator]");
+  const data = JSON.parse(document.querySelector("#estimator-data")?.textContent || "{}");
+  const money = new Intl.NumberFormat("pl-PL");
+  const guests = root?.querySelector("[data-guests]");
+  const guestOut = root?.querySelector("[data-est-guests]");
+  const totalEl = root?.querySelector("[data-total]");
+  let space = "duze";
+  let catering = data.catering?.[0]?.id;
+  let bar = data.bar?.[0]?.id;
+  let shown = 0;
+
+  const priceOf = (list, id) => list?.find((row) => row.id === id)?.cena_od ?? list?.find((row) => row.id === id)?.cena ?? 0;
+  const target = () => priceOf(data.wynajem, space) + Number(guests.value) * (priceOf(data.catering, catering) + priceOf(data.bar, bar));
+
+  const paint = () => {
+    if (guestOut) guestOut.firstChild.textContent = guests.value;
+    const next = target();
+    const from = shown;
+    const start = performance.now();
+    const step = (now) => {
+      const k = Math.min(1, (now - start) / 420);
+      shown = Math.round(from + (next - from) * (1 - Math.pow(1 - k, 3)));
+      if (totalEl) totalEl.textContent = `od ${money.format(shown)} zł`;
+      if (k < 1) requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
+  };
+
+  document.querySelectorAll("[data-space]").forEach((button) => {
+    button.addEventListener("click", () => {
+      space = button.getAttribute("data-space");
+      document.querySelectorAll("[data-space]").forEach((peer) => {
+        const on = peer === button;
+        peer.classList.toggle("is-on", on);
+        peer.setAttribute("aria-pressed", on ? "true" : "false");
+      });
+      paint();
+    });
+  });
+  root?.querySelectorAll("[data-catering]").forEach((button) => {
+    button.addEventListener("click", () => {
+      catering = button.getAttribute("data-catering");
+      root.querySelectorAll("[data-catering]").forEach((peer) => peer.setAttribute("aria-pressed", peer === button ? "true" : "false"));
+      paint();
+    });
+  });
+  root?.querySelectorAll("[data-bar]").forEach((button) => {
+    button.addEventListener("click", () => {
+      bar = button.getAttribute("data-bar");
+      root.querySelectorAll("[data-bar]").forEach((peer) => peer.setAttribute("aria-pressed", peer === button ? "true" : "false"));
+      paint();
+    });
+  });
+  guests?.addEventListener("input", paint);
+
+  const params = new URLSearchParams(location.search);
+  const osoby = Number(String(params.get("osoby") || "").replace(/[^\d]/g, ""));
+  if (guests && Number.isFinite(osoby) && osoby > 0) guests.value = String(Math.min(350, Math.max(10, osoby)));
+  paint();
+</script>

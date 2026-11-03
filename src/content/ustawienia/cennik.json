@@ -1,0 +1,283 @@
+{
+  "naglowek": "Ile kosztuje event w MIEJSCU?",
+  "lead": "Zależy, co robimy. Ale nie musisz wysyłać zapytania, żeby dowiedzieć się, czy mówimy o 20 czy 100 tysiącach.",
+  "opis_seo": "Orientacyjne ceny wynajmu, cateringu i open baru w MIEJSCU. Moduł budżetu odpowiada słownie, bez kwoty co do złotówki.",
+  "wynajem_h": "Przestrzeń",
+  "wynajem_lead": "Orientacyjnie:",
+  "catering_h": "Jedzenie",
+  "catering_lead": "Nie wrzucamy całego menu. Trzy poziomy, reszta w ofercie PDF.",
+  "bar_h": "Open bar",
+  "bar_info": "3 stałe bary + możliwość ustawienia baru mobilnego.",
+  "dodatki_h": "Obsługa, AV, DJ i dodatki",
+  "dodatki_lead": "Tego nie zamykamy w cenniku na stronie. Wyceniamy pod scenariusz, liczbę gości i długość eventu.",
+  "budzet_h": "Masz budżet? Sprawdźmy, co możemy z nim zrobić",
+  "netto_info": "Ceny netto, zgodne z ofertą MIEJSCE EVENTY 2026. To widełki „od”, nie wycena końcowa.",
+  "pdf": "/pdf/MIEJSCE-oferta-2026-PL.pdf",
+  "pdf_etykieta": "Pobierz ofertę 2026 (PDF)",
+  "jak_porownujemy": "Porównujemy podany budżet z dwoma zestawami cen z tej strony: wersja oszczędna (najtaniejszy catering i najtańszy open bar plus wynajem „od”) oraz wersja środkowa. Jeśli termin wypada w weekend albo w maju, czerwcu, wrześniu lub październiku, widełki podnosimy o współczynnik z CMS (domyślnie 5%). To nie jest dopłata z cennika, tylko ostrożniejsze porównanie. Nie doliczamy obsługi, DJ-a ani AV, bo nie mają tu stałej ceny. Dlatego odpowiedź jest słowna, nie kwotą.",
+  "wynajem": [
+    {
+      "id": "nowe",
+      "nazwa": "Sala konferencyjna + taras",
+      "cena_od": 3000,
+      "dopisek": "NOWE MIEJSCE"
+    },
+    {
+      "id": "duze",
+      "nazwa": "Pierwsza barka + zadaszony taras",
+      "cena_od": 6000,
+      "dopisek": "DUŻE MIEJSCE"
+    },
+    {
+      "id": "cale",
+      "nazwa": "Cały kompleks + ogród",
+      "cena_od": 12000,
+      "dopisek": "DUŻE MIEJSCE, NOWE MIEJSCE i OGRÓD"
+    }
+  ],
+  "catering": [
+    {
+      "id": "podstawa",
+      "nazwa": "Solidna podstawa",
+      "cena": 180,
+      "jednostka": "zł netto/os.",
+      "opis": "Solidny zestaw na event, bez trzygodzinnej kolacji"
+    },
+    {
+      "id": "srodek",
+      "nazwa": "Złoty środek",
+      "cena": 220,
+      "jednostka": "zł netto/os.",
+      "opis": "Więcej dań i swobody w układzie stołu"
+    },
+    {
+      "id": "wypas",
+      "nazwa": "Konkretny wypas",
+      "cena": 250,
+      "jednostka": "zł netto/os.",
+      "opis": "Pełniejszy stół, kiedy jedzenie ma być równą częścią wieczoru"
+    }
+  ],
+  "open_bar": [
+    {
+      "id": "podstawowy",
+      "nazwa": "Piwo, wino, softy",
+      "cena": 150,
+      "jednostka": "zł netto/os.",
+      "opis": "Piwo, wino i napoje bezalkoholowe"
+    },
+    {
+      "id": "standard",
+      "nazwa": "Bar z mocnymi",
+      "cena": 190,
+      "jednostka": "zł netto/os./5h",
+      "opis": "Do tego wódka, whisky i drinki"
+    },
+    {
+      "id": "pelny",
+      "nazwa": "Cocktail bar",
+      "cena": 230,
+      "jednostka": "zł netto/os./5h",
+      "opis": "Do tego gin, Aperol, prosecco i pełniejszy cocktail bar"
+    }
+  ],
+  "dodatki": [
+    {
+      "nazwa": "Obsługa",
+      "opis": "Kelnerzy i koordynacja. Wycena zależy od liczby gości i długości eventu."
+    },
+    {
+      "nazwa": "AV",
+      "opis": "Rzutnik, ekran i mikrofony są w NOWYM MIEJSCU. Większe ekrany, światło i streaming wyceniamy osobno."
+    },
+    {
+      "nazwa": "DJ i muzyka",
+      "opis": "DJ, nagłośnienie albo muzyka na żywo — na zamówienie"
+    },
+    {
+      "nazwa": "Bar mobilny",
+      "opis": "W kompleksie są 3 stałe bary. Czwarty, mobilny, możemy dostawić."
+    }
+  ],
+  "typy_eventu": [
+    {
+      "id": "firmowy",
+      "nazwa": "Event firmowy"
+    },
+    {
+      "id": "konferencja",
+      "nazwa": "Konferencja"
+    },
+    {
+      "id": "szkolenie",
+      "nazwa": "Szkolenie"
+    },
+    {
+      "id": "integracja",
+      "nazwa": "Integracja"
+    },
+    {
+      "id": "premiera",
+      "nazwa": "Premiera / event dla klientów"
+    },
+    {
+      "id": "wesele",
+      "nazwa": "Wesele"
+    },
+    {
+      "id": "garden-party",
+      "nazwa": "Garden party"
+    },
+    {
+      "id": "inne",
+      "nazwa": "Inne"
+    }
+  ],
+  "dni": [
+    {
+      "id": "pn",
+      "nazwa": "poniedziałek"
+    },
+    {
+      "id": "wt",
+      "nazwa": "wtorek"
+    },
+    {
+      "id": "sr",
+      "nazwa": "środa"
+    },
+    {
+      "id": "czw",
+      "nazwa": "czwartek"
+    },
+    {
+      "id": "pt",
+      "nazwa": "piątek"
+    },
+    {
+      "id": "sb",
+      "nazwa": "sobota"
+    },
+    {
+      "id": "nd",
+      "nazwa": "niedziela"
+    }
+  ],
+  "miesiace": [
+    {
+      "id": 1,
+      "nazwa": "styczeń"
+    },
+    {
+      "id": 2,
+      "nazwa": "luty"
+    },
+    {
+      "id": 3,
+      "nazwa": "marzec"
+    },
+    {
+      "id": 4,
+      "nazwa": "kwiecień"
+    },
+    {
+      "id": 5,
+      "nazwa": "maj"
+    },
+    {
+      "id": 6,
+      "nazwa": "czerwiec"
+    },
+    {
+      "id": 7,
+      "nazwa": "lipiec"
+    },
+    {
+      "id": 8,
+      "nazwa": "sierpień"
+    },
+    {
+      "id": 9,
+      "nazwa": "wrzesień"
+    },
+    {
+      "id": 10,
+      "nazwa": "październik"
+    },
+    {
+      "id": 11,
+      "nazwa": "listopad"
+    },
+    {
+      "id": 12,
+      "nazwa": "grudzień"
+    }
+  ],
+  "wyniki": {
+    "A": {
+      "tytul": "Spokojnie się mieścimy",
+      "tresc": "Tu możemy już trochę poszaleć. Jedzenie, bar, przestrzeń i obsługa spokojnie się zmieszczą. Porozmawiajmy o dodatkach."
+    },
+    "B": {
+      "tytul": "Da się. Trzeba tylko dobrze poukładać budżet",
+      "tresc": "Dużo zależy od menu, baru i terminu."
+    },
+    "C": {
+      "tytul": "Trochę ciasno. Ale nie skreślamy tego",
+      "tresc": "Termin, dzień tygodnia, inna przestrzeń albo zmiana konfiguracji cateringu i baru potrafią sporo zmienić.\n\nNapisz do nas. Zobaczymy, co da się z tego zrobić."
+    }
+  },
+  "heurystyka": {
+    "catering_min": "podstawa",
+    "catering_komfort": "srodek",
+    "bar_min": "podstawowy",
+    "bar_komfort": "standard",
+    "prog_a": 1.12,
+    "prog_b": 1,
+    "wspolczynnik_terminu": 1.05,
+    "miesiace_sezonu": [
+      5,
+      6,
+      9,
+      10
+    ],
+    "dni_weekendu": [
+      "pt",
+      "sb",
+      "nd"
+    ],
+    "reguly": [
+      {
+        "gdy": "osoby_powyzej",
+        "wartosc": 130,
+        "przestrzen": "cale"
+      },
+      {
+        "gdy": "typ_i_osoby_powyzej",
+        "typy": [
+          "garden-party"
+        ],
+        "wartosc": 100,
+        "przestrzen": "cale"
+      },
+      {
+        "gdy": "typ_i_osoby_do",
+        "typy": [
+          "konferencja",
+          "szkolenie"
+        ],
+        "wartosc": 70,
+        "przestrzen": "nowe"
+      },
+      {
+        "gdy": "osoby_do",
+        "wartosc": 130,
+        "przestrzen": "duze"
+      },
+      {
+        "gdy": "zawsze",
+        "przestrzen": "cale"
+      }
+    ]
+  }
+}

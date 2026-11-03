@@ -1,0 +1,283 @@
+---
+const { cennik, wariant = "pelny" } = Astro.props;
+const safe = JSON.stringify(cennik).replace(/</g, "\\u003c");
+const photos = {
+  firmowy: "/img/gallery/dm22.jpg",
+  konferencja: "/img/gallery/mm12.jpg",
+  szkolenie: "/img/gallery/mm16.jpg",
+  integracja: "/img/gallery/og16.jpg",
+  premiera: "/img/gallery/kn08.jpg",
+  wesele: "/img/gallery/ws01.jpg",
+  "garden-party": "/img/gallery/og25.jpg",
+  inne: "/img/gallery/cm04.jpg",
+};
+const dayShort = { pn: "Pn", wt: "Wt", sr: "Śr", czw: "Czw", pt: "Pt", sb: "Sb", nd: "Nd" };
+const steps = [
+  { n: "1", label: "Rodzaj eventu", hint: "Wybierz rodzaj wydarzenia" },
+  { n: "2", label: "Liczba gości", hint: "Przesuń suwak" },
+  { n: "3", label: "Termin", hint: "Wybierz dzień i miesiąc" },
+  { n: "4", label: "Budżet", hint: "Przesuń suwak" },
+  { n: "5", label: "Wynik", hint: "Orientacja, nie wycena co do złotówki" },
+];
+---
+
+<section class="engine" id="budzet" data-budzet data-wariant={wariant}>
+  <script type="application/json" class="budzet-config" set:html={safe} />
+  <header class="sec-head">
+    <div>
+      <p class="eyebrow">Krok po kroku</p>
+      <h2>{cennik.budzet_h}</h2>
+    </div>
+    <p class="lead">{wariant === "pelny" ? cennik.lead : "Bez kwoty co do złotówki. Jedna z trzech odpowiedzi."}</p>
+  </header>
+
+  <ol class="progress-steps" aria-label="Kroki kalkulatora">
+    {
+      steps.map((step, index) => (
+        <li data-progress={index} class={index === 0 ? "is-current" : undefined}>
+          <b>{step.n}</b>
+          <span>{step.label}</span>
+        </li>
+      ))
+    }
+  </ol>
+  <p class="step-hint" data-hint>{steps[0].hint}</p>
+
+  <form class="budzet-form">
+    <div class="step-panel" data-step="0">
+      <div class="type-grid" role="group" aria-label="Rodzaj eventu">
+        {
+          cennik.typy_eventu.map((typ) => (
+            <button type="button" class="type-tile" data-group="typ" data-value={typ.id} aria-pressed="false">
+              <span class="type-photo">
+                {photos[typ.id] && <img src={photos[typ.id]} alt="" width="640" height="480" />}
+              </span>
+              <span class="type-name">{typ.nazwa}</span>
+            </button>
+          ))
+        }
+      </div>
+      <input type="hidden" name="typ" value="" />
+    </div>
+
+    <div class="step-panel" data-step="1" hidden>
+      <label class="slider-block">
+        <span class="slider-k">Liczba gości</span>
+        <span class="slider-val" data-osoby-val>80<small>osób</small></span>
+        <input type="range" name="osoby" min="10" max="350" step="5" value="80" />
+      </label>
+    </div>
+
+    <div class="step-panel" data-step="2" hidden>
+      <fieldset class="chip-block">
+        <legend>Dzień tygodnia</legend>
+        <div class="chips">
+          {
+            cennik.dni.map((dzien) => (
+              <button type="button" class="chip" data-group="dzien" data-value={dzien.id} aria-pressed="false">
+                {dayShort[dzien.id] || dzien.nazwa}
+              </button>
+            ))
+          }
+        </div>
+      </fieldset>
+      <input type="hidden" name="dzien" value="" />
+      <fieldset class="chip-block">
+        <legend>Miesiąc</legend>
+        <div class="chips">
+          {
+            cennik.miesiace.map((miesiac) => (
+              <button type="button" class="chip" data-group="miesiac" data-value={String(miesiac.id)} aria-pressed="false">
+                {miesiac.nazwa}
+              </button>
+            ))
+          }
+        </div>
+      </fieldset>
+      <input type="hidden" name="miesiac" value="" />
+    </div>
+
+    <div class="step-panel" data-step="3" hidden>
+      <label class="slider-block">
+        <span class="slider-k">Budżet netto</span>
+        <span class="slider-val" data-budzet-val>40 000<small>zł</small></span>
+        <input type="range" name="budzet" min="5000" max="250000" step="1000" value="40000" />
+      </label>
+    </div>
+
+    <div class="step-panel" data-step="4" hidden>
+      <article class="result-card" data-wynik aria-live="polite">
+        <p class="wynik-kod" data-kod-label>Wynik</p>
+        <h3 data-tytul>Uzupełnij poprzednie kroki</h3>
+        <p data-tresc></p>
+        <a class="btn btn-primary" data-cta href="/kontakt/#brief">Wyślij ten brief</a>
+      </article>
+    </div>
+
+    <p class="err" data-err hidden></p>
+    <div class="step-nav">
+      <button class="btn btn-ghost" type="button" data-back hidden>Wstecz</button>
+      <button class="btn btn-primary" type="button" data-next>Dalej</button>
+    </div>
+  </form>
+
+  {
+    wariant === "pelny" && (
+      <details class="acc">
+        <summary>Jak to porównujemy</summary>
+        <div class="acc-body">
+          <p>{cennik.jak_porownujemy}</p>
+        </div>
+      </details>
+    )
+  }
+</section>
+
+<script>
+  import { ocen } from "../lib/budzet.js";
+
+  const money = new Intl.NumberFormat("pl-PL");
+  const hints = [
+    "Wybierz rodzaj wydarzenia",
+    "Przesuń suwak",
+    "Wybierz dzień i miesiąc",
+    "Przesuń suwak",
+    "Orientacja, nie wycena co do złotówki",
+  ];
+
+  document.querySelectorAll("[data-budzet]").forEach((root) => {
+    const cennik = JSON.parse(root.querySelector(".budzet-config")?.textContent || "{}");
+    const form = root.querySelector(".budzet-form");
+    const err = root.querySelector("[data-err]");
+    const hint = root.querySelector("[data-hint]");
+    const back = root.querySelector("[data-back]");
+    const next = root.querySelector("[data-next]");
+    const panels = [...root.querySelectorAll("[data-step]")];
+    const progress = [...root.querySelectorAll("[data-progress]")];
+    if (!form || !next) return;
+    let step = 0;
+
+    const hidden = (name) => form.querySelector(`input[type="hidden"][name="${name}"]`);
+    const label = (list, id) => list?.find((row) => String(row.id) === String(id))?.nazwa || id;
+
+    const show = (index) => {
+      step = index;
+      panels.forEach((panel) => {
+        panel.hidden = Number(panel.getAttribute("data-step")) !== step;
+      });
+      progress.forEach((item, i) => {
+        item.classList.toggle("is-current", i === step);
+        item.classList.toggle("is-done", i < step);
+      });
+      if (hint) hint.textContent = hints[step];
+      if (back) back.hidden = step === 0;
+      if (next) next.hidden = step === panels.length - 1;
+      next.textContent = step === 3 ? "Zobacz wynik" : "Dalej";
+      err.hidden = true;
+    };
+
+    const paintRange = (input, output, suffix) => {
+      if (!input || !output) return;
+      const formatted = suffix === "zł" ? money.format(Number(input.value)) : input.value;
+      output.firstChild.textContent = formatted;
+    };
+
+    const osoby = form.querySelector('input[name="osoby"]');
+    const budzet = form.querySelector('input[name="budzet"]');
+    osoby?.addEventListener("input", () => paintRange(osoby, root.querySelector("[data-osoby-val]"), "osób"));
+    budzet?.addEventListener("input", () => paintRange(budzet, root.querySelector("[data-budzet-val]"), "zł"));
+
+    root.querySelectorAll("[data-group]").forEach((button) => {
+      button.addEventListener("click", () => {
+        const group = button.getAttribute("data-group");
+        const value = button.getAttribute("data-value") || "";
+        root.querySelectorAll(`[data-group="${group}"]`).forEach((peer) => {
+          peer.setAttribute("aria-pressed", peer === button ? "true" : "false");
+        });
+        const field = hidden(group);
+        if (field) field.value = value;
+      });
+    });
+
+    const params = new URLSearchParams(location.search);
+    const presetTyp = params.get("typ");
+    if (presetTyp) root.querySelector(`[data-group="typ"][data-value="${presetTyp}"]`)?.dispatchEvent(new Event("click"));
+    const presetOsoby = params.get("osoby");
+    if (presetOsoby && osoby) {
+      const n = Number(String(presetOsoby).replace(/[^\d]/g, ""));
+      if (Number.isFinite(n)) {
+        osoby.value = String(Math.min(350, Math.max(10, n)));
+        paintRange(osoby, root.querySelector("[data-osoby-val]"), "osób");
+      }
+    }
+
+    const finish = () => {
+      const data = new FormData(form);
+      const input = {
+        typ: String(data.get("typ") || ""),
+        osoby: String(data.get("osoby") || ""),
+        budzet: String(data.get("budzet") || ""),
+        dzien: String(data.get("dzien") || ""),
+        miesiac: String(data.get("miesiac") || ""),
+      };
+      const result = ocen(input, cennik);
+      const title = root.querySelector("[data-tytul]");
+      const text = root.querySelector("[data-tresc]");
+      const code = root.querySelector("[data-kod-label]");
+      const cta = root.querySelector("[data-cta]");
+      if (!result.ok) {
+        err.hidden = false;
+        err.textContent = result.error;
+        return false;
+      }
+      if (code) code.textContent = `Odpowiedź ${result.kod}`;
+      if (title) title.textContent = result.tytul;
+      if (text) text.textContent = result.tresc;
+      const dzien = label(cennik.dni, input.dzien);
+      const miesiac = label(cennik.miesiace, input.miesiac);
+      const rodzaj = label(cennik.typy_eventu, input.typ);
+      const osobyN = input.osoby.replace(/[^\d]/g, "");
+      const budzetN = input.budzet.replace(/[^\d]/g, "");
+      const query = new URLSearchParams();
+      query.set("rodzaj", input.typ);
+      query.set("data", `${dzien} / ${miesiac}`);
+      query.set("osoby", osobyN);
+      query.set("budzet", budzetN);
+      query.set("wynik", result.kod);
+      query.set("przestrzen", result.przestrzen);
+      query.set(
+        "wiadomosc",
+        [
+          "Brief z modułu budżetu.",
+          `Rodzaj: ${rodzaj}`,
+          `Termin: ${dzien} / ${miesiac}`,
+          `Liczba osób: ${osobyN}`,
+          `Budżet: ${money.format(Number(budzetN))} zł`,
+          `Wynik: ${result.kod} — ${result.tytul}`,
+          `Przestrzeń, na którą patrzy moduł: ${result.przestrzen}`,
+        ].join("\n"),
+      );
+      cta?.setAttribute("href", `/kontakt/?${query.toString()}#brief`);
+      return true;
+    };
+
+    const validate = () => {
+      if (step === 0 && !hidden("typ")?.value) return "Wybierz rodzaj wydarzenia.";
+      if (step === 2 && (!hidden("dzien")?.value || !hidden("miesiac")?.value)) return "Wybierz dzień i miesiąc.";
+      return "";
+    };
+
+    next.addEventListener("click", () => {
+      const problem = validate();
+      if (problem) {
+        err.hidden = false;
+        err.textContent = problem;
+        return;
+      }
+      if (step === 3 && !finish()) return;
+      show(Math.min(panels.length - 1, step + 1));
+    });
+    back?.addEventListener("click", () => show(Math.max(0, step - 1)));
+    show(0);
+  });
+</script>

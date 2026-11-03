@@ -1,0 +1,130 @@
+---
+const { spaces } = Astro.props;
+const byId = Object.fromEntries(spaces.map((space) => [space.id, space]));
+const zones = [
+  { id: "duze", label: "Duże Miejsce", slug: "duze-miejsce" },
+  { id: "male", label: "Nowe Miejsce", slug: "nowe-miejsce" },
+  { id: "ogrod", label: "Ogród", slug: "ogrod" },
+  { id: "all", label: "Całe Miejsce", slug: "cale-miejsce" },
+].map((zone) => {
+  const space = byId[zone.slug];
+  return {
+    id: zone.id,
+    label: zone.label,
+    title: space?.data.title || zone.label,
+    lead: space?.data.lead || "",
+    meta: space?.data.meta || "",
+    href: `/przestrzenie/${zone.slug}/`,
+    cover: space?.data.cover || "",
+  };
+});
+const payload = JSON.stringify(zones).replace(/</g, "\\u003c");
+---
+
+<div class="plan-layout" data-plan>
+  <script type="application/json" class="plan-data" set:html={payload} />
+  <div class="plan-map">
+    <figure class="plan-figure">
+      <div class="plan-stage">
+        <img src="/img/plan.png" alt="Rzut kompleksu MIEJSCE: dwie barki i ogród" width="2000" height="1325" />
+        <svg class="plan-svg" viewBox="0 0 100 100" preserveAspectRatio="none">
+          <rect class="zone zone-all" data-zone="all" tabindex="0" role="button" aria-label="Całe Miejsce" x="6.5" y="0.5" width="91" height="94" rx="1.4" ry="2.1"></rect>
+          <polygon class="zone" data-zone="duze" tabindex="0" role="button" aria-label="Duże Miejsce" points="31.2,5.6 51.8,5.6 51.8,1.2 83.3,1.2 83.3,50.2 63.8,50.2 63.8,58.8 53.2,58.8 53.2,47.4 31.2,47.4"></polygon>
+          <polygon class="zone" data-zone="male" tabindex="0" role="button" aria-label="Nowe Miejsce" points="10.4,48.6 30.6,48.6 30.6,47.2 43.8,47.2 43.8,86.8 10.4,86.8"></polygon>
+          <polygon class="zone" data-zone="ogrod" tabindex="0" role="button" aria-label="Ogród" points="44.8,58.8 93.6,58.8 93.6,73.8 44.8,73.8"></polygon>
+        </svg>
+        <span class="plan-tag" data-tag="duze">Duże</span>
+        <span class="plan-tag" data-tag="male">Nowe</span>
+        <span class="plan-tag" data-tag="ogrod">Ogród</span>
+        <span class="plan-tag" data-tag="all">Całe</span>
+      </div>
+    </figure>
+    <div class="plan-legend">
+      {zones.map((zone) => (
+        <button type="button" class="leg" data-zone={zone.id}>
+          <span class={`dot dot-${zone.id}`}></span>{zone.label}
+        </button>
+      ))}
+    </div>
+  </div>
+  <aside class="plan-panel" data-panel>
+    <p class="panel-kicker" data-kicker>Plan kompleksu</p>
+    <h3 data-title>Wybierz strefę</h3>
+    <p class="panel-for" data-lead>Najedź albo stuknij fragment planu. Podświetli się barka, ogród albo cały kompleks.</p>
+    <p class="panel-meta" data-meta></p>
+    <a class="btn btn-primary" data-link href="/przestrzenie/" hidden>Zobacz przestrzeń</a>
+    <img data-cover alt="" hidden />
+  </aside>
+</div>
+
+<script>
+  document.querySelectorAll("[data-plan]").forEach((root) => {
+    const data = JSON.parse(root.querySelector(".plan-data")?.textContent || "[]");
+    const stage = root.querySelector(".plan-stage");
+    const panel = root.querySelector("[data-panel]");
+    let pinned = null;
+
+    const paint = (id) => {
+      stage?.classList.toggle("has-sel", Boolean(id));
+      root.querySelectorAll(".zone").forEach((zone) => {
+        const on = zone.getAttribute("data-zone") === id;
+        zone.classList.toggle("is-on", on);
+        zone.setAttribute("aria-pressed", on ? "true" : "false");
+      });
+      root.querySelectorAll(".plan-tag").forEach((tag) => tag.classList.toggle("is-on", tag.getAttribute("data-tag") === id));
+      root.querySelectorAll(".leg").forEach((leg) => leg.classList.toggle("is-on", leg.getAttribute("data-zone") === id));
+      const item = data.find((row) => row.id === id);
+      if (!panel) return;
+      const title = panel.querySelector("[data-title]");
+      const lead = panel.querySelector("[data-lead]");
+      const meta = panel.querySelector("[data-meta]");
+      const link = panel.querySelector("[data-link]");
+      const cover = panel.querySelector("[data-cover]");
+      if (!item) {
+        if (title) title.textContent = "Wybierz strefę";
+        if (lead) lead.textContent = "Najedź albo stuknij fragment planu. Podświetli się barka, ogród albo cały kompleks.";
+        if (meta) meta.textContent = "";
+        if (link instanceof HTMLAnchorElement) link.hidden = true;
+        if (cover instanceof HTMLImageElement) cover.hidden = true;
+        return;
+      }
+      if (title) title.textContent = item.title;
+      if (lead) lead.textContent = item.lead;
+      if (meta) meta.textContent = item.meta;
+      if (link instanceof HTMLAnchorElement) {
+        link.hidden = false;
+        link.href = item.href;
+        link.textContent = `Zobacz ${item.title}`;
+      }
+      if (cover instanceof HTMLImageElement && item.cover) {
+        cover.hidden = false;
+        cover.src = item.cover;
+        cover.alt = item.title;
+      }
+    };
+
+    const choose = (id) => {
+      pinned = pinned === id ? null : id;
+      paint(pinned);
+    };
+
+    root.querySelectorAll(".zone").forEach((zone) => {
+      const id = zone.getAttribute("data-zone") || "";
+      zone.addEventListener("mouseenter", () => { if (!pinned) paint(id); });
+      zone.addEventListener("focus", () => paint(id));
+      zone.addEventListener("click", () => choose(id));
+      zone.addEventListener("keydown", (event) => {
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          choose(id);
+        }
+      });
+    });
+    root.querySelectorAll(".leg").forEach((leg) => {
+      leg.addEventListener("click", () => choose(leg.getAttribute("data-zone") || ""));
+    });
+    root.addEventListener("mouseleave", () => { if (!pinned) paint(pinned); });
+    pinned = "duze";
+    paint("duze");
+  });
+</script>

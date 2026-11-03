@@ -1,0 +1,14 @@
+---
+const { items = [] } = Astro.props;
+---
+
+<ul class="stat-row">
+  {
+    items.map((item) => (
+      <li>
+        <b data-count={item.count}>{item.value}</b>
+        <span>{item.label}</span>
+      </li>
+    ))
+  }
+</ul>
