@@ -26,38 +26,35 @@ for (const entry of faqAll) {
   image={strona.hero_zdjecie}
   jsonLd={[venueJsonLd(kontakt, strona.opis_seo)]}
 >
-  <section class="wrap hero">
-    <div>
-      <p class="kicker">{strona.hero_kicker}</p>
-      <p class="kicker" style="letter-spacing:0.28em">{strona.hero_marka}</p>
-      <h1>{strona.hero_h1}</h1>
-      <p class="lede" style="margin-top:1.2rem">{strona.hero_lead}</p>
-      <div class="btn-row">
-        <a class="btn" href="/kontakt/">{strona.cta_glowny}</a>
-        <a class="btn ghost" href="/przestrzenie/">{strona.cta_drugi}</a>
+  <section class="stage">
+    <img src={strona.hero_zdjecie} alt={strona.hero_zdjecie_alt} width="1465" height="1700" fetchpriority="high" />
+  </section>
+
+  <section class="wrap intro">
+    <p class="kicker">{strona.hero_kicker}</p>
+    <div class="intro-grid">
+      <div>
+        <p class="kicker">{strona.hero_marka}</p>
+        <h1>{strona.hero_h1}</h1>
+        <p class="lede">{strona.hero_lead}</p>
+        <div class="intro-links">
+          <a class="link-arrow" href="/kontakt/">{strona.cta_glowny}</a>
+          <a class="link-arrow" href="/przestrzenie/">{strona.cta_drugi}</a>
+        </div>
       </div>
-    </div>
-    <div class="hero-photos">
-      <figure class="print tilt-r main">
-        <img src={strona.hero_zdjecie} alt={strona.hero_zdjecie_alt} width="1465" height="1700" fetchpriority="high" />
-      </figure>
-      <figure class="print tilt-l second land">
+      <figure class="intro-photo">
         <img src={strona.hero_zdjecie_2} alt={strona.hero_zdjecie_2_alt} width="1800" height="930" />
       </figure>
     </div>
-  </section>
-
-  <div class="wrap under-hero">
-    <a href="/przestrzenie/">{strona.link_przestrzenie}</a>
-    <a href="#budzet">{strona.link_budzet}</a>
-  </div>
-
-  <div class="wrap" style="padding-bottom:clamp(3rem,6vw,5rem)">
+    <div class="under-hero">
+      <a href="/przestrzenie/">{strona.link_przestrzenie}</a>
+      <a href="#budzet">{strona.link_budzet}</a>
+    </div>
     <ul class="facts" aria-label="MIEJSCE w liczbach">
       {strona.liczby.map((item) => <li>{item}</li>)}
     </ul>
     <p class="since">{strona.od_roku}</p>
-  </div>
+  </section>
 
   <section class="sec" style="padding-top:0">
     <div class="wrap quote-band reveal">
@@ -240,14 +237,13 @@ for (const entry of faqAll) {
     </div>
   </section>
 
-  <section class="cta-band">
-    <div class="wrap">
+  <section class="visit">
+    <img src="/img/pdf/contact.jpg" alt="" width="1700" height="893" />
+    <div class="visit-copy">
       <h2>{strona.kontakt_h}</h2>
-      <p class="lede" style="margin-top:1rem">{strona.kontakt_lead}</p>
-      <div class="btn-row">
-        <a class="btn" href="/kontakt/">Umów oględziny</a>
-        <a class="btn ghost" href={`tel:${kontakt.telefon_href}`} style="border-color:#e7e0d4;color:#f3eee4">{kontakt.telefon_wyswietlany}</a>
-      </div>
+      <p class="lede">{strona.kontakt_lead}</p>
+      <a class="link-arrow" href="/kontakt/">Umów oględziny</a>
+      <a class="phone" href={`tel:${kontakt.telefon_href}`}>{kontakt.telefon_wyswietlany}</a>
     </div>
   </section>
 </Base>

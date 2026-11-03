@@ -1,66 +1,111 @@
 ---
 const { cennik, wariant = "pelny" } = Astro.props;
 const safe = JSON.stringify(cennik).replace(/</g, "\\u003c");
+const photos = {
+  firmowy: "/img/gallery/dm22.jpg",
+  konferencja: "/img/gallery/mm12.jpg",
+  szkolenie: "/img/gallery/mm16.jpg",
+  integracja: "/img/gallery/og16.jpg",
+  premiera: "/img/gallery/kn08.jpg",
+  wesele: "/img/gallery/ws01.jpg",
+  "garden-party": "/img/gallery/og25.jpg",
+  inne: "/img/gallery/cm04.jpg",
+};
+const dayShort = { pn: "Pn", wt: "Wt", sr: "Śr", czw: "Czw", pt: "Pt", sb: "Sb", nd: "Nd" };
+const monthShort = (name) => name.replace(".", "").slice(0, 3);
 ---
 
-<section class="budzet reveal" id="budzet" data-budzet data-wariant={wariant}>
+<section class="budzet" id="budzet" data-budzet data-wariant={wariant}>
   <script type="application/json" class="budzet-config" set:html={safe} />
-  <div class="budzet-grid">
-    <div>
-      <p class="kicker">Mam X zł i Y osób</p>
-      <h2>{cennik.budzet_h}</h2>
-      {wariant === "pelny" ? <p class="sec-lead">{cennik.lead}</p> : <p class="sec-lead">Bez kwoty co do złotówki. Jedna z trzech odpowiedzi.</p>}
-    </div>
-    <form class="budzet-form">
-      <div class="fields">
-        <label class="field span-2">
-          <span>Rodzaj eventu</span>
-          <select name="typ" required>
-            <option value="">Wybierz</option>
-            {cennik.typy_eventu.map((typ) => <option value={typ.id}>{typ.nazwa}</option>)}
-          </select>
-        </label>
-        <label class="field">
-          <span>Liczba osób</span>
-          <input name="osoby" type="number" inputmode="numeric" min="1" max="2000" placeholder="80" required />
-        </label>
-        <label class="field">
-          <span>Budżet (zł)</span>
-          <input name="budzet" type="text" inputmode="numeric" placeholder="40 000" required />
-        </label>
-        <label class="field">
-          <span>Dzień tygodnia</span>
-          <select name="dzien" required>
-            <option value="">Wybierz</option>
-            {cennik.dni.map((dzien) => <option value={dzien.id}>{dzien.nazwa}</option>)}
-          </select>
-        </label>
-        <label class="field">
-          <span>Miesiąc</span>
-          <select name="miesiac" required>
-            <option value="">Wybierz</option>
-            {cennik.miesiace.map((miesiac) => <option value={miesiac.id}>{miesiac.nazwa}</option>)}
-          </select>
-        </label>
-      </div>
-      <div class="btn-row">
-        <button class="btn" type="submit">Sprawdź</button>
-      </div>
-      <p class="err" data-err hidden></p>
-      <div class="wynik" data-wynik hidden>
-        <p class="kicker">Odpowiedź</p>
-        <h3 data-tytul></h3>
-        <p data-tresc></p>
-        <a class="btn" data-cta href="/kontakt/#brief">Wyślij nam ten brief</a>
-      </div>
-      <noscript>
-        <p class="fine">Moduł liczy się w przeglądarce. Napisz przez formularz kontaktu, oddzwonimy z układem.</p>
-      </noscript>
-    </form>
+  <div class="budzet-head">
+    <p class="kicker">Mam X zł i Y osób</p>
+    <h2>{cennik.budzet_h}</h2>
+    {
+      wariant === "pelny" ? (
+        <p class="sec-lead">{cennik.lead}</p>
+      ) : (
+        <p class="sec-lead">Bez kwoty co do złotówki. Jedna z trzech odpowiedzi.</p>
+      )
+    }
   </div>
+
+  <form class="budzet-form">
+    <fieldset class="type-grid">
+      <legend>Rodzaj eventu</legend>
+      {
+        cennik.typy_eventu.map((typ) => (
+          <button type="button" class="type-tile" data-group="typ" data-value={typ.id} aria-pressed="false">
+            <span class="type-photo">
+              {photos[typ.id] && <img src={photos[typ.id]} alt="" width="640" height="400" />}
+            </span>
+            <span class="type-name">{typ.nazwa}</span>
+          </button>
+        ))
+      }
+    </fieldset>
+    <input type="hidden" name="typ" value="" />
+
+    <div class="dials">
+      <label class="slider-block">
+        <span class="slider-k">Liczba osób</span>
+        <span class="slider-val" data-osoby-val>80<small>osób</small></span>
+        <input type="range" name="osoby" min="10" max="350" step="5" value="80" aria-valuemin="10" aria-valuemax="350" aria-valuenow="80" aria-valuetext="80 osób" />
+      </label>
+      <label class="slider-block">
+        <span class="slider-k">Budżet netto</span>
+        <span class="slider-val" data-budzet-val>40 000<small>zł</small></span>
+        <input type="range" name="budzet" min="5000" max="250000" step="1000" value="40000" aria-valuemin="5000" aria-valuemax="250000" aria-valuenow="40000" aria-valuetext="40 000 zł" />
+      </label>
+    </div>
+
+    <fieldset class="chip-block">
+      <legend>Dzień tygodnia</legend>
+      <div class="chips" role="group" aria-label="Dzień tygodnia">
+        {
+          cennik.dni.map((dzien) => (
+            <button type="button" class="chip" data-group="dzien" data-value={dzien.id} aria-pressed="false" aria-label={dzien.nazwa}>
+              {dayShort[dzien.id] || dzien.nazwa}
+            </button>
+          ))
+        }
+      </div>
+    </fieldset>
+    <input type="hidden" name="dzien" value="" />
+
+    <fieldset class="chip-block months">
+      <legend>Miesiąc</legend>
+      <div class="chips" role="group" aria-label="Miesiąc">
+        {
+          cennik.miesiace.map((miesiac) => (
+            <button type="button" class="chip" data-group="miesiac" data-value={String(miesiac.id)} aria-pressed="false" aria-label={miesiac.nazwa}>
+              {monthShort(miesiac.nazwa)}
+            </button>
+          ))
+        }
+      </div>
+    </fieldset>
+    <input type="hidden" name="miesiac" value="" />
+
+    <div class="budzet-actions">
+      <button class="btn" type="submit">Sprawdź</button>
+    </div>
+    <p class="err" data-err hidden></p>
+
+    <div class="wynik" data-wynik hidden aria-live="polite">
+      <p class="wynik-kod" data-kod-label></p>
+      <h3 data-tytul></h3>
+      <p data-tresc></p>
+      <a class="link-arrow" data-cta href="/kontakt/#brief">Wyślij nam ten brief</a>
+    </div>
+
+    <noscript>
+      <p class="fine">Moduł liczy się w przeglądarce. Napisz przez formularz kontaktu, oddzwonimy z układem.</p>
+    </noscript>
+  </form>
+
   {
     wariant === "pelny" && (
-      <details class="acc" style="margin-top:1.4rem">
+      <details class="acc" style="margin-top:28px">
         <summary>Jak to porównujemy</summary>
         <div class="acc-body">
           <p>{cennik.jak_porownujemy}</p>
@@ -83,10 +128,56 @@ const safe = JSON.stringify(cennik).replace(/</g, "\\u003c");
     const box = root.querySelector("[data-wynik]");
     const title = root.querySelector("[data-tytul]");
     const text = root.querySelector("[data-tresc]");
+    const code = root.querySelector("[data-kod-label]");
     const cta = root.querySelector("[data-cta]");
+    const osobyVal = root.querySelector("[data-osoby-val]");
+    const budzetVal = root.querySelector("[data-budzet-val]");
     if (!form || !err || !box || !title || !text || !cta) return;
 
     const label = (list, id) => list?.find((row) => String(row.id) === String(id))?.nazwa || id;
+    const hidden = (name) => form.querySelector(`input[type="hidden"][name="${name}"]`);
+
+    const paint = (input) => {
+      const min = Number(input.min);
+      const max = Number(input.max);
+      const val = Number(input.value);
+      const pct = ((val - min) / (max - min)) * 100;
+      input.style.setProperty("--fill", `${pct}%`);
+      input.setAttribute("aria-valuenow", String(val));
+    };
+
+    const osoby = form.querySelector('input[name="osoby"]');
+    const budzet = form.querySelector('input[name="budzet"]');
+
+    const syncPeople = () => {
+      if (!osoby || !osobyVal) return;
+      osobyVal.firstChild.textContent = osoby.value;
+      osoby.setAttribute("aria-valuetext", `${osoby.value} osób`);
+      paint(osoby);
+    };
+    const syncMoney = () => {
+      if (!budzet || !budzetVal) return;
+      const formatted = money.format(Number(budzet.value));
+      budzetVal.firstChild.textContent = formatted;
+      budzet.setAttribute("aria-valuetext", `${formatted} zł`);
+      paint(budzet);
+    };
+    osoby?.addEventListener("input", syncPeople);
+    budzet?.addEventListener("input", syncMoney);
+    syncPeople();
+    syncMoney();
+
+    root.querySelectorAll("[data-group]").forEach((button) => {
+      button.addEventListener("click", () => {
+        const group = button.getAttribute("data-group");
+        const value = button.getAttribute("data-value") || "";
+        root.querySelectorAll(`[data-group="${group}"]`).forEach((peer) => {
+          peer.setAttribute("aria-pressed", peer === button ? "true" : "false");
+        });
+        const field = hidden(group);
+        if (field) field.value = value;
+      });
+    });
 
     form.addEventListener("submit", (event) => {
       event.preventDefault();
@@ -108,18 +199,19 @@ const safe = JSON.stringify(cennik).replace(/</g, "\\u003c");
       err.hidden = true;
       box.hidden = false;
       box.setAttribute("data-kod", result.kod);
+      if (code) code.textContent = `Odpowiedź ${result.kod}`;
       title.textContent = result.tytul;
       text.textContent = result.tresc;
       const params = new URLSearchParams();
       const dzien = label(cennik.dni, input.dzien);
       const miesiac = label(cennik.miesiace, input.miesiac);
       const rodzaj = label(cennik.typy_eventu, input.typ);
-      const osoby = input.osoby.replace(/[^\d]/g, "");
-      const budzet = input.budzet.replace(/[^\d]/g, "");
+      const osobyN = input.osoby.replace(/[^\d]/g, "");
+      const budzetN = input.budzet.replace(/[^\d]/g, "");
       params.set("rodzaj", input.typ);
       params.set("data", `${dzien} / ${miesiac}`);
-      params.set("osoby", osoby);
-      params.set("budzet", budzet);
+      params.set("osoby", osobyN);
+      params.set("budzet", budzetN);
       params.set("wynik", result.kod);
       params.set("przestrzen", result.przestrzen);
       params.set(
@@ -128,8 +220,8 @@ const safe = JSON.stringify(cennik).replace(/</g, "\\u003c");
           "Brief z modułu budżetu.",
           `Rodzaj: ${rodzaj}`,
           `Termin: ${dzien} / ${miesiac}`,
-          `Liczba osób: ${osoby}`,
-          `Budżet: ${money.format(Number(budzet))} zł`,
+          `Liczba osób: ${osobyN}`,
+          `Budżet: ${money.format(Number(budzetN))} zł`,
           `Wynik: ${result.kod} — ${result.tytul}`,
           `Przestrzeń, na którą patrzy moduł: ${result.przestrzen}`,
         ].join("\n"),
