@@ -21,10 +21,11 @@ const crumbs = [{ href: "/poradnik/", label: "Poradnik" }];
     <p class="kicker">Wiedza z praktyki</p>
     <h1>{ustawienia.naglowek}</h1>
     <p class="lede">{ustawienia.lead}</p>
-    <p class="prose" style="margin-top:1rem">{ustawienia.wstep}</p>
+    <p class="lead">{ustawienia.wstep}</p>
   </header>
-  <section class="sec" style="padding-top:1rem">
-    <div class="wrap">
+  <section class="band">
+    <div class="wrap stack-lg">
+      <div>
       <h2>Szkice</h2>
       <ol class="queue">
         {
@@ -37,7 +38,9 @@ const crumbs = [{ href: "/poradnik/", label: "Poradnik" }];
           ))
         }
       </ol>
-      <h2 style="margin-top:2.5rem">W kolejce</h2>
+      </div>
+      <div>
+      <h2>W kolejce</h2>
       <p class="fine">Tytuły z briefu. Nie mają jeszcze stron, żeby nie publikować pustych artykułów.</p>
       <ol class="queue">
         {kolejka.map((title, index) => (
@@ -48,6 +51,7 @@ const crumbs = [{ href: "/poradnik/", label: "Poradnik" }];
           </li>
         ))}
       </ol>
+      </div>
     </div>
   </section>
 </Base>

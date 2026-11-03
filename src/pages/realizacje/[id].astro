@@ -1,7 +1,9 @@
 ---
 import { getCollection, render } from "astro:content";
 import Base from "../../layouts/Base.astro";
-import Crumbs from "../../components/Crumbs.astro";
+import PageHero from "../../components/PageHero.astro";
+import NextBand from "../../components/NextBand.astro";
+import SectionHeader from "../../components/SectionHeader.astro";
 import { crumbsJsonLd } from "../../lib/nav.js";
 
 export async function getStaticPaths() {
@@ -39,16 +41,22 @@ const articleLd = entry.data.szkic
     ...(articleLd ? [articleLd] : []),
   ]}
 >
-  <header class="wrap page-hero">
-    <Crumbs items={crumbs} />
-    {entry.data.szkic && <p class="szkic-banner">Szkic do uzupełnienia w CMS. Nie indeksujemy tej strony, dopóki pole „szkic” jest włączone.</p>}
-    <p class="kicker">{entry.data.typ}</p>
-    <h1>{entry.data.title}</h1>
-    <p class="meta-line">{entry.data.meta}</p>
-  </header>
-  <section class="sec" style="padding-top:1rem">
+  <PageHero
+    crumbs={crumbs}
+    kicker={entry.data.typ}
+    title={entry.data.title}
+    lede={entry.data.lead}
+    image={entry.data.cover}
+    imageAlt={entry.data.title}
+  />
+  <section class="band">
     <div class="wrap split">
-      <div class="prose"><Content /></div>
+      <div class="stack">
+        {entry.data.szkic && <p class="szkic-banner">Szkic do uzupełnienia w CMS. Nie indeksujemy tej strony, dopóki pole „szkic” jest włączone.</p>}
+        <p class="meta">{entry.data.meta}</p>
+        <p class="meta">Goście: do uzupełnienia</p>
+        <div class="prose"><Content /></div>
+      </div>
       <dl class="sheet">
         <div><dt>Przestrzenie</dt><dd>{entry.data.przestrzenie}</dd></div>
         <div><dt>Jedzenie</dt><dd>{entry.data.jedzenie}</dd></div>
@@ -57,15 +65,22 @@ const articleLd = entry.data.szkic
       </dl>
     </div>
   </section>
-  <section class="sec" style="padding-top:0">
-    <div class="wrap mosaic">
-      {
-        entry.data.zdjecia.slice(0, 3).map((src, index) => (
-          <figure class:list={["print", index === 0 ? "big tilt-l land" : "tilt-r"]}>
-            <img src={src} alt={`${entry.data.title}, zdjęcie ${index + 1}`} loading="lazy" />
-          </figure>
-        ))
-      }
+  <section class="band band-dark">
+    <div class="wrap stack-lg">
+      <SectionHeader eyebrow="Zdjęcia" title="Klatki z tego wieczoru" />
+      <div class="gallery-row">
+        {entry.data.zdjecia.slice(0, 3).map((src, index) => <img src={src} alt={`${entry.data.title}, zdjęcie ${index + 1}`} />)}
+      </div>
     </div>
   </section>
+  <NextBand
+    kicker="Następny krok"
+    title="Chcesz podobny układ?"
+    links={[
+      { href: "/realizacje/", label: "Wszystkie realizacje" },
+      { href: "/ceny/", label: "Ceny" },
+      { href: "/eventy/", label: "Scenariusze" },
+    ]}
+    cta="Zapytaj o termin"
+  />
 </Base>

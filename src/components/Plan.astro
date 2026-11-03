@@ -23,7 +23,7 @@ const payload = JSON.stringify(zones).replace(/</g, "\\u003c");
 
 <div class="plan-layout" data-plan>
   <script type="application/json" class="plan-data" set:html={payload} />
-  <div>
+  <div class="plan-map">
     <figure class="plan-figure">
       <div class="plan-stage">
         <img src="/img/plan.png" alt="Rzut kompleksu MIEJSCE: dwie barki i ogród" width="2000" height="1325" />
@@ -33,10 +33,10 @@ const payload = JSON.stringify(zones).replace(/</g, "\\u003c");
           <polygon class="zone" data-zone="male" tabindex="0" role="button" aria-label="Nowe Miejsce" points="10.4,48.6 30.6,48.6 30.6,47.2 43.8,47.2 43.8,86.8 10.4,86.8"></polygon>
           <polygon class="zone" data-zone="ogrod" tabindex="0" role="button" aria-label="Ogród" points="44.8,58.8 93.6,58.8 93.6,73.8 44.8,73.8"></polygon>
         </svg>
-        <span class="plan-tag" data-tag="duze" style="left:57%;top:26%">Duże</span>
-        <span class="plan-tag" data-tag="male" style="left:27%;top:67%">Nowe</span>
-        <span class="plan-tag" data-tag="ogrod" style="left:69%;top:66.5%">Ogród</span>
-        <span class="plan-tag" data-tag="all" style="left:29%;top:3.5%">Całe</span>
+        <span class="plan-tag" data-tag="duze">Duże</span>
+        <span class="plan-tag" data-tag="male">Nowe</span>
+        <span class="plan-tag" data-tag="ogrod">Ogród</span>
+        <span class="plan-tag" data-tag="all">Całe</span>
       </div>
     </figure>
     <div class="plan-legend">

@@ -12,100 +12,118 @@ const photos = {
   inne: "/img/gallery/cm04.jpg",
 };
 const dayShort = { pn: "Pn", wt: "Wt", sr: "Śr", czw: "Czw", pt: "Pt", sb: "Sb", nd: "Nd" };
-const monthShort = (name) => name.replace(".", "").slice(0, 3);
+const steps = [
+  { n: "1", label: "Rodzaj eventu", hint: "Wybierz rodzaj wydarzenia" },
+  { n: "2", label: "Liczba gości", hint: "Przesuń suwak" },
+  { n: "3", label: "Termin", hint: "Wybierz dzień i miesiąc" },
+  { n: "4", label: "Budżet", hint: "Przesuń suwak" },
+  { n: "5", label: "Wynik", hint: "Orientacja, nie wycena co do złotówki" },
+];
 ---
 
-<section class="budzet" id="budzet" data-budzet data-wariant={wariant}>
+<section class="engine" id="budzet" data-budzet data-wariant={wariant}>
   <script type="application/json" class="budzet-config" set:html={safe} />
-  <div class="budzet-head">
-    <p class="kicker">Mam X zł i Y osób</p>
-    <h2>{cennik.budzet_h}</h2>
+  <header class="sec-head">
+    <div>
+      <p class="eyebrow">Krok po kroku</p>
+      <h2>{cennik.budzet_h}</h2>
+    </div>
+    <p class="lead">{wariant === "pelny" ? cennik.lead : "Bez kwoty co do złotówki. Jedna z trzech odpowiedzi."}</p>
+  </header>
+
+  <ol class="progress-steps" aria-label="Kroki kalkulatora">
     {
-      wariant === "pelny" ? (
-        <p class="sec-lead">{cennik.lead}</p>
-      ) : (
-        <p class="sec-lead">Bez kwoty co do złotówki. Jedna z trzech odpowiedzi.</p>
-      )
+      steps.map((step, index) => (
+        <li data-progress={index} class={index === 0 ? "is-current" : undefined}>
+          <b>{step.n}</b>
+          <span>{step.label}</span>
+        </li>
+      ))
     }
-  </div>
+  </ol>
+  <p class="step-hint" data-hint>{steps[0].hint}</p>
 
   <form class="budzet-form">
-    <fieldset class="type-grid">
-      <legend>Rodzaj eventu</legend>
-      {
-        cennik.typy_eventu.map((typ) => (
-          <button type="button" class="type-tile" data-group="typ" data-value={typ.id} aria-pressed="false">
-            <span class="type-photo">
-              {photos[typ.id] && <img src={photos[typ.id]} alt="" width="640" height="400" />}
-            </span>
-            <span class="type-name">{typ.nazwa}</span>
-          </button>
-        ))
-      }
-    </fieldset>
-    <input type="hidden" name="typ" value="" />
+    <div class="step-panel" data-step="0">
+      <div class="type-grid" role="group" aria-label="Rodzaj eventu">
+        {
+          cennik.typy_eventu.map((typ) => (
+            <button type="button" class="type-tile" data-group="typ" data-value={typ.id} aria-pressed="false">
+              <span class="type-photo">
+                {photos[typ.id] && <img src={photos[typ.id]} alt="" width="640" height="480" />}
+              </span>
+              <span class="type-name">{typ.nazwa}</span>
+            </button>
+          ))
+        }
+      </div>
+      <input type="hidden" name="typ" value="" />
+    </div>
 
-    <div class="dials">
+    <div class="step-panel" data-step="1" hidden>
       <label class="slider-block">
-        <span class="slider-k">Liczba osób</span>
+        <span class="slider-k">Liczba gości</span>
         <span class="slider-val" data-osoby-val>80<small>osób</small></span>
-        <input type="range" name="osoby" min="10" max="350" step="5" value="80" aria-valuemin="10" aria-valuemax="350" aria-valuenow="80" aria-valuetext="80 osób" />
+        <input type="range" name="osoby" min="10" max="350" step="5" value="80" />
       </label>
+    </div>
+
+    <div class="step-panel" data-step="2" hidden>
+      <fieldset class="chip-block">
+        <legend>Dzień tygodnia</legend>
+        <div class="chips">
+          {
+            cennik.dni.map((dzien) => (
+              <button type="button" class="chip" data-group="dzien" data-value={dzien.id} aria-pressed="false">
+                {dayShort[dzien.id] || dzien.nazwa}
+              </button>
+            ))
+          }
+        </div>
+      </fieldset>
+      <input type="hidden" name="dzien" value="" />
+      <fieldset class="chip-block">
+        <legend>Miesiąc</legend>
+        <div class="chips">
+          {
+            cennik.miesiace.map((miesiac) => (
+              <button type="button" class="chip" data-group="miesiac" data-value={String(miesiac.id)} aria-pressed="false">
+                {miesiac.nazwa}
+              </button>
+            ))
+          }
+        </div>
+      </fieldset>
+      <input type="hidden" name="miesiac" value="" />
+    </div>
+
+    <div class="step-panel" data-step="3" hidden>
       <label class="slider-block">
         <span class="slider-k">Budżet netto</span>
         <span class="slider-val" data-budzet-val>40 000<small>zł</small></span>
-        <input type="range" name="budzet" min="5000" max="250000" step="1000" value="40000" aria-valuemin="5000" aria-valuemax="250000" aria-valuenow="40000" aria-valuetext="40 000 zł" />
+        <input type="range" name="budzet" min="5000" max="250000" step="1000" value="40000" />
       </label>
     </div>
 
-    <fieldset class="chip-block">
-      <legend>Dzień tygodnia</legend>
-      <div class="chips" role="group" aria-label="Dzień tygodnia">
-        {
-          cennik.dni.map((dzien) => (
-            <button type="button" class="chip" data-group="dzien" data-value={dzien.id} aria-pressed="false" aria-label={dzien.nazwa}>
-              {dayShort[dzien.id] || dzien.nazwa}
-            </button>
-          ))
-        }
-      </div>
-    </fieldset>
-    <input type="hidden" name="dzien" value="" />
-
-    <fieldset class="chip-block months">
-      <legend>Miesiąc</legend>
-      <div class="chips" role="group" aria-label="Miesiąc">
-        {
-          cennik.miesiace.map((miesiac) => (
-            <button type="button" class="chip" data-group="miesiac" data-value={String(miesiac.id)} aria-pressed="false" aria-label={miesiac.nazwa}>
-              {monthShort(miesiac.nazwa)}
-            </button>
-          ))
-        }
-      </div>
-    </fieldset>
-    <input type="hidden" name="miesiac" value="" />
-
-    <div class="budzet-actions">
-      <button class="btn" type="submit">Sprawdź</button>
+    <div class="step-panel" data-step="4" hidden>
+      <article class="result-card" data-wynik aria-live="polite">
+        <p class="wynik-kod" data-kod-label>Wynik</p>
+        <h3 data-tytul>Uzupełnij poprzednie kroki</h3>
+        <p data-tresc></p>
+        <a class="btn btn-primary" data-cta href="/kontakt/#brief">Wyślij ten brief</a>
+      </article>
     </div>
+
     <p class="err" data-err hidden></p>
-
-    <div class="wynik" data-wynik hidden aria-live="polite">
-      <p class="wynik-kod" data-kod-label></p>
-      <h3 data-tytul></h3>
-      <p data-tresc></p>
-      <a class="link-arrow" data-cta href="/kontakt/#brief">Wyślij nam ten brief</a>
+    <div class="step-nav">
+      <button class="btn btn-ghost" type="button" data-back hidden>Wstecz</button>
+      <button class="btn btn-primary" type="button" data-next>Dalej</button>
     </div>
-
-    <noscript>
-      <p class="fine">Moduł liczy się w przeglądarce. Napisz przez formularz kontaktu, oddzwonimy z układem.</p>
-    </noscript>
   </form>
 
   {
     wariant === "pelny" && (
-      <details class="acc" style="margin-top:28px">
+      <details class="acc">
         <summary>Jak to porównujemy</summary>
         <div class="acc-body">
           <p>{cennik.jak_porownujemy}</p>
@@ -119,53 +137,55 @@ const monthShort = (name) => name.replace(".", "").slice(0, 3);
   import { ocen } from "../lib/budzet.js";
 
   const money = new Intl.NumberFormat("pl-PL");
+  const hints = [
+    "Wybierz rodzaj wydarzenia",
+    "Przesuń suwak",
+    "Wybierz dzień i miesiąc",
+    "Przesuń suwak",
+    "Orientacja, nie wycena co do złotówki",
+  ];
 
   document.querySelectorAll("[data-budzet]").forEach((root) => {
-    const raw = root.querySelector(".budzet-config")?.textContent || "{}";
-    const cennik = JSON.parse(raw);
+    const cennik = JSON.parse(root.querySelector(".budzet-config")?.textContent || "{}");
     const form = root.querySelector(".budzet-form");
     const err = root.querySelector("[data-err]");
-    const box = root.querySelector("[data-wynik]");
-    const title = root.querySelector("[data-tytul]");
-    const text = root.querySelector("[data-tresc]");
-    const code = root.querySelector("[data-kod-label]");
-    const cta = root.querySelector("[data-cta]");
-    const osobyVal = root.querySelector("[data-osoby-val]");
-    const budzetVal = root.querySelector("[data-budzet-val]");
-    if (!form || !err || !box || !title || !text || !cta) return;
+    const hint = root.querySelector("[data-hint]");
+    const back = root.querySelector("[data-back]");
+    const next = root.querySelector("[data-next]");
+    const panels = [...root.querySelectorAll("[data-step]")];
+    const progress = [...root.querySelectorAll("[data-progress]")];
+    if (!form || !next) return;
+    let step = 0;
 
-    const label = (list, id) => list?.find((row) => String(row.id) === String(id))?.nazwa || id;
     const hidden = (name) => form.querySelector(`input[type="hidden"][name="${name}"]`);
+    const label = (list, id) => list?.find((row) => String(row.id) === String(id))?.nazwa || id;
 
-    const paint = (input) => {
-      const min = Number(input.min);
-      const max = Number(input.max);
-      const val = Number(input.value);
-      const pct = ((val - min) / (max - min)) * 100;
-      input.style.setProperty("--fill", `${pct}%`);
-      input.setAttribute("aria-valuenow", String(val));
+    const show = (index) => {
+      step = index;
+      panels.forEach((panel) => {
+        panel.hidden = Number(panel.getAttribute("data-step")) !== step;
+      });
+      progress.forEach((item, i) => {
+        item.classList.toggle("is-current", i === step);
+        item.classList.toggle("is-done", i < step);
+      });
+      if (hint) hint.textContent = hints[step];
+      if (back) back.hidden = step === 0;
+      if (next) next.hidden = step === panels.length - 1;
+      next.textContent = step === 3 ? "Zobacz wynik" : "Dalej";
+      err.hidden = true;
+    };
+
+    const paintRange = (input, output, suffix) => {
+      if (!input || !output) return;
+      const formatted = suffix === "zł" ? money.format(Number(input.value)) : input.value;
+      output.firstChild.textContent = formatted;
     };
 
     const osoby = form.querySelector('input[name="osoby"]');
     const budzet = form.querySelector('input[name="budzet"]');
-
-    const syncPeople = () => {
-      if (!osoby || !osobyVal) return;
-      osobyVal.firstChild.textContent = osoby.value;
-      osoby.setAttribute("aria-valuetext", `${osoby.value} osób`);
-      paint(osoby);
-    };
-    const syncMoney = () => {
-      if (!budzet || !budzetVal) return;
-      const formatted = money.format(Number(budzet.value));
-      budzetVal.firstChild.textContent = formatted;
-      budzet.setAttribute("aria-valuetext", `${formatted} zł`);
-      paint(budzet);
-    };
-    osoby?.addEventListener("input", syncPeople);
-    budzet?.addEventListener("input", syncMoney);
-    syncPeople();
-    syncMoney();
+    osoby?.addEventListener("input", () => paintRange(osoby, root.querySelector("[data-osoby-val]"), "osób"));
+    budzet?.addEventListener("input", () => paintRange(budzet, root.querySelector("[data-budzet-val]"), "zł"));
 
     root.querySelectorAll("[data-group]").forEach((button) => {
       button.addEventListener("click", () => {
@@ -178,11 +198,20 @@ const monthShort = (name) => name.replace(".", "").slice(0, 3);
         if (field) field.value = value;
       });
     });
-    const preset = new URLSearchParams(location.search).get("typ");
-    if (preset) root.querySelector(`[data-group="typ"][data-value="${preset}"]`)?.dispatchEvent(new Event("click"));
 
-    form.addEventListener("submit", (event) => {
-      event.preventDefault();
+    const params = new URLSearchParams(location.search);
+    const presetTyp = params.get("typ");
+    if (presetTyp) root.querySelector(`[data-group="typ"][data-value="${presetTyp}"]`)?.dispatchEvent(new Event("click"));
+    const presetOsoby = params.get("osoby");
+    if (presetOsoby && osoby) {
+      const n = Number(String(presetOsoby).replace(/[^\d]/g, ""));
+      if (Number.isFinite(n)) {
+        osoby.value = String(Math.min(350, Math.max(10, n)));
+        paintRange(osoby, root.querySelector("[data-osoby-val]"), "osób");
+      }
+    }
+
+    const finish = () => {
       const data = new FormData(form);
       const input = {
         typ: String(data.get("typ") || ""),
@@ -192,31 +221,31 @@ const monthShort = (name) => name.replace(".", "").slice(0, 3);
         miesiac: String(data.get("miesiac") || ""),
       };
       const result = ocen(input, cennik);
+      const title = root.querySelector("[data-tytul]");
+      const text = root.querySelector("[data-tresc]");
+      const code = root.querySelector("[data-kod-label]");
+      const cta = root.querySelector("[data-cta]");
       if (!result.ok) {
         err.hidden = false;
         err.textContent = result.error;
-        box.hidden = true;
-        return;
+        return false;
       }
-      err.hidden = true;
-      box.hidden = false;
-      box.setAttribute("data-kod", result.kod);
       if (code) code.textContent = `Odpowiedź ${result.kod}`;
-      title.textContent = result.tytul;
-      text.textContent = result.tresc;
-      const params = new URLSearchParams();
+      if (title) title.textContent = result.tytul;
+      if (text) text.textContent = result.tresc;
       const dzien = label(cennik.dni, input.dzien);
       const miesiac = label(cennik.miesiace, input.miesiac);
       const rodzaj = label(cennik.typy_eventu, input.typ);
       const osobyN = input.osoby.replace(/[^\d]/g, "");
       const budzetN = input.budzet.replace(/[^\d]/g, "");
-      params.set("rodzaj", input.typ);
-      params.set("data", `${dzien} / ${miesiac}`);
-      params.set("osoby", osobyN);
-      params.set("budzet", budzetN);
-      params.set("wynik", result.kod);
-      params.set("przestrzen", result.przestrzen);
-      params.set(
+      const query = new URLSearchParams();
+      query.set("rodzaj", input.typ);
+      query.set("data", `${dzien} / ${miesiac}`);
+      query.set("osoby", osobyN);
+      query.set("budzet", budzetN);
+      query.set("wynik", result.kod);
+      query.set("przestrzen", result.przestrzen);
+      query.set(
         "wiadomosc",
         [
           "Brief z modułu budżetu.",
@@ -228,7 +257,27 @@ const monthShort = (name) => name.replace(".", "").slice(0, 3);
           `Przestrzeń, na którą patrzy moduł: ${result.przestrzen}`,
         ].join("\n"),
       );
-      cta.setAttribute("href", `/kontakt/?${params.toString()}#brief`);
+      cta?.setAttribute("href", `/kontakt/?${query.toString()}#brief`);
+      return true;
+    };
+
+    const validate = () => {
+      if (step === 0 && !hidden("typ")?.value) return "Wybierz rodzaj wydarzenia.";
+      if (step === 2 && (!hidden("dzien")?.value || !hidden("miesiac")?.value)) return "Wybierz dzień i miesiąc.";
+      return "";
+    };
+
+    next.addEventListener("click", () => {
+      const problem = validate();
+      if (problem) {
+        err.hidden = false;
+        err.textContent = problem;
+        return;
+      }
+      if (step === 3 && !finish()) return;
+      show(Math.min(panels.length - 1, step + 1));
     });
+    back?.addEventListener("click", () => show(Math.max(0, step - 1)));
+    show(0);
   });
 </script>

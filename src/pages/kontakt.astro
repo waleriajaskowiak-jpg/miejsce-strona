@@ -3,7 +3,7 @@ import { getEntry } from "astro:content";
 import Base from "../layouts/Base.astro";
 import PageHero from "../components/PageHero.astro";
 import FormBrief from "../components/FormBrief.astro";
-import NextBand from "../components/NextBand.astro";
+import SectionHeader from "../components/SectionHeader.astro";
 import { crumbsJsonLd, venueJsonLd } from "../lib/nav.js";
 
 const kontakt = (await getEntry("ustawienia", "kontakt"))!.data;
@@ -12,6 +12,12 @@ const strona = (await getEntry("ustawienia", "strona"))!.data;
 const crumbs = [{ href: "/kontakt/", label: "Kontakt" }];
 const map = `https://www.openstreetmap.org/export/embed.html?bbox=21.035%2C52.214%2C21.060%2C52.226&layer=mapnik&marker=${kontakt.lat}%2C${kontakt.lon}`;
 const osm = `https://www.openstreetmap.org/?mlat=${kontakt.lat}&mlon=${kontakt.lon}#map=17/${kontakt.lat}/${kontakt.lon}`;
+const google = `https://maps.google.com/?q=${kontakt.lat},${kontakt.lon}`;
+const icons = {
+  phone: `<path d="M6 3h3l2 5-2 1a12 12 0 0 0 6 6l1-2 5 2v3a2 2 0 0 1-2 2A16 16 0 0 1 4 5a2 2 0 0 1 2-2z"/>`,
+  mail: `<rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/>`,
+  pin: `<path d="M12 21s7-5.5 7-11a7 7 0 1 0-14 0c0 5.5 7 11 7 11z"/><circle cx="12" cy="10" r="2.4"/>`,
+};
 ---
 
 <Base
@@ -31,58 +37,50 @@ const osm = `https://www.openstreetmap.org/?mlat=${kontakt.lat}&mlon=${kontakt.l
     image="/img/pdf/contact.jpg"
     imageAlt="MIEJSCE od strony wody"
   />
-  <section class="sec sec-dark" style="padding-top:28px">
-    <div class="wrap contact-grid">
-      <div>
-        <dl class="contact-cards">
-          <div>
-            <dt>Adres</dt>
-            <dd>{kontakt.ulica}<br />{kontakt.kod} {kontakt.miasto}<br />{kontakt.dzielnica}</dd>
-          </div>
-          <div>
-            <dt>Telefon</dt>
-            <dd><a href={`tel:${kontakt.telefon_href}`}>{kontakt.telefon_wyswietlany}</a></dd>
-          </div>
-          <div>
-            <dt>E-mail</dt>
-            <dd><a href={`mailto:${kontakt.email}`}>{kontakt.email}</a></dd>
-          </div>
-          <div>
-            <dt>Dojazd</dt>
-            <dd>{kontakt.dojazd}</dd>
-          </div>
-          <div>
-            <dt>Parking</dt>
-            <dd>{kontakt.parking}</dd>
-          </div>
-          <div>
-            <dt>Oględziny</dt>
-            <dd>{kontakt.ogledziny}</dd>
-          </div>
-        </dl>
+
+  <section class="band">
+    <div class="wrap">
+      <div class="contact-3">
+        <article class="info-card">
+          <svg viewBox="0 0 24 24" aria-hidden="true" set:html={icons.phone} />
+          <p class="eyebrow">Telefon</p>
+          <a href={`tel:${kontakt.telefon_href}`}>{kontakt.telefon_wyswietlany}</a>
+          <p>{kontakt.ogledziny}</p>
+        </article>
+        <article class="info-card">
+          <svg viewBox="0 0 24 24" aria-hidden="true" set:html={icons.mail} />
+          <p class="eyebrow">Mail</p>
+          <a href={`mailto:${kontakt.email}`}>{kontakt.email}</a>
+          <p>Brief z formularza trafia na tę skrzynkę.</p>
+        </article>
+        <article class="info-card">
+          <svg viewBox="0 0 24 24" aria-hidden="true" set:html={icons.pin} />
+          <p class="eyebrow">Adres</p>
+          <p><b>{kontakt.ulica}</b><br />{kontakt.kod} {kontakt.miasto}<br />{kontakt.dzielnica}</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="band band-dark">
+    <div class="wrap grid-12">
+      <div class="span-7 map-block">
+        <SectionHeader eyebrow="Dojazd" title="Jak do nas trafić" lead={kontakt.dojazd} />
         <div class="map-frame">
           <iframe title="Mapa: MIEJSCE, ul. Zaruskiego 1, Warszawa" loading="lazy" src={map}></iframe>
         </div>
-        <p><a href={osm}>Otwórz mapę</a> · <a href={`https://maps.google.com/?q=${kontakt.lat},${kontakt.lon}`}>Google Maps</a></p>
+        <p class="btn-row">
+          <a class="btn btn-primary" href={google}>Wyznacz trasę</a>
+          <a class="btn btn-ghost" href={osm}>Otwórz OpenStreetMap</a>
+        </p>
+        <p>{kontakt.parking}</p>
       </div>
-      <div>
-        <p class="kicker">Formularz briefu</p>
-        <h2 class="form-title">Napisz, co planujesz</h2>
-        <div class="form-panel">
+      <div class="span-5">
+        <div class="form-panel pad stack">
+          <SectionHeader eyebrow="Brief" title="Napisz, co planujesz" />
           <FormBrief typy={cennik.typy_eventu} />
         </div>
       </div>
     </div>
   </section>
-  <NextBand
-    kicker="Zanim napiszesz"
-    title="Zobacz miejsce albo ceny"
-    links={[
-      { href: "/przestrzenie/", label: "Przestrzenie" },
-      { href: "/ceny/#budzet", label: "Moduł budżetu" },
-      { href: "/galeria/", label: "Galeria" },
-    ]}
-    cta="Zadzwoń"
-    href={`tel:${kontakt.telefon_href}`}
-  />
 </Base>

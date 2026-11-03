@@ -1,8 +1,9 @@
 ---
 import { getCollection, render } from "astro:content";
 import Base from "../../layouts/Base.astro";
-import Crumbs from "../../components/Crumbs.astro";
+import PageHero from "../../components/PageHero.astro";
 import NextBand from "../../components/NextBand.astro";
+import SectionHeader from "../../components/SectionHeader.astro";
 import { crumbsJsonLd, sortByOrder } from "../../lib/nav.js";
 
 export async function getStaticPaths() {
@@ -17,6 +18,29 @@ const crumbs = [
   { href: "/eventy/", label: "Eventy" },
   { label: entry.data.title },
 ];
+const budgetType = (id) =>
+  id.includes("wesele")
+    ? "wesele"
+    : id.includes("szkol")
+      ? "szkolenie"
+      : id.includes("integr")
+        ? "integracja"
+        : id.includes("premium")
+          ? "premiera"
+          : id.includes("garden")
+            ? "garden-party"
+            : id.includes("konfer")
+              ? "konferencja"
+              : "firmowy";
+const osoby = (String(entry.data.tag).match(/(\d+)/) || [])[1] || "";
+const typ = budgetType(entry.id);
+const budzetHref = `/ceny/?typ=${typ}${osoby ? `&osoby=${osoby}` : ""}#budzet`;
+const spaceLinks = [];
+const gdzie = entry.data.przestrzen;
+if (/CAŁE/i.test(gdzie)) spaceLinks.push({ href: "/przestrzenie/cale-miejsce/", label: "Całe Miejsce" });
+if (/NOWE/i.test(gdzie)) spaceLinks.push({ href: "/przestrzenie/nowe-miejsce/", label: "Nowe Miejsce" });
+if (/DUŻE/i.test(gdzie)) spaceLinks.push({ href: "/przestrzenie/duze-miejsce/", label: "Duże Miejsce" });
+if (/OGRÓD/i.test(gdzie)) spaceLinks.push({ href: "/przestrzenie/ogrod/", label: "Ogród" });
 ---
 
 <Base
@@ -25,18 +49,21 @@ const crumbs = [
   image={entry.data.cover}
   jsonLd={[crumbsJsonLd([{ href: "/", label: "MIEJSCE" }, { href: "/eventy/", label: "Eventy" }, { href: `/eventy/${entry.id}/`, label: entry.data.title }])]}
 >
-  <header class="wrap page-hero">
-    <Crumbs items={crumbs} />
-    <p class="kicker">{entry.data.tag}</p>
-    <h1>{entry.data.title}</h1>
-    <p class="lede">{entry.data.lead}</p>
-    <p class="meta-line">{entry.data.przestrzen}</p>
-  </header>
-  <section class="sec" style="padding-top:1rem">
+  <PageHero
+    crumbs={crumbs}
+    kicker={entry.data.tag}
+    title={entry.data.title}
+    lede={entry.data.lead}
+    image={entry.data.cover}
+    imageAlt={entry.data.title}
+  />
+
+  <section class="band">
     <div class="wrap split">
-      <div>
+      <div class="stack">
+        <p class="meta">Liczba gości: {osoby ? `${osoby} osób` : entry.data.tag}</p>
         <div class="prose"><Content /></div>
-        <p class="kicker" style="margin-top:1.5rem">Scenariusz dnia</p>
+        <SectionHeader eyebrow="Dzień" title="Jak układa się ten scenariusz" />
         <ol class="timeline">
           {
             entry.data.program.map((punkt) => (
@@ -51,61 +78,60 @@ const crumbs = [
           }
         </ol>
       </div>
-      <div>
-        <figure class="print tilt-r land">
-          <img src={entry.data.cover} alt={entry.data.title} />
-        </figure>
-        <p class="kicker" style="margin-top:1.6rem">Zakres</p>
-        <ul class="spec-list">
+      <aside class="card stack pad">
+        <p class="eyebrow">Przestrzeń</p>
+        <h3>{entry.data.przestrzen}</h3>
+        <ul class="included">
           {entry.data.zakres.map((item) => <li>{item}</li>)}
         </ul>
-        <div class="btn-row">
-          <a class="btn" href="/ceny/">Sprawdź budżet</a>
-          <a class="btn ghost" href={`/kontakt/?wiadomosc=${encodeURIComponent(`Chcę porozmawiać o scenariuszu: ${entry.data.title}.`)}#brief`}>Napisz do nas</a>
+        <div class="stack">
+          {spaceLinks.map((link) => <a class="btn btn-ghost" href={link.href}>{link.label}</a>)}
         </div>
+        <a class="btn btn-primary" href={budzetHref}>Sprawdź budżet</a>
+      </aside>
+    </div>
+  </section>
+
+  <section class="band band-dark">
+    <div class="wrap stack-lg">
+      <SectionHeader eyebrow="Galeria" title="Tak to wygląda" lead="Zdjęcia z tej przestrzeni i podobnych wieczorów." />
+      <div class="gallery-row">
+        {entry.data.zdjecia.slice(0, 3).map((src) => <img src={src} alt={entry.data.title} />)}
       </div>
     </div>
   </section>
-  <section class="sec" style="padding-top:0">
-    <div class="wrap mosaic">
-      {
-        entry.data.zdjecia.slice(0, 3).map((src, index) => (
-          <figure class:list={["print", index === 0 ? "big tilt-l land" : "tilt-r"]}>
-            <img src={src} alt="" loading="lazy" />
-          </figure>
-        ))
-      }
-    </div>
-  </section>
-  <section class="sec" style="padding-top:0">
+
+  <section class="band">
     <div class="wrap">
-      <h2>Inne scenariusze</h2>
-      <ol class="scenario-index">
+      <SectionHeader eyebrow="Inne układy" title="Zobacz też" />
+      <div class="cards-3">
         {
-          inne.map((event, index) => (
-            <li>
+          inne.slice(0, 3).map((event) => (
+            <article class="media-card">
               <a href={`/eventy/${event.id}/`}>
-                <span class="num">{String(index + 1).padStart(2, "0")}</span>
-                <span>
-                  <strong>{event.data.title}</strong>
-                  <em>{event.data.tag}</em>
-                </span>
-                <img src={event.data.cover} alt="" loading="lazy" />
+                <img src={event.data.cover} alt="" />
+                <div class="card-body">
+                  <p class="eyebrow">{event.data.tag}</p>
+                  <h3>{event.data.title}</h3>
+                  <span class="btn btn-ghost">Zobacz scenariusz</span>
+                </div>
               </a>
-            </li>
+            </article>
           ))
         }
-      </ol>
+      </div>
     </div>
   </section>
+
   <NextBand
     kicker="Następny krok"
     title="Policz budżet albo napisz"
     links={[
-      { href: "/ceny/#budzet", label: "Moduł budżetu" },
+      { href: budzetHref, label: "Moduł budżetu, uzupełniony tym scenariuszem" },
       { href: "/przestrzenie/", label: "Przestrzenie" },
       { href: "/jedzenie-i-bar/", label: "Jedzenie i bar" },
     ]}
-    cta="Wyślij brief"
+    cta="Sprawdź budżet"
+    href={budzetHref}
   />
 </Base>

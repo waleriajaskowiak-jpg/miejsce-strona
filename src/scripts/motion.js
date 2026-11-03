@@ -56,7 +56,7 @@ if (!reduced) {
       io.unobserve(entry.target);
     });
   }, { threshold: 0.12 });
-  document.querySelectorAll(".reveal, .feature-list, .climate-list, .ex-top, .film-row, .stats").forEach((el) => io.observe(el));
+  document.querySelectorAll(".reveal, .feature-list, .climate-list, .stats, .stat-row").forEach((el) => io.observe(el));
 
   const count = (el) => {
     const to = Number(el.dataset.count);
@@ -76,7 +76,7 @@ if (!reduced) {
       statsIO.unobserve(entry.target);
     });
   }, { threshold: 0.4 });
-  document.querySelectorAll(".stats, .fact-strip").forEach((el) => statsIO.observe(el));
+  document.querySelectorAll(".stats, .fact-strip, .stat-row, .sub-stats").forEach((el) => statsIO.observe(el));
 
   if (matchMedia("(hover: hover) and (pointer: fine)").matches) {
     document.querySelectorAll(".btn-primary").forEach((button) => {
