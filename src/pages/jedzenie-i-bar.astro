@@ -3,7 +3,6 @@ import { getEntry } from "astro:content";
 import Base from "../layouts/Base.astro";
 import NextBand from "../components/NextBand.astro";
 import PageHero from "../components/PageHero.astro";
-import SectionHeader from "../components/SectionHeader.astro";
 import { crumbsJsonLd } from "../lib/nav.js";
 
 const jedzenie = (await getEntry("ustawienia", "jedzenie"))!.data;
@@ -101,14 +100,16 @@ const barPhoto = ["/img/pdf/menu-4.jpg", "/img/pdf/menu-5.jpg", "/img/gallery/kn
   </section>
 
   <section class="band band-dark">
-    <div class="wrap split">
-      <div class="prose">
-        <SectionHeader eyebrow="Kuchnia" title="Jak jemy na evencie" lead={jedzenie.filozofia} />
+    <div class="wrap eat-grid">
+      <div class="eat-copy">
+        <p class="eyebrow">Kuchnia</p>
+        <h2>Jak jemy na evencie</h2>
+        <p class="lead">{jedzenie.filozofia}</p>
         <p>{jedzenie.diety}</p>
         <p>{jedzenie.bary}</p>
         <p><a class="btn btn-primary" href={jedzenie.pdf}>{jedzenie.pdf_etykieta}</a></p>
       </div>
-      <div>
+      <div class="eat-side">
         <p class="eyebrow">Specjalizacja</p>
         <ul class="included">
           {jedzenie.specjalizacja.map((item) => <li>{item}</li>)}

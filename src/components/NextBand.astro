@@ -4,11 +4,11 @@ const { kicker = "Dalej", title, links = [], cta, href = "/kontakt/" } = Astro.p
 
 <section class="next-band">
   <div class="wrap next-grid">
-    <div>
+    <div class="next-copy">
       <p class="kicker">{kicker}</p>
       <h2>{title}</h2>
     </div>
-    <div>
+    <div class="next-actions">
       <ul class="next-links">
         {links.map((link) => (
           <li><a href={link.href}>{link.label}</a></li>
