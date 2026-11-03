@@ -1,0 +1,26 @@
+{
+  "naglowek": "Jedzenie i bar",
+  "opis_seo": "Własna kuchnia MIEJSCA: finger food, bufety i formuły koktajlowe oraz trzy progi open baru. Pełne menu zostaje w PDF-ie oferty.",
+  "lead": "Mamy własną kuchnię. I wiemy, że na evencie ludzie niekoniecznie chcą siedzieć trzy godziny przy trzydaniowej kolacji.",
+  "filozofia": "Ta strona nie jest kartą restauracji. Tłumaczy, jak jemy i pijemy na wydarzeniach: krótko, do ręki, przy stole albo w formule koktajlowej — i zawsze da się to ułożyć pod gości.",
+  "specjalizacja": [
+    "finger food",
+    "przekąski",
+    "bufety",
+    "stoły",
+    "dania ciepłe",
+    "formuły cocktailowe i bankietowe",
+    "menu dopasowane do potrzeb żywieniowych"
+  ],
+  "diety": "Wegetariańskie, wegańskie i alergie wpisujemy w brief. Nie trzymamy tu sztywnej karty dań.",
+  "bary": "3 stałe bary + możliwość ustawienia baru mobilnego.",
+  "pdf": "/pdf/MIEJSCE-oferta-2026-PL.pdf",
+  "pdf_etykieta": "Oferta 2026 z menu i cenami (PDF)",
+  "zdjecia": [
+    "/img/pdf/menu-1.jpg",
+    "/img/pdf/menu-2.jpg",
+    "/img/pdf/menu-3.jpg",
+    "/img/pdf/menu-4.jpg",
+    "/img/pdf/menu-5.jpg"
+  ]
+}

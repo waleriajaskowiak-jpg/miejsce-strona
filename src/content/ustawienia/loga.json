@@ -1,0 +1,52 @@
+{
+  "loga": [
+    {
+      "src": "/img/pdf/logo/pwc.png",
+      "alt": "PwC"
+    },
+    {
+      "src": "/img/pdf/logo/pge.png",
+      "alt": "PGE"
+    },
+    {
+      "src": "/img/pdf/logo/cedc.png",
+      "alt": "CEDC"
+    },
+    {
+      "src": "/img/pdf/logo/coca-cola.png",
+      "alt": "Coca-Cola"
+    },
+    {
+      "src": "/img/pdf/logo/ibm.png",
+      "alt": "IBM"
+    },
+    {
+      "src": "/img/pdf/logo/axel-springer.png",
+      "alt": "Axel Springer"
+    },
+    {
+      "src": "/img/pdf/logo/onet.png",
+      "alt": "Onet"
+    },
+    {
+      "src": "/img/pdf/logo/ge-aerospace.png",
+      "alt": "GE Aerospace"
+    },
+    {
+      "src": "/img/pdf/logo/pko-bp.png",
+      "alt": "PKO BP"
+    },
+    {
+      "src": "/img/pdf/logo/ergo.png",
+      "alt": "Ergo"
+    },
+    {
+      "src": "/img/pdf/logo/pzu.png",
+      "alt": "PZU"
+    },
+    {
+      "src": "/img/pdf/logo/spotify.png",
+      "alt": "Spotify"
+    }
+  ]
+}

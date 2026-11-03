@@ -1,0 +1,49 @@
+---
+import { getCollection, render } from "astro:content";
+import Base from "../../layouts/Base.astro";
+import Crumbs from "../../components/Crumbs.astro";
+import { crumbsJsonLd } from "../../lib/nav.js";
+
+export async function getStaticPaths() {
+  const entries = await getCollection("artykuly");
+  return entries.map((entry) => ({ params: { id: entry.id }, props: { entry } }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const crumbs = [
+  { href: "/poradnik/", label: "Poradnik" },
+  { label: entry.data.title },
+];
+const articleLd = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  headline: entry.data.title,
+  description: entry.data.opis_seo,
+  mainEntityOfPage: `https://miejsce.to/poradnik/${entry.id}/`,
+  author: { "@type": "Organization", name: "MIEJSCE" },
+  publisher: { "@type": "Organization", name: "MIEJSCE" },
+};
+---
+
+<Base
+  title={`${entry.data.title} | Poradnik | MIEJSCE`}
+  description={entry.data.opis_seo}
+  robots={entry.data.szkic ? "noindex,follow" : "index,follow"}
+  jsonLd={[
+    crumbsJsonLd([{ href: "/", label: "MIEJSCE" }, { href: "/poradnik/", label: "Poradnik" }, { href: `/poradnik/${entry.id}/`, label: entry.data.title }]),
+    ...(entry.data.szkic ? [] : [articleLd]),
+  ]}
+>
+  <article class="wrap page-hero">
+    <Crumbs items={crumbs} />
+    {entry.data.szkic && <p class="szkic-banner">Szkic. Treść do napisania w /admin. Strona ma noindex, dopóki szkic jest włączony.</p>}
+    <p class="kicker">Poradnik organizatora</p>
+    <h1>{entry.data.title}</h1>
+  </article>
+  <div class="wrap sec" style="padding-top:1rem">
+    <div class="prose">
+      <Content />
+    </div>
+  </div>
+</Base>

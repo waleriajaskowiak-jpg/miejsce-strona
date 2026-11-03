@@ -1,0 +1,140 @@
+---
+const { cennik, wariant = "pelny" } = Astro.props;
+const safe = JSON.stringify(cennik).replace(/</g, "\\u003c");
+---
+
+<section class="budzet reveal" id="budzet" data-budzet data-wariant={wariant}>
+  <script type="application/json" class="budzet-config" set:html={safe} />
+  <div class="budzet-grid">
+    <div>
+      <p class="kicker">Mam X zł i Y osób</p>
+      <h2>{cennik.budzet_h}</h2>
+      {wariant === "pelny" ? <p class="sec-lead">{cennik.lead}</p> : <p class="sec-lead">Bez kwoty co do złotówki. Jedna z trzech odpowiedzi.</p>}
+    </div>
+    <form class="budzet-form">
+      <div class="fields">
+        <label class="field span-2">
+          <span>Rodzaj eventu</span>
+          <select name="typ" required>
+            <option value="">Wybierz</option>
+            {cennik.typy_eventu.map((typ) => <option value={typ.id}>{typ.nazwa}</option>)}
+          </select>
+        </label>
+        <label class="field">
+          <span>Liczba osób</span>
+          <input name="osoby" type="number" inputmode="numeric" min="1" max="2000" placeholder="80" required />
+        </label>
+        <label class="field">
+          <span>Budżet (zł)</span>
+          <input name="budzet" type="text" inputmode="numeric" placeholder="40 000" required />
+        </label>
+        <label class="field">
+          <span>Dzień tygodnia</span>
+          <select name="dzien" required>
+            <option value="">Wybierz</option>
+            {cennik.dni.map((dzien) => <option value={dzien.id}>{dzien.nazwa}</option>)}
+          </select>
+        </label>
+        <label class="field">
+          <span>Miesiąc</span>
+          <select name="miesiac" required>
+            <option value="">Wybierz</option>
+            {cennik.miesiace.map((miesiac) => <option value={miesiac.id}>{miesiac.nazwa}</option>)}
+          </select>
+        </label>
+      </div>
+      <div class="btn-row">
+        <button class="btn" type="submit">Sprawdź</button>
+      </div>
+      <p class="err" data-err hidden></p>
+      <div class="wynik" data-wynik hidden>
+        <p class="kicker">Odpowiedź</p>
+        <h3 data-tytul></h3>
+        <p data-tresc></p>
+        <a class="btn" data-cta href="/kontakt/#brief">Wyślij nam ten brief</a>
+      </div>
+      <noscript>
+        <p class="fine">Moduł liczy się w przeglądarce. Napisz przez formularz kontaktu, oddzwonimy z układem.</p>
+      </noscript>
+    </form>
+  </div>
+  {
+    wariant === "pelny" && (
+      <details class="acc" style="margin-top:1.4rem">
+        <summary>Jak to porównujemy</summary>
+        <div class="acc-body">
+          <p>{cennik.jak_porownujemy}</p>
+        </div>
+      </details>
+    )
+  }
+</section>
+
+<script>
+  import { ocen } from "../lib/budzet.js";
+
+  const money = new Intl.NumberFormat("pl-PL");
+
+  document.querySelectorAll("[data-budzet]").forEach((root) => {
+    const raw = root.querySelector(".budzet-config")?.textContent || "{}";
+    const cennik = JSON.parse(raw);
+    const form = root.querySelector(".budzet-form");
+    const err = root.querySelector("[data-err]");
+    const box = root.querySelector("[data-wynik]");
+    const title = root.querySelector("[data-tytul]");
+    const text = root.querySelector("[data-tresc]");
+    const cta = root.querySelector("[data-cta]");
+    if (!form || !err || !box || !title || !text || !cta) return;
+
+    const label = (list, id) => list?.find((row) => String(row.id) === String(id))?.nazwa || id;
+
+    form.addEventListener("submit", (event) => {
+      event.preventDefault();
+      const data = new FormData(form);
+      const input = {
+        typ: String(data.get("typ") || ""),
+        osoby: String(data.get("osoby") || ""),
+        budzet: String(data.get("budzet") || ""),
+        dzien: String(data.get("dzien") || ""),
+        miesiac: String(data.get("miesiac") || ""),
+      };
+      const result = ocen(input, cennik);
+      if (!result.ok) {
+        err.hidden = false;
+        err.textContent = result.error;
+        box.hidden = true;
+        return;
+      }
+      err.hidden = true;
+      box.hidden = false;
+      box.setAttribute("data-kod", result.kod);
+      title.textContent = result.tytul;
+      text.textContent = result.tresc;
+      const params = new URLSearchParams();
+      const dzien = label(cennik.dni, input.dzien);
+      const miesiac = label(cennik.miesiace, input.miesiac);
+      const rodzaj = label(cennik.typy_eventu, input.typ);
+      const osoby = input.osoby.replace(/[^\d]/g, "");
+      const budzet = input.budzet.replace(/[^\d]/g, "");
+      params.set("rodzaj", input.typ);
+      params.set("data", `${dzien} / ${miesiac}`);
+      params.set("osoby", osoby);
+      params.set("budzet", budzet);
+      params.set("wynik", result.kod);
+      params.set("przestrzen", result.przestrzen);
+      params.set(
+        "wiadomosc",
+        [
+          "Brief z modułu budżetu.",
+          `Rodzaj: ${rodzaj}`,
+          `Termin: ${dzien} / ${miesiac}`,
+          `Liczba osób: ${osoby}`,
+          `Budżet: ${money.format(Number(budzet))} zł`,
+          `Wynik: ${result.kod} — ${result.tytul}`,
+          `Przestrzeń, na którą patrzy moduł: ${result.przestrzen}`,
+        ].join("\n"),
+      );
+      cta.setAttribute("href", `/kontakt/?${params.toString()}#brief`);
+    });
+  });
+</script>

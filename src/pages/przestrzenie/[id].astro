@@ -1,0 +1,99 @@
+---
+import { getCollection, render } from "astro:content";
+import Base from "../../layouts/Base.astro";
+import Crumbs from "../../components/Crumbs.astro";
+import { crumbsJsonLd, sortByOrder, zloty } from "../../lib/nav.js";
+
+export async function getStaticPaths() {
+  const entries = await getCollection("przestrzenie");
+  return entries.map((entry) => ({ params: { id: entry.id }, props: { entry } }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const inne = sortByOrder(await getCollection("przestrzenie")).filter((item) => item.id !== entry.id);
+const crumbs = [
+  { href: "/przestrzenie/", label: "Przestrzenie" },
+  { label: entry.data.title },
+];
+---
+
+<Base
+  title={`${entry.data.title} | MIEJSCE`}
+  description={entry.data.opis_seo}
+  image={entry.data.cover}
+  jsonLd={[crumbsJsonLd([{ href: "/", label: "MIEJSCE" }, { href: "/przestrzenie/", label: "Przestrzenie" }, { href: `/przestrzenie/${entry.id}/`, label: entry.data.title }])]}
+>
+  <header class="wrap page-hero">
+    <Crumbs items={crumbs} />
+    <p class="kicker">Przestrzeń</p>
+    <h1>{entry.data.title}</h1>
+    <p class="lede">{entry.data.lead}</p>
+    <p class="meta-line">{entry.data.meta}</p>
+  </header>
+
+  <section class="sec" style="padding-top:1rem">
+    <div class="wrap split">
+      <div class="prose">
+        <Content />
+        {
+          entry.data.cena_od && (
+            <p>
+              Wynajem {entry.data.cena_etykieta || `od ${zloty(entry.data.cena_od)}`}, netto.{" "}
+              <a href="/ceny/">Zobacz ceny</a>
+            </p>
+          )
+        }
+        <div class="btn-row">
+          <a class="btn" href={`/kontakt/?rodzaj=inne&wiadomosc=${encodeURIComponent(`Chcę zapytać o ${entry.data.title}.`)}#brief`}>
+            Zapytaj o {entry.data.title}
+          </a>
+        </div>
+      </div>
+      <div>
+        <p class="kicker">Najlepiej sprawdza się na</p>
+        <ul class="tags">
+          {entry.data.najlepiej.map((item) => <li>{item}</li>)}
+        </ul>
+        <p class="kicker" style="margin-top:1.6rem">W skrócie</p>
+        <ul class="spec-list">
+          {entry.data.w_skrocie.map((item) => <li>{item}</li>)}
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" style="padding-top:0">
+    <div class="wrap mosaic">
+      {
+        entry.data.zdjecia.slice(0, 3).map((src, index) => (
+          <figure class:list={["print", index === 0 ? "big tilt-l land" : index === 1 ? "tilt-r" : "tilt-s"]}>
+            <img src={src} alt={`${entry.data.title}, zdjęcie ${index + 1}`} loading="lazy" />
+          </figure>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="sec" style="padding-top:0">
+    <div class="wrap">
+      <h2>Pozostałe przestrzenie</h2>
+      <ul class="scenario-index">
+        {
+          inne.map((space, index) => (
+            <li>
+              <a href={`/przestrzenie/${space.id}/`}>
+                <span class="num">0{index + 1}</span>
+                <span>
+                  <strong>{space.data.title}</strong>
+                  <em>{space.data.meta}</em>
+                </span>
+                <img src={space.data.cover} alt="" loading="lazy" />
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+</Base>

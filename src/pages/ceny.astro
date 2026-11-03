@@ -1,0 +1,119 @@
+---
+import { getEntry } from "astro:content";
+import Base from "../layouts/Base.astro";
+import Crumbs from "../components/Crumbs.astro";
+import Budzet from "../components/Budzet.astro";
+import { crumbsJsonLd, zloty } from "../lib/nav.js";
+
+const cennik = (await getEntry("ustawienia", "cennik"))!.data;
+const crumbs = [{ href: "/ceny/", label: "Ceny" }];
+---
+
+<Base
+  title="Ile kosztuje event w MIEJSCU? | Ceny"
+  description={cennik.opis_seo}
+  jsonLd={[crumbsJsonLd([{ href: "/", label: "MIEJSCE" }, ...crumbs])]}
+>
+  <header class="wrap page-hero">
+    <Crumbs items={crumbs} />
+    <p class="kicker">Oferta 2026 · netto</p>
+    <h1>{cennik.naglowek}</h1>
+    <p class="lede">{cennik.lead}</p>
+    <p class="fine">{cennik.netto_info}</p>
+  </header>
+
+  <section class="sec" style="padding-top:1.5rem">
+    <div class="wrap split">
+      <div>
+        <h2>{cennik.wynajem_h}</h2>
+        <p class="sec-lead">{cennik.wynajem_lead}</p>
+      </div>
+      <ul class="menu-lines">
+        {
+          cennik.wynajem.map((row) => (
+            <li class="menu-line">
+              <span>
+                <b>{row.nazwa}</b>
+                <small>{row.dopisek}</small>
+              </span>
+              <span class="sum">od {zloty(row.cena_od)}</span>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <section class="sec" style="padding-top:0">
+    <div class="wrap split">
+      <div>
+        <h2>{cennik.catering_h}</h2>
+        <p class="sec-lead">{cennik.catering_lead}</p>
+        <p><a href="/jedzenie-i-bar/">Zobacz pełne menu</a></p>
+      </div>
+      <ul class="menu-lines">
+        {
+          cennik.catering.map((row) => (
+            <li class="menu-line">
+              <span>
+                <b>{row.nazwa}</b>
+                <small>{row.opis}</small>
+              </span>
+              <span class="sum">{row.cena} {row.jednostka}</span>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <section class="sec" style="padding-top:0">
+    <div class="wrap split">
+      <div>
+        <h2>{cennik.bar_h}</h2>
+        <p class="sec-lead">{cennik.bar_info}</p>
+      </div>
+      <ul class="menu-lines">
+        {
+          cennik.open_bar.map((row) => (
+            <li class="menu-line">
+              <span>
+                <b>{row.nazwa}</b>
+                <small>{row.opis}</small>
+              </span>
+              <span class="sum">{row.cena} {row.jednostka}</span>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <section class="sec" style="padding-top:0">
+    <div class="wrap split">
+      <div>
+        <h2>{cennik.dodatki_h}</h2>
+        <p class="sec-lead">{cennik.dodatki_lead}</p>
+        <p><a href={cennik.pdf}>{cennik.pdf_etykieta}</a></p>
+      </div>
+      <ul class="menu-lines">
+        {
+          cennik.dodatki.map((row) => (
+            <li class="menu-line">
+              <span>
+                <b>{row.nazwa}</b>
+                <small>{row.opis}</small>
+              </span>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <section class="sec" style="padding-top:0">
+    <div class="wrap">
+      <Budzet cennik={cennik} wariant="pelny" />
+    </div>
+  </section>
+</Base>

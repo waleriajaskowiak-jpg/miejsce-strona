@@ -1,0 +1,72 @@
+---
+import { getEntry } from "astro:content";
+import Base from "../layouts/Base.astro";
+import Crumbs from "../components/Crumbs.astro";
+import FormBrief from "../components/FormBrief.astro";
+import { crumbsJsonLd, venueJsonLd } from "../lib/nav.js";
+
+const kontakt = (await getEntry("ustawienia", "kontakt"))!.data;
+const cennik = (await getEntry("ustawienia", "cennik"))!.data;
+const strona = (await getEntry("ustawienia", "strona"))!.data;
+const crumbs = [{ href: "/kontakt/", label: "Kontakt" }];
+const map = `https://www.openstreetmap.org/export/embed.html?bbox=21.035%2C52.214%2C21.060%2C52.226&layer=mapnik&marker=${kontakt.lat}%2C${kontakt.lon}`;
+const osm = `https://www.openstreetmap.org/?mlat=${kontakt.lat}&mlon=${kontakt.lon}#map=17/${kontakt.lat}/${kontakt.lon}`;
+---
+
+<Base
+  title="Kontakt i oględziny | MIEJSCE"
+  description={kontakt.opis_seo}
+  image="/img/pdf/contact.jpg"
+  jsonLd={[
+    crumbsJsonLd([{ href: "/", label: "MIEJSCE" }, ...crumbs]),
+    venueJsonLd(kontakt, strona.opis_seo),
+  ]}
+>
+  <header class="wrap page-hero">
+    <Crumbs items={crumbs} />
+    <p class="kicker">Port Czerniakowski</p>
+    <h1>{strona.kontakt_h}</h1>
+    <p class="lede">{strona.kontakt_lead}</p>
+  </header>
+  <section class="sec" style="padding-top:1rem">
+    <div class="wrap contact-grid">
+      <div>
+        <dl class="contact-list">
+          <div>
+            <dt>Adres</dt>
+            <dd>{kontakt.ulica}<br />{kontakt.kod} {kontakt.miasto}<br />{kontakt.dzielnica}</dd>
+          </div>
+          <div>
+            <dt>Telefon</dt>
+            <dd><a href={`tel:${kontakt.telefon_href}`}>{kontakt.telefon_wyswietlany}</a></dd>
+          </div>
+          <div>
+            <dt>E-mail</dt>
+            <dd><a href={`mailto:${kontakt.email}`}>{kontakt.email}</a></dd>
+          </div>
+          <div>
+            <dt>Dojazd</dt>
+            <dd>{kontakt.dojazd}</dd>
+          </div>
+          <div>
+            <dt>Parking</dt>
+            <dd>{kontakt.parking}</dd>
+          </div>
+          <div>
+            <dt>Oględziny</dt>
+            <dd>{kontakt.ogledziny}</dd>
+          </div>
+        </dl>
+        <div class="map-frame">
+          <iframe title="Mapa: MIEJSCE, ul. Zaruskiego 1, Warszawa" loading="lazy" src={map}></iframe>
+        </div>
+        <p><a href={osm}>Otwórz mapę</a> · <a href={`https://maps.google.com/?q=${kontakt.lat},${kontakt.lon}`}>Google Maps</a></p>
+      </div>
+      <div>
+        <p class="kicker">Formularz briefu</p>
+        <h2 style="font-size:clamp(2rem,4vw,3rem);margin-bottom:1rem">Napisz, co planujesz.</h2>
+        <FormBrief typy={cennik.typy_eventu} />
+      </div>
+    </div>
+  </section>
+</Base>

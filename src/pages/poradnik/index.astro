@@ -1,0 +1,53 @@
+---
+import { getCollection, getEntry } from "astro:content";
+import Base from "../../layouts/Base.astro";
+import Crumbs from "../../components/Crumbs.astro";
+import { crumbsJsonLd, sortByOrder } from "../../lib/nav.js";
+
+const ustawienia = (await getEntry("ustawienia", "poradnik"))!.data;
+const artykuly = sortByOrder(await getCollection("artykuly"));
+const napisane = new Set(artykuly.map((item) => item.data.title));
+const kolejka = (ustawienia.kolejka || []).filter((title) => !napisane.has(title));
+const crumbs = [{ href: "/poradnik/", label: "Poradnik" }];
+---
+
+<Base
+  title="Poradnik organizatora | MIEJSCE"
+  description={ustawienia.opis_seo}
+  jsonLd={[crumbsJsonLd([{ href: "/", label: "MIEJSCE" }, ...crumbs])]}
+>
+  <header class="wrap page-hero">
+    <Crumbs items={crumbs} />
+    <p class="kicker">Wiedza z praktyki</p>
+    <h1>{ustawienia.naglowek}</h1>
+    <p class="lede">{ustawienia.lead}</p>
+    <p class="prose" style="margin-top:1rem">{ustawienia.wstep}</p>
+  </header>
+  <section class="sec" style="padding-top:1rem">
+    <div class="wrap">
+      <h2>Szkice</h2>
+      <ol class="queue">
+        {
+          artykuly.map((article, index) => (
+            <li>
+              <span>{String(index + 1).padStart(2, "0")}</span>
+              <a href={`/poradnik/${article.id}/`}>{article.data.title}</a>
+              {article.data.szkic && <span class="badge">Szkic</span>}
+            </li>
+          ))
+        }
+      </ol>
+      <h2 style="margin-top:2.5rem">W kolejce</h2>
+      <p class="fine">Tytuły z briefu. Nie mają jeszcze stron, żeby nie publikować pustych artykułów.</p>
+      <ol class="queue">
+        {kolejka.map((title, index) => (
+          <li>
+            <span>{String(index + 1).padStart(2, "0")}</span>
+            <span>{title}</span>
+            <span class="badge">Do napisania</span>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+</Base>

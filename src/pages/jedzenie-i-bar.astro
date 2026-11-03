@@ -1,0 +1,115 @@
+---
+import { getEntry } from "astro:content";
+import Base from "../layouts/Base.astro";
+import Crumbs from "../components/Crumbs.astro";
+import { crumbsJsonLd } from "../lib/nav.js";
+
+const jedzenie = (await getEntry("ustawienia", "jedzenie"))!.data;
+const cennik = (await getEntry("ustawienia", "cennik"))!.data;
+const crumbs = [{ href: "/jedzenie-i-bar/", label: "Jedzenie i bar" }];
+---
+
+<Base
+  title="Jedzenie i bar | MIEJSCE"
+  description={jedzenie.opis_seo}
+  image={jedzenie.zdjecia[0]}
+  jsonLd={[crumbsJsonLd([{ href: "/", label: "MIEJSCE" }, ...crumbs])]}
+>
+  <header class="wrap page-hero">
+    <Crumbs items={crumbs} />
+    <p class="kicker">Kuchnia na miejscu</p>
+    <h1>{jedzenie.naglowek}</h1>
+    <p class="lede">{jedzenie.lead}</p>
+  </header>
+
+  <section class="sec" style="padding-top:1rem">
+    <div class="wrap split">
+      <div class="prose">
+        <p>{jedzenie.filozofia}</p>
+        <p>{jedzenie.diety}</p>
+        <p>{jedzenie.bary}</p>
+        <p><a href={jedzenie.pdf}>{jedzenie.pdf_etykieta}</a></p>
+      </div>
+      <div>
+        <p class="kicker">Specjalizacja</p>
+        <ul class="spec-list">
+          {jedzenie.specjalizacja.map((item) => <li>{item}</li>)}
+        </ul>
+      </div>
+    </div>
+    <div class="wrap food-shots">
+      {jedzenie.zdjecia.map((src) => <img src={src} alt="Jedzenie na evencie w MIEJSCU" loading="lazy" />)}
+    </div>
+  </section>
+
+  <section class="sec" style="padding-top:0">
+    <div class="wrap split">
+      <div data-pakiety>
+        <h2>Pakiety menu</h2>
+        <div class="tablist" role="tablist" aria-label="Pakiety menu">
+          {
+            cennik.catering.map((pakiet, index) => (
+              <button type="button" role="tab" id={`menu-tab-${index}`} aria-controls={`menu-panel-${index}`} aria-selected={index === 0 ? "true" : "false"} tabindex={index === 0 ? 0 : -1}>
+                {pakiet.nazwa}
+              </button>
+            ))
+          }
+        </div>
+        {
+          cennik.catering.map((pakiet, index) => (
+            <div role="tabpanel" id={`menu-panel-${index}`} aria-labelledby={`menu-tab-${index}`} hidden={index !== 0}>
+              <p class="pakiet-cena">{pakiet.cena} <span>{pakiet.jednostka}</span></p>
+              <p class="lede">{pakiet.opis}</p>
+            </div>
+          ))
+        }
+      </div>
+      <div data-pakiety>
+        <h2>Open bar</h2>
+        <div class="tablist" role="tablist" aria-label="Open bar">
+          {
+            cennik.open_bar.map((pakiet, index) => (
+              <button type="button" role="tab" id={`bar-tab-${index}`} aria-controls={`bar-panel-${index}`} aria-selected={index === 0 ? "true" : "false"} tabindex={index === 0 ? 0 : -1}>
+                {pakiet.nazwa}
+              </button>
+            ))
+          }
+        </div>
+        {
+          cennik.open_bar.map((pakiet, index) => (
+            <div role="tabpanel" id={`bar-panel-${index}`} aria-labelledby={`bar-tab-${index}`} hidden={index !== 0}>
+              <p class="pakiet-cena">{pakiet.cena} <span>{pakiet.jednostka}</span></p>
+              <p class="lede">{pakiet.opis}</p>
+            </div>
+          ))
+        }
+        <p class="fine">{cennik.bar_info}</p>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<script>
+  document.querySelectorAll("[data-pakiety]").forEach((root) => {
+    const tabs = [...root.querySelectorAll('[role="tab"]')];
+    const panels = [...root.querySelectorAll('[role="tabpanel"]')];
+    const select = (index) => {
+      tabs.forEach((tab, i) => {
+        const on = i === index;
+        tab.setAttribute("aria-selected", on ? "true" : "false");
+        tab.tabIndex = on ? 0 : -1;
+        panels[i].hidden = !on;
+      });
+    };
+    tabs.forEach((tab, index) => {
+      tab.addEventListener("click", () => select(index));
+      tab.addEventListener("keydown", (event) => {
+        if (event.key !== "ArrowRight" && event.key !== "ArrowLeft") return;
+        event.preventDefault();
+        const next = event.key === "ArrowRight" ? (index + 1) % tabs.length : (index - 1 + tabs.length) % tabs.length;
+        select(next);
+        tabs[next].focus();
+      });
+    });
+  });
+</script>

@@ -1,0 +1,55 @@
+---
+import { NAV } from "../lib/nav.js";
+
+const path = Astro.url.pathname;
+const current = (href) => path === href || (href !== "/" && path.startsWith(href));
+---
+
+<header class="site-head">
+  <div class="wrap head-inner">
+    <a class="brand" href="/" aria-label="MIEJSCE, strona główna">
+      <img src="/img/wordmark.png" alt="MIEJSCE" width="900" height="258" />
+    </a>
+    <nav class="nav-desk" aria-label="Główna">
+      {
+        NAV.map((item) => (
+          <a href={item.href} aria-current={current(item.href) ? "page" : undefined}>
+            {item.label}
+          </a>
+        ))
+      }
+    </nav>
+    <a class="btn head-cta" href="/kontakt/">Zapytaj o termin</a>
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="nav-panel">
+      Menu
+    </button>
+  </div>
+</header>
+<div class="nav-panel" id="nav-panel" hidden>
+  <nav aria-label="Mobilna">
+    {
+      NAV.map((item) => (
+        <a href={item.href} aria-current={current(item.href) ? "page" : undefined}>
+          {item.label}
+        </a>
+      ))
+    }
+    <a href="/kontakt/">Zapytaj o termin</a>
+  </nav>
+</div>
+<script>
+  const btn = document.querySelector(".nav-toggle");
+  const panel = document.querySelector(".nav-panel");
+  const setOpen = (open) => {
+    if (!panel || !btn) return;
+    panel.hidden = !open;
+    btn.setAttribute("aria-expanded", open ? "true" : "false");
+    btn.textContent = open ? "Zamknij" : "Menu";
+    document.body.classList.toggle("nav-open", open);
+  };
+  btn?.addEventListener("click", () => setOpen(Boolean(panel?.hidden)));
+  panel?.querySelectorAll("a").forEach((link) => link.addEventListener("click", () => setOpen(false)));
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") setOpen(false);
+  });
+</script>

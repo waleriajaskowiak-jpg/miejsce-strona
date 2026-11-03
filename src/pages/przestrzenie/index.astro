@@ -1,0 +1,52 @@
+---
+import { getCollection } from "astro:content";
+import Base from "../../layouts/Base.astro";
+import Crumbs from "../../components/Crumbs.astro";
+import { crumbsJsonLd, sortByOrder } from "../../lib/nav.js";
+
+const przestrzenie = sortByOrder(await getCollection("przestrzenie"));
+const crumbs = [{ href: "/przestrzenie/", label: "Przestrzenie" }];
+const description = "Dwie barki, zadaszone tarasy i ogród w Porcie Czerniakowskim. Cztery układy: Duże Miejsce, Nowe Miejsce, ogród i cały kompleks.";
+---
+
+<Base
+  title="Przestrzenie — dwie barki, tarasy i ogród | MIEJSCE"
+  description={description}
+  jsonLd={[crumbsJsonLd([{ href: "/", label: "MIEJSCE" }, ...crumbs])]}
+>
+  <header class="wrap page-hero">
+    <Crumbs items={crumbs} />
+    <p class="kicker">Port Czerniakowski</p>
+    <h1>Jedno MIEJSCE. Trzy przestrzenie.</h1>
+    <p class="lede">Mamy dwie barki, ogród, zadaszone tarasy i całkiem sporo możliwości, żeby poukładać z tego unikalny event.</p>
+  </header>
+  <div class="wrap">
+    <figure class="plan-figure">
+      <img src="/img/plan.png" alt="Plan kompleksu MIEJSCE: dwie barki i ogród" width="2000" height="1325" />
+    </figure>
+  </div>
+  <section class="sec">
+    <div class="wrap">
+      <ul class="space-grid">
+        {
+          przestrzenie.map((space, index) => (
+            <li class:list={["space-card", index === 0 && "is-lead"]}>
+              <a href={`/przestrzenie/${space.id}/`}>
+                <figure class:list={["print", index % 2 ? "tilt-r" : "tilt-l", "land"]}>
+                  <img src={space.data.cover} alt="" loading="lazy" />
+                </figure>
+                <div>
+                  <p class="kicker">0{index + 1}</p>
+                  <h3>{space.data.title}</h3>
+                  <p>{space.data.lead}</p>
+                  <p class="meta">{space.data.meta}</p>
+                  <span class="more">Zobacz {space.data.title} →</span>
+                </div>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+</Base>

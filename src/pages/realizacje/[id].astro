@@ -1,0 +1,71 @@
+---
+import { getCollection, render } from "astro:content";
+import Base from "../../layouts/Base.astro";
+import Crumbs from "../../components/Crumbs.astro";
+import { crumbsJsonLd } from "../../lib/nav.js";
+
+export async function getStaticPaths() {
+  const entries = await getCollection("realizacje");
+  return entries.map((entry) => ({ params: { id: entry.id }, props: { entry } }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const crumbs = [
+  { href: "/realizacje/", label: "Realizacje" },
+  { label: entry.data.title },
+];
+const articleLd = entry.data.szkic
+  ? null
+  : {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      headline: entry.data.title,
+      description: entry.data.opis_seo,
+      image: new URL(entry.data.cover, "https://miejsce.to").href,
+      mainEntityOfPage: `https://miejsce.to/realizacje/${entry.id}/`,
+      author: { "@type": "Organization", name: "MIEJSCE" },
+      publisher: { "@type": "Organization", name: "MIEJSCE" },
+    };
+---
+
+<Base
+  title={`${entry.data.title} | Realizacje | MIEJSCE`}
+  description={entry.data.opis_seo}
+  image={entry.data.cover}
+  robots={entry.data.szkic ? "noindex,follow" : "index,follow"}
+  jsonLd={[
+    crumbsJsonLd([{ href: "/", label: "MIEJSCE" }, { href: "/realizacje/", label: "Realizacje" }, { href: `/realizacje/${entry.id}/`, label: entry.data.title }]),
+    ...(articleLd ? [articleLd] : []),
+  ]}
+>
+  <header class="wrap page-hero">
+    <Crumbs items={crumbs} />
+    {entry.data.szkic && <p class="szkic-banner">Szkic do uzupełnienia w CMS. Nie indeksujemy tej strony, dopóki pole „szkic” jest włączone.</p>}
+    <p class="kicker">{entry.data.typ}</p>
+    <h1>{entry.data.title}</h1>
+    <p class="meta-line">{entry.data.meta}</p>
+  </header>
+  <section class="sec" style="padding-top:1rem">
+    <div class="wrap split">
+      <div class="prose"><Content /></div>
+      <dl class="sheet">
+        <div><dt>Przestrzenie</dt><dd>{entry.data.przestrzenie}</dd></div>
+        <div><dt>Jedzenie</dt><dd>{entry.data.jedzenie}</dd></div>
+        <div><dt>Bar</dt><dd>{entry.data.bar}</dd></div>
+        <div><dt>Atrakcje i technika</dt><dd>{entry.data.atrakcje}</dd></div>
+      </dl>
+    </div>
+  </section>
+  <section class="sec" style="padding-top:0">
+    <div class="wrap mosaic">
+      {
+        entry.data.zdjecia.slice(0, 3).map((src, index) => (
+          <figure class:list={["print", index === 0 ? "big tilt-l land" : "tilt-r"]}>
+            <img src={src} alt={`${entry.data.title}, zdjęcie ${index + 1}`} loading="lazy" />
+          </figure>
+        ))
+      }
+    </div>
+  </section>
+</Base>

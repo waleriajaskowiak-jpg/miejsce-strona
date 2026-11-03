@@ -1,0 +1,253 @@
+---
+import { getCollection, getEntry, render } from "astro:content";
+import Base from "../layouts/Base.astro";
+import Budzet from "../components/Budzet.astro";
+import { sortByOrder, venueJsonLd } from "../lib/nav.js";
+
+const strona = (await getEntry("ustawienia", "strona"))!.data;
+const cennik = (await getEntry("ustawienia", "cennik"))!.data;
+const kontakt = (await getEntry("ustawienia", "kontakt"))!.data;
+const loga = (await getEntry("ustawienia", "loga"))!.data;
+const przestrzenie = sortByOrder(await getCollection("przestrzenie"));
+const eventy = sortByOrder(await getCollection("eventy"));
+const realizacje = sortByOrder(await getCollection("realizacje"));
+const artykuly = sortByOrder(await getCollection("artykuly"));
+const faqAll = sortByOrder(await getCollection("faq")).slice(0, 5);
+const faq = [];
+for (const entry of faqAll) {
+  const { Content } = await render(entry);
+  faq.push({ entry, Content });
+}
+---
+
+<Base
+  title={strona.tytul_seo}
+  description={strona.opis_seo}
+  image={strona.hero_zdjecie}
+  jsonLd={[venueJsonLd(kontakt, strona.opis_seo)]}
+>
+  <section class="wrap hero">
+    <div>
+      <p class="kicker">{strona.hero_kicker}</p>
+      <p class="kicker" style="letter-spacing:0.28em">{strona.hero_marka}</p>
+      <h1>{strona.hero_h1}</h1>
+      <p class="lede" style="margin-top:1.2rem">{strona.hero_lead}</p>
+      <div class="btn-row">
+        <a class="btn" href="/kontakt/">{strona.cta_glowny}</a>
+        <a class="btn ghost" href="/przestrzenie/">{strona.cta_drugi}</a>
+      </div>
+    </div>
+    <div class="hero-photos">
+      <figure class="print tilt-r main">
+        <img src={strona.hero_zdjecie} alt={strona.hero_zdjecie_alt} width="1465" height="1700" fetchpriority="high" />
+      </figure>
+      <figure class="print tilt-l second land">
+        <img src={strona.hero_zdjecie_2} alt={strona.hero_zdjecie_2_alt} width="1800" height="930" />
+      </figure>
+    </div>
+  </section>
+
+  <div class="wrap under-hero">
+    <a href="/przestrzenie/">{strona.link_przestrzenie}</a>
+    <a href="#budzet">{strona.link_budzet}</a>
+  </div>
+
+  <div class="wrap" style="padding-bottom:clamp(3rem,6vw,5rem)">
+    <ul class="facts" aria-label="MIEJSCE w liczbach">
+      {strona.liczby.map((item) => <li>{item}</li>)}
+    </ul>
+    <p class="since">{strona.od_roku}</p>
+  </div>
+
+  <section class="sec" style="padding-top:0">
+    <div class="wrap quote-band reveal">
+      <figure class="print tilt-l">
+        <img src={strona.cytat_zdjecie} alt={strona.cytat_autor} width="1472" height="1454" />
+      </figure>
+      <blockquote>
+        <p>„{strona.cytat}”</p>
+        <footer>
+          <b>{strona.cytat_autor}</b>
+          <span>{strona.cytat_rola}</span>
+        </footer>
+      </blockquote>
+    </div>
+  </section>
+
+  <section class="sec" style="padding-top:0">
+    <div class="wrap">
+      <div class="sec-head wide reveal">
+        <p class="kicker">Przestrzenie</p>
+        <h2>{strona.przestrzenie_h}</h2>
+        <p class="sec-lead">{strona.przestrzenie_lead}</p>
+      </div>
+      <ul class="space-grid">
+        {
+          przestrzenie.map((space, index) => (
+            <li class:list={["space-card", "reveal", index === 0 && "is-lead"]}>
+              <a href={`/przestrzenie/${space.id}/`}>
+                <figure class:list={["print", index % 2 ? "tilt-r" : "tilt-l", index === 0 && "land"]}>
+                  <img src={space.data.cover} alt="" width="1800" height="1200" loading="lazy" />
+                </figure>
+                <div>
+                  <p class="kicker">0{index + 1}</p>
+                  <h3>{space.data.title}</h3>
+                  <p>{space.data.lead}</p>
+                  <p class="meta">{space.data.meta}</p>
+                  <span class="more">Zobacz {space.data.title} →</span>
+                </div>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <section class="sec" style="padding-top:0">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <p class="kicker">Eventy</p>
+        <h2>{strona.eventy_h}</h2>
+        <p class="sec-lead">{strona.eventy_lead}</p>
+      </div>
+      <ol class="scenario-index">
+        {
+          eventy.map((event, index) => (
+            <li>
+              <a href={`/eventy/${event.id}/`}>
+                <span class="num">{String(index + 1).padStart(2, "0")}</span>
+                <span>
+                  <strong>{event.data.title}</strong>
+                  <em>{event.data.tag}</em>
+                </span>
+                <img src={event.data.cover} alt="" width="760" height="507" loading="lazy" />
+              </a>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </section>
+
+  <section class="sec" style="padding-top:0">
+    <div class="wrap">
+      <Budzet cennik={cennik} wariant="krotki" />
+    </div>
+  </section>
+
+  <section class="sec" style="padding-top:0">
+    <div class="wrap split">
+      <div class="reveal">
+        <p class="kicker">Jedzenie i bar</p>
+        <h2>{strona.jedzenie_h}</h2>
+        <p class="sec-lead">{strona.jedzenie_lead}</p>
+        <p><a href="/jedzenie-i-bar/">Zobacz pełne menu →</a></p>
+      </div>
+      <ul class="menu-lines">
+        {
+          cennik.catering.map((pakiet) => (
+            <li class="menu-line">
+              <span>
+                <b>{pakiet.nazwa}</b>
+                <small>{pakiet.opis}</small>
+              </span>
+              <span class="sum">{pakiet.cena} {pakiet.jednostka}</span>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <section class="sec" style="padding-top:0">
+    <div class="wrap">
+      <div class="sec-head wide reveal">
+        <p class="kicker">Realizacje</p>
+        <h2>{strona.realizacje_h}</h2>
+        <p class="sec-lead">{strona.realizacje_lead}</p>
+      </div>
+      <ul class="case-row">
+        {
+          realizacje.map((item, index) => (
+            <li>
+              <a href={`/realizacje/${item.id}/`}>
+                <figure class:list={["print", index === 1 ? "tilt-r" : "tilt-l", "land"]}>
+                  <img src={item.data.cover} alt="" loading="lazy" />
+                </figure>
+                {item.data.szkic && <p class="badge">Szkic</p>}
+                <h3>{item.data.title}</h3>
+                <p>{item.data.meta}</p>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+      <p><a href="/realizacje/">Wszystkie realizacje →</a></p>
+    </div>
+  </section>
+
+  <section class="sec" style="padding-top:0">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <p class="kicker">Przed eventem</p>
+        <h2>{strona.wiedza_h}</h2>
+      </div>
+      {
+        faq.map(({ entry, Content }) => (
+          <details class="acc">
+            <summary>{entry.data.pytanie}</summary>
+            <div class="acc-body">
+              <Content />
+            </div>
+          </details>
+        ))
+      }
+      <p><a href="/warto-wiedziec/">Wszystkie odpowiedzi →</a></p>
+    </div>
+  </section>
+
+  <section class="sec" style="padding-top:0">
+    <div class="wrap split">
+      <div>
+        <p class="kicker">Poradnik</p>
+        <h2>{strona.poradnik_h}</h2>
+        <p class="sec-lead">{strona.poradnik_lead}</p>
+      </div>
+      <ol class="queue">
+        {
+          artykuly.map((article, index) => (
+            <li>
+              <span class="num">{String(index + 1).padStart(2, "0")}</span>
+              <a href={`/poradnik/${article.id}/`}>{article.data.title}</a>
+              {article.data.szkic && <span class="badge">Szkic</span>}
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+    <div class="wrap"><p><a href="/poradnik/">Cały poradnik →</a></p></div>
+  </section>
+
+  <section class="sec" style="padding-top:0">
+    <div class="wrap">
+      <p class="kicker">{strona.zaufali_h}</p>
+      <ul class="logo-wall">
+        {loga.loga.map((logo) => (
+          <li><img src={logo.src} alt={logo.alt} loading="lazy" /></li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="cta-band">
+    <div class="wrap">
+      <h2>{strona.kontakt_h}</h2>
+      <p class="lede" style="margin-top:1rem">{strona.kontakt_lead}</p>
+      <div class="btn-row">
+        <a class="btn" href="/kontakt/">Umów oględziny</a>
+        <a class="btn ghost" href={`tel:${kontakt.telefon_href}`} style="border-color:#e7e0d4;color:#f3eee4">{kontakt.telefon_wyswietlany}</a>
+      </div>
+    </div>
+  </section>
+</Base>

@@ -1,0 +1,407 @@
+# Panel treści MIEJSCA. Logowanie opisane w README.
+# GitHub OAuth przez Netlify (Ustawienia → Security → OAuth), nie przez Netlify Identity.
+local_backend: true
+locale: pl
+site_url: https://miejsce.to
+display_url: https://miejsce.to
+logo_url: /img/wordmark.png
+media_folder: public/img
+public_folder: /img
+
+backend:
+  name: github
+  repo: waleriajaskowiak-jpg/miejsce-strona
+  branch: main
+  commit_messages:
+    create: "Treść: dodano {{collection}} „{{slug}}”"
+    update: "Treść: zmieniono {{collection}} „{{slug}}”"
+    delete: "Treść: usunięto {{collection}} „{{slug}}”"
+    uploadMedia: "Treść: dodano plik {{path}}"
+    deleteMedia: "Treść: usunięto plik {{path}}"
+
+slug:
+  encoding: ascii
+  clean_accents: true
+  sanitize_replacement: "-"
+
+collections:
+  - name: ustawienia
+    label: Ustawienia
+    files:
+      - name: strona
+        label: Strona główna
+        file: src/content/ustawienia/strona.json
+        format: json
+        fields:
+          - { label: Tytuł SEO, name: tytul_seo, widget: string }
+          - { label: Opis SEO, name: opis_seo, widget: text }
+          - { label: Hero — miejscownik, name: hero_kicker, widget: string }
+          - { label: Hero — marka, name: hero_marka, widget: string }
+          - { label: Hero — nagłówek, name: hero_h1, widget: string }
+          - { label: Hero — lead, name: hero_lead, widget: text }
+          - { label: Hero — zdjęcie, name: hero_zdjecie, widget: image }
+          - { label: Hero — opis zdjęcia, name: hero_zdjecie_alt, widget: string }
+          - { label: Hero — drugie zdjęcie, name: hero_zdjecie_2, widget: image }
+          - { label: Hero — opis drugiego zdjęcia, name: hero_zdjecie_2_alt, widget: string }
+          - { label: Przycisk główny, name: cta_glowny, widget: string }
+          - { label: Przycisk drugi, name: cta_drugi, widget: string }
+          - { label: Link do przestrzeni, name: link_przestrzenie, widget: string }
+          - { label: Link do budżetu, name: link_budzet, widget: string }
+          - { label: Od którego roku, name: od_roku, widget: string }
+          - label: MIEJSCE w liczbach
+            name: liczby
+            widget: list
+            field: { label: Hasło, name: haslo, widget: string }
+          - { label: Cytat, name: cytat, widget: text }
+          - { label: Autor cytatu, name: cytat_autor, widget: string }
+          - { label: Rola, name: cytat_rola, widget: string }
+          - { label: Zdjęcie autora, name: cytat_zdjecie, widget: image }
+          - { label: Nagłówek przestrzeni, name: przestrzenie_h, widget: string }
+          - { label: Lead przestrzeni, name: przestrzenie_lead, widget: text }
+          - { label: Nagłówek eventów, name: eventy_h, widget: string }
+          - { label: Lead eventów, name: eventy_lead, widget: text }
+          - { label: Nagłówek budżetu, name: budzet_h, widget: string }
+          - { label: Lead budżetu, name: budzet_lead, widget: text }
+          - { label: Nagłówek jedzenia, name: jedzenie_h, widget: string }
+          - { label: Lead jedzenia, name: jedzenie_lead, widget: text }
+          - { label: Nagłówek realizacji, name: realizacje_h, widget: string }
+          - { label: Lead realizacji, name: realizacje_lead, widget: text }
+          - { label: Nagłówek „warto wiedzieć”, name: wiedza_h, widget: string }
+          - { label: Nagłówek poradnika, name: poradnik_h, widget: string }
+          - { label: Lead poradnika, name: poradnik_lead, widget: text }
+          - { label: Nagłówek „zaufali nam”, name: zaufali_h, widget: string }
+          - { label: Nagłówek kontaktu, name: kontakt_h, widget: string }
+          - { label: Lead kontaktu, name: kontakt_lead, widget: text }
+
+      - name: kontakt
+        label: Kontakt
+        file: src/content/ustawienia/kontakt.json
+        format: json
+        fields:
+          - { label: Telefon (wyświetlany), name: telefon_wyswietlany, widget: string }
+          - { label: Telefon (link, bez spacji), name: telefon_href, widget: string }
+          - { label: E-mail, name: email, widget: string }
+          - { label: Ulica, name: ulica, widget: string }
+          - { label: Kod pocztowy, name: kod, widget: string }
+          - { label: Miasto, name: miasto, widget: string }
+          - { label: Dzielnica / port, name: dzielnica, widget: string }
+          - { label: Szerokość geograficzna, name: lat, widget: number, value_type: float }
+          - { label: Długość geograficzna, name: lon, widget: number, value_type: float }
+          - { label: Dojazd, name: dojazd, widget: text }
+          - { label: Parking, name: parking, widget: text }
+          - { label: Oględziny, name: ogledziny, widget: text }
+          - { label: Opis SEO, name: opis_seo, widget: text }
+
+      - name: cennik
+        label: Ceny i budżet
+        file: src/content/ustawienia/cennik.json
+        format: json
+        fields:
+          - { label: Nagłówek, name: naglowek, widget: string }
+          - { label: Lead, name: lead, widget: text }
+          - { label: Opis SEO, name: opis_seo, widget: text }
+          - { label: Nagłówek wynajmu, name: wynajem_h, widget: string }
+          - { label: Lead wynajmu, name: wynajem_lead, widget: string }
+          - { label: Nagłówek cateringu, name: catering_h, widget: string }
+          - { label: Lead cateringu, name: catering_lead, widget: text }
+          - { label: Nagłówek baru, name: bar_h, widget: string }
+          - { label: Informacja o barach, name: bar_info, widget: string }
+          - { label: Nagłówek dodatków, name: dodatki_h, widget: string }
+          - { label: Lead dodatków, name: dodatki_lead, widget: text }
+          - { label: Nagłówek modułu budżetu, name: budzet_h, widget: string }
+          - { label: Informacja „ceny netto”, name: netto_info, widget: text }
+          - { label: Plik PDF oferty, name: pdf, widget: string }
+          - { label: Podpis linku PDF, name: pdf_etykieta, widget: string }
+          - { label: Jak porównujemy budżet (tekst na stronie), name: jak_porownujemy, widget: text }
+          - label: Wynajem
+            name: wynajem
+            widget: list
+            fields:
+              - { label: Identyfikator, name: id, widget: string, hint: "nowe, duze albo cale — używa go moduł budżetu" }
+              - { label: Nazwa, name: nazwa, widget: string }
+              - { label: Cena od (netto, zł), name: cena_od, widget: number, value_type: int }
+              - { label: Dopisek, name: dopisek, widget: string }
+          - label: Catering
+            name: catering
+            widget: list
+            fields:
+              - { label: Identyfikator, name: id, widget: string }
+              - { label: Nazwa, name: nazwa, widget: string }
+              - { label: Cena netto za osobę, name: cena, widget: number, value_type: int }
+              - { label: Jednostka, name: jednostka, widget: string }
+              - { label: Opis, name: opis, widget: text }
+          - label: Open bar
+            name: open_bar
+            widget: list
+            fields:
+              - { label: Identyfikator, name: id, widget: string }
+              - { label: Nazwa, name: nazwa, widget: string }
+              - { label: Cena, name: cena, widget: number, value_type: int }
+              - { label: Jednostka, name: jednostka, widget: string }
+              - { label: Opis, name: opis, widget: text }
+          - label: Dodatki bez stałej ceny
+            name: dodatki
+            widget: list
+            fields:
+              - { label: Nazwa, name: nazwa, widget: string }
+              - { label: Opis, name: opis, widget: text }
+          - label: Rodzaje wydarzeń
+            name: typy_eventu
+            widget: list
+            fields:
+              - { label: Identyfikator, name: id, widget: string }
+              - { label: Nazwa, name: nazwa, widget: string }
+          - label: Dni tygodnia
+            name: dni
+            widget: list
+            fields:
+              - { label: Identyfikator, name: id, widget: string }
+              - { label: Nazwa, name: nazwa, widget: string }
+          - label: Miesiące
+            name: miesiace
+            widget: list
+            fields:
+              - { label: Numer, name: id, widget: number, value_type: int }
+              - { label: Nazwa, name: nazwa, widget: string }
+          - label: Odpowiedzi modułu
+            name: wyniki
+            widget: object
+            fields:
+              - label: A — mieścimy się
+                name: A
+                widget: object
+                fields:
+                  - { label: Tytuł, name: tytul, widget: string }
+                  - { label: Treść, name: tresc, widget: text }
+              - label: B — da się poukładać
+                name: B
+                widget: object
+                fields:
+                  - { label: Tytuł, name: tytul, widget: string }
+                  - { label: Treść, name: tresc, widget: text }
+              - label: C — ciasno
+                name: C
+                widget: object
+                fields:
+                  - { label: Tytuł, name: tytul, widget: string }
+                  - { label: Treść, name: tresc, widget: text }
+          - label: Progi modułu budżetu
+            name: heurystyka
+            widget: object
+            fields:
+              - { label: Id cateringu oszczędnego, name: catering_min, widget: string }
+              - { label: Id cateringu środkowego, name: catering_komfort, widget: string }
+              - { label: Id baru oszczędnego, name: bar_min, widget: string }
+              - { label: Id baru środkowego, name: bar_komfort, widget: string }
+              - { label: Próg A (zapas ponad wersję środkową), name: prog_a, widget: number, value_type: float, hint: "1.12 oznacza, że budżet musi być o 12% wyższy niż wersja środkowa" }
+              - { label: Próg B (względem wersji oszczędnej), name: prog_b, widget: number, value_type: float }
+              - { label: Współczynnik weekendu i sezonu, name: wspolczynnik_terminu, widget: number, value_type: float, hint: "1.05 to +5%. To nie jest cena z oferty." }
+              - label: Miesiące sezonu (numery)
+                name: miesiace_sezonu
+                widget: list
+                field: { label: Miesiąc, name: miesiac, widget: number, value_type: int }
+              - label: Dni weekendu (identyfikatory)
+                name: dni_weekendu
+                widget: list
+                field: { label: Dzień, name: dzien, widget: string }
+              - label: Reguły wyboru przestrzeni
+                name: reguly
+                widget: list
+                fields:
+                  - { label: Warunek, name: gdy, widget: select, options: ["osoby_powyzej", "typ_i_osoby_powyzej", "typ_sezon_i_osoby_powyzej", "typ_i_osoby_do", "osoby_do", "zawsze"] }
+                  - { label: Próg osób, name: wartosc, widget: number, value_type: int, required: false }
+                  - label: Typy wydarzeń
+                    name: typy
+                    widget: list
+                    required: false
+                    field: { label: Id typu, name: typ, widget: string }
+                  - { label: Przestrzeń (id wynajmu), name: przestrzen, widget: string }
+
+      - name: jedzenie
+        label: Jedzenie i bar — teksty
+        file: src/content/ustawienia/jedzenie.json
+        format: json
+        fields:
+          - { label: Nagłówek, name: naglowek, widget: string }
+          - { label: Opis SEO, name: opis_seo, widget: text }
+          - { label: Lead, name: lead, widget: text }
+          - { label: Filozofia, name: filozofia, widget: text }
+          - label: Specjalizacja
+            name: specjalizacja
+            widget: list
+            field: { label: Pozycja, name: pozycja, widget: string }
+          - { label: Diety, name: diety, widget: text }
+          - { label: Bary, name: bary, widget: string }
+          - { label: Ścieżka PDF, name: pdf, widget: string }
+          - { label: Podpis PDF, name: pdf_etykieta, widget: string }
+          - label: Zdjęcia
+            name: zdjecia
+            widget: list
+            field: { label: Zdjęcie, name: zdjecie, widget: image }
+
+      - name: loga
+        label: Logotypy
+        file: src/content/ustawienia/loga.json
+        format: json
+        fields:
+          - label: Logotypy
+            name: loga
+            widget: list
+            fields:
+              - { label: Plik, name: src, widget: image }
+              - { label: Nazwa (tekst alt), name: alt, widget: string }
+
+      - name: poradnik_ustawienia
+        label: Poradnik — wprowadzenie i kolejka
+        file: src/content/ustawienia/poradnik.json
+        format: json
+        fields:
+          - { label: Nagłówek, name: naglowek, widget: string }
+          - { label: Opis SEO, name: opis_seo, widget: text }
+          - { label: Lead, name: lead, widget: text }
+          - { label: Wstęp, name: wstep, widget: text }
+          - label: Tytuły w kolejce
+            name: kolejka
+            widget: list
+            field: { label: Tytuł, name: tytul, widget: string }
+
+  - name: przestrzenie
+    label: Przestrzenie
+    label_singular: Przestrzeń
+    folder: src/content/przestrzenie
+    create: true
+    delete: false
+    slug: "{{fields.adres_url}}"
+    extension: md
+    format: frontmatter
+    summary: "{{title}}"
+    preview_path: "przestrzenie/{{slug}}/"
+    fields:
+      - { label: Nazwa, name: title, widget: string }
+      - { label: Adres URL, name: adres_url, widget: string, hint: "np. duze-miejsce" }
+      - { label: Kolejność, name: kolejnosc, widget: number, value_type: int }
+      - { label: Lead, name: lead, widget: text }
+      - { label: Linia ze specyfikacją, name: meta, widget: string }
+      - { label: Opis SEO, name: opis_seo, widget: text }
+      - { label: Cena od (zł, puste jeśli brak), name: cena_od, widget: number, value_type: int, required: false }
+      - { label: Etykieta ceny, name: cena_etykieta, widget: string, required: false }
+      - label: Najlepiej sprawdza się na
+        name: najlepiej
+        widget: list
+        field: { label: Okazja, name: okazja, widget: string }
+      - label: W skrócie
+        name: w_skrocie
+        widget: list
+        field: { label: Punkt, name: punkt, widget: string }
+      - { label: Zdjęcie główne, name: cover, widget: image }
+      - label: Zdjęcia
+        name: zdjecia
+        widget: list
+        field: { label: Zdjęcie, name: zdjecie, widget: image }
+      - { label: Opis, name: body, widget: markdown }
+
+  - name: eventy
+    label: Scenariusze eventów
+    label_singular: Scenariusz
+    folder: src/content/eventy
+    create: true
+    delete: false
+    slug: "{{fields.adres_url}}"
+    extension: md
+    format: frontmatter
+    summary: "{{title}}"
+    preview_path: "eventy/{{slug}}/"
+    fields:
+      - { label: Tytuł, name: title, widget: string }
+      - { label: Adres URL, name: adres_url, widget: string }
+      - { label: Kolejność, name: kolejnosc, widget: number, value_type: int }
+      - { label: Metka, name: tag, widget: string }
+      - { label: Lead, name: lead, widget: text }
+      - { label: Opis SEO, name: opis_seo, widget: text }
+      - { label: Przestrzeń, name: przestrzen, widget: string }
+      - label: Program dnia
+        name: program
+        widget: list
+        fields:
+          - { label: Godzina, name: godzina, widget: string }
+          - { label: Tytuł, name: tytul, widget: string }
+          - { label: Opis, name: opis, widget: text }
+      - label: Zakres
+        name: zakres
+        widget: list
+        field: { label: Punkt, name: punkt, widget: string }
+      - { label: Zdjęcie główne, name: cover, widget: image }
+      - label: Zdjęcia
+        name: zdjecia
+        widget: list
+        field: { label: Zdjęcie, name: zdjecie, widget: image }
+      - { label: Wstęp, name: body, widget: markdown }
+
+  - name: realizacje
+    label: Realizacje
+    label_singular: Realizacja
+    folder: src/content/realizacje
+    create: true
+    delete: true
+    slug: "{{fields.adres_url}}"
+    extension: md
+    format: frontmatter
+    summary: "{{title}}"
+    preview_path: "realizacje/{{slug}}/"
+    fields:
+      - { label: Tytuł, name: title, widget: string }
+      - { label: Adres URL, name: adres_url, widget: string }
+      - { label: Kolejność, name: kolejnosc, widget: number, value_type: int }
+      - { label: Szkic (ukryty przed Google), name: szkic, widget: boolean, default: true }
+      - { label: Typ, name: typ, widget: string }
+      - { label: Metka, name: meta, widget: string }
+      - { label: Lead / opis SEO, name: lead, widget: text }
+      - { label: Opis SEO, name: opis_seo, widget: text }
+      - { label: Przestrzenie, name: przestrzenie, widget: text }
+      - { label: Jedzenie, name: jedzenie, widget: text }
+      - { label: Bar, name: bar, widget: text }
+      - { label: Atrakcje i technika, name: atrakcje, widget: text }
+      - { label: Zdjęcie główne, name: cover, widget: image }
+      - label: Zdjęcia
+        name: zdjecia
+        widget: list
+        field: { label: Zdjęcie, name: zdjecie, widget: image }
+      - { label: Opis, name: body, widget: markdown }
+
+  - name: artykuly
+    label: Poradnik — artykuły
+    label_singular: Artykuł
+    folder: src/content/poradnik
+    create: true
+    delete: true
+    slug: "{{fields.adres_url}}"
+    extension: md
+    format: frontmatter
+    summary: "{{title}}"
+    preview_path: "poradnik/{{slug}}/"
+    fields:
+      - { label: Tytuł, name: title, widget: string }
+      - { label: Adres URL, name: adres_url, widget: string, hint: "małe litery, bez spacji i polskich znaków" }
+      - { label: Kolejność, name: kolejnosc, widget: number, value_type: int }
+      - { label: Szkic (ukryty przed Google), name: szkic, widget: boolean, default: true }
+      - { label: Krótki opis, name: opis, widget: text }
+      - { label: Opis SEO, name: opis_seo, widget: text }
+      - { label: Treść, name: body, widget: markdown }
+
+  - name: faq
+    label: Warto wiedzieć
+    label_singular: Pytanie
+    folder: src/content/faq
+    create: true
+    delete: true
+    slug: "{{fields.adres_url}}"
+    extension: md
+    format: frontmatter
+    summary: "{{pytanie}}"
+    preview_path: "warto-wiedziec/"
+    sortable_fields: ["kolejnosc"]
+    fields:
+      - { label: Pytanie, name: pytanie, widget: string }
+      - { label: Kolejność, name: kolejnosc, widget: number, value_type: int }
+      - { label: Adres URL, name: adres_url, widget: string }
+      - { label: Odpowiedź, name: body, widget: markdown }

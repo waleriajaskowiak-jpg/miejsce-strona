@@ -1,0 +1,53 @@
+---
+import { getCollection, render } from "astro:content";
+import Base from "../layouts/Base.astro";
+import Crumbs from "../components/Crumbs.astro";
+import { crumbsJsonLd, sortByOrder } from "../lib/nav.js";
+
+const entries = sortByOrder(await getCollection("faq"));
+const faq = [];
+for (const entry of entries) {
+  const { Content } = await render(entry);
+  faq.push({ entry, Content });
+}
+const crumbs = [{ href: "/warto-wiedziec/", label: "Warto wiedzieć" }];
+const faqLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: faq.map(({ entry }) => ({
+    "@type": "Question",
+    name: entry.data.pytanie,
+    acceptedAnswer: {
+      "@type": "Answer",
+      text: (entry.body || "").replace(/\s+/g, " ").trim(),
+    },
+  })),
+};
+---
+
+<Base
+  title="Warto wiedzieć przed eventem | MIEJSCE"
+  description="Deszcz, zima, godziny, parking, dojazd, dostępność, DJ, AV, branding, menu, diety, open bar i oględziny. Krótkie odpowiedzi MIEJSCA."
+  jsonLd={[crumbsJsonLd([{ href: "/", label: "MIEJSCE" }, ...crumbs]), faqLd]}
+>
+  <header class="wrap page-hero">
+    <Crumbs items={crumbs} />
+    <p class="kicker">Zanim wyślesz brief</p>
+    <h1>Warto wiedzieć przed eventem</h1>
+    <p class="lede">Krótkie odpowiedzi. Tam, gdzie nie mamy liczby w ofercie, mówimy wprost, że potwierdzimy ją pod termin.</p>
+  </header>
+  <section class="sec" style="padding-top:0.5rem">
+    <div class="wrap">
+      {
+        faq.map(({ entry, Content }) => (
+          <details class="acc">
+            <summary>{entry.data.pytanie}</summary>
+            <div class="acc-body">
+              <Content />
+            </div>
+          </details>
+        ))
+      }
+    </div>
+  </section>
+</Base>
