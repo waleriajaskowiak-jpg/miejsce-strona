@@ -1,8 +1,8 @@
 ---
 import { getEntry } from "astro:content";
 import Base from "../layouts/Base.astro";
-import Crumbs from "../components/Crumbs.astro";
 import NextBand from "../components/NextBand.astro";
+import PageHero from "../components/PageHero.astro";
 import { crumbsJsonLd } from "../lib/nav.js";
 
 const jedzenie = (await getEntry("ustawienia", "jedzenie"))!.data;
@@ -16,14 +16,16 @@ const crumbs = [{ href: "/jedzenie-i-bar/", label: "Jedzenie i bar" }];
   image={jedzenie.zdjecia[0]}
   jsonLd={[crumbsJsonLd([{ href: "/", label: "MIEJSCE" }, ...crumbs])]}
 >
-  <header class="wrap page-hero">
-    <Crumbs items={crumbs} />
-    <p class="kicker">Kuchnia na miejscu</p>
-    <h1>{jedzenie.naglowek}</h1>
-    <p class="lede">{jedzenie.lead}</p>
-  </header>
+  <PageHero
+    crumbs={crumbs}
+    kicker="Kuchnia na miejscu"
+    title={jedzenie.naglowek}
+    lede={jedzenie.lead}
+    image={jedzenie.zdjecia[0]}
+    imageAlt="Jedzenie na evencie"
+  />
 
-  <section class="sec" style="padding-top:1rem">
+  <section class="sec sec-dark" style="padding-top:36px">
     <div class="wrap split">
       <div class="prose">
         <p>{jedzenie.filozofia}</p>
@@ -43,30 +45,43 @@ const crumbs = [{ href: "/jedzenie-i-bar/", label: "Jedzenie i bar" }];
     </div>
   </section>
 
-  <section class="sec" style="padding-top:0">
-    <div class="wrap split">
+  <section class="sec sec-tint" id="menu">
+    <div class="wrap">
       <div data-pakiety>
         <h2>Pakiety menu</h2>
-        <div class="tablist" role="tablist" aria-label="Pakiety menu">
+        <div class="tier-grid" style="margin-top:18px">
           {
             cennik.catering.map((pakiet, index) => (
-              <button type="button" role="tab" id={`menu-tab-${index}`} aria-controls={`menu-panel-${index}`} aria-selected={index === 0 ? "true" : "false"} tabindex={index === 0 ? 0 : -1}>
-                {pakiet.nazwa}
-              </button>
+              <article class="tier-card">
+                <img src={jedzenie.zdjecia[index] || jedzenie.zdjecia[0]} alt="" />
+                <div>
+                  <h3>{pakiet.nazwa}</h3>
+                  <p class="sum">{pakiet.cena}</p>
+                  <p>{pakiet.jednostka}</p>
+                  <p>{pakiet.opis}</p>
+                </div>
+              </article>
             ))
           }
         </div>
-        {
-          cennik.catering.map((pakiet, index) => (
-            <div role="tabpanel" id={`menu-panel-${index}`} aria-labelledby={`menu-tab-${index}`} hidden={index !== 0}>
-              <p class="pakiet-cena">{pakiet.cena} <span>{pakiet.jednostka}</span></p>
-              <p class="lede">{pakiet.opis}</p>
-            </div>
-          ))
-        }
       </div>
-      <div data-pakiety>
+      <div data-pakiety style="margin-top:36px">
         <h2>Open bar</h2>
+        <div class="tier-grid" style="margin:18px 0">
+          {
+            cennik.open_bar.map((pakiet, index) => (
+              <article class="tier-card">
+                <img src={jedzenie.zdjecia[index + 2] || jedzenie.zdjecia[0]} alt="" />
+                <div>
+                  <h3>{pakiet.nazwa}</h3>
+                  <p class="sum">{pakiet.cena}</p>
+                  <p>{pakiet.jednostka}</p>
+                  <p>{pakiet.opis}</p>
+                </div>
+              </article>
+            ))
+          }
+        </div>
         <div class="tablist" role="tablist" aria-label="Open bar">
           {
             cennik.open_bar.map((pakiet, index) => (

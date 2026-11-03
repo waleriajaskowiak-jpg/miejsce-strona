@@ -1,12 +1,14 @@
 ---
 import { getCollection } from "astro:content";
 import Base from "../../layouts/Base.astro";
-import Crumbs from "../../components/Crumbs.astro";
 import NextBand from "../../components/NextBand.astro";
+import PageHero from "../../components/PageHero.astro";
 import { crumbsJsonLd, sortByOrder } from "../../lib/nav.js";
 
 const eventy = sortByOrder(await getCollection("eventy"));
 const crumbs = [{ href: "/eventy/", label: "Eventy" }];
+const kindOf = (id) => id.includes("wesele") ? "wesele" : id.includes("garden") || id.includes("integr") ? "plener" : "firma";
+const budgetType = (id) => id.includes("wesele") ? "wesele" : id.includes("szkol") ? "szkolenie" : id.includes("integr") ? "integracja" : id.includes("premium") ? "premiera" : id.includes("garden") ? "garden-party" : "konferencja";
 ---
 
 <Base
@@ -14,19 +16,27 @@ const crumbs = [{ href: "/eventy/", label: "Eventy" }];
   description="Konferencja z afterparty, szkolenie z kolacją, integracja, premiera, wesele i garden party. Każdy scenariusz ma własną stronę."
   jsonLd={[crumbsJsonLd([{ href: "/", label: "MIEJSCE" }, ...crumbs])]}
 >
-  <header class="wrap page-hero">
-    <Crumbs items={crumbs} />
-    <p class="kicker">Scenariusze</p>
-    <h1>Tak może wyglądać dzień</h1>
-    <p class="lede">Sześć układów, od sali konferencyjnej po parkiet. Program dnia jest z obecnej oferty, ceny są na osobnej stronie.</p>
-  </header>
-  <section class="sec sec-tint" style="padding-top:1rem">
+  <PageHero
+    crumbs={crumbs}
+    kicker="Scenariusze"
+    title="Tak może wyglądać dzień"
+    lede="Sześć układów, od sali konferencyjnej po parkiet. Program dnia jest z obecnej oferty, ceny są na osobnej stronie."
+    image="/img/gallery/dm20.jpg"
+    imageAlt="Wieczór na barce"
+  />
+  <section class="sec sec-dark" style="padding-top:28px">
     <div class="wrap">
+      <div class="filter-row" data-event-filters>
+        <button type="button" class="is-on" data-kind="all">Wszystkie</button>
+        <button type="button" data-kind="firma">Firma</button>
+        <button type="button" data-kind="plener">Plener</button>
+        <button type="button" data-kind="wesele">Wesele</button>
+      </div>
       <div class="scenario-cards">
         {
           eventy.map((event) => (
-            <article class="scenario-card">
-              <a href={`/eventy/${event.id}/`}><img src={event.data.cover} alt="" loading="lazy" /></a>
+            <article class="scenario-card" data-kind={kindOf(event.id)}>
+              <a href={`/eventy/${event.id}/`}><img src={event.data.cover} alt="" /></a>
               <div>
                 <span class="kicker">{event.data.tag}</span>
                 <a href={`/eventy/${event.id}/`}><strong>{event.data.title}</strong></a>
@@ -35,7 +45,7 @@ const crumbs = [{ href: "/eventy/", label: "Eventy" }];
                 <div class="chips-inline">
                   {event.data.zakres.slice(0, 4).map((item) => <span>{item}</span>)}
                 </div>
-                <p><a href={`/ceny/?typ=${event.id.includes("wesele") ? "wesele" : event.id.includes("szkol") ? "szkolenie" : event.id.includes("integr") ? "integracja" : event.id.includes("premium") ? "premiera" : event.id.includes("garden") ? "garden-party" : "konferencja"}#budzet`}>Sprawdź budżet</a></p>
+                <p><a href={`/ceny/?typ=${budgetType(event.id)}#budzet`}>Sprawdź budżet</a></p>
               </div>
             </article>
           ))
@@ -43,6 +53,17 @@ const crumbs = [{ href: "/eventy/", label: "Eventy" }];
       </div>
     </div>
   </section>
+  <script>
+    document.querySelectorAll("[data-event-filters] button").forEach((button) => {
+      button.addEventListener("click", () => {
+        const kind = button.getAttribute("data-kind");
+        document.querySelectorAll("[data-event-filters] button").forEach((peer) => peer.classList.toggle("is-on", peer === button));
+        document.querySelectorAll(".scenario-card").forEach((card) => {
+          card.hidden = kind !== "all" && card.getAttribute("data-kind") !== kind;
+        });
+      });
+    });
+  </script>
   <NextBand
     kicker="Następny krok"
     title="Dobierz przestrzeń albo budżet"

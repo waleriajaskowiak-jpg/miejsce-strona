@@ -1,8 +1,8 @@
 ---
-const { title, note = "", items = [] } = Astro.props;
+const { title, note = "", items = [], tone = "dark" } = Astro.props;
 ---
 
-<section class="reel-sec">
+<section class:list={["reel-sec", tone === "dark" && "sec-dark"]}>
   <div class="wrap reel-head">
     <div>
       <h2>{title}</h2>
@@ -18,7 +18,7 @@ const { title, note = "", items = [] } = Astro.props;
       {
         items.map((item) => (
           <article class="reel-card">
-            <img src={item.src} alt={item.alt || ""} loading="lazy" />
+            <img src={item.src} alt={item.alt || ""} />
             {(item.title || item.caption) && (
               <figcaption>
                 {item.title && <b>{item.title}</b>}

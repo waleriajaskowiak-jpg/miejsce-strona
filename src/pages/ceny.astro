@@ -1,13 +1,14 @@
 ---
 import { getEntry } from "astro:content";
 import Base from "../layouts/Base.astro";
-import Crumbs from "../components/Crumbs.astro";
 import Budzet from "../components/Budzet.astro";
 import NextBand from "../components/NextBand.astro";
+import PageHero from "../components/PageHero.astro";
 import { crumbsJsonLd, zloty } from "../lib/nav.js";
 
 const cennik = (await getEntry("ustawienia", "cennik"))!.data;
 const crumbs = [{ href: "/ceny/", label: "Ceny" }];
+const cardPhoto = { nowe: "/img/gallery/mm12.jpg", duze: "/img/gallery/dm22.jpg", cale: "/img/gallery/og05.jpg" };
 ---
 
 <Base
@@ -15,20 +16,21 @@ const crumbs = [{ href: "/ceny/", label: "Ceny" }];
   description={cennik.opis_seo}
   jsonLd={[crumbsJsonLd([{ href: "/", label: "MIEJSCE" }, ...crumbs])]}
 >
-  <header class="wrap page-hero">
-    <Crumbs items={crumbs} />
-    <p class="kicker">Oferta 2026 · netto</p>
-    <h1>{cennik.naglowek}</h1>
-    <p class="lede">{cennik.lead}</p>
-    <p class="fine">{cennik.netto_info}</p>
-  </header>
+  <PageHero
+    crumbs={crumbs}
+    kicker="Oferta 2026 · netto"
+    title={cennik.naglowek}
+    lede={`${cennik.lead} ${cennik.netto_info}`}
+    image="/img/gallery/og16.jpg"
+    imageAlt="Taras nad wodą"
+  />
 
-  <section class="sec" id="wynajem" style="padding-top:1rem">
+  <section class="sec sec-tint" id="wynajem">
     <div class="wrap">
       <div class="price-cards">
         {
           cennik.wynajem.map((row, index) => (
-            <article class:list={["price-card", index === 1 && "is-hot"]}>
+            <article class:list={["price-card", "has-photo", index === 1 && "is-hot"]} style={`background-image:url(${cardPhoto[row.id] || "/img/gallery/dm04.jpg"})`}>
               <p class="kicker">{row.dopisek}</p>
               <h2>{row.nazwa}</h2>
               <span class="sum">od {zloty(row.cena_od)}</span>
@@ -37,30 +39,25 @@ const crumbs = [{ href: "/ceny/", label: "Ceny" }];
           ))
         }
       </div>
-    </div>
-  </section>
-
-  <section class="sec" style="padding-top:0">
-    <div class="wrap split">
-      <div>
-        <h2>{cennik.wynajem_h}</h2>
-        <p class="sec-lead">{cennik.wynajem_lead}</p>
+      <div class="calc-line" data-person>
+        <label>Ile osób na sam catering <input type="range" min="20" max="200" value="80" step="10" /></label>
+        <p data-person-out></p>
       </div>
-      <ul class="menu-lines">
-        {
-          cennik.wynajem.map((row) => (
-            <li class="menu-line">
-              <span>
-                <b>{row.nazwa}</b>
-                <small>{row.dopisek}</small>
-              </span>
-              <span class="sum">od {zloty(row.cena_od)}</span>
-            </li>
-          ))
-        }
-      </ul>
     </div>
   </section>
+  <script>
+    const root = document.querySelector("[data-person]");
+    const input = root?.querySelector("input");
+    const out = root?.querySelector("[data-person-out]");
+    const rates = [180, 220, 250];
+    const paint = () => {
+      const n = Number(input.value);
+      const lines = rates.map((rate) => `${n} × ${rate} zł = ${(n * rate).toLocaleString("pl-PL")} zł`);
+      out.textContent = `Tylko catering, netto, bez przestrzeni i baru: ${lines.join(" · ")}`;
+    };
+    input?.addEventListener("input", paint);
+    paint();
+  </script>
 
   <section class="sec" id="jedzenie" style="padding-top:0">
     <div class="wrap split">

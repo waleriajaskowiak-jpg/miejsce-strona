@@ -1,7 +1,7 @@
 ---
 import { getCollection, getEntry } from "astro:content";
 import Base from "../../layouts/Base.astro";
-import Crumbs from "../../components/Crumbs.astro";
+import PageHero from "../../components/PageHero.astro";
 import Gallery from "../../components/Gallery.astro";
 import NextBand from "../../components/NextBand.astro";
 import { crumbsJsonLd, sortByOrder } from "../../lib/nav.js";
@@ -16,13 +16,15 @@ const crumbs = [{ href: "/realizacje/", label: "Realizacje" }];
   description="Wybrane wydarzenia w MIEJSCU. Opisy oznaczone jako szkic czekają na uzupełnienie — bez dopisanych liczb."
   jsonLd={[crumbsJsonLd([{ href: "/", label: "MIEJSCE" }, ...crumbs])]}
 >
-  <header class="wrap page-hero">
-    <Crumbs items={crumbs} />
-    <p class="kicker">Z wody, nie z katalogu</p>
-    <h1>Realizacje</h1>
-    <p class="lede">Zamiast samej galerii: co to było, w której przestrzeni i co jeszcze trzeba dopisać. Na start trzy szkice z nazw, które już są na obecnej stronie.</p>
-  </header>
-  <section class="sec" style="padding-top:1rem">
+  <PageHero
+    crumbs={crumbs}
+    kicker="Z wody, nie z katalogu"
+    title="Realizacje"
+    lede="Zamiast samej galerii: co to było, w której przestrzeni i co jeszcze trzeba dopisać. Na start trzy szkice z nazw, które już są na obecnej stronie."
+    image="/img/gallery/ws01.jpg"
+    imageAlt="Przyjęcie na barce"
+  />
+  <section class="sec sec-tint" style="padding-top:28px">
     <div class="wrap">
       <ul class="case-row">
         {

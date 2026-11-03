@@ -97,11 +97,16 @@ const payload = JSON.stringify({ cats: cats.map((cat) => ({ id: cat.id, nazwa: c
     };
 
     const show = (i) => {
-      if (!list.length) return;
+      if (!list.length || !viewImg) return;
       index = (i + list.length) % list.length;
-      viewImg.src = list[index].src;
+      const src = list[index].src;
       viewImg.alt = list[index].name || "";
+      view.classList.add("is-open");
       view.hidden = false;
+      viewImg.onload = () => viewImg.classList.add("is-ready");
+      viewImg.src = src;
+      if (viewImg.complete && viewImg.naturalWidth > 0) viewImg.classList.add("is-ready");
+      lb.querySelectorAll(".lb-cell").forEach((cell, n) => cell.classList.toggle("is-on", n === index));
     };
 
     const close = () => {

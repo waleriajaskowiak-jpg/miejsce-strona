@@ -123,6 +123,8 @@ const payload = JSON.stringify(zones).replace(/</g, "\\u003c");
     root.querySelectorAll(".leg").forEach((leg) => {
       leg.addEventListener("click", () => choose(leg.getAttribute("data-zone") || ""));
     });
-    root.addEventListener("mouseleave", () => { if (!pinned) paint(null); });
+    root.addEventListener("mouseleave", () => { if (!pinned) paint(pinned); });
+    pinned = "duze";
+    paint("duze");
   });
 </script>

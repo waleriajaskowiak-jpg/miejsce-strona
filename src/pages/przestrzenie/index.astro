@@ -4,6 +4,7 @@ import Base from "../../layouts/Base.astro";
 import Crumbs from "../../components/Crumbs.astro";
 import Plan from "../../components/Plan.astro";
 import NextBand from "../../components/NextBand.astro";
+import PageHero from "../../components/PageHero.astro";
 import { crumbsJsonLd, sortByOrder } from "../../lib/nav.js";
 
 const przestrzenie = sortByOrder(await getCollection("przestrzenie"));
@@ -16,15 +17,30 @@ const description = "Dwie barki, zadaszone tarasy i ogród w Porcie Czerniakowsk
   description={description}
   jsonLd={[crumbsJsonLd([{ href: "/", label: "MIEJSCE" }, ...crumbs])]}
 >
-  <header class="wrap page-hero">
-    <Crumbs items={crumbs} />
-    <p class="kicker">Port Czerniakowski</p>
-    <h1>Jedno MIEJSCE. Trzy przestrzenie</h1>
-    <p class="lede">Mamy dwie barki, ogród, zadaszone tarasy i całkiem sporo możliwości, żeby poukładać z tego unikalny event.</p>
-  </header>
-  <div class="wrap" style="padding-bottom:24px">
-    <Plan spaces={przestrzenie} />
-  </div>
+  <PageHero
+    crumbs={crumbs}
+    kicker="Port Czerniakowski"
+    title="Jedno MIEJSCE. Trzy przestrzenie"
+    lede="Mamy dwie barki, ogród, zadaszone tarasy i całkiem sporo możliwości, żeby poukładać z tego unikalny event."
+    image="/img/gallery/dm22.jpg"
+    imageAlt="Duże Miejsce nocą"
+  />
+  <section class="sec" style="padding-bottom:0">
+    <div class="wrap sub-stats">
+      <div><b data-count="80">80</b><span>m² wnętrza Dużego Miejsca</span></div>
+      <div><b data-count="300">300</b><span>m² ogrodu</span></div>
+      <div><b data-count="350">350</b><span>gości latem</span></div>
+    </div>
+  </section>
+  <section class="plan-band" id="plan">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2>Plan kompleksu</h2>
+        <p class="sec-note">Duże Miejsce jest zaznaczone. Stuknij inną strefę</p>
+      </div>
+      <Plan spaces={przestrzenie} />
+    </div>
+  </section>
   <section class="sec">
     <div class="wrap">
       <ul class="space-grid">

@@ -1,7 +1,7 @@
 ---
 import { getEntry } from "astro:content";
 import Base from "../layouts/Base.astro";
-import Crumbs from "../components/Crumbs.astro";
+import PageHero from "../components/PageHero.astro";
 import FormBrief from "../components/FormBrief.astro";
 import NextBand from "../components/NextBand.astro";
 import { crumbsJsonLd, venueJsonLd } from "../lib/nav.js";
@@ -23,13 +23,15 @@ const osm = `https://www.openstreetmap.org/?mlat=${kontakt.lat}&mlon=${kontakt.l
     venueJsonLd(kontakt, strona.opis_seo),
   ]}
 >
-  <header class="wrap page-hero">
-    <Crumbs items={crumbs} />
-    <p class="kicker">Port Czerniakowski</p>
-    <h1>{strona.kontakt_h}</h1>
-    <p class="lede">{strona.kontakt_lead}</p>
-  </header>
-  <section class="sec" style="padding-top:1rem">
+  <PageHero
+    crumbs={crumbs}
+    kicker="Port Czerniakowski"
+    title={strona.kontakt_h}
+    lede={strona.kontakt_lead}
+    image="/img/pdf/contact.jpg"
+    imageAlt="MIEJSCE od strony wody"
+  />
+  <section class="sec sec-dark" style="padding-top:28px">
     <div class="wrap contact-grid">
       <div>
         <dl class="contact-cards">
