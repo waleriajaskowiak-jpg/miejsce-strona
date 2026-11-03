@@ -1,10 +1,12 @@
 ---
-import { getCollection } from "astro:content";
+import { getCollection, getEntry } from "astro:content";
 import Base from "../../layouts/Base.astro";
 import Crumbs from "../../components/Crumbs.astro";
+import Gallery from "../../components/Gallery.astro";
 import { crumbsJsonLd, sortByOrder } from "../../lib/nav.js";
 
 const realizacje = sortByOrder(await getCollection("realizacje"));
+const galeria = (await getEntry("ustawienia", "galeria"))!.data;
 const crumbs = [{ href: "/realizacje/", label: "Realizacje" }];
 ---
 
@@ -39,4 +41,5 @@ const crumbs = [{ href: "/realizacje/", label: "Realizacje" }];
       </ul>
     </div>
   </section>
+  <Gallery galeria={galeria} limit={9} />
 </Base>

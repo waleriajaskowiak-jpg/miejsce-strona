@@ -1,0 +1,69 @@
+{
+  "klimat_h": "Klimat Portu Czerniakowskiego",
+  "klimat_lead": "Odkryj najbardziej autentyczne miejsce nad Wisłą. Połączenie surowego industrialu z kojącym wpływem natury i szumem wody.",
+  "klimat_foto": "/img/gallery/dm22.jpg",
+  "klimat_punkty": [
+    {
+      "tytul": "Bliskość natury",
+      "opis": "Unikalna lokalizacja bezpośrednio na wodzie, zapewniająca ciszę i relaks w centrum miasta."
+    },
+    {
+      "tytul": "Industrialny design",
+      "opis": "Architektura oparta na kontenerach morskich tworzy niezapomniany klimat i wspomnienia."
+    },
+    {
+      "tytul": "Doceniana marka",
+      "opis": "Ulubione miejsce produkcji filmowych i sesji modowych, m.in. ELLE i The Voice of Poland."
+    }
+  ],
+  "cechy": [
+    {
+      "ikona": "woda",
+      "tytul": "Nad Wisłą",
+      "opis": "Widok na rzekę i bezpośredni dostęp do nabrzeża."
+    },
+    {
+      "ikona": "barka",
+      "tytul": "Dwie barki",
+      "opis": "Parkiet, bary i zadaszone tarasy nad wodą."
+    },
+    {
+      "ikona": "pin",
+      "tytul": "Dogodny dojazd",
+      "opis": "10 minut od centrum, parking dla gości."
+    },
+    {
+      "ikona": "lisc",
+      "tytul": "Otoczenie natury",
+      "opis": "Zieleń, świeże powietrze i spokojna atmosfera."
+    }
+  ],
+  "atrakcje_h": "Dodatkowe atrakcje",
+  "atrakcje_note": "Kompleksowa obsługa",
+  "atrakcje": [
+    {
+      "zdjecie": "/img/pdf/extra-1.jpg",
+      "tytul": "Plany zdjęciowe",
+      "opis": "Fotobudka, backdrop, photowall z logo"
+    },
+    {
+      "zdjecie": "/img/pdf/extra-2.jpg",
+      "tytul": "Muzyka i DJ",
+      "opis": "DJ, nagłośnienie, muzyka na żywo"
+    },
+    {
+      "zdjecie": "/img/pdf/extra-3.jpg",
+      "tytul": "Dekoracje i oświetlenie",
+      "opis": "Oświetlenie LED, florystyka, branding"
+    }
+  ],
+  "film_h": "Plany zdjęciowe",
+  "film_note": "Produkcje filmowe i sesje",
+  "film_body": "Wnętrza i nabrzeże udostępniamy pod produkcje filmowe, reklamowe i sesje zdjęciowe. Zaplecze, prąd i parking dla ekipy na miejscu.",
+  "film_zdjecia": [
+    "/img/pdf/film-1.jpg",
+    "/img/pdf/film-2.jpg",
+    "/img/pdf/film-3.jpg",
+    "/img/pdf/film-4.jpg"
+  ]
+}

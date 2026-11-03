@@ -1,0 +1,143 @@
+---
+const { galeria, limit = 11, embed = true, anchor = false } = Astro.props;
+const cats = galeria?.kategorie || [];
+const all = cats.flatMap((cat) => (cat.zdjecia || []).map((src) => ({ src, cat: cat.id, name: cat.nazwa })));
+const shown = limit ? all.slice(0, limit) : all;
+const thumb = (src) => src.includes("/img/gallery/") && !src.includes("/thumb/")
+  ? src.replace("/img/gallery/", "/img/gallery/thumb/")
+  : src;
+const payload = JSON.stringify({ cats: cats.map((cat) => ({ id: cat.id, nazwa: cat.nazwa })), all }).replace(/</g, "\\u003c");
+---
+
+<section class="sec sec-dark gal-block" data-gallery id={anchor ? "galeria" : undefined}>
+  <script type="application/json" class="gal-json" set:html={payload} />
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>{galeria.naglowek}</h2>
+      <p class="sec-note">{galeria.opis}</p>
+    </div>
+    <div class="gal-masonry">
+      {
+        shown.map((item) => (
+          <button type="button" class="gal-item" data-full={item.src} data-cat={item.cat}>
+            <img src={thumb(item.src)} alt={`${item.name}`} loading="lazy" />
+          </button>
+        ))
+      }
+    </div>
+    <div class="gal-actions">
+      <button class="btn btn-primary" type="button" data-open-all>Zobacz wszystkie zdjęcia ({all.length})</button>
+    </div>
+  </div>
+
+  {embed && (
+    <div class="lb" hidden>
+      <div class="lb-head">
+        <div class="lb-filters" role="tablist" aria-label="Kategorie zdjęć"></div>
+        <button class="lb-x" type="button" aria-label="Zamknij">&times;</button>
+      </div>
+      <div class="lb-grid"></div>
+      <div class="lb-view" hidden>
+        <button class="lb-nav lb-p" type="button" aria-label="Poprzednie zdjęcie"></button>
+        <img alt="" />
+        <button class="lb-nav lb-n" type="button" aria-label="Następne zdjęcie"></button>
+        <button class="lb-back" type="button">Wróć do siatki</button>
+      </div>
+    </div>
+  )}
+</section>
+
+<script>
+  const thumbOf = (src) => src.includes("/img/gallery/") && !src.includes("/thumb/")
+    ? src.replace("/img/gallery/", "/img/gallery/thumb/")
+    : src;
+
+  document.querySelectorAll("[data-gallery]").forEach((root) => {
+    const data = JSON.parse(root.querySelector(".gal-json")?.textContent || "{}");
+    const lb = root.querySelector(".lb");
+    if (!lb) return;
+    const grid = lb.querySelector(".lb-grid");
+    const view = lb.querySelector(".lb-view");
+    const viewImg = view?.querySelector("img");
+    const filters = lb.querySelector(".lb-filters");
+    let list = data.all || [];
+    let index = 0;
+    let touchX = 0;
+
+    const renderFilters = (active) => {
+      const buttons = [{ id: "all", nazwa: "Wszystkie" }, ...(data.cats || [])];
+      filters.innerHTML = buttons.map((cat) =>
+        `<button type="button" data-cat="${cat.id}" class="${cat.id === active ? "is-on" : ""}" aria-pressed="${cat.id === active}">${cat.nazwa}</button>`
+      ).join("");
+    };
+
+    const renderGrid = () => {
+      grid.innerHTML = list.map((item, i) =>
+        `<button type="button" class="lb-cell" data-i="${i}"><img src="${thumbOf(item.src)}" alt="${item.name || ""}"></button>`
+      ).join("");
+    };
+
+    const openSet = (cat, startSrc) => {
+      list = cat && cat !== "all" ? (data.all || []).filter((item) => item.cat === cat) : (data.all || []);
+      renderFilters(cat || "all");
+      renderGrid();
+      lb.hidden = false;
+      document.body.classList.add("lb-open");
+      if (startSrc) {
+        const found = list.findIndex((item) => item.src === startSrc);
+        show(found >= 0 ? found : 0);
+      } else {
+        view.hidden = true;
+      }
+      lb.querySelector(".lb-x")?.focus();
+    };
+
+    const show = (i) => {
+      if (!list.length) return;
+      index = (i + list.length) % list.length;
+      viewImg.src = list[index].src;
+      viewImg.alt = list[index].name || "";
+      view.hidden = false;
+    };
+
+    const close = () => {
+      lb.hidden = true;
+      view.hidden = true;
+      document.body.classList.remove("lb-open");
+    };
+
+    root.querySelector("[data-open-all]")?.addEventListener("click", () => openSet("all"));
+    root.querySelectorAll(".gal-item").forEach((button) => {
+      button.addEventListener("click", () => openSet(button.getAttribute("data-cat"), button.getAttribute("data-full")));
+    });
+    lb.querySelector(".lb-x")?.addEventListener("click", close);
+    lb.querySelector(".lb-back")?.addEventListener("click", () => { view.hidden = true; });
+    lb.querySelector(".lb-p")?.addEventListener("click", () => show(index - 1));
+    lb.querySelector(".lb-n")?.addEventListener("click", () => show(index + 1));
+    filters?.addEventListener("click", (event) => {
+      const button = event.target.closest("button");
+      if (!button) return;
+      openSet(button.getAttribute("data-cat"));
+    });
+    grid?.addEventListener("click", (event) => {
+      const cell = event.target.closest("[data-i]");
+      if (cell) show(Number(cell.getAttribute("data-i")));
+    });
+    lb.addEventListener("touchstart", (event) => { touchX = event.changedTouches[0].clientX; }, { passive: true });
+    lb.addEventListener("touchend", (event) => {
+      if (view.hidden) return;
+      const dx = event.changedTouches[0].clientX - touchX;
+      if (Math.abs(dx) > 40) show(index + (dx < 0 ? 1 : -1));
+    });
+    document.addEventListener("keydown", (event) => {
+      if (lb.hidden) return;
+      if (event.key === "Escape") {
+        if (!view.hidden) view.hidden = true;
+        else close();
+      }
+      if (view.hidden) return;
+      if (event.key === "ArrowRight") show(index + 1);
+      if (event.key === "ArrowLeft") show(index - 1);
+    });
+  });
+</script>

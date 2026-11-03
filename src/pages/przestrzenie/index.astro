@@ -2,6 +2,7 @@
 import { getCollection } from "astro:content";
 import Base from "../../layouts/Base.astro";
 import Crumbs from "../../components/Crumbs.astro";
+import Plan from "../../components/Plan.astro";
 import { crumbsJsonLd, sortByOrder } from "../../lib/nav.js";
 
 const przestrzenie = sortByOrder(await getCollection("przestrzenie"));
@@ -20,10 +21,8 @@ const description = "Dwie barki, zadaszone tarasy i ogród w Porcie Czerniakowsk
     <h1>Jedno MIEJSCE. Trzy przestrzenie.</h1>
     <p class="lede">Mamy dwie barki, ogród, zadaszone tarasy i całkiem sporo możliwości, żeby poukładać z tego unikalny event.</p>
   </header>
-  <div class="wrap">
-    <figure class="plan-figure">
-      <img src="/img/plan.png" alt="Plan kompleksu MIEJSCE: dwie barki i ogród" width="2000" height="1325" />
-    </figure>
+  <div class="wrap" style="padding-bottom:24px">
+    <Plan spaces={przestrzenie} />
   </div>
   <section class="sec">
     <div class="wrap">

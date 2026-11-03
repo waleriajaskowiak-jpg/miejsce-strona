@@ -10,6 +10,7 @@ export const GET: APIRoute = async ({ site }) => {
     "/ceny/",
     "/jedzenie-i-bar/",
     "/realizacje/",
+    "/galeria/",
     "/warto-wiedziec/",
     "/poradnik/",
     "/kontakt/",

@@ -2,12 +2,16 @@
 import { getCollection, getEntry, render } from "astro:content";
 import Base from "../layouts/Base.astro";
 import Budzet from "../components/Budzet.astro";
+import Plan from "../components/Plan.astro";
+import Gallery from "../components/Gallery.astro";
 import { sortByOrder, venueJsonLd } from "../lib/nav.js";
 
 const strona = (await getEntry("ustawienia", "strona"))!.data;
 const cennik = (await getEntry("ustawienia", "cennik"))!.data;
 const kontakt = (await getEntry("ustawienia", "kontakt"))!.data;
 const loga = (await getEntry("ustawienia", "loga"))!.data;
+const sekcje = (await getEntry("ustawienia", "sekcje"))!.data;
+const galeria = (await getEntry("ustawienia", "galeria"))!.data;
 const przestrzenie = sortByOrder(await getCollection("przestrzenie"));
 const eventy = sortByOrder(await getCollection("eventy"));
 const realizacje = sortByOrder(await getCollection("realizacje"));
@@ -18,6 +22,17 @@ for (const entry of faqAll) {
   const { Content } = await render(entry);
   faq.push({ entry, Content });
 }
+const heroSlides = [strona.hero_zdjecie, "/img/gallery/dm22.jpg", strona.hero_zdjecie_2, "/img/gallery/ws01.jpg", "/img/gallery/mm12.jpg"];
+const icons = {
+  woda: `<path d="M2 7c2.5 0 2.5 2 5 2s2.5-2 5-2 2.5 2 5 2 2.5-2 5-2"/><path d="M2 13c2.5 0 2.5 2 5 2s2.5-2 5-2 2.5 2 5 2 2.5-2 5-2"/><path d="M2 19c2.5 0 2.5 2 5 2s2.5-2 5-2 2.5 2 5 2 2.5-2 5-2"/>`,
+  barka: `<path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/>`,
+  pin: `<path d="M12 21s7-5.5 7-11a7 7 0 1 0-14 0c0 5.5 7 11 7 11z"/><circle cx="12" cy="10" r="2.6"/>`,
+  lisc: `<path d="M4 20c0-8 5-13 16-13 0 9-5 13-11 13H4z"/><path d="M4 20c3-5 7-8 12-9.5"/>`,
+  fala: `<path d="M2 8c2.5 0 2.5 2 5 2s2.5-2 5-2 2.5 2 5 2 2.5-2 5-2"/><path d="M2 15c2.5 0 2.5 2 5 2s2.5-2 5-2 2.5 2 5 2 2.5-2 5-2"/>`,
+  box: `<rect x="3" y="7" width="18" height="11" rx="1"/><path d="M7 7v11M11 7v11M15 7v11M19 7v11"/>`,
+  star: `<path d="M12 3.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.9l-5.2 2.7 1-5.8-4.3-4.1 5.9-.9z"/>`,
+};
+const klimatIcons = ["fala", "box", "star"];
 ---
 
 <Base
@@ -26,74 +41,81 @@ for (const entry of faqAll) {
   image={strona.hero_zdjecie}
   jsonLd={[venueJsonLd(kontakt, strona.opis_seo)]}
 >
-  <section class="stage">
-    <img src={strona.hero_zdjecie} alt={strona.hero_zdjecie_alt} width="1465" height="1700" fetchpriority="high" />
-  </section>
-
-  <section class="wrap intro">
-    <p class="kicker">{strona.hero_kicker}</p>
-    <div class="intro-grid">
-      <div>
-        <p class="kicker">{strona.hero_marka}</p>
-        <h1>{strona.hero_h1}</h1>
-        <p class="lede">{strona.hero_lead}</p>
-        <div class="intro-links">
-          <a class="link-arrow" href="/kontakt/">{strona.cta_glowny}</a>
-          <a class="link-arrow" href="/przestrzenie/">{strona.cta_drugi}</a>
-        </div>
+  <section class="cine">
+    <div class="cine-media" id="heroMedia">
+      {
+        heroSlides.map((src, index) => (
+          <img
+            class:list={["hs", index === 0 && "is-on"]}
+            src={index === 0 ? src : undefined}
+            data-src={index === 0 ? undefined : src}
+            alt={index === 0 ? strona.hero_zdjecie_alt : ""}
+            data-parallax={index === 0 ? "" : undefined}
+            width="1465"
+            height="1700"
+            fetchpriority={index === 0 ? "high" : undefined}
+          />
+        ))
+      }
+    </div>
+    <div class="cine-shade"></div>
+    <div class="wrap cine-copy">
+      <p class="kicker">{strona.hero_kicker}</p>
+      <h1>{strona.hero_h1}</h1>
+      <p class="lede">{strona.hero_lead}</p>
+      <div class="btn-row">
+        <a class="btn btn-primary" href="/kontakt/">{strona.cta_glowny}</a>
+        <a class="btn btn-ghost" href="/przestrzenie/">{strona.cta_drugi}</a>
       </div>
-      <figure class="intro-photo">
-        <img src={strona.hero_zdjecie_2} alt={strona.hero_zdjecie_2_alt} width="1800" height="930" />
-      </figure>
-    </div>
-    <div class="under-hero">
-      <a href="/przestrzenie/">{strona.link_przestrzenie}</a>
-      <a href="#budzet">{strona.link_budzet}</a>
-    </div>
-    <ul class="facts" aria-label="MIEJSCE w liczbach">
-      {strona.liczby.map((item) => <li>{item}</li>)}
-    </ul>
-    <p class="since">{strona.od_roku}</p>
-  </section>
-
-  <section class="sec" style="padding-top:0">
-    <div class="wrap quote-band reveal">
-      <figure class="print tilt-l">
-        <img src={strona.cytat_zdjecie} alt={strona.cytat_autor} width="1472" height="1454" />
-      </figure>
-      <blockquote>
-        <p>„{strona.cytat}”</p>
-        <footer>
-          <b>{strona.cytat_autor}</b>
-          <span>{strona.cytat_rola}</span>
-        </footer>
-      </blockquote>
+      <div class="hero-dots" id="heroDots" aria-hidden="true"></div>
     </div>
   </section>
 
-  <section class="sec" style="padding-top:0">
+  <section class="sec">
     <div class="wrap">
-      <div class="sec-head wide reveal">
-        <p class="kicker">Przestrzenie</p>
-        <h2>{strona.przestrzenie_h}</h2>
-        <p class="sec-lead">{strona.przestrzenie_lead}</p>
+      <p class="kicker">{strona.hero_marka}</p>
+      <div class="split">
+        <blockquote class="quote-band" style="display:block">
+          <p>„{strona.cytat}”</p>
+          <footer><b>{strona.cytat_autor}</b><span>{strona.cytat_rola}</span></footer>
+        </blockquote>
+        <ul class="feature-list">
+          {
+            sekcje.cechy.map((item) => (
+              <li>
+                <svg class="fi" viewBox="0 0 24 24" aria-hidden="true" set:html={icons[item.ikona] || icons.woda} />
+                <h3>{item.tytul}</h3>
+                <p>{item.opis}</p>
+              </li>
+            ))
+          }
+        </ul>
       </div>
-      <ul class="space-grid">
+      <dl class="stats">
+        <div><dt>350</dt><dd>osób maksymalnie</dd></div>
+        <div><dt>3</dt><dd>przestrzenie nad wodą</dd></div>
+        <div><dt>10</dt><dd>minut od centrum Warszawy</dd></div>
+      </dl>
+      <p class="since">{strona.od_roku}</p>
+    </div>
+  </section>
+
+  <section class="climate">
+    <figure class="climate-media">
+      <img src={sekcje.klimat_foto} alt="" data-parallax loading="lazy" />
+      <figcaption>
+        <h2>{sekcje.klimat_h}</h2>
+        <p>{sekcje.klimat_lead}</p>
+      </figcaption>
+    </figure>
+    <div class="wrap">
+      <ul class="climate-list">
         {
-          przestrzenie.map((space, index) => (
-            <li class:list={["space-card", "reveal", index === 0 && "is-lead"]}>
-              <a href={`/przestrzenie/${space.id}/`}>
-                <figure class:list={["print", index % 2 ? "tilt-r" : "tilt-l", index === 0 && "land"]}>
-                  <img src={space.data.cover} alt="" width="1800" height="1200" loading="lazy" />
-                </figure>
-                <div>
-                  <p class="kicker">0{index + 1}</p>
-                  <h3>{space.data.title}</h3>
-                  <p>{space.data.lead}</p>
-                  <p class="meta">{space.data.meta}</p>
-                  <span class="more">Zobacz {space.data.title} →</span>
-                </div>
-              </a>
+          sekcje.klimat_punkty.map((item, index) => (
+            <li>
+              <svg class="fi" viewBox="0 0 24 24" aria-hidden="true" set:html={icons[klimatIcons[index]]} />
+              <h3>{item.tytul}</h3>
+              <p>{item.opis}</p>
             </li>
           ))
         }
@@ -101,12 +123,37 @@ for (const entry of faqAll) {
     </div>
   </section>
 
-  <section class="sec" style="padding-top:0">
+  <section class="sec sec-tint" id="plan">
     <div class="wrap">
-      <div class="sec-head reveal">
-        <p class="kicker">Eventy</p>
-        <h2>{strona.eventy_h}</h2>
-        <p class="sec-lead">{strona.eventy_lead}</p>
+      <div class="sec-head">
+        <div>
+          <p class="kicker">Przestrzenie</p>
+          <h2>{strona.przestrzenie_h}</h2>
+        </div>
+        <p class="sec-note">{strona.przestrzenie_lead}</p>
+      </div>
+      <Plan spaces={przestrzenie} />
+    </div>
+  </section>
+
+  <div class="marquee-wrap" aria-hidden="true">
+    <div class="marquee">
+      {
+        [...eventy, ...eventy].map((event) => (
+          <span>{event.data.title} <i>/</i></span>
+        ))
+      }
+    </div>
+  </div>
+
+  <section class="sec">
+    <div class="wrap">
+      <div class="sec-head">
+        <div>
+          <p class="kicker">Eventy</p>
+          <h2>{strona.eventy_h}</h2>
+        </div>
+        <p class="sec-note">{strona.eventy_lead}</p>
       </div>
       <ol class="scenario-index">
         {
@@ -127,19 +174,19 @@ for (const entry of faqAll) {
     </div>
   </section>
 
-  <section class="sec" style="padding-top:0">
+  <section class="sec sec-dark">
     <div class="wrap">
       <Budzet cennik={cennik} wariant="krotki" />
     </div>
   </section>
 
-  <section class="sec" style="padding-top:0">
+  <section class="sec">
     <div class="wrap split">
-      <div class="reveal">
+      <div>
         <p class="kicker">Jedzenie i bar</p>
         <h2>{strona.jedzenie_h}</h2>
         <p class="sec-lead">{strona.jedzenie_lead}</p>
-        <p><a href="/jedzenie-i-bar/">Zobacz pełne menu →</a></p>
+        <p><a class="link-arrow" href="/jedzenie-i-bar/">Zobacz pełne menu</a></p>
       </div>
       <ul class="menu-lines">
         {
@@ -157,19 +204,52 @@ for (const entry of faqAll) {
     </div>
   </section>
 
-  <section class="sec" style="padding-top:0">
+  <section class="sec sec-tint">
     <div class="wrap">
-      <div class="sec-head wide reveal">
-        <p class="kicker">Realizacje</p>
+      <div class="sec-head">
+        <h2>{sekcje.atrakcje_h}</h2>
+        <p class="sec-note">{sekcje.atrakcje_note}</p>
+      </div>
+      <div class="ex-top">
+        {
+          sekcje.atrakcje.map((item) => (
+            <figure>
+              <img src={item.zdjecie} alt="" loading="lazy" />
+              <figcaption><b>{item.tytul}</b><span>{item.opis}</span></figcaption>
+            </figure>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2>{sekcje.film_h}</h2>
+        <p class="sec-note">{sekcje.film_note}</p>
+      </div>
+      <div class="film-row">
+        {sekcje.film_zdjecia.map((src) => (
+          <figure><img src={src} alt="" loading="lazy" /></figure>
+        ))}
+      </div>
+      <p class="lede" style="margin-top:20px">{sekcje.film_body}</p>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="wrap">
+      <div class="sec-head">
         <h2>{strona.realizacje_h}</h2>
-        <p class="sec-lead">{strona.realizacje_lead}</p>
+        <p class="sec-note">{strona.realizacje_lead}</p>
       </div>
       <ul class="case-row">
         {
-          realizacje.map((item, index) => (
+          realizacje.map((item) => (
             <li>
               <a href={`/realizacje/${item.id}/`}>
-                <figure class:list={["print", index === 1 ? "tilt-r" : "tilt-l", "land"]}>
+                <figure class="print land">
                   <img src={item.data.cover} alt="" loading="lazy" />
                 </figure>
                 {item.data.szkic && <p class="badge">Szkic</p>}
@@ -180,60 +260,35 @@ for (const entry of faqAll) {
           ))
         }
       </ul>
-      <p><a href="/realizacje/">Wszystkie realizacje →</a></p>
     </div>
   </section>
 
-  <section class="sec" style="padding-top:0">
+  <Gallery galeria={galeria} limit={11} anchor={true} />
+
+  <section class="sec">
     <div class="wrap">
-      <div class="sec-head reveal">
-        <p class="kicker">Przed eventem</p>
+      <div class="sec-head">
         <h2>{strona.wiedza_h}</h2>
       </div>
       {
         faq.map(({ entry, Content }) => (
           <details class="acc">
             <summary>{entry.data.pytanie}</summary>
-            <div class="acc-body">
-              <Content />
-            </div>
+            <div class="acc-body"><Content /></div>
           </details>
         ))
       }
-      <p><a href="/warto-wiedziec/">Wszystkie odpowiedzi →</a></p>
+      <p style="margin-top:16px"><a class="link-arrow" href="/warto-wiedziec/">Wszystkie odpowiedzi</a></p>
     </div>
   </section>
 
-  <section class="sec" style="padding-top:0">
-    <div class="wrap split">
-      <div>
-        <p class="kicker">Poradnik</p>
-        <h2>{strona.poradnik_h}</h2>
-        <p class="sec-lead">{strona.poradnik_lead}</p>
+  <section class="clients">
+    <p class="kicker" style="text-align:center">{strona.zaufali_h}</p>
+    <div class="marquee logo-marquee" aria-hidden="true">
+      <div class="marquee-row">
+        {loga.loga.map((logo) => <img src={logo.src} alt="" />)}
+        {loga.loga.map((logo) => <img src={logo.src} alt="" />)}
       </div>
-      <ol class="queue">
-        {
-          artykuly.map((article, index) => (
-            <li>
-              <span class="num">{String(index + 1).padStart(2, "0")}</span>
-              <a href={`/poradnik/${article.id}/`}>{article.data.title}</a>
-              {article.data.szkic && <span class="badge">Szkic</span>}
-            </li>
-          ))
-        }
-      </ol>
-    </div>
-    <div class="wrap"><p><a href="/poradnik/">Cały poradnik →</a></p></div>
-  </section>
-
-  <section class="sec" style="padding-top:0">
-    <div class="wrap">
-      <p class="kicker">{strona.zaufali_h}</p>
-      <ul class="logo-wall">
-        {loga.loga.map((logo) => (
-          <li><img src={logo.src} alt={logo.alt} loading="lazy" /></li>
-        ))}
-      </ul>
     </div>
   </section>
 
@@ -242,7 +297,7 @@ for (const entry of faqAll) {
     <div class="visit-copy">
       <h2>{strona.kontakt_h}</h2>
       <p class="lede">{strona.kontakt_lead}</p>
-      <a class="link-arrow" href="/kontakt/">Umów oględziny</a>
+      <a class="btn btn-primary" href="/kontakt/">Umów oględziny</a>
       <a class="phone" href={`tel:${kontakt.telefon_href}`}>{kontakt.telefon_wyswietlany}</a>
     </div>
   </section>
