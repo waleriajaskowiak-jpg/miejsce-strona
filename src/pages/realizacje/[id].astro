@@ -45,7 +45,7 @@ const articleLd = entry.data.szkic
     crumbs={crumbs}
     kicker={entry.data.typ}
     title={entry.data.title}
-    lede={entry.data.lead}
+    lede={entry.data.szkic ? entry.data.typ : entry.data.lead}
     image={entry.data.cover}
     imageAlt={entry.data.title}
   />

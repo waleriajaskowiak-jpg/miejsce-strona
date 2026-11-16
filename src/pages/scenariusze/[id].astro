@@ -73,12 +73,12 @@ const kategoria = entry.data.kategorie?.[0];
           {entry.data.zakres.map((item) => <li>{item}</li>)}
         </ul>
         <p class="fine">Przykładowy przebieg nie oznacza, że wszystkie elementy są w cenie wynajmu. Zakres, czas i koszty potwierdzamy w indywidualnej ofercie.</p>
-        <div class="stack">
-          {spaceLinks.map((link) => <a class="btn btn-ghost" href={link.href}>{link.label}</a>)}
-          {kategoria && <a class="btn btn-ghost" href={`/eventy/${kategoria}/`}>Wróć do rodzaju wydarzenia</a>}
+        <div class="text-links">
+          {spaceLinks.map((link) => <a class="text-link" href={link.href}>{link.label}</a>)}
+          {kategoria && <a class="text-link" href={`/eventy/${kategoria}/`}>Wróć do rodzaju wydarzenia</a>}
+          <a class="text-link" href={kontaktHref}>Porozmawiajmy o tym planie</a>
         </div>
         <a class="btn btn-primary" href={budzetHref}>Dopasuj do budżetu</a>
-        <a class="btn btn-ghost" href={kontaktHref}>Porozmawiajmy o tym planie</a>
       </aside>
     </div>
   </section>

@@ -4,14 +4,22 @@ import Crumbs from "./Crumbs.astro";
 const { crumbs = [], kicker, title, lede, image, imageAlt = "" } = Astro.props;
 ---
 
-<header class="page-hero-media">
-  <img src={image} alt={imageAlt} />
-  <div class="shade"></div>
-  <div class="wrap">
-    <Crumbs items={crumbs} />
-    <p class="kicker">{kicker}</p>
-    <h1>{title}</h1>
-    {lede && <p class="lede">{lede}</p>}
-    <slot />
+<header class="page-hero-media editorial">
+  <div class="wrap editorial-grid">
+    <div class="flow">
+      <Crumbs items={crumbs} />
+      {kicker && <p class="kicker">{kicker}</p>}
+      <h1>{title}</h1>
+      {lede && <p class="lede">{lede}</p>}
+      <slot />
+    </div>
+    {
+      image && (
+        <div class="editorial-frame">
+          <img src={image} alt={imageAlt} width="1800" height="1200" />
+          <div class="grain"></div>
+        </div>
+      )
+    }
   </div>
 </header>

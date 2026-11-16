@@ -19,6 +19,10 @@ if (!reduced && slides.length > 1) {
     dots?.children[current]?.classList.add("is-on");
     const count = document.querySelector("#heroCount");
     if (count) count.textContent = `${String(current + 1).padStart(2, "0")} / ${String(slides.length).padStart(2, "0")}`;
+    const chip = document.querySelector("#heroChip");
+    const cap = document.querySelector("#heroCap");
+    if (chip && next.dataset.chip) chip.textContent = next.dataset.chip;
+    if (cap && next.dataset.cap) cap.textContent = next.dataset.cap;
   };
   let timer = setInterval(() => show(current + 1), 5600);
   const pause = document.querySelector("#heroPause");

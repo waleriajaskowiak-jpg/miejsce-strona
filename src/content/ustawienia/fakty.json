@@ -45,6 +45,7 @@
     },
     "ogrod": {
       "nazwa": "Ogród",
+      "powierzchnia_m2": 300,
       "sezon": "maj–wrzesień",
       "cena": "indywidualnie",
       "gosci": 100,

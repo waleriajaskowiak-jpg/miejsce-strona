@@ -1,0 +1,152 @@
+---
+const { fakty, spaces, heading = "h2" } = Astro.props;
+const Title = heading;
+const byId = Object.fromEntries(spaces.map((space) => [space.id, space]));
+const f = fakty.przestrzenie;
+const rows = [
+  {
+    id: "duze",
+    slug: "duze-miejsce",
+    cap: f.duze.zima_liczba,
+    capt: f.duze.zima_osob,
+    meta: `${f.duze.wnetrze_m2} m² + ${f.duze.taras_m2} m²`,
+    kick: "Pierwsza barka, z kontenerów morskich",
+    kpis: [[String(f.duze.wnetrze_m2), "m² wnętrza"], [String(f.duze.taras_m2), "m² tarasu"], ["~120", "osób zimą"]],
+  },
+  {
+    id: "male",
+    slug: "nowe-miejsce",
+    cap: f.male.gosci,
+    capt: `do ${f.male.gosci} osób`,
+    meta: `${f.male.wnetrze_m2} m² + ${f.male.taras_m2} m² tarasu`,
+    kick: "Sala konferencyjna i zadaszony taras",
+    kpis: [[String(f.male.wnetrze_m2), "m² sali"], [String(f.male.taras_m2), "m² tarasu"], [String(f.male.gosci), "osób"]],
+  },
+  {
+    id: "ogrod",
+    slug: "ogrod",
+    cap: f.ogrod.gosci,
+    capt: f.ogrod.gosci_tekst,
+    meta: `${f.ogrod.powierzchnia_m2} m² · ${f.ogrod.sezon}`,
+    kick: "Ogród, wycena indywidualna",
+    kpis: [[String(f.ogrod.powierzchnia_m2), "m² ogrodu"], ["~100", "osób"], ["V–IX", "sezon"]],
+  },
+  {
+    id: "all",
+    slug: "cale-miejsce",
+    cap: f.cale.maks_osob,
+    capt: `do ${f.cale.maks_osob} osób`,
+    meta: "2 barki + ogród, także w deszczu",
+    kick: "Cały kompleks",
+    kpis: [[String(f.cale.maks_osob), "gości"], [String(fakty.bary.stale), "bary"], ["2", "barki"]],
+  },
+].map((row) => {
+  const space = byId[row.slug];
+  return {
+    ...row,
+    name: space?.data.title || row.slug,
+    lead: space?.data.lead || "",
+    cover: space?.data.cover || "",
+    href: `/przestrzenie/${row.slug}/`,
+  };
+});
+const payload = JSON.stringify(rows).replace(/</g, "\\u003c");
+---
+
+<div class="picker" data-picker>
+  <script type="application/json" class="picker-data" set:html={payload} />
+  <div class="picker-top">
+    <div>
+      <p class="eyebrow">02 · Przestrzenie</p>
+      <Title>Jedno Miejsce. Trzy przestrzenie</Title>
+    </div>
+    <div class="guests">
+      <label>Ilu będzie gości? <output data-gout>120</output></label>
+      <input data-grange type="range" min="20" max={f.cale.maks_osob} step="10" value="120" />
+      <p data-gfit>Pasuje: <b></b></p>
+    </div>
+  </div>
+  <div class="ex">
+    <div>
+      <div class="plist" data-plist></div>
+      <div class="kpis" data-kpis></div>
+    </div>
+    <div class="stage">
+      <img class="ph" data-ph alt="" width="1800" height="1200" />
+      <div class="grain"></div>
+      <div class="tabs" role="tablist">
+        <button type="button" class="on" data-tab="photo">Zdjęcia</button>
+        <button type="button" data-tab="plan">Plan</button>
+      </div>
+      <div class="st-cap">
+        <small data-kick></small>
+        <p data-lead></p>
+        <a class="btn btn-primary" data-go href="/przestrzenie/duze-miejsce/"><span data-golabel>Zobacz przestrzeń</span></a>
+      </div>
+      <div class="mini">
+        <div class="pl">
+          <img src="/img/plan.png" alt="" width="2000" height="1325" />
+          <svg viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+            <rect class="zone" data-z="all" x="6.5" y="0.5" width="91" height="94" rx="1.4"></rect>
+            <polygon class="zone" data-z="duze" points="31.2,5.6 51.8,5.6 51.8,1.2 83.3,1.2 83.3,50.2 63.8,50.2 63.8,58.8 53.2,58.8 53.2,47.4 31.2,47.4"></polygon>
+            <polygon class="zone" data-z="male" points="10.4,48.6 30.6,48.6 30.6,47.2 43.8,47.2 43.8,86.8 10.4,86.8"></polygon>
+            <polygon class="zone" data-z="ogrod" points="44.8,58.8 93.6,58.8 93.6,73.8 44.8,73.8"></polygon>
+          </svg>
+        </div>
+        <p><span>Plan kompleksu</span><span data-mz></span></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.querySelectorAll("[data-picker]").forEach((root) => {
+    const rows = JSON.parse(root.querySelector(".picker-data")?.textContent || "[]");
+    const list = root.querySelector("[data-plist]");
+    const range = root.querySelector("[data-grange]");
+    let current = "duze";
+    list.innerHTML = rows.map((row, index) => `<button type="button" class="item" data-id="${row.id}"><span class="n">0${index + 1}</span><span class="item-copy"><strong>${row.name}</strong><span class="cap">${row.capt} · ${row.meta}</span></span><span class="go" aria-hidden="true">→</span></button>`).join("");
+    const paint = (id) => {
+      current = id;
+      const row = rows.find((item) => item.id === id);
+      root.querySelectorAll(".item").forEach((item) => item.classList.toggle("on", item.dataset.id === id));
+      const photo = root.querySelector("[data-ph]");
+      if (photo && row.cover) photo.src = row.cover;
+      if (photo) photo.alt = row.name;
+      root.querySelector("[data-kick]").textContent = row.kick;
+      root.querySelector("[data-lead]").textContent = row.lead;
+      root.querySelector("[data-mz]").textContent = row.name;
+      const go = root.querySelector("[data-go]");
+      go.href = row.href;
+      const label = go.querySelector("[data-golabel]");
+      if (label) label.textContent = `Zobacz ${row.name}`;
+      root.querySelectorAll(".mini .zone").forEach((zone) => zone.classList.toggle("on", zone.dataset.z === id));
+      root.querySelector("[data-kpis]").innerHTML = row.kpis.map(([value, label]) => `<div><b>${value}</b><span>${label}</span></div>`).join("");
+    };
+    const fit = () => {
+      const guests = Number(range.value);
+      root.querySelector("[data-gout]").textContent = String(guests);
+      const ok = rows.filter((row) => row.cap >= guests);
+      root.querySelectorAll(".item").forEach((item) => {
+        const row = rows.find((entry) => entry.id === item.dataset.id);
+        item.classList.toggle("off", row.cap < guests);
+      });
+      root.querySelector("[data-gfit]").innerHTML = `Pasuje: <b>${ok.map((row) => row.name).join(", ")}</b>`;
+      if (!ok.find((row) => row.id === current) && ok[0]) paint(ok[0].id);
+    };
+    list.querySelectorAll(".item").forEach((item) => {
+      item.addEventListener("mouseenter", () => paint(item.dataset.id));
+      item.addEventListener("focus", () => paint(item.dataset.id));
+      item.addEventListener("click", () => paint(item.dataset.id));
+    });
+    range.addEventListener("input", fit);
+    root.querySelectorAll("[data-tab]").forEach((tab) => {
+      tab.addEventListener("click", () => {
+        root.querySelectorAll("[data-tab]").forEach((peer) => peer.classList.toggle("on", peer === tab));
+        root.querySelector(".stage").classList.toggle("show-plan", tab.dataset.tab === "plan");
+      });
+    });
+    paint("duze");
+    fit();
+  });
+</script>

@@ -1,13 +1,13 @@
 ---
-import { getCollection } from "astro:content";
+import { getCollection, getEntry } from "astro:content";
 import Base from "../../layouts/Base.astro";
 import Crumbs from "../../components/Crumbs.astro";
-import Plan from "../../components/Plan.astro";
 import NextBand from "../../components/NextBand.astro";
-import PageHero from "../../components/PageHero.astro";
+import SpacePicker from "../../components/SpacePicker.astro";
 import { crumbsJsonLd, sortByOrder } from "../../lib/nav.js";
 
 const przestrzenie = sortByOrder(await getCollection("przestrzenie"));
+const fakty = (await getEntry("ustawienia", "fakty"))!.data;
 const crumbs = [{ href: "/przestrzenie/", label: "Przestrzenie" }];
 const description = "Dwie barki, zadaszone tarasy i ogród w Porcie Czerniakowskim. Cztery układy: Duże Miejsce, Małe Miejsce, ogród i cały kompleks.";
 ---
@@ -17,51 +17,10 @@ const description = "Dwie barki, zadaszone tarasy i ogród w Porcie Czerniakowsk
   description={description}
   jsonLd={[crumbsJsonLd([{ href: "/", label: "MIEJSCE" }, ...crumbs])]}
 >
-  <PageHero
-    crumbs={crumbs}
-    kicker="Port Czerniakowski"
-    title="Jedno MIEJSCE. Trzy przestrzenie"
-    lede="Mamy dwie barki, ogród, zadaszone tarasy i całkiem sporo możliwości, żeby poukładać z tego unikalny event."
-    image="/img/gallery/dm22.jpg"
-    imageAlt="Duże Miejsce nocą"
-  >
-    <ul class="stat-row hero-stats">
-      <li><b data-count="80">80</b><span>m² wnętrza Dużego Miejsca</span></li>
-      <li><b data-count="300">300</b><span>m² ogrodu</span></li>
-      <li><b data-count="350">350</b><span>gości, także w deszczu</span></li>
-    </ul>
-  </PageHero>
-  <section class="plan-band" id="plan">
+  <section class="band band-ink editorial">
     <div class="wrap">
-      <div class="sec-head">
-        <h2>Plan kompleksu</h2>
-        <p class="sec-note">Duże Miejsce jest zaznaczone. Stuknij inną strefę</p>
-      </div>
-      <Plan spaces={przestrzenie} />
-    </div>
-  </section>
-  <section class="sec">
-    <div class="wrap">
-      <ul class="space-grid">
-        {
-          przestrzenie.map((space, index) => (
-            <li class:list={["space-card", index === 0 && "is-lead"]}>
-              <a href={`/przestrzenie/${space.id}/`}>
-                <figure class:list={["print", index % 2 ? "tilt-r" : "tilt-l", "land"]}>
-                  <img src={space.data.cover} alt="" loading="lazy" />
-                </figure>
-                <div>
-                  <p class="kicker">0{index + 1}</p>
-                  <h3>{space.data.title}</h3>
-                  <p>{space.data.lead}</p>
-                  <p class="meta">{space.data.meta}</p>
-                  <span class="more">Zobacz {space.data.title} →</span>
-                </div>
-              </a>
-            </li>
-          ))
-        }
-      </ul>
+      <Crumbs items={crumbs} />
+      <SpacePicker fakty={fakty} spaces={przestrzenie} heading="h1" />
     </div>
   </section>
   <NextBand
