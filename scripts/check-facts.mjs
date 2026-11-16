@@ -1,7 +1,31 @@
 import { readdir, readFile } from "node:fs/promises";
 import { join } from "node:path";
 
-const needles = ["130 os", "2015", "2020", "parking dla gości", "kontener", "10 minut", "10 min", "Małe Miejsce"];
+// Rozstrzygnięte fakty nie mogą wrócić w starej formule.
+// Nierozstrzygnięte (metraż Dużego Miejsca, ogród jako osobna przestrzeń)
+// zostają tylko w fakty.json, którego ten skrypt nie skanuje.
+const needles = [
+  "130 osób",
+  "do 130",
+  "Od 2020",
+  "od 2020",
+  "parking dla gości",
+  "parking dla ekipy",
+  "10 minut od centrum",
+  "10 min od centrum",
+  "od 6 000",
+  "od 12 000",
+  "6 000 zł",
+  "12 000 zł",
+  "wiosna–lato",
+  "NOWE MIEJSCE",
+  "Nowe Miejsce",
+  "NOWYM MIEJSCU",
+  "Nowym Miejscu",
+  "Nowego Miejsca",
+  "52.2196114",
+  "21.0473079",
+];
 
 async function files(dir, out = []) {
   for (const entry of await readdir(dir, { withFileTypes: true })) {
@@ -12,7 +36,7 @@ async function files(dir, out = []) {
   return out;
 }
 
-const roots = ["src/content", "dist"].filter(Boolean);
+const roots = ["src/content", "dist"];
 const warnings = [];
 for (const root of roots) {
   let list = [];
@@ -34,8 +58,8 @@ for (const root of roots) {
 }
 
 if (warnings.length) {
-  console.warn(`Fakty do potwierdzenia (${warnings.length}):`);
-  console.warn(warnings.slice(0, 40).join("\n"));
-} else {
-  console.log("Fakty: brak ostrzeżeń");
+  console.error(`Fakty do poprawy (${warnings.length}):`);
+  console.error(warnings.slice(0, 40).join("\n"));
+  process.exit(1);
 }
+console.log("Fakty: brak ostrzeżeń");

@@ -5,4 +5,4 @@ kolejnosc: 1
 adres_url: co-jesli-pada
 
 ---
-Zadaszone tarasy i obie barki pracują niezależnie od pogody. OGRÓD jest przestrzenią na cieplejszą część roku. Przy większym evencie układamy wariant na niepogodę: część oficjalna i parkiet zostają pod dachem, ogród dokładamy, kiedy aura pozwala.
+Całe Miejsce przyjmuje do 350 gości także wtedy, gdy pada. Zadaszone tarasy i obie barki pracują niezależnie od pogody. Ogród jest otwarty od maja do września i nie jest warunkiem większego eventu.

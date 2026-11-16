@@ -25,7 +25,7 @@ const kontaktHref = `/kontakt/?typ=${typ}${osoby ? `&osoby=${osoby}` : ""}`;
 const spaceLinks = [];
 const gdzie = entry.data.przestrzen;
 if (/CAŁE/i.test(gdzie)) spaceLinks.push({ href: "/przestrzenie/cale-miejsce/", label: "Całe Miejsce" });
-if (/NOWE/i.test(gdzie)) spaceLinks.push({ href: "/przestrzenie/nowe-miejsce/", label: "Nowe Miejsce" });
+if (/Małe|MAŁE|NOWE/i.test(gdzie)) spaceLinks.push({ href: "/przestrzenie/nowe-miejsce/", label: "Małe Miejsce" });
 if (/DUŻE/i.test(gdzie)) spaceLinks.push({ href: "/przestrzenie/duze-miejsce/", label: "Duże Miejsce" });
 if (/OGRÓD/i.test(gdzie)) spaceLinks.push({ href: "/przestrzenie/ogrod/", label: "Ogród" });
 const kategoria = entry.data.kategorie?.[0];

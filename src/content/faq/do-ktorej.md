@@ -5,4 +5,4 @@ kolejnosc: 3
 adres_url: do-ktorej
 
 ---
-Godzinę zakończenia ustalamy w ofercie, pod konkretny termin i charakter wydarzenia. Napisz, do której planujesz — potwierdzimy, co da się zrobić tego dnia. Nie publikujemy tu jednej sztywnej godziny dla wszystkich eventów.
+Event może trwać do rana. Rekomendujemy zakończenie do 2:00. Dokładną godzinę wpisujemy w ofercie, pod konkretny termin.

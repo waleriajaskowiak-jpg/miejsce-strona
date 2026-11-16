@@ -121,13 +121,13 @@ const steps = [
     </div>
   </form>
 
-  <p class="fine">Trochę ciasno z budżetem? Dzień tygodnia, termin, inna przestrzeń albo zmiana menu i baru mogą zmienić wiele.</p>
+  <p class="fine">Porównanie nie dolicza 10% serwisu ani obsługi kelnerskiej. Serwis dopisujemy przy cenach. Trochę ciasno z budżetem? Dzień tygodnia, termin, inna przestrzeń albo zmiana menu i baru mogą zmienić wiele.</p>
 </section>
 
 <script>
   import { ocen } from "../lib/budzet.js";
 
-  const money = new Intl.NumberFormat("pl-PL");
+  const money = new Intl.NumberFormat("pl-PL", { useGrouping: true });
   const hints = [
     "Wybierz rodzaj wydarzenia",
     "Przesuń suwak",
@@ -229,7 +229,7 @@ const steps = [
         err.textContent = result.error;
         return false;
       }
-      if (code) code.textContent = `Odpowiedź ${result.kod}`;
+      if (code) code.textContent = result.indywidualna ? "Wycena" : `Odpowiedź ${result.kod}`;
       if (title) title.textContent = result.tytul;
       if (text) text.textContent = result.tresc;
       const dzien = label(cennik.dni, input.dzien);

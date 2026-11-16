@@ -5,13 +5,13 @@ kategorie: ["konferencje-i-szkolenia"]
 goscie: 25
 typ_budzetu: szkolenie
 seo_title: "Szkolenie i kolacja nad wodą | MIEJSCE"
-seo_description: "Kameralne szkolenie w Nowym Miejscu i kolacja nad wodą dla małego grona."
+seo_description: "Kameralne szkolenie w Małym Miejscu i kolacja nad wodą dla małego grona."
 h1: "Szkolenie i kameralna kolacja"
 kolejnosc: 2
 tag: "Firma, zarząd · 25 osób"
 lead: "Popołudnie pracy w małym gronie, wieczór przy wspólnym stole"
 opis_seo: "Szkolenie w małym gronie i kameralna kolacja nad wodą."
-przestrzen: "NOWE MIEJSCE"
+przestrzen: "Małe Miejsce"
 program:
   - godzina: "14:00–18:00"
     tytul: "Warsztaty"

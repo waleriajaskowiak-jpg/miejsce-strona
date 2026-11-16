@@ -18,7 +18,7 @@ export const FOOTER_PAGES = [
 ];
 
 export function zloty(n) {
-  return `${new Intl.NumberFormat("pl-PL").format(n)}\u00a0zł`;
+  return `${new Intl.NumberFormat("pl-PL", { useGrouping: true }).format(n)}\u00a0zł`;
 }
 
 export function sortByOrder(entries) {
@@ -47,13 +47,6 @@ export function venueJsonLd(kontakt, opis, fakty) {
     parentOrganization: { "@id": "https://miejsce.to/#org" },
     maximumAttendeeCapacity: fakty?.przestrzenie?.cale?.maks_osob || 350,
   };
-  if (adres.geo_potwierdzone && adres.lat && adres.lon) {
-    venue.geo = {
-      "@type": "GeoCoordinates",
-      latitude: adres.lat,
-      longitude: adres.lon,
-    };
-  }
   const org = {
     "@type": "Organization",
     "@id": "https://miejsce.to/#org",

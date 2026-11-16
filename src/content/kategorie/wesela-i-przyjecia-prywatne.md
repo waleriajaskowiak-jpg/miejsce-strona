@@ -17,7 +17,7 @@ co_mozna:
   - "Przyjęcie urodzinowe"
   - "Jubileusz"
   - "Kolacja dla gości"
-dla_ilu: "Scenariusz wesela na stronie jest opisany dla 100 osób. Większe przyjęcie układa się na Dużym Miejscu, w ogrodzie albo w całym kompleksie."
+dla_ilu: "Liczba gości zależy od formuły: od 50 do 250. Mniejsze przyjęcie układamy na Dużym Miejscu, większe w ogrodzie albo w całym kompleksie."
 przestrzenie:
   - "duze-miejsce"
   - "ogrod"
@@ -28,12 +28,11 @@ jedzenie_bar: "Menu weselne ustalamy w ofercie. Na stronie są trzy progi cateri
 atrakcje: "Zespół albo DJ, tort i bar są w przykładowym przebiegu. Nie wchodzą automatycznie w cenę wynajmu."
 plan_b: "Altana i sala są przy wodzie, pod dachem tam, gdzie stoi zadaszenie. Ogród zostaje opcją na dobrą pogodę."
 fakty:
-  - wartosc: "100"
-    liczba: 100
-    opis: "osób w przykładowym scenariuszu wesela"
-  - wartosc: "6000"
-    liczba: 6000
-    opis: "zł netto, wynajem Dużego Miejsca, od"
+  - wartosc: "50–250"
+    opis: "gości, zależnie od formuły wesela"
+  - wartosc: "5000"
+    liczba: 5000
+    opis: "zł netto, wynajem Dużego Miejsca od, za 5 h"
   - wartosc: "Altana"
     opis: "ceremonia na wodzie, w scenariuszu"
 korzysci:

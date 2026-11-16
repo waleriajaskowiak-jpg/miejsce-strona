@@ -12,6 +12,6 @@ opis_seo: "Szkic artykułu z briefu. Bez wyliczonej kwoty, dopóki nie powstanie
 
 Tytuł jest z briefu i czeka na materiał redakcyjny: realne widełki z realizacji, bez uśrednionych „cen z internetu”.
 
-Na dziś konkretne liczby, które publikujemy, są na stronie [Ceny](/ceny/): wynajem od 3 000, 6 000 i 12 000 zł oraz catering 180 / 220 / 250 zł netto za osobę i open bar 150 / 190 / 230 zł netto za osobę. Obsługę, AV i DJ-a wyceniamy pod wydarzenie.
+Na dziś konkretne liczby, które publikujemy, są na stronie [Ceny](/ceny/): wynajem Małego Miejsca od 3 000 zł i Dużego Miejsca od 5 000 zł netto za 5 godzin. Całe Miejsce wyceniamy indywidualnie. Catering 180 / 220 / 250 zł netto za osobę, open bar 150 / 190 / 230 zł netto za osobę za 5 godzin. Do tych kwot doliczamy 10% serwisu. Obsługę kelnerską, AV i DJ-a wyceniamy osobno.
 
 Ten szkic jest ukryty przed Google (`noindex`), dopóki nie zamienicie go w gotowy artykuł w panelu `/admin` i nie odznaczycie pola „szkic”.

@@ -32,9 +32,9 @@ fakty:
   - wartosc: "350"
     liczba: 350
     opis: "gości w całym kompleksie"
-  - wartosc: "6000"
-    liczba: 6000
-    opis: "zł netto, wynajem Dużego Miejsca, od"
+  - wartosc: "5000"
+    liczba: 5000
+    opis: "zł netto, wynajem Dużego Miejsca od, za 5 h"
   - wartosc: "3"
     liczba: 3
     opis: "stałe bary, plus mobilny"

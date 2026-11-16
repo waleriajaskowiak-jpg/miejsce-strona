@@ -47,12 +47,17 @@ const crumbs = [
       <div class="prose">
         <Content />
         {
-          entry.data.cena_od && (
+          entry.data.cena_od ? (
             <p>
-              Wynajem {entry.data.cena_etykieta || `od ${zloty(entry.data.cena_od)}`}, netto.{" "}
+              Wynajem {entry.data.cena_etykieta || `od ${zloty(entry.data.cena_od)}`} za 5 h, netto. Do ceny doliczamy 10% serwisu.{" "}
               <a href="/ceny/">Zobacz ceny</a>
             </p>
-          )
+          ) : entry.data.cena_etykieta ? (
+            <p>
+              Wynajem: {entry.data.cena_etykieta}. Do cen jedzenia i baru doliczamy 10% serwisu.{" "}
+              <a href={`/kontakt/?przestrzen=${encodeURIComponent(entry.data.title)}`}>Poproś o wycenę</a>
+            </p>
+          ) : null
         }
         <div class="btn-row">
           <a class="btn" href={`/kontakt/?przestrzen=${encodeURIComponent(entry.data.title)}`}>

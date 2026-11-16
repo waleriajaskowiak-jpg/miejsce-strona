@@ -5,4 +5,4 @@ kolejnosc: 4
 adres_url: parking
 
 ---
-Przy MIEJSCU jest parking dla gości. Ile miejsc odkładamy pod konkretny termin, mówimy przy rezerwacji. Nie podajemy tu liczby miejsc, której nie ma w materiałach.
+Nie mamy prywatnego parkingu dla gości ani dla ekipy. Publiczny parking jest na ul. Zaruskiego i przy Torwarze. Nie podajemy tu liczby miejsc, bo to miejsca miejskie, nie nasza rezerwacja.

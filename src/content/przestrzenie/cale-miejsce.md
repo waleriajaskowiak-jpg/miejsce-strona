@@ -2,11 +2,10 @@
 title: "CAŁE MIEJSCE"
 adres_url: cale-miejsce
 kolejnosc: 4
-lead: "Dwie barki, dwa zadaszone tarasy i ogród. Do 350 osób nad wodą w centrum Warszawy."
-meta: "do 350 osób · 2 barki · 180 m² zadaszonych tarasów · 300 m² ogrodu"
-opis_seo: "Dwie barki, dwa zadaszone tarasy i ogród. Do 350 osób nad wodą w centrum Warszawy."
-cena_od: 12000
-cena_etykieta: "od 12 000 zł"
+lead: "Dwie barki, dwa zadaszone tarasy i ogród. Do 350 gości, także w deszczu."
+meta: "do 350 osób, także w deszczu · 2 barki · 180 m² zadaszonych tarasów · 300 m² ogrodu"
+opis_seo: "Dwie barki, dwa zadaszone tarasy i ogród. Do 350 gości, także wtedy, gdy pada. Wynajem wyceniamy indywidualnie."
+cena_etykieta: "wyceniane indywidualnie, za 5 h"
 najlepiej:
   - "duże eventy firmowe"
   - "integracje"
@@ -16,8 +15,8 @@ najlepiej:
   - "koncerty"
   - "wydarzenia całodniowe"
 w_skrocie:
-  - "latem: do 350 osób"
-  - "DUŻE MIEJSCE + NOWE MIEJSCE + OGRÓD"
+  - "do 350 osób, także w deszczu"
+  - "DUŻE MIEJSCE + Małe Miejsce + OGRÓD"
   - "łącznie ok. 180 m² zadaszonych tarasów"
   - "ogród: ok. 300 m²"
   - "3 niezależne bary"
@@ -38,6 +37,6 @@ zdjecia:
   - "/img/gallery/dm04.jpg"
 
 ---
-Przy większych wydarzeniach łączymy wszystko w jeden kompleks. Część oficjalna może odbywać się w NOWYM MIEJSCU, catering i networking na tarasach, ogród przejąć rolę strefy chillout, a DUŻE MIEJSCE wieczorem zamienić się w parkiet.
+Przy większych wydarzeniach łączymy wszystko w jeden kompleks i przyjmujemy do 350 gości także wtedy, gdy pada. Część oficjalna może odbywać się w Małym Miejscu, catering i networking na tarasach, ogród przejąć rolę strefy chillout, a DUŻE MIEJSCE wieczorem zamienić się w parkiet. Wynajem całego kompleksu wyceniamy indywidualnie, za 5 godzin.
 
 Każda przestrzeń ma własny bar, toalety i wejście, ale goście mogą swobodnie poruszać się pomiędzy nimi.

@@ -2,16 +2,15 @@
 title: "Wesele"
 adres_url: wesele-nad-woda
 kategorie: ["wesela-i-przyjecia-prywatne"]
-goscie: 100
 typ_budzetu: wesele
 seo_title: "Wesele nad wodą — scenariusz | MIEJSCE"
-seo_description: "Przykładowy przebieg wesela nad Wisłą: ceremonia w altanie, kolacja i parkiet."
+seo_description: "Wesele nad Wisłą dla 50–250 gości, zależnie od formuły: ceremonia, kolacja i parkiet."
 h1: "Wesele nad wodą — przykładowy scenariusz"
 kolejnosc: 5
-tag: "Para młoda · 100 osób"
-lead: "Od przysięgi na wodzie po ostatni taniec"
-opis_seo: "Wesele nad Wisłą: ceremonia w altanie na wodzie, przyjęcie i parkiet."
-przestrzen: "DUŻE MIEJSCE"
+tag: "Para młoda · 50–250 osób"
+lead: "Od przysięgi na wodzie po ostatni taniec. Liczba gości zależy od formuły: od 50 do 250."
+opis_seo: "Wesele nad Wisłą dla 50–250 gości, zależnie od formuły: ceremonia, przyjęcie i parkiet."
+przestrzen: "DUŻE MIEJSCE, OGRÓD albo CAŁE MIEJSCE, zależnie od formuły"
 program:
   - godzina: "Ceremonia"
     tytul: "Ślub w altanie na wodzie"
@@ -36,4 +35,4 @@ zdjecia:
   - "/img/gallery/ws15.jpg"
 
 ---
-Najważniejszy dzień, bez sali bankietowej z wykładziną. Altana na wodzie, stoły nad rzeką, taniec na barce.
+Najważniejszy dzień, bez sali bankietowej z wykładziną. Altana na wodzie, stoły nad rzeką, taniec na barce. Gości przyjmujemy od 50 do 250, zależnie od formuły.

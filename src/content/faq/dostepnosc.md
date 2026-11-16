@@ -5,4 +5,4 @@ kolejnosc: 6
 adres_url: dostepnosc
 
 ---
-Część wydarzenia odbywa się na barkach, tarasach i w ogrodzie, a każda strefa ma własne wejście. Zanim potwierdzimy termin, napisz, jakich udogodnień potrzebujecie. Opowiemy, jak wygląda dojście do konkretnej przestrzeni. Nie opisujemy tu podjazdów ani toalet, których nie mamy potwierdzonych w ofercie.
+Jest toaleta dla osób z niepełnosprawnościami. Wejście na teren portu prowadzi schodami. Teren należy do miasta, więc nie przebudowujemy dojścia. Napisz przed wizytą, jakich udogodnień potrzebujecie — powiemy, jak wygląda droga do wybranej przestrzeni.

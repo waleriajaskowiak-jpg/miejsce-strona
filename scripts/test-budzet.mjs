@@ -20,8 +20,11 @@ check("odpowiedź bez kwoty", przyklad.ok && !/\d/.test(przyklad.tytul) && !/39\
 const luzno = ocen({ typ: "konferencja", osoby: 30, dzien: "wt", miesiac: 3, budzet: 80000 }, cennik);
 check("mała konferencja z zapasem → A", luzno.ok && luzno.kod === "A");
 
-const ciasno = ocen({ typ: "garden-party", osoby: 300, dzien: "sb", miesiac: 7, budzet: 20000 }, cennik);
-check("duży garden party przy małym budżecie → C", ciasno.ok && ciasno.kod === "C");
+const ciasno = ocen({ typ: "firmowy", osoby: 80, dzien: "sb", miesiac: 7, budzet: 10000 }, cennik);
+check("firmowy 80 przy małym budżecie → C", ciasno.ok && ciasno.kod === "C");
+
+const indywidualnie = ocen({ typ: "garden-party", osoby: 300, dzien: "sb", miesiac: 7, budzet: 20000 }, cennik);
+check("całe miejsce bez ceny → wycena indywidualna", indywidualnie.ok && indywidualnie.indywidualna && !/\d/.test(indywidualnie.tytul));
 
 check("pusta liczba osób", ocen({ typ: "firmowy", osoby: "", dzien: "pn", miesiac: 1, budzet: 10000 }, cennik).ok === false);
 
@@ -29,7 +32,8 @@ const heur = cennik.heurystyka;
 check("konferencja 50 → nowe", wybierzPrzestrzen("konferencja", 50, 3, heur) === "nowe");
 check("firmowy 80 → duze", wybierzPrzestrzen("firmowy", 80, 6, heur) === "duze");
 check("garden party 150 → cale", wybierzPrzestrzen("garden-party", 150, 6, heur) === "cale");
-check("200 osób → cale", wybierzPrzestrzen("integracja", 200, 1, heur) === "cale");
+check("120 osób → duze", wybierzPrzestrzen("firmowy", 120, 1, heur) === "duze");
+check("121 osób → cale", wybierzPrzestrzen("integracja", 121, 1, heur) === "cale");
 
 const drozej = structuredClone(cennik);
 drozej.catering.find((p) => p.id === "podstawa").cena = 900;

@@ -154,13 +154,13 @@ const barPhoto = ["/img/pdf/menu-4.jpg", "/img/pdf/menu-5.jpg", "/img/gallery/kn
 
   const range = document.querySelector("[data-people-range]");
   const out = document.querySelector("[data-people]");
-  const money = new Intl.NumberFormat("pl-PL");
+  const money = new Intl.NumberFormat("pl-PL", { useGrouping: true });
   const paint = () => {
     const n = Number(range.value);
     out.textContent = `dla ${n} osób`;
     document.querySelectorAll("[data-line]").forEach((node) => {
       const rate = Number(node.getAttribute("data-line"));
-      node.textContent = `${n} × ${rate} zł = ${money.format(n * rate)} zł netto`;
+      node.textContent = `${n} × ${rate} zł = ${money.format(n * rate)} zł netto +10% serwisu`;
     });
   };
   range?.addEventListener("input", paint);

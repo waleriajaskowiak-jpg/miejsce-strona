@@ -30,7 +30,7 @@
     {
       "ikona": "pin",
       "tytul": "Dogodny dojazd",
-      "opis": "10 minut od centrum, parking dla gości"
+      "opis": "w Śródmieściu, ok. 10 min do Pałacu Kultury. Publiczny parking na ul. Zaruskiego i przy Torwarze"
     },
     {
       "ikona": "lisc",
@@ -59,7 +59,7 @@
   ],
   "film_h": "Plany zdjęciowe",
   "film_note": "Produkcje filmowe i sesje",
-  "film_body": "Wnętrza i nabrzeże udostępniamy pod produkcje filmowe, reklamowe i sesje zdjęciowe. Zaplecze, prąd i parking dla ekipy na miejscu.",
+  "film_body": "Wnętrza i nabrzeże udostępniamy pod produkcje filmowe, reklamowe i sesje zdjęciowe. Zaplecze i prąd są na miejscu. Publiczny parking jest na ul. Zaruskiego i przy Torwarze.",
   "film_zdjecia": [
     "/img/pdf/film-1.jpg",
     "/img/pdf/film-2.jpg",

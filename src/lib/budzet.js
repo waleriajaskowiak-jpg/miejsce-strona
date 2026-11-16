@@ -15,10 +15,11 @@
  *   osoby_do                 — osób jest nie więcej niż próg
  *   zawsze                   — łapie resztę
  *
- * Domyślnie: powyżej 130 osób → cały kompleks (12 000),
+ * Domyślnie: powyżej 120 osób → cały kompleks (wycena indywidualna),
  * garden party powyżej 100 → cały kompleks,
- * konferencja/szkolenie do 70 → NOWE MIEJSCE (3 000),
- * do 130 osób → DUŻE MIEJSCE (6 000).
+ * konferencja/szkolenie do 70 → Małe Miejsce (3 000),
+ * do 120 osób → DUŻE MIEJSCE (5 000).
+ * 10% serwisu nie wchodzi do porównania. Obsługa kelnerska też nie.
  *
  * Weekend (pt–nd) albo miesiąc z `miesiace_sezonu` (domyślnie 5, 6, 9, 10)
  * mnoży widełki przez `wspolczynnik_terminu` (domyślnie 1.05).
@@ -103,6 +104,16 @@ export function ocen(input, cennik) {
   const przestrzenId = wybierzPrzestrzen(typ, osoby, miesiac, heur);
   const przestrzen = znajdz(cennik.wynajem, przestrzenId);
   const cenaPrzestrzeni = kwota(przestrzen);
+  if (cenaPrzestrzeni == null) {
+    return {
+      ok: true,
+      kod: "I",
+      indywidualna: true,
+      tytul: "Wycena indywidualna",
+      tresc: "Całe Miejsce nie ma ceny „od”. Napisz, ile osób i jaki dzień — ułożymy ofertę za 5 godzin. Do opublikowanych cen jedzenia i baru doliczamy 10% serwisu. Obsługa kelnerska jest osobno.",
+      przestrzen: przestrzen?.dopisek || "Całe Miejsce",
+    };
+  }
   const catMin = kwota(znajdz(cennik.catering, heur.catering_min));
   const catKom = kwota(znajdz(cennik.catering, heur.catering_komfort));
   const barMin = kwota(znajdz(cennik.open_bar, heur.bar_min));

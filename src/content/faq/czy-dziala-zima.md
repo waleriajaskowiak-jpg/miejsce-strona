@@ -5,4 +5,4 @@ kolejnosc: 2
 adres_url: czy-dziala-zima
 
 ---
-Tak. DUŻE MIEJSCE ma ogrzewanie i całoroczny, zadaszony taras — zimą komfortowo mieścimy około 120 osób. NOWE MIEJSCE ma klimatyzację i ogrzewanie. OGRÓD pracuje w sezonie wiosna–lato.
+Tak. DUŻE MIEJSCE ma ogrzewanie i całoroczny, zadaszony taras — zimą komfortowo mieścimy około 120 osób. Małe Miejsce ma klimatyzację i ogrzewanie, do 70 gości. OGRÓD jest otwarty od maja do września.

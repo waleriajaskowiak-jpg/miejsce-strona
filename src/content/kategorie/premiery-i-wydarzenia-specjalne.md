@@ -1,9 +1,9 @@
 ---
-title: "Premiery i eventy marek"
-nav_label: "Premiery i marki"
+title: "Premiery i wydarzenia specjalne"
+nav_label: "Premiery i wydarzenia specjalne"
 kolejnosc: 4
 szkic: false
-seo_title: "Premiery i eventy marek nad wodą | MIEJSCE"
+seo_title: "Premiery i wydarzenia specjalne | MIEJSCE"
 seo_description: "Premiery, spotkania dla klientów i plany zdjęciowe na barkach w Porcie Czerniakowskim."
 lead: "Zachód słońca nad Wisłą, koktajle i kolacja w dobrym towarzystwie. Ten sam adres wynajmujemy też pod zdjęcia i produkcje."
 cta: "Opowiedz nam o pomyśle"
@@ -25,7 +25,7 @@ przestrzenie:
 scenariusze:
   - "event-premium"
 jedzenie_bar: "Koktajl, kolacja i bar. Progi są takie jak na stronie jedzenia: menu od 180 zł i open bar od 150 zł netto za osobę."
-atrakcje: "Wnętrza i nabrzeże udostępniamy pod produkcje filmowe, reklamowe i sesje. Zaplecze, prąd i parking dla ekipy są na miejscu. DJ i większe AV wyceniamy osobno."
+atrakcje: "Wnętrza i nabrzeże udostępniamy pod produkcje filmowe, reklamowe i sesje. Zaplecze i prąd są na miejscu. DJ i większe AV wyceniamy osobno."
 plan_b: "Zdjęcia i część gości mogą zostać pod dachem na barce. Ogród nie jest warunkiem premiery."
 fakty:
   - wartosc: "40"
@@ -34,13 +34,13 @@ fakty:
   - wartosc: "350"
     liczba: 350
     opis: "gości w całym kompleksie"
-  - wartosc: "Ekipa"
-    opis: "parking przy produkcjach, na miejscu"
+  - wartosc: "ELLE"
+    opis: "i The Voice of Poland, produkcje na nabrzeżu"
 korzysci:
   - tytul: "Wieczór dla klientów"
     opis: "Taras, kolacja i bar, bez sali wykładowej w tle."
   - tytul: "Tło, które już znamy z produkcji"
-    opis: "Nabrzeże i barki są w materiale zdjęciowym. ELLE i The Voice of Poland pojawiają się w opisie klimatu na stronie."
+    opis: "Nabrzeże i barki są w materiale zdjęciowym. Były tu m.in. ELLE i The Voice of Poland."
   - tytul: "Technika poza cennikiem"
     opis: "Światło, streaming i scenografia nie mają tu stałej kwoty."
 cover: "/img/gallery/kn08.jpg"

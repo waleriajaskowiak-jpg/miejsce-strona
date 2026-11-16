@@ -25,7 +25,7 @@ for (const item of faqAll) {
   const rendered = await render(item);
   faq.push({ item, Content: rendered.Content });
 }
-const sekcje = entry.id === "premiery-i-eventy-marek" ? (await getEntry("ustawienia", "sekcje"))?.data : null;
+const sekcje = entry.id === "premiery-i-wydarzenia-specjalne" ? (await getEntry("ustawienia", "sekcje"))?.data : null;
 const crumbs = [
   { href: "/eventy/", label: "Wydarzenia" },
   { label: entry.data.nav_label },

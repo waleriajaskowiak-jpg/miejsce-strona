@@ -3,11 +3,7 @@
     "ulica": "ul. Zaruskiego 1",
     "kod": "00-468",
     "miasto": "Warszawa",
-    "dzielnica": "Port Czerniakowski",
-    "lat": 52.2196114,
-    "lon": 21.0473079,
-    "geo_potwierdzone": false,
-    "do_potwierdzenia": "Współrzędne są na stronie i na mapie. Audyt prosi o potwierdzenie przed traktowaniem ich jako faktu zamkniętego."
+    "dzielnica": "Port Czerniakowski"
   },
   "kontakt": {
     "telefon_wyswietlany": "+48 724 414 515",
@@ -16,52 +12,60 @@
   },
   "dzialamy_od": {
     "tekst": "Działamy od 2015 roku",
-    "rok": 2015,
-    "do_potwierdzenia": "Na stronie jest też cytat „Od 2020 roku”. Zostawiamy oba sformułowania tak, jak są teraz. Decyzja: Maciek."
+    "rok": 2015
   },
   "lokalizacja": {
-    "odleglosc_centrum": "10 minut od centrum Warszawy",
-    "parking": "Przy MIEJSCU jest parking dla gości. Ile miejsc zostanie pod Wasz termin, powiemy przy rezerwacji.",
-    "komunikacja": "Dokładną trasę komunikacją i wjazd na teren portu potwierdzimy przy oględzinach albo w mailu przed eventem.",
-    "do_potwierdzenia": "„10 minut od centrum” i „w centrum Warszawy” stoją obok siebie. Parking jest opisany jako parking dla gości. Nie dodajemy parkingu przy Torwarze ani przystanku 70 m."
+    "tekst": "w Śródmieściu, ok. 10 min do Pałacu Kultury",
+    "przystanek": "Przystanek autobusowy jest około 70 m od MIEJSCA.",
+    "parking": "Nie mamy prywatnego parkingu dla gości. Publiczny parking jest na ul. Zaruskiego i przy Torwarze.",
+    "dojscie": "Zejście do portu prowadzi schodami. Teren należy do miasta."
   },
-  "dostepnosc": "Nie opisujemy tu podjazdów ani toalet, których nie mamy potwierdzonych w ofercie. Dostępność potwierdzamy pod konkretny termin.",
-  "dostepnosc_do_potwierdzenia": "Audyt podaje toaletę i schody przy zejściu do portu. Tego zdania nie ma na obecnej stronie, więc go nie publikujemy.",
+  "dostepnosc": "Jest toaleta dla osób z niepełnosprawnościami. Wejście na teren portu prowadzi schodami. Teren należy do miasta.",
   "przestrzenie": {
     "duze": {
       "nazwa": "DUŻE MIEJSCE",
       "wnetrze_m2": 80,
       "taras_m2": 120,
-      "zima_osob": "do 130 osób zimą",
-      "zima_w_tekscie": "ok. 120 osób",
-      "cena_od": 6000,
-      "do_potwierdzenia": "Karta i reguła budżetu mówią 130 osób zimą. Opis i skrót mówią około 120. Zostawiamy obie formuły tam, gdzie już są."
+      "zima_osob": "około 120 osób",
+      "cena_od": 5000,
+      "czas": "5 h",
+      "kontenery": true,
+      "do_potwierdzenia": "Metraż zostaje 80 m² wnętrza i 120 m² tarasu. W materiałach pojawia się też 250 m². Tej liczby nie publikujemy, dopóki Maciek nie wybierze jednej."
     },
-    "nowe": {
-      "nazwa": "NOWE MIEJSCE",
+    "male": {
+      "nazwa": "Małe Miejsce",
+      "id": "nowe",
+      "gosci": 70,
+      "wnetrze_m2": 108,
+      "taras_m2": 50,
       "cena_od": 3000,
-      "do_potwierdzenia": "PDF mówi o Małym Miejscu i innym metrażu. Na stronie zostaje NOWE MIEJSCE i liczby, które już publikujemy."
+      "czas": "5 h"
     },
     "ogrod": {
       "nazwa": "OGRÓD",
-      "sezon": "wiosna–lato",
-      "do_potwierdzenia": "Na stronie ogród jest osobną przestrzenią. PDF opisuje go jako uzupełnienie barek. Nie zmieniamy tego zdania."
+      "sezon": "maj–wrzesień",
+      "cena": "indywidualnie",
+      "do_potwierdzenia": "Na stronie ogród zostaje osobną przestrzenią. PDF opisuje go jako uzupełnienie barek. Tego zdania nie zmieniamy, dopóki Maciek nie zdecyduje."
     },
     "cale": {
       "nazwa": "CAŁE MIEJSCE",
       "maks_osob": 350,
-      "cena_od": 12000
+      "takze_w_deszczu": true,
+      "cena": "wycena indywidualna",
+      "czas": "5 h"
     }
   },
   "ceny": {
     "menu": [180, 220, 250],
     "open_bar": [150, 190, 230],
-    "open_bar_150_czas": "",
-    "oplata_serwisowa_proc": null,
+    "open_bar_czas": "5 h",
+    "oplata_serwisowa_proc": 10,
     "netto": true,
-    "zrodlo": "Oferta MIEJSCE EVENTY 2026",
-    "do_potwierdzenia": "PDF wspomina 10% opłaty serwisowej. Na stronie jej nie ma, więc jej nie pokazujemy. Czas pakietu 150 zł też nie jest podany."
+    "zrodlo": "Oferta MIEJSCE EVENTY 2026"
   },
+  "godziny": "Event może trwać do rana. Rekomendujemy zakończenie do 2:00.",
+  "wesela_goscie": "50–250, zależnie od formuły",
+  "logotypy_do_publikacji": true,
   "bary": {
     "stale": 3,
     "mobilny": true,

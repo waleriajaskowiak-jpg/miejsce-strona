@@ -50,8 +50,8 @@ const payload = JSON.stringify({
               <span class="card-body">
                 <span class="eyebrow">{row.dopisek}</span>
                 <h3>{row.nazwa}</h3>
-                <span class="price">od {zloty(row.cena_od)}</span>
-                <span class="meta">netto, orientacyjnie</span>
+                <span class="price">{row.cena_od ? `od ${zloty(row.cena_od)}` : "wycena indywidualna"}</span>
+                <span class="meta">5 h · netto · +10% serwisu</span>
               </span>
             </button>
           ))
@@ -87,7 +87,8 @@ const payload = JSON.stringify({
         <div class="total">
           <p class="eyebrow">Orientacyjnie</p>
           <p class="total-num" data-total>od 0 zł</p>
-          <p>netto. Bez obsługi, AV i DJ-a. To widełki „od” z oferty 2026, nie wycena końcowa.</p>
+          <p data-service>netto, za 5 h wynajmu. +10% serwisu. Bez obsługi kelnerskiej, AV i DJ-a.</p>
+          <p data-quote hidden><a class="btn btn-primary" href="/kontakt/?przestrzen=Ca%C5%82e%20Miejsce">Poproś o wycenę</a></p>
         </div>
       </div>
     </div>
@@ -169,7 +170,7 @@ const payload = JSON.stringify({
 <script>
   const root = document.querySelector("[data-estimator]");
   const data = JSON.parse(document.querySelector("#estimator-data")?.textContent || "{}");
-  const money = new Intl.NumberFormat("pl-PL");
+  const money = new Intl.NumberFormat("pl-PL", { useGrouping: true });
   const guests = root?.querySelector("[data-guests]");
   const guestOut = root?.querySelector("[data-est-guests]");
   const totalEl = root?.querySelector("[data-total]");
@@ -178,15 +179,38 @@ const payload = JSON.stringify({
   let bar = data.bar?.[0]?.id;
   let shown = 0;
 
-  const priceOf = (list, id) => list?.find((row) => row.id === id)?.cena_od ?? list?.find((row) => row.id === id)?.cena ?? 0;
-  const target = () => priceOf(data.wynajem, space) + Number(guests.value) * (priceOf(data.catering, catering) + priceOf(data.bar, bar));
+  const priceOf = (list, id) => {
+    const row = list?.find((item) => item.id === id);
+    const n = row?.cena_od ?? row?.cena;
+    return typeof n === "number" ? n : null;
+  };
+  let frame = 0;
 
   const paint = () => {
+    frame += 1;
+    const mine = frame;
     if (guestOut) guestOut.firstChild.textContent = guests.value;
-    const next = target();
+    const rental = priceOf(data.wynajem, space);
+    const service = root.querySelector("[data-service]");
+    const quote = root.querySelector("[data-quote]");
+    if (rental == null) {
+      shown = 0;
+      totalEl?.classList.add("is-quote");
+      if (totalEl) totalEl.textContent = "wycena indywidualna";
+      if (service) service.textContent = "Całe Miejsce nie ma ceny „od”. Jedzenie i bar zostają w progach na tej stronie. +10% serwisu. Bez obsługi kelnerskiej, AV i DJ-a.";
+      const link = quote?.querySelector("a");
+      if (link) link.setAttribute("href", `/kontakt/?przestrzen=${encodeURIComponent("Całe Miejsce")}&osoby=${guests.value}`);
+      if (quote) quote.hidden = false;
+      return;
+    }
+    totalEl?.classList.remove("is-quote");
+    if (quote) quote.hidden = true;
+    if (service) service.textContent = "netto, za 5 h wynajmu. +10% serwisu. Bez obsługi kelnerskiej, AV i DJ-a.";
+    const next = rental + Number(guests.value) * ((priceOf(data.catering, catering) || 0) + (priceOf(data.bar, bar) || 0));
     const from = shown;
     const start = performance.now();
     const step = (now) => {
+      if (mine !== frame) return;
       const k = Math.min(1, (now - start) / 420);
       shown = Math.round(from + (next - from) * (1 - Math.pow(1 - k, 3)));
       if (totalEl) totalEl.textContent = `od ${money.format(shown)} zł`;

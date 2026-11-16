@@ -5,4 +5,4 @@ kolejnosc: 5
 adres_url: dojazd
 
 ---
-Jesteśmy przy ul. Zaruskiego 1, 00-468 Warszawa, w Porcie Czerniakowskim, około 10 minut od centrum. Rozkład linii i najwygodniejsze dojście pieszo z przystanku przesyłamy przed oględzinami albo eventem — na stronie nie zgadujemy numerów autobusów.
+Jesteśmy w Śródmieściu, ok. 10 min do Pałacu Kultury, przy ul. Zaruskiego 1 w Porcie Czerniakowskim. Przystanek autobusowy jest około 70 m od MIEJSCA. Zejście do portu prowadzi schodami, a teren należy do miasta. Numerów linii nie zgadujemy na stronie — konkretną trasę potwierdzimy przed oględzinami albo eventem.

@@ -1121,6 +1121,7 @@ body.lb-open { overflow: hidden; }
 .estimator .fine,
 .estimator .total p { color: var(--on-dark); }
 .estimator .total-num { color: var(--accent); }
+.estimator .total-num.is-quote { font-size: var(--t-40); }
 .estimator h3,
 .estimator .slider-val { color: var(--on-dark-strong); }
 .band .slider-k,

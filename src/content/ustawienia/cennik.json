@@ -11,28 +11,31 @@
   "dodatki_h": "Obsługa, AV, DJ i dodatki",
   "dodatki_lead": "Tego nie zamykamy w cenniku na stronie. Wyceniamy pod scenariusz, liczbę gości i długość eventu.",
   "budzet_h": "Masz budżet? Sprawdźmy, co możemy z nim zrobić",
-  "netto_info": "Ceny netto, zgodne z ofertą MIEJSCE EVENTY 2026. To widełki „od”, nie wycena końcowa.",
+  "netto_info": "Ceny netto, za 5 godzin, zgodne z ofertą MIEJSCE EVENTY 2026. Do tych kwot doliczamy 10% serwisu. To nie jest obsługa kelnerska. Widełki „od”, nie wycena końcowa. Całe Miejsce i ogród wyceniamy indywidualnie.",
   "pdf": "/pdf/MIEJSCE-oferta-2026-PL.pdf",
   "pdf_etykieta": "Pobierz ofertę 2026 (PDF)",
-  "jak_porownujemy": "Porównujemy podany budżet z dwoma zestawami cen z tej strony: wersja oszczędna (najtaniejszy catering i najtańszy open bar plus wynajem „od”) oraz wersja środkowa. Jeśli termin wypada w weekend albo w maju, czerwcu, wrześniu lub październiku, widełki podnosimy o współczynnik z CMS (domyślnie 5%). To nie jest dopłata z cennika, tylko ostrożniejsze porównanie. Nie doliczamy obsługi, DJ-a ani AV, bo nie mają tu stałej ceny. Dlatego odpowiedź jest słowna, nie kwotą.",
+  "jak_porownujemy": "Porównujemy podany budżet z dwoma zestawami cen z tej strony: wersja oszczędna (najtaniejszy catering i najtańszy open bar plus wynajem „od”) oraz wersja środkowa. 10% serwisu pokazujemy obok, ale nie wliczamy go w to porównanie i nie dublujemy z obsługą kelnerską. Jeśli termin wypada w weekend albo w maju, czerwcu, wrześniu lub październiku, widełki podnosimy o współczynnik z CMS (domyślnie 5%). To nie jest dopłata z cennika, tylko ostrożniejsze porównanie. Nie doliczamy obsługi kelnerskiej, DJ-a ani AV, bo nie mają tu stałej ceny. Całe Miejsce nie ma ceny „od”, więc przy tym układzie prosimy o wycenę. Dlatego odpowiedź jest słowna, nie kwotą.",
   "wynajem": [
     {
       "id": "nowe",
       "nazwa": "Sala konferencyjna + taras",
       "cena_od": 3000,
-      "dopisek": "NOWE MIEJSCE"
+      "dopisek": "Małe Miejsce",
+      "czas": "5 h"
     },
     {
       "id": "duze",
       "nazwa": "Pierwsza barka + zadaszony taras",
-      "cena_od": 6000,
-      "dopisek": "DUŻE MIEJSCE"
+      "cena_od": 5000,
+      "dopisek": "DUŻE MIEJSCE",
+      "czas": "5 h"
     },
     {
       "id": "cale",
       "nazwa": "Cały kompleks + ogród",
-      "cena_od": 12000,
-      "dopisek": "DUŻE MIEJSCE, NOWE MIEJSCE i OGRÓD"
+      "cena_od": null,
+      "dopisek": "DUŻE MIEJSCE, Małe Miejsce i OGRÓD",
+      "czas": "5 h"
     }
   ],
   "catering": [
@@ -63,8 +66,8 @@
       "id": "podstawowy",
       "nazwa": "Piwo, wino, softy",
       "cena": 150,
-      "jednostka": "zł netto/os.",
-      "opis": "Piwo, wino i napoje bezalkoholowe"
+      "jednostka": "zł netto/os./5h",
+      "opis": "Piwo, wino i napoje bezalkoholowe, 5 godzin"
     },
     {
       "id": "standard",
@@ -84,11 +87,11 @@
   "dodatki": [
     {
       "nazwa": "Obsługa",
-      "opis": "Kelnerzy i koordynacja. Wycena zależy od liczby gości i długości eventu."
+      "opis": "Kelnerzy i koordynacja. Osobna pozycja, nie 10% serwisu doliczane do wynajmu, menu i baru."
     },
     {
       "nazwa": "AV",
-      "opis": "Rzutnik, ekran i mikrofony są w NOWYM MIEJSCU. Większe ekrany, światło i streaming wyceniamy osobno."
+      "opis": "Rzutnik, ekran i mikrofony są w Małym Miejscu. Większe ekrany, światło i streaming wyceniamy osobno."
     },
     {
       "nazwa": "DJ i muzyka",
@@ -216,7 +219,7 @@
   "wyniki": {
     "A": {
       "tytul": "Spokojnie się mieścimy",
-      "tresc": "Tu możemy już trochę poszaleć. Jedzenie, bar, przestrzeń i obsługa spokojnie się zmieszczą. Porozmawiajmy o dodatkach."
+      "tresc": "Tu możemy już trochę poszaleć. Jedzenie, bar i przestrzeń spokojnie się zmieszczą. Do tych cen doliczamy 10% serwisu. Obsługę kelnerską i dodatki układamy osobno."
     },
     "B": {
       "tytul": "Da się. Trzeba tylko dobrze poukładać budżet",
@@ -249,7 +252,7 @@
     "reguly": [
       {
         "gdy": "osoby_powyzej",
-        "wartosc": 130,
+        "wartosc": 120,
         "przestrzen": "cale"
       },
       {
@@ -271,7 +274,7 @@
       },
       {
         "gdy": "osoby_do",
-        "wartosc": 130,
+        "wartosc": 120,
         "przestrzen": "duze"
       },
       {

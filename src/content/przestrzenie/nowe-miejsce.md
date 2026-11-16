@@ -1,10 +1,10 @@
 ---
-title: "NOWE MIEJSCE"
+title: "Małe Miejsce"
 adres_url: nowe-miejsce
 kolejnosc: 2
-lead: "Rano konferencja. Wieczorem bar. Bez zmiany adresu."
-meta: "80 m² dla gości · 60 m² tarasu · do 70 osób"
-opis_seo: "Konferencyjna część MIEJSCA: około 80 m² dla gości i 60 m² zadaszonego tarasu. Do 70 osób."
+lead: "Do 70 gości. 108 m² i 50 m² zadaszonego tarasu."
+meta: "108 m² · 50 m² tarasu · do 70 osób"
+opis_seo: "Małe Miejsce: do 70 gości, 108 m² i 50 m² zadaszonego tarasu. Konferencja, szkolenie albo premiera."
 cena_od: 3000
 cena_etykieta: "od 3 000 zł"
 najlepiej:
@@ -16,12 +16,9 @@ najlepiej:
   - "spotkania firmowe"
   - "networking"
 w_skrocie:
-  - "powierzchnia całkowita: 108 m²"
-  - "powierzchnia dla gości: ok. 80 m²"
-  - "teatralnie: do 70 osób"
-  - "szkoleniowo: do 40 osób"
-  - "cocktail/stojąco: ok. 60 osób"
-  - "zadaszony taras: ok. 60 m²"
+  - "do 70 gości"
+  - "108 m²"
+  - "zadaszony taras: 50 m²"
   - "własny bar"
   - "2 toalety"
   - "rzutnik i ekran"
@@ -40,4 +37,4 @@ zdjecia:
   - "/img/gallery/mm11.jpg"
 
 ---
-NOWE MIEJSCE to najbardziej konferencyjna część naszego kompleksu: około 80 m² przestrzeni dla gości i 60 m² zadaszonego tarasu nad wodą. Można zrobić prezentację, szkolenie czy premierę, a później podać jedzenie, otworzyć bar i płynnie przejść do networkingu albo afterparty.
+Małe Miejsce to najbardziej konferencyjna część kompleksu: 108 m² i 50 m² zadaszonego tarasu nad wodą, do 70 gości. Można zrobić prezentację, szkolenie czy premierę, a później podać jedzenie, otworzyć bar i płynnie przejść do networkingu albo afterparty.

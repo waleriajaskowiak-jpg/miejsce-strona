@@ -22,7 +22,7 @@ npm run preview    # podgląd buildu
 npm run test:budzet
 ```
 
-`npm run build` zostawia podgląd z `noindex`. Prawdziwy deploy na miejsce.to odpala `npm run build:prod`. Fakty o obiekcie są w `src/content/ustawienia/fakty.json`. Konflikty (130/120, 2015/2020, parking, 10 minut) są oznaczone polem „do potwierdzenia” i nie są rozstrzygane w kodzie.
+`npm run build` zostawia podgląd z `noindex`. Prawdziwy deploy na miejsce.to odpala `npm run build:prod`. Fakty o obiekcie są w `src/content/ustawienia/fakty.json`. Nierozstrzygnięte zostają tylko metraż Dużego Miejsca (80 + 120 m² wobec 250 m²) i opis ogrodu jako osobnej przestrzeni.
 
 ## Deploy na Netlify (nowa witryna)
 
@@ -83,10 +83,10 @@ Jest na stronie głównej (krótki) i na `/ceny/` (ze zdaniem, jak liczy). Nie p
 
 Porównanie, edytowalne w CMS w „Ceny i budżet → Progi modułu budżetu”:
 
-- wynajem „od”: NOWE 3 000 / DUŻE 6 000 / CAŁE 12 000
-- wersja oszczędna: ten wynajem + osoby × (catering 180 + bar 150)
+- wynajem „od”, za 5 h: Małe Miejsce 3 000 / DUŻE 5 000 / CAŁE wycena indywidualna
+- wersja oszczędna: ten wynajem + osoby × (catering 180 + bar 150). 10% serwisu nie wchodzi do rachunku
 - wersja środkowa: ten wynajem + osoby × (catering 220 + bar 190)
-- powyżej 130 osób, albo garden party powyżej 100 osób → cały kompleks; konferencja lub szkolenie do 70 osób → NOWE MIEJSCE; reszta do 130 osób → DUŻE MIEJSCE
+- powyżej 120 osób, albo garden party powyżej 100 osób → cały kompleks (bez liczby, prośba o wycenę); konferencja lub szkolenie do 70 osób → Małe Miejsce; reszta do 120 osób → DUŻE MIEJSCE
 - piątek, sobota, niedziela albo maj, czerwiec, wrzesień, październik mnożą widełki przez 1,05. To nie jest dopłata z cennika, tylko ostrożniejsze porównanie. Współczynnik można zmienić albo ustawić na `1`
 - A, gdy budżet jest co najmniej 12% powyżej wersji środkowej; B, gdy mieści się wersja oszczędna; inaczej C
 - obsługa, DJ i AV nie wchodzą do porównania, bo nie mają tu stałej ceny

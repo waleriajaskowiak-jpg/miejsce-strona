@@ -11,7 +11,7 @@ kolejnosc: 1
 tag: "Firma, zespół · 50 osób"
 lead: "Całodzienne spotkanie, od sali konferencyjnej po parkiet"
 opis_seo: "Konferencja, networking na tarasie i wieczorne afterparty w jednym adresie nad Wisłą."
-przestrzen: "NOWE MIEJSCE i DUŻE MIEJSCE"
+przestrzen: "Małe Miejsce i DUŻE MIEJSCE"
 program:
   - godzina: "10:00–16:00"
     tytul: "Część konferencyjna"
