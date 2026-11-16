@@ -23,6 +23,29 @@ const description = "Dwie barki, zadaszone tarasy i ogród w Porcie Czerniakowsk
       <SpacePicker fakty={fakty} spaces={przestrzenie} heading="h1" />
     </div>
   </section>
+  {
+    przestrzenie.map((space, index) => (
+      <section class:list={["band", "space-band", index % 2 ? "band-sand" : "band-ink"]}>
+        <div class="wrap space-detail">
+          <div>
+            <p class="eyebrow">0{index + 1}</p>
+            <h2>{space.data.title}</h2>
+            <p class="lead">{space.data.lead}</p>
+            <ul class="pills">
+              {space.data.najlepiej.slice(0, 4).map((item) => <li>{item}</li>)}
+            </ul>
+            <ul class="spec-list">
+              {space.data.w_skrocie.slice(0, 6).map((item) => <li>{item}</li>)}
+            </ul>
+            <p class="btn-row"><a class="btn btn-primary" href={`/przestrzenie/${space.id}/`}>Zobacz {space.data.title}</a></p>
+          </div>
+          <div class="space-shots">
+            {space.data.zdjecia.slice(0, 3).map((src) => <img src={src} alt="" width="1800" height="1200" />)}
+          </div>
+        </div>
+      </section>
+    ))
+  }
   <NextBand
     kicker="Następny krok"
     title="Wybierz scenariusz albo policz budżet"

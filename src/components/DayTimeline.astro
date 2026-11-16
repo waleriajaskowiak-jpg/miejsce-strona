@@ -1,0 +1,131 @@
+---
+const { kategorie, scenariusze } = Astro.props;
+const short = {
+  "eventy-firmowe-i-integracje": "Integracje",
+  "konferencje-i-szkolenia": "Konferencje",
+  "wesela-i-przyjecia-prywatne": "Wesela",
+  "premiery-i-wydarzenia-specjalne": "Premiery",
+};
+const shots = {
+  day: "/img/gallery/og16.jpg",
+  dusk: "/img/gallery/dm20.jpg",
+  night: "/img/gallery/dm22.jpg",
+};
+const mood = (time, title) => {
+  const hour = parseInt(String(time), 10);
+  const blob = `${time} ${title}`.toLowerCase();
+  if (!Number.isFinite(hour)) {
+    if (/wiecz|noc|taniec|after|zabawa/.test(blob)) return "night";
+    if (/obiad|przyj|kolac/.test(blob)) return "dusk";
+    return "day";
+  }
+  if (hour < 16) return "day";
+  if (hour < 20) return "dusk";
+  return "night";
+};
+const panels = kategorie.map((cat) => {
+  const scen = scenariusze.find((item) => item.data.kategorie?.includes(cat.id));
+  return {
+    id: cat.id,
+    label: short[cat.id] || cat.data.nav_label,
+    href: scen ? `/scenariusze/${scen.id}/` : "/scenariusze/",
+    steps: (scen?.data.program || []).map((point) => ({
+      time: point.godzina,
+      title: point.tytul,
+      text: String(point.opis || "").replace(/\.\s*$/, ""),
+      photo: shots[mood(point.godzina, point.tytul)],
+    })),
+  };
+});
+const payload = JSON.stringify(panels).replace(/</g, "\\u003c");
+---
+
+<div class="dayshow" data-dayshow>
+  <script type="application/json" class="day-data" set:html={payload} />
+  <div class="tablist" role="tablist" aria-label="Rodzaj dnia">
+    {panels.map((panel, index) => (
+      <button type="button" data-daytab={index} aria-selected={index === 0 ? "true" : "false"}>{panel.label}</button>
+    ))}
+  </div>
+  <div class="day-layout">
+    <div class="day-photo">
+      <img data-dayphoto src={panels[0]?.steps[0]?.photo} alt="" width="1800" height="1200" />
+    </div>
+    <div>
+      <div class="day-track" data-daytrack tabindex="0" aria-label="Przebieg dnia">
+        <span class="day-rail" aria-hidden="true"><i data-dayfill></i></span>
+        <ol data-daysteps></ol>
+      </div>
+      <p class="btn-row"><a class="text-link" data-daylink href="/scenariusze/">Zobacz scenariusz</a></p>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.querySelectorAll("[data-dayshow]").forEach((root) => {
+    const panels = JSON.parse(root.querySelector(".day-data")?.textContent || "[]");
+    const list = root.querySelector("[data-daysteps]");
+    const photo = root.querySelector("[data-dayphoto]");
+    const fill = root.querySelector("[data-dayfill]");
+    const link = root.querySelector("[data-daylink]");
+    const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+    let tab = 0;
+    let step = 0;
+    let timer = 0;
+
+    const paint = () => {
+      const panel = panels[tab];
+      const current = panel.steps[step];
+      list.innerHTML = panel.steps.map((item, index) => `<li><button type="button" class="${index === step ? "is-on" : ""}" data-step="${index}"><time>${item.time}</time><strong>${item.title}</strong><span>${item.text}</span></button></li>`).join("");
+      if (photo && current) photo.src = current.photo;
+      if (link) link.href = panel.href;
+      const count = Math.max(panel.steps.length - 1, 1);
+      if (fill) fill.style.width = `${(step / count) * 100}%`;
+      list.querySelectorAll("[data-step]").forEach((button) => {
+        button.addEventListener("click", () => {
+          step = Number(button.getAttribute("data-step"));
+          paint();
+        });
+      });
+    };
+
+    const advance = () => {
+      const panel = panels[tab];
+      step = (step + 1) % panel.steps.length;
+      paint();
+    };
+
+    root.querySelectorAll("[data-daytab]").forEach((button) => {
+      button.addEventListener("click", () => {
+        tab = Number(button.getAttribute("data-daytab"));
+        step = 0;
+        root.querySelectorAll("[data-daytab]").forEach((peer) => {
+          peer.setAttribute("aria-selected", peer === button ? "true" : "false");
+        });
+        paint();
+      });
+    });
+
+    let dragX = 0;
+    root.querySelector("[data-daytrack]")?.addEventListener("pointerdown", (event) => {
+      dragX = event.clientX;
+    });
+    root.querySelector("[data-daytrack]")?.addEventListener("pointerup", (event) => {
+      const delta = event.clientX - dragX;
+      if (Math.abs(delta) < 40) return;
+      const panel = panels[tab];
+      step = Math.min(panel.steps.length - 1, Math.max(0, step + (delta < 0 ? 1 : -1)));
+      paint();
+    });
+
+    const play = () => {
+      if (reduce) return;
+      window.clearInterval(timer);
+      timer = window.setInterval(advance, 3800);
+    };
+    root.addEventListener("mouseenter", () => window.clearInterval(timer));
+    root.addEventListener("mouseleave", play);
+    paint();
+    play();
+  });
+</script>

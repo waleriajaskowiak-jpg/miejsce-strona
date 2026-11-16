@@ -16,11 +16,11 @@
   },
   "lokalizacja": {
     "tekst": "w Śródmieściu, ok. 10 min do Pałacu Kultury",
-    "przystanek": "Przystanek autobusowy jest około 70 m od MIEJSCA.",
-    "parking": "Nie mamy prywatnego parkingu dla gości. Publiczny parking jest na ul. Zaruskiego i przy Torwarze.",
-    "dojscie": "Zejście do portu prowadzi schodami. Teren należy do miasta."
+    "przystanek": "Przystanek autobusowy jest około 70 m od MIEJSCA",
+    "parking": "Nie mamy prywatnego parkingu dla gości. Publiczny parking jest na ul. Zaruskiego i przy Torwarze",
+    "dojscie": "Zejście do portu prowadzi schodami. Teren należy do miasta"
   },
-  "dostepnosc": "Jest toaleta dla osób z niepełnosprawnościami. Wejście na teren portu prowadzi schodami. Teren należy do miasta.",
+  "dostepnosc": "Jest toaleta dla osób z niepełnosprawnościami. Wejście na teren portu prowadzi schodami. Teren należy do miasta",
   "przestrzenie": {
     "duze": {
       "nazwa": "Duże Miejsce",
@@ -28,11 +28,11 @@
       "taras_m2": 120,
       "zima_osob": "około 120 osób",
       "zima_liczba": 120,
-      "lato_do_potwierdzenia": "Letniej pojemności Dużego Miejsca nie ma w potwierdzonych faktach. Suwak używa zimowych 120.",
+      "lato_do_potwierdzenia": "Letniej pojemności Dużego Miejsca nie ma w potwierdzonych faktach. Suwak używa zimowych 120",
       "cena_od": 5000,
       "czas": "5 h",
       "kontenery": true,
-      "do_potwierdzenia": "Metraż zostaje 80 m² wnętrza i 120 m² tarasu. W materiałach pojawia się też 250 m². Tej liczby nie publikujemy, dopóki Maciek nie wybierze jednej."
+      "do_potwierdzenia": "Metraż zostaje 80 m² wnętrza i 120 m² tarasu. W materiałach pojawia się też 250 m². Tej liczby nie publikujemy, dopóki Maciek nie wybierze jednej"
     },
     "male": {
       "nazwa": "Małe Miejsce",
@@ -50,7 +50,7 @@
       "cena": "indywidualnie",
       "gosci": 100,
       "gosci_tekst": "ok. 100 osób",
-      "do_potwierdzenia": "Na stronie ogród zostaje osobną przestrzenią. PDF opisuje go jako uzupełnienie barek. Liczba ok. 100 osób jest tą, którą strona już publikuje — Maciek jej nie potwierdził."
+      "do_potwierdzenia": "Na stronie ogród zostaje osobną przestrzenią. PDF opisuje go jako uzupełnienie barek. Liczba ok. 100 osób jest tą, którą strona już publikuje — Maciek jej nie potwierdził"
     },
     "cale": {
       "nazwa": "Całe Miejsce",
@@ -68,13 +68,13 @@
     "netto": true,
     "zrodlo": "Oferta MIEJSCE EVENTY 2026"
   },
-  "godziny": "Event może trwać do rana. Rekomendujemy zakończenie do 2:00.",
+  "godziny": "Event może trwać do rana. Rekomendujemy zakończenie do 2:00",
   "wesela_goscie": "50–250, zależnie od formuły",
   "logotypy_do_publikacji": true,
   "bary": {
     "stale": 3,
     "mobilny": true,
-    "tekst": "3 stałe bary + możliwość ustawienia baru mobilnego."
+    "tekst": "3 stałe bary + możliwość ustawienia baru mobilnego"
   },
   "same_as": []
 }

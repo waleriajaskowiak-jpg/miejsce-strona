@@ -9,13 +9,10 @@ const { kicker = "Następny krok", title, links = [], cta = "Zaplanuj event", hr
       <h2>{title}</h2>
     </div>
     <div class="next-actions">
-      <ul class="next-links">
-        {links.map((link) => (
-          <li><a href={link.href}>{link.label}</a></li>
-        ))}
-      </ul>
-      <a class="btn btn-primary" href={href}>{cta}</a>
-      <a class="btn btn-ghost" href="/kontakt/?cel=ogledziny">Umów oględziny</a>
+      <div class="btn-row">
+        <a class="btn btn-primary" href={href}>{cta}</a>
+        {links[0] && <a class="btn btn-ghost" href={links[0].href}>{links[0].label}</a>}
+      </div>
     </div>
   </div>
 </section>

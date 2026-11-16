@@ -1,20 +1,20 @@
 {
   "naglowek": "Ile kosztuje event w MIEJSCU?",
-  "lead": "Zależy, co robimy. Ale nie musisz wysyłać zapytania, żeby dowiedzieć się, czy mówimy o 20 czy 100 tysiącach.",
-  "opis_seo": "Orientacyjne ceny wynajmu, cateringu i open baru w MIEJSCU. Moduł budżetu odpowiada słownie, bez kwoty co do złotówki.",
+  "lead": "Zależy, co robimy. Ale nie musisz wysyłać zapytania, żeby dowiedzieć się, czy mówimy o 20 czy 100 tysiącach",
+  "opis_seo": "Orientacyjne ceny wynajmu, cateringu i open baru w MIEJSCU. Moduł budżetu odpowiada słownie, bez kwoty co do złotówki",
   "wynajem_h": "Przestrzeń",
   "wynajem_lead": "Orientacyjnie:",
   "catering_h": "Jedzenie",
-  "catering_lead": "Nie wrzucamy całego menu. Trzy poziomy, reszta w ofercie PDF.",
+  "catering_lead": "Nie wrzucamy całego menu. Trzy poziomy, reszta w ofercie PDF",
   "bar_h": "Open bar",
-  "bar_info": "3 stałe bary + możliwość ustawienia baru mobilnego.",
+  "bar_info": "3 stałe bary + możliwość ustawienia baru mobilnego",
   "dodatki_h": "Obsługa, AV, DJ i dodatki",
-  "dodatki_lead": "Tego nie zamykamy w cenniku na stronie. Wyceniamy pod scenariusz, liczbę gości i długość eventu.",
+  "dodatki_lead": "Wyceniamy pod scenariusz, liczbę gości i długość eventu",
   "budzet_h": "Masz budżet? Sprawdźmy, co możemy z nim zrobić",
-  "netto_info": "Ceny netto, za 5 godzin, zgodne z ofertą MIEJSCE EVENTY 2026. Do tych kwot doliczamy 10% serwisu. To nie jest obsługa kelnerska. Widełki „od”, nie wycena końcowa. Całe Miejsce i ogród wyceniamy indywidualnie.",
+  "netto_info": "Ceny netto, za 5 godzin, zgodne z ofertą MIEJSCE EVENTY 2026. Do tych kwot doliczamy 10% serwisu. To nie jest obsługa kelnerska. Widełki „od”, nie wycena końcowa. Całe Miejsce i ogród wyceniamy indywidualnie",
   "pdf": "/pdf/MIEJSCE-oferta-2026-PL.pdf",
   "pdf_etykieta": "Pobierz ofertę 2026 (PDF)",
-  "jak_porownujemy": "Porównujemy podany budżet z dwoma zestawami cen z tej strony: wersja oszczędna (najtaniejszy catering i najtańszy open bar plus wynajem „od”) oraz wersja środkowa. 10% serwisu pokazujemy obok, ale nie wliczamy go w to porównanie i nie dublujemy z obsługą kelnerską. Jeśli termin wypada w weekend albo w maju, czerwcu, wrześniu lub październiku, widełki podnosimy o współczynnik z CMS (domyślnie 5%). To nie jest dopłata z cennika, tylko ostrożniejsze porównanie. Nie doliczamy obsługi kelnerskiej, DJ-a ani AV, bo nie mają tu stałej ceny. Całe Miejsce nie ma ceny „od”, więc przy tym układzie prosimy o wycenę. Dlatego odpowiedź jest słowna, nie kwotą.",
+  "jak_porownujemy": "Porównujemy podany budżet z dwoma zestawami cen z tej strony: wersja oszczędna (najtaniejszy catering i najtańszy open bar plus wynajem „od”) oraz wersja środkowa. 10% serwisu pokazujemy obok, ale nie wliczamy go w to porównanie i nie dublujemy z obsługą kelnerską. Jeśli termin wypada w weekend albo w maju, czerwcu, wrześniu lub październiku, widełki podnosimy o współczynnik z CMS (domyślnie 5%). To nie jest dopłata z cennika, tylko ostrożniejsze porównanie. Nie doliczamy obsługi kelnerskiej, DJ-a ani AV, bo nie mają tu stałej ceny. Całe Miejsce nie ma ceny „od”, więc przy tym układzie prosimy o wycenę. Dlatego odpowiedź jest słowna, nie kwotą",
   "wynajem": [
     {
       "id": "nowe",
@@ -43,21 +43,21 @@
       "id": "podstawa",
       "nazwa": "Solidna podstawa",
       "cena": 180,
-      "jednostka": "zł netto/os.",
+      "jednostka": "zł netto/os",
       "opis": "Solidny zestaw na event, bez trzygodzinnej kolacji"
     },
     {
       "id": "srodek",
       "nazwa": "Złoty środek",
       "cena": 220,
-      "jednostka": "zł netto/os.",
+      "jednostka": "zł netto/os",
       "opis": "Więcej dań i swobody w układzie stołu"
     },
     {
       "id": "wypas",
       "nazwa": "Konkretny wypas",
       "cena": 250,
-      "jednostka": "zł netto/os.",
+      "jednostka": "zł netto/os",
       "opis": "Pełniejszy stół, kiedy jedzenie ma być równą częścią wieczoru"
     }
   ],
@@ -87,11 +87,11 @@
   "dodatki": [
     {
       "nazwa": "Obsługa",
-      "opis": "Kelnerzy i koordynacja. Osobna pozycja, nie 10% serwisu doliczane do wynajmu, menu i baru."
+      "opis": "Kelnerzy i koordynacja. Osobna pozycja, nie 10% serwisu doliczane do wynajmu, menu i baru"
     },
     {
       "nazwa": "AV",
-      "opis": "Rzutnik, ekran i mikrofony są w Małym Miejscu. Większe ekrany, światło i streaming wyceniamy osobno."
+      "opis": "Rzutnik, ekran i mikrofony są w Małym Miejscu. Większe ekrany, światło i streaming wyceniamy osobno"
     },
     {
       "nazwa": "DJ i muzyka",
@@ -99,7 +99,7 @@
     },
     {
       "nazwa": "Bar mobilny",
-      "opis": "W kompleksie są 3 stałe bary. Czwarty, mobilny, możemy dostawić."
+      "opis": "W kompleksie są 3 stałe bary. Czwarty, mobilny, możemy dostawić"
     }
   ],
   "typy_eventu": [
@@ -219,15 +219,15 @@
   "wyniki": {
     "A": {
       "tytul": "Spokojnie się mieścimy",
-      "tresc": "Tu możemy już trochę poszaleć. Jedzenie, bar i przestrzeń spokojnie się zmieszczą. Do tych cen doliczamy 10% serwisu. Obsługę kelnerską i dodatki układamy osobno."
+      "tresc": "Tu możemy już trochę poszaleć. Jedzenie, bar i przestrzeń spokojnie się zmieszczą. Do tych cen doliczamy 10% serwisu. Obsługę kelnerską i dodatki układamy osobno"
     },
     "B": {
       "tytul": "Da się. Trzeba tylko dobrze poukładać budżet",
-      "tresc": "Dużo zależy od menu, baru i terminu."
+      "tresc": "Dużo zależy od menu, baru i terminu"
     },
     "C": {
       "tytul": "Trochę ciasno. Ale nie skreślamy tego",
-      "tresc": "Termin, dzień tygodnia, inna przestrzeń albo zmiana konfiguracji cateringu i baru potrafią sporo zmienić.\n\nNapisz do nas. Zobaczymy, co da się z tego zrobić."
+      "tresc": "Termin, dzień tygodnia, inna przestrzeń albo zmiana konfiguracji cateringu i baru potrafią sporo zmienić.\n\nNapisz do nas. Zobaczymy, co da się z tego zrobić"
     }
   },
   "heurystyka": {

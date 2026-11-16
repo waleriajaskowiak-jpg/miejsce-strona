@@ -5,20 +5,29 @@ kategorie: ["konferencje-i-szkolenia"]
 goscie: 25
 typ_budzetu: szkolenie
 seo_title: "Szkolenie i kolacja nad wodą | MIEJSCE"
-seo_description: "Kameralne szkolenie w Małym Miejscu i kolacja nad wodą dla małego grona."
+seo_description: "Kameralne szkolenie w Małym Miejscu i kolacja nad wodą dla małego grona"
 h1: "Szkolenie i kameralna kolacja"
 kolejnosc: 2
 tag: "Firma, zarząd · 25 osób"
 lead: "Popołudnie pracy w małym gronie, wieczór przy wspólnym stole"
-opis_seo: "Szkolenie w małym gronie i kameralna kolacja nad wodą."
+opis_seo: "Szkolenie w małym gronie i kameralna kolacja nad wodą"
 przestrzen: "Małe Miejsce"
 program:
-  - godzina: "14:00–18:00"
+  - godzina: "14:00"
+    tytul: "Otwarcie"
+    opis: "Kawa i miejsce w sali z widokiem na wodę"
+  - godzina: "14:30"
     tytul: "Warsztaty"
-    opis: "Spotkanie strategiczne w cichej sali z widokiem na wodę"
-  - godzina: "18:00–22:00"
-    tytul: "Kolacja i rozmowy"
-    opis: "Kolacja serwowana do stołu, wino i swobodne rozmowy"
+    opis: "Spotkanie strategiczne w małym gronie"
+  - godzina: "16:30"
+    tytul: "Przerwa na tarasie"
+    opis: "Świeże powietrze bez zmiany adresu"
+  - godzina: "17:00"
+    tytul: "Domknięcie"
+    opis: "Wnioski i wspólne ustalenia"
+  - godzina: "19:00"
+    tytul: "Kolacja"
+    opis: "Stół, wino i swobodne rozmowy"
 zakres:
   - "Sala"
   - "Lunch i kolacja"
@@ -31,4 +40,4 @@ zdjecia:
   - "/img/gallery/dm09.jpg"
 
 ---
-Popołudnie pracy w małym gronie i wieczór przy wspólnym stole, bez zmiany sali na restaurację w mieście.
+Popołudnie pracy w małym gronie i wieczór przy wspólnym stole, bez zmiany sali na restaurację w mieście

@@ -4,7 +4,7 @@ adres_url: duze-miejsce
 kolejnosc: 1
 lead: "Parkiet, bar, kominek i 120 m² zadaszonego tarasu nad wodą"
 meta: "80 m² wnętrza · 120 m² tarasu · ok. 120 osób zimą"
-opis_seo: "Barka z kontenerów morskich, z parkietem, barem i całorocznym tarasem. Około 120 osób zimą."
+opis_seo: "Barka z kontenerów morskich, z parkietem, barem i całorocznym tarasem. Około 120 osób zimą"
 cena_od: 5000
 cena_etykieta: "od 5 000 zł"
 najlepiej:
@@ -39,4 +39,4 @@ zdjecia:
   - "/img/gallery/dm06.jpg"
 
 ---
-To tutaj najczęściej kończą się konferencje, zaczynają imprezy i robi się późno. Barka jest zbudowana z kontenerów morskich. W środku mamy około 80 m², a razem z całorocznym, zadaszonym tarasem możemy również zimą komfortowo organizować eventy dla około 120 osób.
+To tutaj najczęściej kończą się konferencje, zaczynają imprezy i robi się późno. Barka jest zbudowana z kontenerów morskich. W środku mamy około 80 m², a razem z całorocznym, zadaszonym tarasem możemy również zimą komfortowo organizować eventy dla około 120 osób

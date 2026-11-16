@@ -2,9 +2,9 @@
 title: "Całe Miejsce"
 adres_url: cale-miejsce
 kolejnosc: 4
-lead: "Dwie barki, dwa zadaszone tarasy i ogród. Do 350 gości, także w deszczu."
+lead: "Dwie barki, dwa zadaszone tarasy i ogród. Do 350 gości, także w deszczu"
 meta: "do 350 osób, także w deszczu · 2 barki · 180 m² zadaszonych tarasów · 300 m² ogrodu"
-opis_seo: "Dwie barki, dwa zadaszone tarasy i ogród. Do 350 gości, także wtedy, gdy pada. Wynajem wyceniamy indywidualnie."
+opis_seo: "Dwie barki, dwa zadaszone tarasy i ogród. Do 350 gości, także wtedy, gdy pada. Wynajem wyceniamy indywidualnie"
 cena_etykieta: "wyceniane indywidualnie, za 5 h"
 najlepiej:
   - "duże eventy firmowe"
@@ -37,6 +37,6 @@ zdjecia:
   - "/img/gallery/dm04.jpg"
 
 ---
-Przy większych wydarzeniach łączymy wszystko w jeden kompleks i przyjmujemy do 350 gości także wtedy, gdy pada. Część oficjalna może odbywać się w Małym Miejscu, catering i networking na tarasach, ogród przejąć rolę strefy chillout, a Duże Miejsce wieczorem zamienić się w parkiet. Wynajem całego kompleksu wyceniamy indywidualnie, za 5 godzin.
+Przy większych wydarzeniach łączymy wszystko w jeden kompleks i przyjmujemy do 350 gości także wtedy, gdy pada. Część oficjalna może odbywać się w Małym Miejscu, catering i networking na tarasach, ogród przejąć rolę strefy chillout, a Duże Miejsce wieczorem zamienić się w parkiet. Wynajem całego kompleksu wyceniamy indywidualnie, za 5 godzin
 
-Każda przestrzeń ma własny bar, toalety i wejście, ale goście mogą swobodnie poruszać się pomiędzy nimi.
+Każda przestrzeń ma własny bar, toalety i wejście, ale goście mogą swobodnie poruszać się pomiędzy nimi

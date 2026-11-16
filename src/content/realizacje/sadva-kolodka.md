@@ -5,12 +5,12 @@ kolejnosc: 2
 szkic: true
 typ: "Dzień prasowy"
 meta: "Dzień prasowy · Małe Miejsce"
-lead: "Dzień prasowy na nowej barce. Szkic realizacji — opis do uzupełnienia."
-opis_seo: "Dzień prasowy na nowej barce. Szkic realizacji — opis do uzupełnienia."
-przestrzenie: "Małe Miejsce, dzień prasowy na barce."
-jedzenie: "Do uzupełnienia — brak opisu menu w briefie i na obecnej stronie."
-bar: "Do uzupełnienia — brak opisu baru w briefie i na obecnej stronie."
-atrakcje: "Do uzupełnienia. Na zdjęciach z obecnej strony: drewniany pokład pod pergolą, strefa marki na tarasie, warsztaty przy stołach."
+lead: "Dzień prasowy na nowej barce. Szkic realizacji — opis do uzupełnienia"
+opis_seo: "Dzień prasowy na nowej barce. Szkic realizacji — opis do uzupełnienia"
+przestrzenie: "Małe Miejsce, dzień prasowy na barce"
+jedzenie: "Do uzupełnienia — brak opisu menu w briefie i na obecnej stronie"
+bar: "Do uzupełnienia — brak opisu baru w briefie i na obecnej stronie"
+atrakcje: "Do uzupełnienia. Na zdjęciach z obecnej strony: drewniany pokład pod pergolą, strefa marki na tarasie, warsztaty przy stołach"
 cover: "/img/gallery/mm21.jpg"
 zdjecia:
   - "/img/gallery/mm21.jpg"
@@ -20,8 +20,8 @@ zdjecia:
   - "/img/gallery/mm25.jpg"
 
 ---
-**Szkic realizacji.** Fakty poniżej pochodzą z obecnej strony MIEJSCA.
+**Szkic realizacji.** Fakty poniżej pochodzą z obecnej strony MIEJSCA
 
-Znane z materiału: dzień prasowy SADVA × Kołodka na Małym Miejscu.
+Znane z materiału: dzień prasowy SADVA × Kołodka na Małym Miejscu
 
-Podpisy zdjęć z obecnej strony: drewniany pokład pod pergolą, strefa marki na tarasie, warsztaty przy stołach, spotkanie z dziennikarzami, prezentacja produktów.
+Podpisy zdjęć z obecnej strony: drewniany pokład pod pergolą, strefa marki na tarasie, warsztaty przy stołach, spotkanie z dziennikarzami, prezentacja produktów

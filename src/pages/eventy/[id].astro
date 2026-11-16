@@ -14,7 +14,6 @@ export async function getStaticPaths() {
 }
 
 const { entry } = Astro.props;
-const { Content } = await render(entry);
 const przestrzenie = sortByOrder(await getCollection("przestrzenie")).filter((item) => entry.data.przestrzenie.includes(item.id));
 const scenariusze = sortByOrder(await getCollection("scenariusze")).filter((item) => entry.data.scenariusze.includes(item.id));
 const pierwszy = scenariusze[0];
@@ -64,11 +63,17 @@ const kontaktHref = `/kontakt/?typ=${entry.id}`;
     </div>
   </section>
   <section class="band tight-top" aria-labelledby="co-mozna">
-    <div class="wrap stack-lg">
-      <SectionHeader eyebrow="Zakres" title="Co można tu ułożyć" />
-      <ul class="included" id="co-mozna">
-        {entry.data.co_mozna.map((item) => <li>{item}</li>)}
-      </ul>
+    <div class="wrap">
+      <div class="sec-top sec-top-pills">
+        <div>
+          <p class="eyebrow">Zakres</p>
+          <h2 id="co-mozna">Co można tu ułożyć</h2>
+        </div>
+        <ul class="pills">
+          {entry.data.co_mozna.map((item) => <li>{item}</li>)}
+        </ul>
+      </div>
+      {entry.body?.trim() && <p class="lead section-lead">{entry.body.trim().replace(/\.\s*$/, "")}</p>}
       <div class="cards-3">
         {entry.data.korzysci.map((item, index) => (
           <article class="info-card">
@@ -78,7 +83,6 @@ const kontaktHref = `/kontakt/?typ=${entry.id}`;
           </article>
         ))}
       </div>
-      <div class="prose"><Content /></div>
     </div>
   </section>
   <section class="band band-surface" aria-labelledby="miejsca">
@@ -108,7 +112,7 @@ const kontaktHref = `/kontakt/?typ=${entry.id}`;
           <ol class="included" id="scenariusz">
             {pierwszy.data.program.map((punkt) => <li>{punkt.tytul}</li>)}
           </ol>
-          <p class="fine">Godziny i zakres dopasowujemy do Waszego wydarzenia. Pełny dzień, z godzinami, jest na stronie scenariusza.</p>
+          <p class="fine">Godziny i zakres dopasowujemy do Waszego wydarzenia</p>
           <p class="btn-row"><a class="btn btn-primary" href={`/scenariusze/${pierwszy.id}/`}>Zobacz cały scenariusz</a></p>
         </div>
         <img src={pierwszy.data.cover} alt="" />
@@ -121,7 +125,7 @@ const kontaktHref = `/kontakt/?typ=${entry.id}`;
         <SectionHeader eyebrow="Kuchnia" title="Jedzenie, bar i dobry plan" lead={entry.data.jedzenie_bar} />
         <p>{entry.data.atrakcje}</p>
         <p>{entry.data.plan_b}</p>
-        <p class="fine">Dodatkowe AV, DJ i oprawa są za osobną opłatą. Nie ma ich w kwocie „od” na stronie cen.</p>
+        <p class="fine">Dodatkowe AV, DJ i oprawa wyceniamy osobno, poza kwotą „od”</p>
         <div class="btn-row">
           <a class="btn btn-ghost" href="/jedzenie-i-bar/">Jedzenie i bar</a>
           <a class="btn btn-primary" href={budzetHref}>Porozmawiajmy o budżecie</a>
@@ -142,7 +146,7 @@ const kontaktHref = `/kontakt/?typ=${entry.id}`;
   )}
   <section class="band" aria-labelledby="faq-kat">
     <div class="wrap">
-      <SectionHeader eyebrow="Pytania" title="Zanim napiszesz" lead="Krótkie odpowiedzi, które już mamy. Reszta jest na stronie Warto wiedzieć." />
+      <SectionHeader eyebrow="Pytania" title="Zanim napiszesz" lead="Deszcz, godziny, dojazd i menu. Resztę doprecyzujemy w briefie" />
       <div id="faq-kat">
         {faq.map(({ item, Content }) => (
           <details class="acc">

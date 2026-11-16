@@ -1,6 +1,6 @@
 {
   "klimat_h": "Klimat Portu Czerniakowskiego",
-  "klimat_lead": "Odkryj najbardziej autentyczne miejsce nad Wisłą. Połączenie surowego industrialu z kojącym wpływem natury i szumem wody.",
+  "klimat_lead": "Odkryj najbardziej autentyczne miejsce nad Wisłą. Połączenie surowego industrialu z kojącym wpływem natury i szumem wody",
   "klimat_foto": "/img/gallery/dm22.jpg",
   "klimat_punkty": [
     {
@@ -13,7 +13,7 @@
     },
     {
       "tytul": "Doceniana marka",
-      "opis": "Ulubione miejsce produkcji filmowych i sesji modowych, m.in. ELLE i The Voice of Poland."
+      "opis": "Ulubione miejsce produkcji filmowych i sesji modowych, m.in. ELLE i The Voice of Poland"
     }
   ],
   "cechy": [
@@ -59,7 +59,7 @@
   ],
   "film_h": "Plany zdjęciowe",
   "film_note": "Produkcje filmowe i sesje",
-  "film_body": "Wnętrza i nabrzeże udostępniamy pod produkcje filmowe, reklamowe i sesje zdjęciowe. Zaplecze i prąd są na miejscu. Publiczny parking jest na ul. Zaruskiego i przy Torwarze.",
+  "film_body": "Wnętrza i nabrzeże udostępniamy pod produkcje filmowe, reklamowe i sesje zdjęciowe. Zaplecze i prąd są na miejscu. Publiczny parking jest na ul. Zaruskiego i przy Torwarze",
   "film_zdjecia": [
     "/img/pdf/film-1.jpg",
     "/img/pdf/film-2.jpg",
