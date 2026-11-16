@@ -1,5 +1,6 @@
 ---
 pytanie: "Czy zapewniacie DJ-a?"
+temat: "Technika"
 kolejnosc: 7
 adres_url: dj
 

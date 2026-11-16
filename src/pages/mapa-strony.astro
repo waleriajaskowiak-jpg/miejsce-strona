@@ -1,0 +1,58 @@
+---
+import { getCollection } from "astro:content";
+import Base from "../layouts/Base.astro";
+import Crumbs from "../components/Crumbs.astro";
+import { crumbsJsonLd, sortByOrder } from "../lib/nav.js";
+
+const kategorie = sortByOrder(await getCollection("kategorie"));
+const scenariusze = sortByOrder(await getCollection("scenariusze"));
+const przestrzenie = sortByOrder(await getCollection("przestrzenie"));
+const crumbs = [{ href: "/mapa-strony/", label: "Mapa strony" }];
+---
+
+<Base
+  title="Mapa strony MIEJSCE"
+  description="Wszystkie publiczne działy strony MIEJSCE: wydarzenia, przestrzenie, ceny, wiedza i kontakt."
+  jsonLd={[crumbsJsonLd([{ href: "/", label: "MIEJSCE" }, ...crumbs])]}
+>
+  <header class="wrap page-hero">
+    <Crumbs items={crumbs} />
+    <h1>Mapa strony</h1>
+    <p class="lede">Te same adresy, które zbiera mapa XML. Szkice nie są tu podlinkowane.</p>
+  </header>
+  <section class="band">
+    <div class="wrap cards-3">
+      <div>
+        <h2>Strona i wydarzenia</h2>
+        <ul class="spec-list">
+          <li><a href="/">Strona główna</a></li>
+          <li><a href="/eventy/">Rodzaje wydarzeń</a></li>
+          {kategorie.filter((item) => !item.data.szkic).map((item) => <li><a href={`/eventy/${item.id}/`}>{item.data.title}</a></li>)}
+          <li><a href="/scenariusze/">Scenariusze</a></li>
+          {scenariusze.filter((item) => !item.data.szkic).map((item) => <li><a href={`/scenariusze/${item.id}/`}>{item.data.title}</a></li>)}
+        </ul>
+      </div>
+      <div>
+        <h2>Przestrzenie i oferta</h2>
+        <ul class="spec-list">
+          <li><a href="/przestrzenie/">Przestrzenie</a></li>
+          {przestrzenie.map((item) => <li><a href={`/przestrzenie/${item.id}/`}>{item.data.title}</a></li>)}
+          <li><a href="/ceny/">Ceny</a></li>
+          <li><a href="/ceny/#estymator">Estymator</a></li>
+          <li><a href="/jedzenie-i-bar/">Jedzenie i bar</a></li>
+          <li><a href="/galeria/">Galeria</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2>Wiedza i kontakt</h2>
+        <ul class="spec-list">
+          <li><a href="/realizacje/">Realizacje</a></li>
+          <li><a href="/warto-wiedziec/">Warto wiedzieć</a></li>
+          <li><a href="/poradnik/">Poradnik</a></li>
+          <li><a href="/kontakt/">Kontakt</a></li>
+          <li><a href="/kontakt/?cel=ogledziny">Oględziny</a></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+</Base>

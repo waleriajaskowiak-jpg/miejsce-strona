@@ -1,6 +1,12 @@
 ---
 title: "Event dla klientów / premiera"
 adres_url: event-premium
+kategorie: ["premiery-i-eventy-marek"]
+goscie: 40
+typ_budzetu: premiera
+seo_title: "Premiera i event dla klientów | MIEJSCE"
+seo_description: "Kameralny wieczór dla klientów: taras o zachodzie, kolacja i bar w Dużym Miejscu."
+h1: "Premiera i event dla klientów"
 kolejnosc: 4
 tag: "Firma · 40 osób"
 lead: "Zachód słońca nad Wisłą, koktajle i kolacja w dobrym towarzystwie"

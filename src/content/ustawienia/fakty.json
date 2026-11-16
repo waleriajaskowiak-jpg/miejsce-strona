@@ -1,0 +1,71 @@
+{
+  "adres": {
+    "ulica": "ul. Zaruskiego 1",
+    "kod": "00-468",
+    "miasto": "Warszawa",
+    "dzielnica": "Port Czerniakowski",
+    "lat": 52.2196114,
+    "lon": 21.0473079,
+    "geo_potwierdzone": false,
+    "do_potwierdzenia": "Współrzędne są na stronie i na mapie. Audyt prosi o potwierdzenie przed traktowaniem ich jako faktu zamkniętego."
+  },
+  "kontakt": {
+    "telefon_wyswietlany": "+48 724 414 515",
+    "telefon_href": "+48724414515",
+    "email": "eventy@miejsce.to"
+  },
+  "dzialamy_od": {
+    "tekst": "Działamy od 2015 roku",
+    "rok": 2015,
+    "do_potwierdzenia": "Na stronie jest też cytat „Od 2020 roku”. Zostawiamy oba sformułowania tak, jak są teraz. Decyzja: Maciek."
+  },
+  "lokalizacja": {
+    "odleglosc_centrum": "10 minut od centrum Warszawy",
+    "parking": "Przy MIEJSCU jest parking dla gości. Ile miejsc zostanie pod Wasz termin, powiemy przy rezerwacji.",
+    "komunikacja": "Dokładną trasę komunikacją i wjazd na teren portu potwierdzimy przy oględzinach albo w mailu przed eventem.",
+    "do_potwierdzenia": "„10 minut od centrum” i „w centrum Warszawy” stoją obok siebie. Parking jest opisany jako parking dla gości. Nie dodajemy parkingu przy Torwarze ani przystanku 70 m."
+  },
+  "dostepnosc": "Nie opisujemy tu podjazdów ani toalet, których nie mamy potwierdzonych w ofercie. Dostępność potwierdzamy pod konkretny termin.",
+  "dostepnosc_do_potwierdzenia": "Audyt podaje toaletę i schody przy zejściu do portu. Tego zdania nie ma na obecnej stronie, więc go nie publikujemy.",
+  "przestrzenie": {
+    "duze": {
+      "nazwa": "DUŻE MIEJSCE",
+      "wnetrze_m2": 80,
+      "taras_m2": 120,
+      "zima_osob": "do 130 osób zimą",
+      "zima_w_tekscie": "ok. 120 osób",
+      "cena_od": 6000,
+      "do_potwierdzenia": "Karta i reguła budżetu mówią 130 osób zimą. Opis i skrót mówią około 120. Zostawiamy obie formuły tam, gdzie już są."
+    },
+    "nowe": {
+      "nazwa": "NOWE MIEJSCE",
+      "cena_od": 3000,
+      "do_potwierdzenia": "PDF mówi o Małym Miejscu i innym metrażu. Na stronie zostaje NOWE MIEJSCE i liczby, które już publikujemy."
+    },
+    "ogrod": {
+      "nazwa": "OGRÓD",
+      "sezon": "wiosna–lato",
+      "do_potwierdzenia": "Na stronie ogród jest osobną przestrzenią. PDF opisuje go jako uzupełnienie barek. Nie zmieniamy tego zdania."
+    },
+    "cale": {
+      "nazwa": "CAŁE MIEJSCE",
+      "maks_osob": 350,
+      "cena_od": 12000
+    }
+  },
+  "ceny": {
+    "menu": [180, 220, 250],
+    "open_bar": [150, 190, 230],
+    "open_bar_150_czas": "",
+    "oplata_serwisowa_proc": null,
+    "netto": true,
+    "zrodlo": "Oferta MIEJSCE EVENTY 2026",
+    "do_potwierdzenia": "PDF wspomina 10% opłaty serwisowej. Na stronie jej nie ma, więc jej nie pokazujemy. Czas pakietu 150 zł też nie jest podany."
+  },
+  "bary": {
+    "stale": 3,
+    "mobilny": true,
+    "tekst": "3 stałe bary + możliwość ustawienia baru mobilnego."
+  },
+  "same_as": []
+}

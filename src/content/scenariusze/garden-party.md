@@ -1,6 +1,12 @@
 ---
 title: "Duży event / garden party"
 adres_url: garden-party
+kategorie: ["eventy-firmowe-i-integracje"]
+goscie: 300
+typ_budzetu: garden-party
+seo_title: "Garden party nad wodą, do 300 osób | MIEJSCE"
+seo_description: "Duży event w całym kompleksie: ogród, bufety, grill i parkiet nad Wisłą."
+h1: "Duży event i garden party"
 kolejnosc: 6
 tag: "Firma · 300 osób"
 lead: "Urodziny firmy, jubileusz albo podsumowanie roku z całym zespołem"

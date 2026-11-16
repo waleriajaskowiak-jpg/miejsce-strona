@@ -28,7 +28,7 @@ const steps = [
       <p class="eyebrow">Krok po kroku</p>
       <h2>{cennik.budzet_h}</h2>
     </div>
-    <p class="lead">{wariant === "pelny" ? cennik.lead : "Bez kwoty co do złotówki. Jedna z trzech odpowiedzi."}</p>
+    <p class="lead">Porównujemy Twój budżet z rzeczywistymi cenami przestrzeni, menu i baru. Wynik jest orientacyjny — dokładna oferta zależy od terminu, czasu wydarzenia, obsługi i dodatków.</p>
   </header>
 
   <ol class="progress-steps" aria-label="Kroki kalkulatora">
@@ -121,16 +121,7 @@ const steps = [
     </div>
   </form>
 
-  {
-    wariant === "pelny" && (
-      <details class="acc">
-        <summary>Jak to porównujemy</summary>
-        <div class="acc-body">
-          <p>{cennik.jak_porownujemy}</p>
-        </div>
-      </details>
-    )
-  }
+  <p class="fine">Trochę ciasno z budżetem? Dzień tygodnia, termin, inna przestrzeń albo zmiana menu i baru mogą zmienić wiele.</p>
 </section>
 
 <script>
@@ -202,7 +193,15 @@ const steps = [
     const params = new URLSearchParams(location.search);
     const presetTyp = params.get("typ");
     if (presetTyp) root.querySelector(`[data-group="typ"][data-value="${presetTyp}"]`)?.dispatchEvent(new Event("click"));
-    const presetOsoby = params.get("osoby");
+    const presetBudzet = params.get("budzet") || params.get("budget");
+    if (presetBudzet && budzet) {
+      const n = Number(String(presetBudzet).replace(/[^\d]/g, ""));
+      if (Number.isFinite(n)) {
+        budzet.value = String(Math.min(250000, Math.max(5000, n)));
+        paintRange(budzet, root.querySelector("[data-budzet-val]"), "zł");
+      }
+    }
+    const presetOsoby = params.get("osoby") || params.get("guests");
     if (presetOsoby && osoby) {
       const n = Number(String(presetOsoby).replace(/[^\d]/g, ""));
       if (Number.isFinite(n)) {

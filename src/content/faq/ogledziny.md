@@ -1,5 +1,6 @@
 ---
 pytanie: "Czy można przyjechać wcześniej obejrzeć przestrzeń?"
+temat: "Rezerwacja"
 kolejnosc: 15
 adres_url: ogledziny
 

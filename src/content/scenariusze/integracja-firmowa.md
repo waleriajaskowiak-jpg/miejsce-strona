@@ -1,6 +1,12 @@
 ---
 title: "Letnia integracja nad wodą"
 adres_url: integracja-firmowa
+kategorie: ["eventy-firmowe-i-integracje"]
+goscie: 80
+typ_budzetu: integracja
+seo_title: "Letnia integracja nad wodą, 80 osób | MIEJSCE"
+seo_description: "Przykładowy dzień integracji w Dużym Miejscu i ogrodzie: grill, open bar i afterparty."
+h1: "Letnia integracja nad wodą"
 kolejnosc: 3
 tag: "Firma · 80 osób"
 lead: "Grill, woda i muzyka, sprawdzony przepis na udaną integrację"

@@ -10,6 +10,15 @@ const kontakt = (await getEntry("ustawienia", "kontakt"))!.data;
 const cennik = (await getEntry("ustawienia", "cennik"))!.data;
 const strona = (await getEntry("ustawienia", "strona"))!.data;
 const crumbs = [{ href: "/kontakt/", label: "Kontakt" }];
+const wizyta = Astro.url.searchParams.get("cel") === "ogledziny";
+const przestrzen = Astro.url.searchParams.get("przestrzen") || "";
+const typy = [
+  ...cennik.typy_eventu,
+  { id: "eventy-firmowe-i-integracje", nazwa: "Event firmowy / integracja" },
+  { id: "konferencje-i-szkolenia", nazwa: "Konferencja / szkolenie" },
+  { id: "wesela-i-przyjecia-prywatne", nazwa: "Wesele / przyjęcie" },
+  { id: "premiery-i-eventy-marek", nazwa: "Premiera / marka" },
+];
 const map = `https://www.openstreetmap.org/export/embed.html?bbox=21.035%2C52.214%2C21.060%2C52.226&layer=mapnik&marker=${kontakt.lat}%2C${kontakt.lon}`;
 const osm = `https://www.openstreetmap.org/?mlat=${kontakt.lat}&mlon=${kontakt.lon}#map=17/${kontakt.lat}/${kontakt.lon}`;
 const google = `https://maps.google.com/?q=${kontakt.lat},${kontakt.lon}`;
@@ -21,8 +30,8 @@ const icons = {
 ---
 
 <Base
-  title="Kontakt i oględziny | MIEJSCE"
-  description={kontakt.opis_seo}
+  title={wizyta ? "Umów oględziny nad wodą | MIEJSCE" : "Kontakt i brief eventowy | MIEJSCE"}
+  description={wizyta ? "Napisz, kiedy chcesz zobaczyć MIEJSCE. Termin wizyty potwierdzimy indywidualnie." : kontakt.opis_seo}
   image="/img/pdf/contact.jpg"
   jsonLd={[
     crumbsJsonLd([{ href: "/", label: "MIEJSCE" }, ...crumbs]),
@@ -32,8 +41,8 @@ const icons = {
   <PageHero
     crumbs={crumbs}
     kicker="Port Czerniakowski"
-    title={strona.kontakt_h}
-    lede={strona.kontakt_lead}
+    title={wizyta ? "Zobacz MIEJSCE. Wyobraź sobie resztę" : strona.kontakt_h}
+    lede={wizyta ? "Napisz, kiedy chcesz nas odwiedzić. Termin wizyty potwierdzimy indywidualnie." : "Podaj to, co już wiesz. Resztę ustalimy razem."}
     image="/img/pdf/contact.jpg"
     imageAlt="MIEJSCE od strony wody"
   />
@@ -78,7 +87,7 @@ const icons = {
       <div class="span-5">
         <div class="form-panel pad stack">
           <SectionHeader eyebrow="Brief" title="Napisz, co planujesz" />
-          <FormBrief typy={cennik.typy_eventu} />
+          <FormBrief typy={typy} cel={wizyta ? "ogledziny" : "zapytanie"} przestrzen={przestrzen} />
         </div>
       </div>
     </div>

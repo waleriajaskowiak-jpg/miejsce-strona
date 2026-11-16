@@ -3,6 +3,7 @@ title: "Ile kosztuje event firmowy dla 100 osób w Warszawie?"
 adres_url: ile-kosztuje-event-firmowy-dla-100-osob
 kolejnosc: 1
 szkic: true
+seo_title: "Ile kosztuje event firmowy dla 100 osób | MIEJSCE"
 opis: "Szkic artykułu z briefu. Bez wyliczonej kwoty, dopóki nie powstanie redakcja na własnych realizacjach."
 opis_seo: "Szkic artykułu z briefu. Bez wyliczonej kwoty, dopóki nie powstanie redakcja na własnych realizacjach."
 

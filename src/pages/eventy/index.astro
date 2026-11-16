@@ -1,83 +1,75 @@
 ---
 import { getCollection } from "astro:content";
 import Base from "../../layouts/Base.astro";
-import NextBand from "../../components/NextBand.astro";
 import PageHero from "../../components/PageHero.astro";
+import NextBand from "../../components/NextBand.astro";
+import SectionHeader from "../../components/SectionHeader.astro";
 import { crumbsJsonLd, sortByOrder } from "../../lib/nav.js";
 
-const eventy = sortByOrder(await getCollection("eventy"));
-const crumbs = [{ href: "/eventy/", label: "Eventy" }];
-const kindOf = (id) => (id.includes("wesele") ? "wesele" : id.includes("garden") || id.includes("integr") ? "plener" : "firma");
-const capacity = (tag) => {
-  const found = String(tag).match(/(\d+)\s*osób/);
-  return found ? `${found[1]} osób` : tag;
-};
+const kategorie = sortByOrder(await getCollection("kategorie"));
+const scenariusze = sortByOrder(await getCollection("scenariusze")).slice(0, 3);
+const crumbs = [{ href: "/eventy/", label: "Wydarzenia" }];
 ---
 
 <Base
-  title="Scenariusze eventów nad wodą | MIEJSCE"
-  description="Konferencja z afterparty, szkolenie z kolacją, integracja, premiera, wesele i garden party. Każdy scenariusz ma własną stronę."
+  title="Rodzaje eventów nad wodą w Warszawie | MIEJSCE"
+  description="Cztery rodzaje wydarzeń nad Wisłą: firma, konferencja, wesele i premiera. Każdy ma własną stronę i scenariusz."
   jsonLd={[crumbsJsonLd([{ href: "/", label: "MIEJSCE" }, ...crumbs])]}
 >
   <PageHero
     crumbs={crumbs}
-    kicker="Scenariusze"
-    title="Tak może wyglądać dzień"
-    lede="Sześć układów, od sali konferencyjnej po parkiet. Wybierz filtr, potem jeden scenariusz."
+    kicker="Wybierz potrzebę"
+    title="Co planujesz?"
+    lede="Najpierw rodzaj wydarzenia, potem przestrzeń i scenariusz. Ceny zostają na osobnej stronie."
     image="/img/gallery/dm20.jpg"
     imageAlt="Wieczór na barce"
   />
-  <section class="band">
+  <section class="band" aria-labelledby="rodzaje">
     <div class="wrap">
-      <div class="filter-row" data-event-filters>
-        <button type="button" class="is-on" data-kind="all">Wszystkie</button>
-        <button type="button" data-kind="firma">Firma</button>
-        <button type="button" data-kind="plener">Plener</button>
-        <button type="button" data-kind="wesele">Wesele</button>
-      </div>
-      <div class="cards-3">
-        {
-          eventy.map((event) => (
-            <article class="media-card" data-kind={kindOf(event.id)}>
-              <a href={`/eventy/${event.id}/`}>
-                <img src={event.data.cover} alt="" width="760" height="570" />
-                <div class="card-body">
-                  <p class="eyebrow">{event.data.tag}</p>
-                  <h3>{event.data.title}</h3>
-                  <p class="meta">Przestrzeń: {event.data.przestrzen}</p>
-                  <p class="meta">Liczba gości: {capacity(event.data.tag)}</p>
-                  <ul class="included">
-                    {event.data.zakres.slice(0, 3).map((item) => <li>{item}</li>)}
-                  </ul>
-                  <span class="btn btn-primary">Zobacz scenariusz</span>
-                </div>
-              </a>
-            </article>
-          ))
-        }
+      <SectionHeader eyebrow="Wydarzenia" title="Cztery drogi" lead="Każda karta prowadzi do jednej strony. Tam są przestrzenie, scenariusz i link do budżetu." />
+      <div class="cards-2" id="rodzaje">
+        {kategorie.map((item) => (
+          <article class="media-card">
+            <a href={`/eventy/${item.id}/`}>
+              <img src={item.data.cover} alt="" />
+              <div class="card-body">
+                <p class="eyebrow">{item.data.nav_label}</p>
+                <h3>{item.data.title}</h3>
+                <p>{item.data.lead}</p>
+                <span class="btn btn-primary">{item.data.cta}</span>
+              </div>
+            </a>
+          </article>
+        ))}
       </div>
     </div>
   </section>
-  <script>
-    document.querySelectorAll("[data-event-filters] button").forEach((button) => {
-      button.addEventListener("click", () => {
-        const kind = button.getAttribute("data-kind");
-        document.querySelectorAll("[data-event-filters] button").forEach((peer) => peer.classList.toggle("is-on", peer === button));
-        document.querySelectorAll(".media-card").forEach((card) => {
-          card.hidden = kind !== "all" && card.getAttribute("data-kind") !== kind;
-        });
-      });
-    });
-  </script>
+  <section class="band band-surface" aria-labelledby="gotowe">
+    <div class="wrap">
+      <SectionHeader eyebrow="Albo od końca" title="A może gotowy scenariusz?" lead="Trzy przykłady. Reszta jest na liście scenariuszy." />
+      <div class="cards-3" id="gotowe">
+        {scenariusze.map((event) => (
+          <article class="media-card">
+            <a href={`/scenariusze/${event.id}/`}>
+              <img src={event.data.cover} alt="" />
+              <div class="card-body">
+                <p class="eyebrow">{event.data.tag}</p>
+                <h3>{event.data.title}</h3>
+                <span class="btn btn-ghost">Zobacz scenariusz</span>
+              </div>
+            </a>
+          </article>
+        ))}
+      </div>
+      <p class="btn-row"><a class="btn btn-ghost" href="/scenariusze/">Wszystkie scenariusze</a></p>
+    </div>
+  </section>
   <NextBand
-    kicker="Następny krok"
-    title="Dobierz przestrzeń albo budżet"
+    title="Zobacz przestrzeń albo policz budżet"
     links={[
       { href: "/przestrzenie/", label: "Zobacz przestrzenie" },
-      { href: "/ceny/", label: "Ceny i moduł budżetu" },
-      { href: "/jedzenie-i-bar/", label: "Jedzenie i bar" },
+      { href: "/ceny/#estymator", label: "Sprawdź budżet" },
+      { href: "/kontakt/", label: "Zaplanuj event" },
     ]}
-    cta="Wyślij brief"
-    href="/kontakt/"
   />
 </Base>

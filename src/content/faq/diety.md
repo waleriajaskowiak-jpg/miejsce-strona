@@ -1,5 +1,6 @@
 ---
 pytanie: "Czy przygotowujecie opcje wegetariańskie i wegańskie?"
+temat: "Jedzenie i bar"
 kolejnosc: 11
 adres_url: diety
 

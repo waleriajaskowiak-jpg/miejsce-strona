@@ -1,0 +1,16 @@
+/budzet/ /ceny/#estymator 301
+/budzet /ceny/#estymator 301
+/eventy/konferencja-z-afterparty/ /scenariusze/konferencja-z-afterparty/ 301
+/eventy/integracja-firmowa/ /scenariusze/integracja-firmowa/ 301
+/eventy/szkolenie-z-kolacja/ /scenariusze/szkolenie-z-kolacja/ 301
+/eventy/garden-party/ /scenariusze/garden-party/ 301
+/eventy/wesele-nad-woda/ /scenariusze/wesele-nad-woda/ 301
+/eventy/event-premium/ /scenariusze/event-premium/ 301
+/oferta/ /eventy/ 301
+/oferta/imprezy-firmowe/ /eventy/eventy-firmowe-i-integracje/ 301
+/oferta/wydarzenia-prywatne/ /eventy/wesela-i-przyjecia-prywatne/ 301
+/feed/ / 301
+/comments/feed/ / 301
+/wp-admin/* / 301
+/wp-login.php / 301
+/xmlrpc.php / 410

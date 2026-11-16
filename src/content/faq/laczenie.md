@@ -1,5 +1,6 @@
 ---
 pytanie: "Czy można połączyć konferencję z wieczorną imprezą?"
+temat: "Jedzenie i bar"
 kolejnosc: 14
 adres_url: laczenie
 

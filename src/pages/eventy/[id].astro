@@ -1,137 +1,162 @@
 ---
-import { getCollection, render } from "astro:content";
+import { getCollection, getEntry, render } from "astro:content";
 import Base from "../../layouts/Base.astro";
 import PageHero from "../../components/PageHero.astro";
 import NextBand from "../../components/NextBand.astro";
 import SectionHeader from "../../components/SectionHeader.astro";
+import Slider from "../../components/Slider.astro";
+import { IS_PROD } from "../../lib/env.js";
 import { crumbsJsonLd, sortByOrder } from "../../lib/nav.js";
 
 export async function getStaticPaths() {
-  const entries = await getCollection("eventy");
+  const entries = await getCollection("kategorie");
   return entries.map((entry) => ({ params: { id: entry.id }, props: { entry } }));
 }
 
 const { entry } = Astro.props;
 const { Content } = await render(entry);
-const inne = sortByOrder(await getCollection("eventy")).filter((item) => item.id !== entry.id);
+const przestrzenie = sortByOrder(await getCollection("przestrzenie")).filter((item) => entry.data.przestrzenie.includes(item.id));
+const scenariusze = sortByOrder(await getCollection("scenariusze")).filter((item) => entry.data.scenariusze.includes(item.id));
+const pierwszy = scenariusze[0];
+const faqAll = sortByOrder(await getCollection("faq")).slice(0, 4);
+const faq = [];
+for (const item of faqAll) {
+  const rendered = await render(item);
+  faq.push({ item, Content: rendered.Content });
+}
+const sekcje = entry.id === "premiery-i-eventy-marek" ? (await getEntry("ustawienia", "sekcje"))?.data : null;
 const crumbs = [
-  { href: "/eventy/", label: "Eventy" },
-  { label: entry.data.title },
+  { href: "/eventy/", label: "Wydarzenia" },
+  { label: entry.data.nav_label },
 ];
-const budgetType = (id) =>
-  id.includes("wesele")
-    ? "wesele"
-    : id.includes("szkol")
-      ? "szkolenie"
-      : id.includes("integr")
-        ? "integracja"
-        : id.includes("premium")
-          ? "premiera"
-          : id.includes("garden")
-            ? "garden-party"
-            : id.includes("konfer")
-              ? "konferencja"
-              : "firmowy";
-const osoby = (String(entry.data.tag).match(/(\d+)/) || [])[1] || "";
-const typ = budgetType(entry.id);
-const budzetHref = `/ceny/?typ=${typ}${osoby ? `&osoby=${osoby}` : ""}#budzet`;
-const spaceLinks = [];
-const gdzie = entry.data.przestrzen;
-if (/CAŁE/i.test(gdzie)) spaceLinks.push({ href: "/przestrzenie/cale-miejsce/", label: "Całe Miejsce" });
-if (/NOWE/i.test(gdzie)) spaceLinks.push({ href: "/przestrzenie/nowe-miejsce/", label: "Nowe Miejsce" });
-if (/DUŻE/i.test(gdzie)) spaceLinks.push({ href: "/przestrzenie/duze-miejsce/", label: "Duże Miejsce" });
-if (/OGRÓD/i.test(gdzie)) spaceLinks.push({ href: "/przestrzenie/ogrod/", label: "Ogród" });
+const typ = pierwszy?.data.typ_budzetu || "firmowy";
+const budzetHref = `/ceny/?typ=${typ}${pierwszy?.data.goscie ? `&osoby=${pierwszy.data.goscie}` : ""}#estymator`;
+const kontaktHref = `/kontakt/?typ=${entry.id}`;
 ---
 
 <Base
-  title={`${entry.data.title} | MIEJSCE`}
-  description={entry.data.opis_seo}
+  title={entry.data.seo_title}
+  description={entry.data.seo_description}
   image={entry.data.cover}
-  jsonLd={[crumbsJsonLd([{ href: "/", label: "MIEJSCE" }, { href: "/eventy/", label: "Eventy" }, { href: `/eventy/${entry.id}/`, label: entry.data.title }])]}
+  robots={entry.data.szkic ? "noindex,follow" : "index,follow"}
+  jsonLd={[crumbsJsonLd([{ href: "/", label: "MIEJSCE" }, { href: "/eventy/", label: "Wydarzenia" }, { href: `/eventy/${entry.id}/`, label: entry.data.title }])]}
 >
   <PageHero
     crumbs={crumbs}
-    kicker={entry.data.tag}
+    kicker={entry.data.nav_label}
     title={entry.data.title}
     lede={entry.data.lead}
     image={entry.data.cover}
     imageAlt={entry.data.title}
   />
-
-  <section class="band">
-    <div class="wrap split">
-      <div class="stack">
-        <p class="meta">Liczba gości: {osoby ? `${osoby} osób` : entry.data.tag}</p>
-        <div class="prose"><Content /></div>
-        <SectionHeader eyebrow="Dzień" title="Jak układa się ten scenariusz" />
-        <ol class="timeline">
-          {
-            entry.data.program.map((punkt) => (
-              <li>
-                <span class="when">{punkt.godzina}</span>
-                <div>
-                  <h3>{punkt.tytul}</h3>
-                  <p>{punkt.opis}</p>
-                </div>
-              </li>
-            ))
-          }
-        </ol>
-      </div>
-      <aside class="card stack pad">
-        <p class="eyebrow">Przestrzeń</p>
-        <h3>{entry.data.przestrzen}</h3>
-        <ul class="included">
-          {entry.data.zakres.map((item) => <li>{item}</li>)}
-        </ul>
-        <div class="stack">
-          {spaceLinks.map((link) => <a class="btn btn-ghost" href={link.href}>{link.label}</a>)}
-        </div>
-        <a class="btn btn-primary" href={budzetHref}>Sprawdź budżet</a>
-      </aside>
-    </div>
-  </section>
-
-  <section class="band band-dark">
+  <section class="band" aria-labelledby="co-mozna">
     <div class="wrap stack-lg">
-      <SectionHeader eyebrow="Galeria" title="Tak to wygląda" lead="Zdjęcia z tej przestrzeni i podobnych wieczorów." />
-      <div class="gallery-row">
-        {entry.data.zdjecia.slice(0, 3).map((src) => <img src={src} alt={entry.data.title} />)}
-      </div>
-    </div>
-  </section>
-
-  <section class="band">
-    <div class="wrap">
-      <SectionHeader eyebrow="Inne układy" title="Zobacz też" />
+      <p class="meta">{entry.data.tagi.join(" · ")}</p>
+      <ul class="stat-row">
+        {entry.data.fakty.map((fact) => (
+          <li>
+            <b>{fact.wartosc}</b>
+            <span>{fact.opis}</span>
+          </li>
+        ))}
+      </ul>
+      <SectionHeader eyebrow="Zakres" title="Co można tu ułożyć" />
+      <ul class="included" id="co-mozna">
+        {entry.data.co_mozna.map((item) => <li>{item}</li>)}
+      </ul>
       <div class="cards-3">
-        {
-          inne.slice(0, 3).map((event) => (
-            <article class="media-card">
-              <a href={`/eventy/${event.id}/`}>
-                <img src={event.data.cover} alt="" />
-                <div class="card-body">
-                  <p class="eyebrow">{event.data.tag}</p>
-                  <h3>{event.data.title}</h3>
-                  <span class="btn btn-ghost">Zobacz scenariusz</span>
-                </div>
-              </a>
-            </article>
-          ))
-        }
+        {entry.data.korzysci.map((item, index) => (
+          <article class="info-card">
+            <p class="eyebrow">0{index + 1}</p>
+            <h3>{item.tytul}</h3>
+            <p>{item.opis}</p>
+          </article>
+        ))}
+      </div>
+      {!IS_PROD && entry.data.do_uzupelnienia && <p class="szkic-banner">{entry.data.do_uzupelnienia}</p>}
+      <div class="prose"><Content /></div>
+    </div>
+  </section>
+  <section class="band band-surface" aria-labelledby="miejsca">
+    <div class="wrap">
+      <SectionHeader eyebrow="Przestrzeń" title="Dobierzmy do tego właściwe MIEJSCE" lead={entry.data.dla_ilu} />
+      <div class="cards-3" id="miejsca">
+        {przestrzenie.map((space) => (
+          <article class="media-card">
+            <a href={`/przestrzenie/${space.id}/`}>
+              <img src={space.data.cover} alt="" />
+              <div class="card-body">
+                <h3>{space.data.title}</h3>
+                <p>{space.data.lead}</p>
+                <span class="btn btn-ghost">Zobacz {space.data.title}</span>
+              </div>
+            </a>
+          </article>
+        ))}
       </div>
     </div>
   </section>
-
+  {pierwszy && (
+    <section class="band" aria-labelledby="scenariusz">
+      <div class="wrap split">
+        <div>
+          <SectionHeader eyebrow={pierwszy.data.title} title="Przykładowy scenariusz" lead={pierwszy.data.lead} />
+          <ol class="included" id="scenariusz">
+            {pierwszy.data.program.map((punkt) => <li>{punkt.tytul}</li>)}
+          </ol>
+          <p class="fine">Godziny i zakres dopasowujemy do Waszego wydarzenia. Pełny dzień, z godzinami, jest na stronie scenariusza.</p>
+          <p class="btn-row"><a class="btn btn-primary" href={`/scenariusze/${pierwszy.id}/`}>Zobacz cały scenariusz</a></p>
+        </div>
+        <img src={pierwszy.data.cover} alt="" />
+      </div>
+    </section>
+  )}
+  <section class="band band-dark" aria-labelledby="menu-kat">
+    <div class="wrap split">
+      <div>
+        <SectionHeader eyebrow="Kuchnia" title="Jedzenie, bar i dobry plan" lead={entry.data.jedzenie_bar} />
+        <p>{entry.data.atrakcje}</p>
+        <p>{entry.data.plan_b}</p>
+        <p class="fine">Dodatkowe AV, DJ i oprawa są za osobną opłatą. Nie ma ich w kwocie „od” na stronie cen.</p>
+        <div class="btn-row">
+          <a class="btn btn-ghost" href="/jedzenie-i-bar/">Jedzenie i bar</a>
+          <a class="btn btn-primary" href={budzetHref}>Porozmawiajmy o budżecie</a>
+        </div>
+      </div>
+      <div id="menu-kat">
+        <p class="eyebrow">Plan B</p>
+        <p class="lead">{entry.data.plan_b}</p>
+      </div>
+    </div>
+  </section>
+  {sekcje && (
+    <Slider
+      title={sekcje.film_h}
+      note={sekcje.film_body}
+      items={sekcje.film_zdjecia.map((src, index) => ({ src, alt: `${sekcje.film_h}, zdjęcie ${index + 1}`, title: sekcje.film_note }))}
+    />
+  )}
+  <section class="band" aria-labelledby="faq-kat">
+    <div class="wrap">
+      <SectionHeader eyebrow="Pytania" title="Zanim napiszesz" lead="Krótkie odpowiedzi, które już mamy. Reszta jest na stronie Warto wiedzieć." />
+      <div id="faq-kat">
+        {faq.map(({ item, Content }) => (
+          <details class="acc">
+            <summary>{item.data.pytanie}</summary>
+            <div class="acc-body"><Content /></div>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
   <NextBand
-    kicker="Następny krok"
-    title="Policz budżet albo napisz"
+    title={entry.data.cta}
     links={[
-      { href: budzetHref, label: "Moduł budżetu, uzupełniony tym scenariuszem" },
-      { href: "/przestrzenie/", label: "Przestrzenie" },
-      { href: "/jedzenie-i-bar/", label: "Jedzenie i bar" },
+      { href: budzetHref, label: "Sprawdź budżet" },
+      { href: "/przestrzenie/", label: "Wszystkie przestrzenie" },
+      { href: kontaktHref, label: entry.data.cta },
     ]}
-    cta="Sprawdź budżet"
-    href={budzetHref}
+    cta={entry.data.cta}
+    href={kontaktHref}
   />
 </Base>

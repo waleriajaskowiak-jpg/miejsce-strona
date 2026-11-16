@@ -1,5 +1,6 @@
 ---
 pytanie: "Co, jeśli będzie padać?"
+temat: "Pogoda i sezon"
 kolejnosc: 1
 adres_url: co-jesli-pada
 

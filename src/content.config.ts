@@ -19,16 +19,23 @@ const przestrzenie = defineCollection({
   }),
 });
 
-const eventy = defineCollection({
-  loader: glob({ pattern: "*.md", base: "./src/content/eventy" }),
+const scenariusze = defineCollection({
+  loader: glob({ pattern: "*.md", base: "./src/content/scenariusze" }),
   schema: z.object({
     title: z.string(),
+    h1: z.string().optional(),
     adres_url: z.string(),
     kolejnosc: z.number(),
+    szkic: z.boolean().default(false),
     tag: z.string(),
     lead: z.string(),
     opis_seo: z.string(),
+    seo_title: z.string().optional(),
+    seo_description: z.string().optional(),
     przestrzen: z.string(),
+    kategorie: z.array(z.string()).default([]),
+    goscie: z.number().optional(),
+    typ_budzetu: z.string().optional(),
     program: z.array(
       z.object({
         godzina: z.string(),
@@ -42,6 +49,33 @@ const eventy = defineCollection({
   }),
 });
 
+const kategorie = defineCollection({
+  loader: glob({ pattern: "*.md", base: "./src/content/kategorie" }),
+  schema: z.object({
+    title: z.string(),
+    nav_label: z.string(),
+    kolejnosc: z.number(),
+    szkic: z.boolean().default(true),
+    seo_title: z.string(),
+    seo_description: z.string(),
+    lead: z.string(),
+    cta: z.string(),
+    tagi: z.array(z.string()),
+    co_mozna: z.array(z.string()),
+    dla_ilu: z.string(),
+    przestrzenie: z.array(z.string()),
+    scenariusze: z.array(z.string()),
+    jedzenie_bar: z.string(),
+    atrakcje: z.string(),
+    plan_b: z.string(),
+    fakty: z.array(z.object({ wartosc: z.string(), opis: z.string() })),
+    korzysci: z.array(z.object({ tytul: z.string(), opis: z.string() })),
+    cover: z.string(),
+    zdjecia: z.array(z.string()).default([]),
+    do_uzupelnienia: z.string().optional(),
+  }),
+});
+
 const realizacje = defineCollection({
   loader: glob({ pattern: "*.md", base: "./src/content/realizacje" }),
   schema: z.object({
@@ -49,6 +83,14 @@ const realizacje = defineCollection({
     adres_url: z.string(),
     kolejnosc: z.number(),
     szkic: z.boolean().default(true),
+    seo_title: z.string().optional(),
+    seo_description: z.string().optional(),
+    zaktualizowano: z.string().optional(),
+    wyzwanie: z.string().optional(),
+    rozwiazanie: z.string().optional(),
+    przebieg: z.string().optional(),
+    efekt: z.string().optional(),
+    kategoria: z.string().optional(),
     typ: z.string(),
     meta: z.string(),
     lead: z.string(),
@@ -69,6 +111,10 @@ const artykuly = defineCollection({
     adres_url: z.string(),
     kolejnosc: z.number(),
     szkic: z.boolean().default(true),
+    seo_title: z.string().optional(),
+    seo_description: z.string().optional(),
+    zaktualizowano: z.string().optional(),
+    autor: z.string().optional(),
     opis: z.string(),
     opis_seo: z.string(),
   }),
@@ -80,6 +126,8 @@ const faq = defineCollection({
     pytanie: z.string(),
     kolejnosc: z.number(),
     adres_url: z.string(),
+    temat: z.string().optional(),
+    kategoria: z.string().optional(),
   }),
 });
 
@@ -89,7 +137,8 @@ const ustawienia = defineCollection({
 
 export const collections = {
   przestrzenie,
-  eventy,
+  scenariusze,
+  kategorie,
   realizacje,
   artykuly,
   faq,

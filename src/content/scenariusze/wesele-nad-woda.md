@@ -1,6 +1,12 @@
 ---
 title: "Wesele"
 adres_url: wesele-nad-woda
+kategorie: ["wesela-i-przyjecia-prywatne"]
+goscie: 100
+typ_budzetu: wesele
+seo_title: "Wesele nad wodą — scenariusz | MIEJSCE"
+seo_description: "Przykładowy przebieg wesela nad Wisłą: ceremonia w altanie, kolacja i parkiet."
+h1: "Wesele nad wodą — przykładowy scenariusz"
 kolejnosc: 5
 tag: "Para młoda · 100 osób"
 lead: "Od przysięgi na wodzie po ostatni taniec"

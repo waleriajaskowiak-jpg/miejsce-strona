@@ -1,5 +1,5 @@
 ---
-const { kicker = "Dalej", title, links = [], cta, href = "/kontakt/" } = Astro.props;
+const { kicker = "Następny krok", title, links = [], cta = "Zaplanuj event", href = "/kontakt/" } = Astro.props;
 ---
 
 <section class="next-band">
@@ -15,6 +15,7 @@ const { kicker = "Dalej", title, links = [], cta, href = "/kontakt/" } = Astro.p
         ))}
       </ul>
       <a class="btn btn-primary" href={href}>{cta}</a>
+      <a class="btn btn-ghost" href="/kontakt/?cel=ogledziny">Umów oględziny</a>
     </div>
   </div>
 </section>

@@ -379,6 +379,7 @@ h4 { font-size: var(--t-20); }
 .hs { position: absolute; inset: 0; opacity: 0; transition: opacity 0.8s var(--ease); }
 .hs.is-on { opacity: 1; }
 
+.hero-pause { position: absolute; z-index: 2; right: var(--gutter); bottom: var(--space-4); }
 .cine-shade, .page-hero-media .shade, .visit::after, .climate-media::after, .reel-card::after, .feature-media::after {
   background: linear-gradient(to top, var(--ink), transparent 62%);
   pointer-events: none;
@@ -649,6 +650,31 @@ h4 { font-size: var(--t-20); }
 .eat-copy { grid-column: span 7; }
 .eat-side { grid-column: span 5; }
 .eat-side .included { margin: 0; }
+.eat-follow { margin-top: var(--space-4); }
+.eat-section { padding-bottom: var(--space-6); }
+.eat-section + .next-band,
+.band-dark + .next-band,
+.band-ink + .next-band { padding-top: var(--space-6); }
+.band-ink .field span, .band-dark .field span { color: var(--on-dark); }
+.nav-drop { position: relative; }
+.nav-sub {
+  display: none;
+  position: absolute;
+  z-index: 5;
+  top: 100%;
+  left: 0;
+  min-width: 240px;
+  padding: var(--space-2);
+  background: var(--paper);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+.nav-drop:hover .nav-sub, .nav-drop:focus-within .nav-sub { display: grid; gap: var(--space-1); }
+.nav-sub a { color: var(--ink); font-size: var(--t-15); text-decoration: none; }
+.drawer-label { margin: var(--space-2) 0 var(--space-1); }
+.drawer-cat { font-size: var(--t-20); }
+.sibling-nav { display: flex; flex-wrap: wrap; gap: var(--space-1); margin-bottom: var(--space-3); }
+.mob-cta[hidden] { display: none !important; }
 .kitchen-points li {
   display: grid;
   gap: var(--space-1);

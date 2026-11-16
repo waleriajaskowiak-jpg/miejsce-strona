@@ -16,10 +16,13 @@ npm run dev
 Strona: http://localhost:4321
 
 ```bash
-npm run build      # wynik w dist/
+npm run build      # podgląd: noindex, wynik w dist/
+npm run build:prod # produkcja miejsce.to: SITE_ENV=production
 npm run preview    # podgląd buildu
 npm run test:budzet
 ```
+
+`npm run build` zostawia podgląd z `noindex`. Prawdziwy deploy na miejsce.to odpala `npm run build:prod`. Fakty o obiekcie są w `src/content/ustawienia/fakty.json`. Konflikty (130/120, 2015/2020, parking, 10 minut) są oznaczone polem „do potwierdzenia” i nie są rozstrzygane w kodzie.
 
 ## Deploy na Netlify (nowa witryna)
 

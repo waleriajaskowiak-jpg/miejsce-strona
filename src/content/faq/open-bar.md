@@ -1,5 +1,6 @@
 ---
 pytanie: "Co obejmuje open bar?"
+temat: "Jedzenie i bar"
 kolejnosc: 12
 adres_url: open-bar
 

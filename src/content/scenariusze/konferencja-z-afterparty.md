@@ -1,6 +1,12 @@
 ---
 title: "Konferencja + networking + after"
 adres_url: konferencja-z-afterparty
+kategorie: ["konferencje-i-szkolenia"]
+goscie: 50
+typ_budzetu: konferencja
+seo_title: "Konferencja z afterparty nad Wisłą | MIEJSCE"
+seo_description: "Przykładowy dzień: sala, networking na tarasie i wieczorne afterparty pod jednym adresem."
+h1: "Konferencja z networkingiem i afterparty"
 kolejnosc: 1
 tag: "Firma, zespół · 50 osób"
 lead: "Całodzienne spotkanie, od sali konferencyjnej po parkiet"

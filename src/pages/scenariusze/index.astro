@@ -1,0 +1,110 @@
+---
+import { getCollection } from "astro:content";
+import Base from "../../layouts/Base.astro";
+import PageHero from "../../components/PageHero.astro";
+import NextBand from "../../components/NextBand.astro";
+import { crumbsJsonLd, sortByOrder } from "../../lib/nav.js";
+
+const scenariusze = sortByOrder(await getCollection("scenariusze"));
+const kategorie = sortByOrder(await getCollection("kategorie"));
+const crumbs = [{ href: "/scenariusze/", label: "Scenariusze" }];
+---
+
+<Base
+  title="Przykładowe scenariusze eventów | MIEJSCE"
+  description="Sześć układów dnia nad Wisłą: integracja, konferencja, szkolenie, garden party, wesele i premiera."
+  jsonLd={[crumbsJsonLd([{ href: "/", label: "MIEJSCE" }, ...crumbs])]}
+>
+  <PageHero
+    crumbs={crumbs}
+    kicker="Przykłady"
+    title="Tak może wyglądać dzień"
+    lede="To przykłady, nie sztywne pakiety. Godziny na stronie scenariusza zostają. Tutaj widać sam przebieg."
+    image="/img/gallery/dm20.jpg"
+    imageAlt="Wieczór na barce"
+  />
+  <section class="band" aria-label="Przykładowe scenariusze">
+    <div class="wrap">
+      <div class="tablist" role="tablist" aria-label="Rodzaj wydarzenia">
+        {
+          kategorie.map((item, index) => (
+            <button type="button" role="tab" id={`tab-${item.id}`} aria-controls={`panel-${item.id}`} aria-selected={index === 0 ? "true" : "false"} tabindex={index === 0 ? 0 : -1}>
+              {item.data.nav_label}
+            </button>
+          ))
+        }
+      </div>
+      {
+        kategorie.map((item, index) => {
+          const first = scenariusze.find((scen) => scen.data.kategorie?.includes(item.id));
+          return (
+            <div role="tabpanel" id={`panel-${item.id}`} aria-labelledby={`tab-${item.id}`} hidden={index !== 0}>
+              {first && (
+                <div class="split">
+                  <div>
+                    <p class="eyebrow">{first.data.title}</p>
+                    <h2>Przykładowy scenariusz</h2>
+                    <p class="lead">{first.data.lead}</p>
+                    <ol class="included">
+                      {first.data.program.map((punkt) => <li>{punkt.tytul}</li>)}
+                    </ol>
+                    <p class="fine">Godziny i zakres dopasowujemy do Waszego wydarzenia.</p>
+                    <p class="btn-row"><a class="btn btn-primary" href={`/scenariusze/${first.id}/`}>Zobacz scenariusz</a></p>
+                  </div>
+                  <img src={first.data.cover} alt="" />
+                </div>
+              )}
+            </div>
+          );
+        })
+      }
+    </div>
+  </section>
+  <section class="band band-surface">
+    <div class="wrap cards-3">
+      {scenariusze.map((event) => (
+        <article class="media-card">
+          <a href={`/scenariusze/${event.id}/`}>
+            <img src={event.data.cover} alt="" />
+            <div class="card-body">
+              <p class="eyebrow">{event.data.tag}</p>
+              <h3>{event.data.title}</h3>
+              <span class="btn btn-ghost">Zobacz scenariusz</span>
+            </div>
+          </a>
+        </article>
+      ))}
+    </div>
+  </section>
+  <NextBand
+    title="Wybierz rodzaj albo policz budżet"
+    links={[
+      { href: "/eventy/", label: "Rodzaje wydarzeń" },
+      { href: "/ceny/#estymator", label: "Sprawdź budżet" },
+      { href: "/przestrzenie/", label: "Zobacz przestrzenie" },
+    ]}
+  />
+</Base>
+<script>
+  const tabs = [...document.querySelectorAll('[role="tab"]')];
+  const panels = [...document.querySelectorAll('[role="tabpanel"]')];
+  const select = (index) => {
+    tabs.forEach((tab, i) => {
+      const on = i === index;
+      tab.setAttribute("aria-selected", on ? "true" : "false");
+      tab.tabIndex = on ? 0 : -1;
+      panels[i].hidden = !on;
+    });
+  };
+  tabs.forEach((tab, index) => {
+    tab.addEventListener("click", () => select(index));
+    tab.addEventListener("keydown", (event) => {
+      const keys = ["ArrowRight", "ArrowLeft", "Home", "End"];
+      if (!keys.includes(event.key)) return;
+      event.preventDefault();
+      const next = event.key === "Home" ? 0 : event.key === "End" ? tabs.length - 1 : event.key === "ArrowRight" ? (index + 1) % tabs.length : (index - 1 + tabs.length) % tabs.length;
+      select(next);
+      tabs[next].focus();
+    });
+  });
+</script>

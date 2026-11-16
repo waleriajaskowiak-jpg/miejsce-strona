@@ -4,7 +4,8 @@
   "type": "module",
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build",
+    "build": "astro build && node scripts/check-seo.mjs && node scripts/check-facts.mjs",
+    "build:prod": "SITE_ENV=production astro build && node scripts/check-seo.mjs && node scripts/check-facts.mjs",
     "preview": "astro preview",
     "test:budzet": "node scripts/test-budzet.mjs"
   },

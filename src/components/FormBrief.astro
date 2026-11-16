@@ -1,5 +1,6 @@
 ---
-const { typy = [] } = Astro.props;
+const { typy = [], cel = "zapytanie", przestrzen = "" } = Astro.props;
+const wizyta = cel === "ogledziny";
 ---
 
 <form
@@ -15,40 +16,53 @@ const { typy = [] } = Astro.props;
   <p class="hp">
     <label>Nie wypełniaj tego pola <input name="bot-field" tabindex="-1" autocomplete="off" /></label>
   </p>
-  <label class="field">
+  <label class="field" for="imie">
+    <span id="imie-label">Imię</span>
+    <input id="imie" name="imie" type="text" autocomplete="given-name" required />
+  </label>
+  <label class="field" for="email">
+    <span>E-mail</span>
+    <input id="email" name="email" type="email" autocomplete="email" required />
+  </label>
+  <label class="field" for="telefon">
+    <span>Telefon</span>
+    <input id="telefon" name="telefon" type="tel" autocomplete="tel" inputmode="tel" />
+  </label>
+  <label class="field" for="data">
+    <span>Termin</span>
+    <input id="data" name="data" type="text" autocomplete="off" placeholder={wizyta ? "Kiedy chcesz wpaść" : "np. czwartek, czerwiec 2026"} />
+  </label>
+  <label class="field" for="rodzaj">
     <span>Rodzaj wydarzenia</span>
-    <select name="rodzaj" required>
+    <select id="rodzaj" name="rodzaj" required>
       <option value="">Wybierz</option>
       {typy.map((typ) => <option value={typ.id}>{typ.nazwa}</option>)}
     </select>
   </label>
-  <label class="field">
-    <span>Data</span>
-    <input name="data" type="text" autocomplete="off" placeholder="np. czwartek, czerwiec 2026" />
-  </label>
-  <label class="field">
+  <label class="field" for="osoby">
     <span>Liczba osób</span>
-    <input name="osoby" type="number" inputmode="numeric" min="1" />
+    <input id="osoby" name="osoby" type="number" inputmode="numeric" min="1" />
   </label>
-  <label class="field">
+  <label class="field" for="budzet">
     <span>Budżet</span>
-    <input name="budzet" type="text" inputmode="numeric" placeholder="np. 40 000" />
+    <input id="budzet" name="budzet" type="text" inputmode="numeric" placeholder="np. 40 000" />
   </label>
-  <label class="field">
-    <span>Telefon</span>
-    <input name="telefon" type="tel" autocomplete="tel" inputmode="tel" />
+  <label class="field" for="jednostka">
+    <span>Netto czy brutto</span>
+    <select id="jednostka" name="jednostka">
+      <option value="netto">netto</option>
+      <option value="brutto">brutto</option>
+    </select>
   </label>
-  <label class="field">
-    <span>E-mail</span>
-    <input name="email" type="email" autocomplete="email" required />
-  </label>
-  <label class="field">
+  {przestrzen && <p class="meta">Pytasz o: {przestrzen}</p>}
+  <label class="field" for="wiadomosc">
     <span>Wiadomość</span>
-    <textarea name="wiadomosc" required></textarea>
+    <textarea id="wiadomosc" name="wiadomosc" placeholder={wizyta ? "Napisz, kiedy chcesz nas odwiedzić." : "Podaj to, co już wiesz. Resztę ustalimy razem."}></textarea>
   </label>
+  <input type="hidden" name="cel" value={cel} />
   <input type="hidden" name="wynik" value="" />
-  <input type="hidden" name="przestrzen" value="" />
-  <button class="btn" type="submit">Wyślij brief</button>
+  <input type="hidden" name="przestrzen" value={przestrzen} />
+  <button class="btn" type="submit">{wizyta ? "Umów oględziny" : "Wyślij brief"}</button>
   <p class="fine">Odezwiemy się z terminem albo propozycją oględzin. Formularz trafia do skrzynki MIEJSCA przez Netlify Forms.</p>
 </form>
 
@@ -56,14 +70,29 @@ const { typy = [] } = Astro.props;
   const form = document.querySelector("#brief");
   if (form instanceof HTMLFormElement) {
     const params = new URLSearchParams(window.location.search);
-    const map = ["rodzaj", "data", "osoby", "budzet", "wynik", "przestrzen", "wiadomosc"];
-    for (const name of map) {
-      const value = params.get(name);
+    if (params.get("cel") === "ogledziny") {
+      const h1 = document.querySelector("h1");
+      const lede = document.querySelector(".lede");
+      if (h1) h1.textContent = "Zobacz MIEJSCE. Wyobraź sobie resztę";
+      if (lede) lede.textContent = "Napisz, kiedy chcesz nas odwiedzić. Termin wizyty potwierdzimy indywidualnie.";
+      const cel = form.elements.namedItem("cel");
+      if (cel && "value" in cel) cel.value = "ogledziny";
+      const submit = form.querySelector('button[type="submit"]');
+      if (submit) submit.textContent = "Umów oględziny";
+      const note = form.querySelector("#wiadomosc");
+      if (note instanceof HTMLTextAreaElement) note.placeholder = "Napisz, kiedy chcesz nas odwiedzić.";
+    }
+    const map = ["rodzaj", "typ", "data", "osoby", "budzet", "wynik", "przestrzen", "wiadomosc", "jednostka", "imie", "email"];
+    const aliases = { typ: "rodzaj", kind: "rodzaj", guests: "osoby", budget: "budzet", unit: "jednostka", date: "data" };
+    for (const [key, value] of params.entries()) {
+      const name = aliases[key] || key;
+      if (!map.includes(name) && !map.includes(key)) continue;
       const field = form.elements.namedItem(name);
       if (!value || !field || !("value" in field)) continue;
+      if (field instanceof HTMLInputElement && field.type === "hidden" && field.value) continue;
       field.value = value;
     }
-    if (params.has("rodzaj") || params.has("budzet")) {
+    if (params.has("rodzaj") || params.has("typ") || params.has("budzet") || params.has("budget") || params.has("cel")) {
       form.scrollIntoView({ block: "start" });
     }
   }

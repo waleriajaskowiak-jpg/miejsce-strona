@@ -1,5 +1,6 @@
 ---
 pytanie: "Czy można wynająć tylko jedną przestrzeń?"
+temat: "Rezerwacja"
 kolejnosc: 13
 adres_url: jedna-przestrzen
 

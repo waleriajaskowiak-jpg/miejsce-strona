@@ -12,7 +12,8 @@ export async function getStaticPaths() {
 
 const { entry } = Astro.props;
 const { Content } = await render(entry);
-const inne = sortByOrder(await getCollection("przestrzenie")).filter((item) => item.id !== entry.id);
+const wszystkie = sortByOrder(await getCollection("przestrzenie"));
+const inne = wszystkie.filter((item) => item.id !== entry.id);
 const crumbs = [
   { href: "/przestrzenie/", label: "Przestrzenie" },
   { label: entry.data.title },
@@ -35,6 +36,13 @@ const crumbs = [
   />
 
   <section class="band">
+    <div class="wrap">
+      <nav class="sibling-nav" aria-label="Inne przestrzenie">
+        {wszystkie.map((space) => (
+          <a class:list={["btn", space.id === entry.id ? "btn-primary" : "btn-ghost"]} href={`/przestrzenie/${space.id}/`} aria-current={space.id === entry.id ? "page" : undefined}>{space.data.title}</a>
+        ))}
+      </nav>
+    </div>
     <div class="wrap split">
       <div class="prose">
         <Content />
@@ -47,9 +55,10 @@ const crumbs = [
           )
         }
         <div class="btn-row">
-          <a class="btn" href={`/kontakt/?rodzaj=inne&wiadomosc=${encodeURIComponent(`Chcę zapytać o ${entry.data.title}.`)}#brief`}>
+          <a class="btn" href={`/kontakt/?przestrzen=${encodeURIComponent(entry.data.title)}`}>
             Zapytaj o {entry.data.title}
           </a>
+          <a class="btn btn-ghost" href="/ceny/">Ceny i możliwości</a>
         </div>
       </div>
       <div>
@@ -102,7 +111,7 @@ const crumbs = [
     kicker="Następny krok"
     title="Sprawdź, czy budżet się mieści"
     links={[
-      { href: "/ceny/#budzet", label: "Moduł budżetu" },
+      { href: "/ceny/#estymator", label: "Sprawdź budżet" },
       { href: "/eventy/", label: "Scenariusze" },
       { href: "/jedzenie-i-bar/", label: "Jedzenie i bar" },
     ]}

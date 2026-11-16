@@ -1,0 +1,127 @@
+---
+import { getCollection, render } from "astro:content";
+import Base from "../../layouts/Base.astro";
+import PageHero from "../../components/PageHero.astro";
+import NextBand from "../../components/NextBand.astro";
+import SectionHeader from "../../components/SectionHeader.astro";
+import { crumbsJsonLd, sortByOrder } from "../../lib/nav.js";
+
+export async function getStaticPaths() {
+  const entries = await getCollection("scenariusze");
+  return entries.map((entry) => ({ params: { id: entry.id }, props: { entry } }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const inne = sortByOrder(await getCollection("scenariusze")).filter((item) => item.id !== entry.id);
+const crumbs = [
+  { href: "/scenariusze/", label: "Scenariusze" },
+  { label: entry.data.title },
+];
+const typ = entry.data.typ_budzetu || "firmowy";
+const osoby = entry.data.goscie || "";
+const budzetHref = `/ceny/?typ=${typ}${osoby ? `&osoby=${osoby}` : ""}#estymator`;
+const kontaktHref = `/kontakt/?typ=${typ}${osoby ? `&osoby=${osoby}` : ""}`;
+const spaceLinks = [];
+const gdzie = entry.data.przestrzen;
+if (/CAŁE/i.test(gdzie)) spaceLinks.push({ href: "/przestrzenie/cale-miejsce/", label: "Całe Miejsce" });
+if (/NOWE/i.test(gdzie)) spaceLinks.push({ href: "/przestrzenie/nowe-miejsce/", label: "Nowe Miejsce" });
+if (/DUŻE/i.test(gdzie)) spaceLinks.push({ href: "/przestrzenie/duze-miejsce/", label: "Duże Miejsce" });
+if (/OGRÓD/i.test(gdzie)) spaceLinks.push({ href: "/przestrzenie/ogrod/", label: "Ogród" });
+const kategoria = entry.data.kategorie?.[0];
+---
+
+<Base
+  title={entry.data.seo_title || `${entry.data.title} | MIEJSCE`}
+  description={entry.data.seo_description || entry.data.opis_seo}
+  image={entry.data.cover}
+  jsonLd={[crumbsJsonLd([{ href: "/", label: "MIEJSCE" }, { href: "/scenariusze/", label: "Scenariusze" }, { href: `/scenariusze/${entry.id}/`, label: entry.data.title }])]}
+>
+  <PageHero
+    crumbs={crumbs}
+    kicker={entry.data.tag}
+    title={entry.data.h1 || entry.data.title}
+    lede={entry.data.lead}
+    image={entry.data.cover}
+    imageAlt={entry.data.title}
+  />
+
+  <section class="band" aria-labelledby="przebieg">
+    <div class="wrap split">
+      <div class="stack">
+        <p class="meta">{osoby ? `${osoby} osób · przykładowy scenariusz` : entry.data.tag}</p>
+        <div class="prose"><Content /></div>
+        <SectionHeader eyebrow="Dzień" title="Przebieg wydarzenia" />
+        <ol class="timeline" id="przebieg">
+          {
+            entry.data.program.map((punkt) => (
+              <li>
+                <span class="when">{punkt.godzina}</span>
+                <div>
+                  <h3>{punkt.tytul}</h3>
+                  <p>{punkt.opis}</p>
+                </div>
+              </li>
+            ))
+          }
+        </ol>
+      </div>
+      <aside class="card stack pad">
+        <p class="eyebrow">Co możemy połączyć</p>
+        <h3>{entry.data.przestrzen}</h3>
+        <ul class="included">
+          {entry.data.zakres.map((item) => <li>{item}</li>)}
+        </ul>
+        <p class="fine">Przykładowy przebieg nie oznacza, że wszystkie elementy są w cenie wynajmu. Zakres, czas i koszty potwierdzamy w indywidualnej ofercie.</p>
+        <div class="stack">
+          {spaceLinks.map((link) => <a class="btn btn-ghost" href={link.href}>{link.label}</a>)}
+          {kategoria && <a class="btn btn-ghost" href={`/eventy/${kategoria}/`}>Wróć do rodzaju wydarzenia</a>}
+        </div>
+        <a class="btn btn-primary" href={budzetHref}>Dopasuj do budżetu</a>
+        <a class="btn btn-ghost" href={kontaktHref}>Porozmawiajmy o tym planie</a>
+      </aside>
+    </div>
+  </section>
+
+  <section class="band band-dark" aria-labelledby="galeria-scen">
+    <div class="wrap stack-lg">
+      <SectionHeader eyebrow="Galeria" title="Tak to wygląda" lead="Zdjęcia z tej przestrzeni i podobnych wieczorów." />
+      <div class="gallery-row" id="galeria-scen">
+        {entry.data.zdjecia.slice(0, 3).map((src) => <img src={src} alt="" />)}
+      </div>
+    </div>
+  </section>
+
+  <section class="band">
+    <div class="wrap">
+      <SectionHeader eyebrow="Inne układy" title="Zobacz też" />
+      <div class="cards-3">
+        {
+          inne.slice(0, 3).map((event) => (
+            <article class="media-card">
+              <a href={`/scenariusze/${event.id}/`}>
+                <img src={event.data.cover} alt="" />
+                <div class="card-body">
+                  <p class="eyebrow">{event.data.tag}</p>
+                  <h3>{event.data.title}</h3>
+                  <span class="btn btn-ghost">Zobacz scenariusz</span>
+                </div>
+              </a>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <NextBand
+    title="Policz budżet albo napisz"
+    links={[
+      { href: budzetHref, label: "Sprawdź budżet dla tego układu" },
+      { href: "/przestrzenie/", label: "Zobacz przestrzenie" },
+      { href: "/jedzenie-i-bar/", label: "Jedzenie i bar" },
+    ]}
+    cta="Zaplanuj event"
+    href={kontaktHref}
+  />
+</Base>

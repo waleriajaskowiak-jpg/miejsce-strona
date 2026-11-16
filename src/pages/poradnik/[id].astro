@@ -27,7 +27,7 @@ const articleLd = {
 ---
 
 <Base
-  title={`${entry.data.title} | Poradnik | MIEJSCE`}
+  title={entry.data.seo_title || `${entry.data.title.replace(/\?$/, "")} | MIEJSCE`}
   description={entry.data.opis_seo}
   robots={entry.data.szkic ? "noindex,follow" : "index,follow"}
   jsonLd={[

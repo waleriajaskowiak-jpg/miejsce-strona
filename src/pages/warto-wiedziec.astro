@@ -10,6 +10,11 @@ for (const entry of entries) {
   const { Content } = await render(entry);
   faq.push({ entry, Content });
 }
+const groups = [...faq.reduce((map, row) => {
+  const key = row.entry.data.temat || "Przed eventem";
+  map.set(key, [...(map.get(key) || []), row]);
+  return map;
+}, new Map())];
 const crumbs = [{ href: "/warto-wiedziec/", label: "Warto wiedzieć" }];
 const faqLd = {
   "@context": "https://schema.org",
@@ -39,13 +44,16 @@ const faqLd = {
   <section class="band">
     <div class="wrap">
       {
-        faq.map(({ entry, Content }) => (
-          <details class="acc">
-            <summary>{entry.data.pytanie}</summary>
-            <div class="acc-body">
-              <Content />
-            </div>
-          </details>
+        groups.map(([temat, rows]) => (
+          <div class="stack">
+            <h2>{temat}</h2>
+            {rows.map(({ entry, Content }) => (
+              <details class="acc">
+                <summary>{entry.data.pytanie}</summary>
+                <div class="acc-body"><Content /></div>
+              </details>
+            ))}
+          </div>
         ))
       }
     </div>

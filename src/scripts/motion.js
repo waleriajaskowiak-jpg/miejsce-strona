@@ -18,7 +18,21 @@ if (!reduced && slides.length > 1) {
     next.classList.add("is-on");
     dots?.children[current]?.classList.add("is-on");
   };
-  setInterval(() => show(current + 1), 5600);
+  let timer = setInterval(() => show(current + 1), 5600);
+  const pause = document.querySelector("#heroPause");
+  pause?.addEventListener("click", () => {
+    const on = pause.getAttribute("aria-pressed") === "true";
+    pause.setAttribute("aria-pressed", on ? "false" : "true");
+    pause.textContent = on ? "Pauza" : "Odtwarzaj";
+    if (on) timer = setInterval(() => show(current + 1), 5600);
+    else clearInterval(timer);
+  });
+  document.addEventListener("keydown", (event) => {
+    const tag = document.activeElement?.tagName;
+    if (tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT") return;
+    if (event.key === "ArrowRight") show(current + 1);
+    if (event.key === "ArrowLeft") show(current - 1);
+  });
 }
 
 if (!reduced) {

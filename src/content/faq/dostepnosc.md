@@ -1,5 +1,6 @@
 ---
 pytanie: "Czy MIEJSCE jest dostępne dla osób z niepełnosprawnościami?"
+temat: "Dojazd i dostępność"
 kolejnosc: 6
 adres_url: dostepnosc
 

@@ -3,6 +3,7 @@ title: "Event plenerowy i deszcz — jak przygotować dobry plan B?"
 adres_url: event-plenerowy-i-deszcz
 kolejnosc: 2
 szkic: true
+seo_title: "Plan B na deszcz przy evencie plenerowym | MIEJSCE"
 opis: "Szkic artykułu o planie B na deszcz. Bez poradnika zmyślonego pod SEO."
 opis_seo: "Szkic artykułu o planie B na deszcz. Bez poradnika zmyślonego pod SEO."
 
