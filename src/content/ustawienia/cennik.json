@@ -87,7 +87,7 @@
   "dodatki": [
     {
       "nazwa": "Obsługa",
-      "opis": "Kelnerzy i koordynacja. Osobna pozycja, nie 10% serwisu doliczane do wynajmu, menu i baru"
+      "opis": "Kelnerzy i koordynator na cały event. Wyceniane osobno, poza 10% serwisu"
     },
     {
       "nazwa": "AV",
@@ -95,7 +95,7 @@
     },
     {
       "nazwa": "DJ i muzyka",
-      "opis": "DJ, nagłośnienie albo muzyka na żywo — na zamówienie"
+      "opis": "DJ, nagłośnienie albo muzyka na żywo, na zamówienie"
     },
     {
       "nazwa": "Bar mobilny",

@@ -517,6 +517,41 @@ main > section + section {
   .h-copy .stat-row { grid-template-columns: 1fr 1fr; }
   .h-copy .stat-row b { font-size: 28px; }
 }
+.addon-row { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }
+.addon {
+  background: #14161a;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 20px;
+  padding: 24px 22px 26px;
+  min-width: 0;
+  transition: transform 0.35s var(--ease), border-color 0.35s var(--ease);
+}
+.addon svg {
+  width: 48px;
+  height: 48px;
+  stroke: var(--accent);
+  fill: none;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: transform 0.45s var(--ease);
+}
+.addon h3 { color: #fff; margin-top: 18px; font-size: 20px; }
+.addon p { color: var(--on-dark); margin-top: 12px; font-size: 15px; line-height: 1.5; }
+.addon:hover { border-color: var(--accent); transform: translateY(-4px); }
+.addon:hover svg { transform: translateY(-3px) rotate(-6deg); }
+.addon-foot { margin-top: 28px; }
+@media (max-width: 1100px) {
+  .addon-row { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 700px) {
+  .addon-row { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; gap: 12px; padding-bottom: 4px; }
+  .addon { flex: 0 0 82%; scroll-snap-align: start; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .addon, .addon svg { transition: none; }
+  .addon:hover, .addon:hover svg { transform: none; }
+}
 .band-dark .form-panel .field span,
 .band-ink .form-panel .field span,
 .form-panel .field span { color: var(--ink); }
