@@ -11,7 +11,7 @@ kolejnosc: 3
 tag: "Firma · 80 osób"
 lead: "Grill, woda i muzyka, sprawdzony przepis na udaną integrację"
 opis_seo: "Letnia integracja nad Wisłą: grill, bar i afterparty."
-przestrzen: "DUŻE MIEJSCE i OGRÓD"
+przestrzen: "Duże Miejsce i Ogród"
 program:
   - godzina: "17:00–20:00"
     tytul: "Networking"

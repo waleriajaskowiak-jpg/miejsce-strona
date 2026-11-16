@@ -27,14 +27,14 @@
       "id": "duze",
       "nazwa": "Pierwsza barka + zadaszony taras",
       "cena_od": 5000,
-      "dopisek": "DUŻE MIEJSCE",
+      "dopisek": "Duże Miejsce",
       "czas": "5 h"
     },
     {
       "id": "cale",
       "nazwa": "Cały kompleks + ogród",
       "cena_od": null,
-      "dopisek": "DUŻE MIEJSCE, Małe Miejsce i OGRÓD",
+      "dopisek": "Duże Miejsce, Małe Miejsce i Ogród",
       "czas": "5 h"
     }
   ],

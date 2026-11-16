@@ -11,7 +11,7 @@ kolejnosc: 4
 tag: "Firma · 40 osób"
 lead: "Zachód słońca nad Wisłą, koktajle i kolacja w dobrym towarzystwie"
 opis_seo: "Kameralny event dla klientów albo premiera: taras, kolacja i bar."
-przestrzen: "DUŻE MIEJSCE"
+przestrzen: "Duże Miejsce"
 program:
   - godzina: "18:00–19:00"
     tytul: "Powitanie"

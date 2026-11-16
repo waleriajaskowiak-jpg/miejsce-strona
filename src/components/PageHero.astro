@@ -12,5 +12,6 @@ const { crumbs = [], kicker, title, lede, image, imageAlt = "" } = Astro.props;
     <p class="kicker">{kicker}</p>
     <h1>{title}</h1>
     {lede && <p class="lede">{lede}</p>}
+    <slot />
   </div>
 </header>

@@ -55,7 +55,10 @@ const strip = (galeria.kategorie || []).flatMap((cat) => cat.zdjecia || []).slic
       }
     </div>
     <div class="cine-shade"></div>
-    <button class="hero-pause btn btn-ghost" id="heroPause" type="button" aria-pressed="false">Pauza</button>
+    <div class="hero-prog">
+      <span id="heroCount">01 / 04</span>
+      <button type="button" id="heroPause" aria-label="Pauza" aria-pressed="false"></button>
+    </div>
     <div class="wrap cine-bottom">
       <div>
         <p class="eyebrow">{strona.hero_kicker}</p>
@@ -193,7 +196,7 @@ const strip = (galeria.kategorie || []).flatMap((cat) => cat.zdjecia || []).slic
 
   <section class="band" aria-labelledby="dowod">
     <div class="wrap">
-      <SectionHeader eyebrow="Realizacje" title="Zdjęcia z wody" lead="Pełne historie czekają na uzupełnienie. Na razie archiwum zdjęć." />
+      <SectionHeader eyebrow="Realizacje" title="Zdjęcia z wody" lead="Wieczory, które już się tu odbyły: integracje, wesela, premiery i kolacje na wodzie." />
       <div class="cards-2" id="dowod">
         {(published.length ? published.map((item) => item.data.cover) : strip).map((src) => (
           <a href="/galeria/"><img src={typeof src === "string" ? src : src} alt="Zdjęcie z MIEJSCA" /></a>

@@ -1,5 +1,5 @@
 ---
-title: "CAŁE MIEJSCE"
+title: "Całe Miejsce"
 adres_url: cale-miejsce
 kolejnosc: 4
 lead: "Dwie barki, dwa zadaszone tarasy i ogród. Do 350 gości, także w deszczu."
@@ -16,7 +16,7 @@ najlepiej:
   - "wydarzenia całodniowe"
 w_skrocie:
   - "do 350 osób, także w deszczu"
-  - "DUŻE MIEJSCE + Małe Miejsce + OGRÓD"
+  - "Duże Miejsce + Małe Miejsce + Ogród"
   - "łącznie ok. 180 m² zadaszonych tarasów"
   - "ogród: ok. 300 m²"
   - "3 niezależne bary"
@@ -37,6 +37,6 @@ zdjecia:
   - "/img/gallery/dm04.jpg"
 
 ---
-Przy większych wydarzeniach łączymy wszystko w jeden kompleks i przyjmujemy do 350 gości także wtedy, gdy pada. Część oficjalna może odbywać się w Małym Miejscu, catering i networking na tarasach, ogród przejąć rolę strefy chillout, a DUŻE MIEJSCE wieczorem zamienić się w parkiet. Wynajem całego kompleksu wyceniamy indywidualnie, za 5 godzin.
+Przy większych wydarzeniach łączymy wszystko w jeden kompleks i przyjmujemy do 350 gości także wtedy, gdy pada. Część oficjalna może odbywać się w Małym Miejscu, catering i networking na tarasach, ogród przejąć rolę strefy chillout, a Duże Miejsce wieczorem zamienić się w parkiet. Wynajem całego kompleksu wyceniamy indywidualnie, za 5 godzin.
 
 Każda przestrzeń ma własny bar, toalety i wejście, ale goście mogą swobodnie poruszać się pomiędzy nimi.

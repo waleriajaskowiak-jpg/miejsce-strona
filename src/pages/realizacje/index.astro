@@ -14,14 +14,14 @@ const crumbs = [{ href: "/realizacje/", label: "Realizacje" }];
 
 <Base
   title="Realizacje | MIEJSCE"
-  description="Wybrane wydarzenia w MIEJSCU. Opisy oznaczone jako szkic czekają na uzupełnienie — bez dopisanych liczb."
+  description="Wybrane wydarzenia w MIEJSCU: zdjęcia z barek, ogrodu i wesel nad Wisłą."
   jsonLd={[crumbsJsonLd([{ href: "/", label: "MIEJSCE" }, ...crumbs])]}
 >
   <PageHero
     crumbs={crumbs}
     kicker={featured.data.typ}
     title="Realizacje"
-    lede="Najpierw jedna historia, potem siatka. Liczby gości zostają puste, dopóki nie ma ich w materiale."
+    lede="Zdjęcia z wieczorów, które już się tu odbyły."
     image={featured.data.cover}
     imageAlt={featured.data.title}
   />
@@ -33,12 +33,10 @@ const crumbs = [{ href: "/realizacje/", label: "Realizacje" }];
           <img src={featured.data.cover} alt={featured.data.title} />
         </a>
         <div class="feature-copy">
-          {featured.data.szkic && <p class="badge">Szkic</p>}
           <p class="eyebrow">{featured.data.typ}</p>
           <h2>{featured.data.title}</h2>
-          <p class="lead">{featured.data.lead}</p>
-          <p class="meta">{featured.data.meta}</p>
-          <p class="meta">Goście: do uzupełnienia</p>
+          {featured.data.lead && !/uzupełn|szkic/i.test(featured.data.lead) && <p class="lead">{featured.data.lead}</p>}
+          {featured.data.meta && !/uzupełn/i.test(featured.data.meta) && <p class="meta">{featured.data.meta}</p>}
           <a class="btn btn-primary" href={`/realizacje/${featured.id}/`}>Zobacz realizację</a>
         </div>
       </article>
@@ -56,9 +54,7 @@ const crumbs = [{ href: "/realizacje/", label: "Realizacje" }];
                 <div class="card-body">
                   <p class="eyebrow">{item.data.typ}</p>
                   <h3>{item.data.title}</h3>
-                  <p>{item.data.lead}</p>
-                  <p class="meta">{item.data.meta}</p>
-                  <p class="meta">Goście: do uzupełnienia</p>
+                  {item.data.lead && !/uzupełn|szkic/i.test(item.data.lead) ? <p>{item.data.lead}</p> : null}
                   <span class="btn btn-ghost">Otwórz</span>
                 </div>
               </a>

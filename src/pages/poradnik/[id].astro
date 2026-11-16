@@ -46,8 +46,7 @@ const articleLd = {
   />
   <section class="band tight-top">
     <div class="wrap">
-      {entry.data.szkic && <p class="szkic-banner">Szkic. Treść do napisania w /admin. Strona ma noindex, dopóki szkic jest włączony.</p>}
-      <div class="prose"><Content /></div>
+      {entry.data.szkic ? <p class="btn-row"><a class="btn btn-primary" href="/kontakt/">Zapytaj o event</a></p> : <div class="prose"><Content /></div>}
     </div>
   </section>
   <NextBand

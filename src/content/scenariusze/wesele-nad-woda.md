@@ -10,7 +10,7 @@ kolejnosc: 5
 tag: "Para młoda · 50–250 osób"
 lead: "Od przysięgi na wodzie po ostatni taniec. Liczba gości zależy od formuły: od 50 do 250."
 opis_seo: "Wesele nad Wisłą dla 50–250 gości, zależnie od formuły: ceremonia, przyjęcie i parkiet."
-przestrzen: "DUŻE MIEJSCE, OGRÓD albo CAŁE MIEJSCE, zależnie od formuły"
+przestrzen: "Duże Miejsce, Ogród albo Całe Miejsce, zależnie od formuły"
 program:
   - godzina: "Ceremonia"
     tytul: "Ślub w altanie na wodzie"

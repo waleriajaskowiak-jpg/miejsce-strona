@@ -1,5 +1,5 @@
 ---
-title: "DUŻE MIEJSCE"
+title: "Duże Miejsce"
 adres_url: duze-miejsce
 kolejnosc: 1
 lead: "Parkiet, bar, kominek i 120 m² zadaszonego tarasu nad wodą"

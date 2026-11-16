@@ -6,7 +6,6 @@ import NextBand from "../../components/NextBand.astro";
 import SectionHeader from "../../components/SectionHeader.astro";
 import StatRow from "../../components/StatRow.astro";
 import Slider from "../../components/Slider.astro";
-import { IS_PROD } from "../../lib/env.js";
 import { crumbsJsonLd, sortByOrder } from "../../lib/nav.js";
 
 export async function getStaticPaths() {
@@ -79,7 +78,6 @@ const kontaktHref = `/kontakt/?typ=${entry.id}`;
           </article>
         ))}
       </div>
-      {!IS_PROD && entry.data.do_uzupelnienia && <p class="szkic-banner">{entry.data.do_uzupelnienia}</p>}
       <div class="prose"><Content /></div>
     </div>
   </section>

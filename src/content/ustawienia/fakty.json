@@ -23,10 +23,12 @@
   "dostepnosc": "Jest toaleta dla osób z niepełnosprawnościami. Wejście na teren portu prowadzi schodami. Teren należy do miasta.",
   "przestrzenie": {
     "duze": {
-      "nazwa": "DUŻE MIEJSCE",
+      "nazwa": "Duże Miejsce",
       "wnetrze_m2": 80,
       "taras_m2": 120,
       "zima_osob": "około 120 osób",
+      "zima_liczba": 120,
+      "lato_do_potwierdzenia": "Letniej pojemności Dużego Miejsca nie ma w potwierdzonych faktach. Suwak używa zimowych 120.",
       "cena_od": 5000,
       "czas": "5 h",
       "kontenery": true,
@@ -42,13 +44,15 @@
       "czas": "5 h"
     },
     "ogrod": {
-      "nazwa": "OGRÓD",
+      "nazwa": "Ogród",
       "sezon": "maj–wrzesień",
       "cena": "indywidualnie",
-      "do_potwierdzenia": "Na stronie ogród zostaje osobną przestrzenią. PDF opisuje go jako uzupełnienie barek. Tego zdania nie zmieniamy, dopóki Maciek nie zdecyduje."
+      "gosci": 100,
+      "gosci_tekst": "ok. 100 osób",
+      "do_potwierdzenia": "Na stronie ogród zostaje osobną przestrzenią. PDF opisuje go jako uzupełnienie barek. Liczba ok. 100 osób jest tą, którą strona już publikuje — Maciek jej nie potwierdził."
     },
     "cale": {
-      "nazwa": "CAŁE MIEJSCE",
+      "nazwa": "Całe Miejsce",
       "maks_osob": 350,
       "takze_w_deszczu": true,
       "cena": "wycena indywidualna",

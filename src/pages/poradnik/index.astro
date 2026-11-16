@@ -7,8 +7,6 @@ import { crumbsJsonLd, sortByOrder } from "../../lib/nav.js";
 
 const ustawienia = (await getEntry("ustawienia", "poradnik"))!.data;
 const artykuly = sortByOrder(await getCollection("artykuly"));
-const napisane = new Set(artykuly.map((item) => item.data.title));
-const kolejka = (ustawienia.kolejka || []).filter((title) => !napisane.has(title));
 const crumbs = [{ href: "/poradnik/", label: "Poradnik" }];
 ---
 
@@ -29,27 +27,18 @@ const crumbs = [{ href: "/poradnik/", label: "Poradnik" }];
   <section class="band tight-top">
     <div class="wrap stack">
       <p class="lead">{ustawienia.wstep}</p>
-      <h2>Szkice</h2>
-      <ol class="queue">
-        {artykuly.map((article, index) => (
-          <li>
-            <span>{String(index + 1).padStart(2, "0")}</span>
-            <a href={`/poradnik/${article.id}/`}>{article.data.title}</a>
-            {article.data.szkic && <span class="badge">Szkic</span>}
-          </li>
-        ))}
-      </ol>
-      <h2>W kolejce</h2>
-      <p class="fine">Tytuły z briefu. Nie mają jeszcze stron, żeby nie publikować pustych artykułów.</p>
-      <ol class="queue">
-        {kolejka.map((title, index) => (
-          <li>
-            <span>{String(index + 1).padStart(2, "0")}</span>
-            <span>{title}</span>
-            <span class="badge">Do napisania</span>
-          </li>
-        ))}
-      </ol>
+      {artykuly.some((article) => !article.data.szkic) ? (
+        <ol class="queue">
+          {artykuly.filter((article) => !article.data.szkic).map((article, index) => (
+            <li>
+              <span>{String(index + 1).padStart(2, "0")}</span>
+              <a href={`/poradnik/${article.id}/`}>{article.data.title}</a>
+            </li>
+          ))}
+        </ol>
+      ) : (
+        <p class="btn-row"><a class="btn btn-primary" href="/kontakt/">Zapytaj o event</a></p>
+      )}
     </div>
   </section>
   <NextBand

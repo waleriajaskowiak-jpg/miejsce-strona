@@ -11,7 +11,7 @@ kolejnosc: 6
 tag: "Firma · 300 osób"
 lead: "Urodziny firmy, jubileusz albo podsumowanie roku z całym zespołem"
 opis_seo: "Duży event i garden party: cały kompleks, ogród, bufety i parkiet. Do 350 osób."
-przestrzen: "CAŁE MIEJSCE"
+przestrzen: "Całe Miejsce"
 program:
   - godzina: "16:00–19:00"
     tytul: "Powitanie w ogrodzie"

@@ -1,11 +1,18 @@
 ---
-import { getCollection } from "astro:content";
-import { NAV } from "../lib/nav.js";
+import { getCollection, getEntry } from "astro:content";
 import { sortByOrder } from "../lib/nav.js";
 
 const path = Astro.url.pathname;
-const current = (href) => path === href || (href !== "/" && path.startsWith(href));
+const current = (href: string) => path === href || (href !== "/" && path.startsWith(href));
 const kategorie = sortByOrder(await getCollection("kategorie"));
+const kontakt = (await getEntry("ustawienia", "kontakt"))?.data;
+const links = [
+  { href: "/przestrzenie/", label: "Przestrzenie" },
+  { href: "/ceny/", label: "Ceny" },
+  { href: "/realizacje/", label: "Realizacje" },
+  { href: "/jedzenie-i-bar/", label: "Jedzenie i bar" },
+  { href: "/poradnik/", label: "Poradnik" },
+];
 ---
 
 <header class="site-head">
@@ -14,61 +21,130 @@ const kategorie = sortByOrder(await getCollection("kategorie"));
       <img src="/img/wordmark.png" alt="MIEJSCE" width="900" height="258" />
     </a>
     <nav class="nav-desk" aria-label="Główna">
-      <div class="nav-drop">
-        <a href="/eventy/" aria-current={current("/eventy/") ? "page" : undefined}>Wydarzenia</a>
-        <div class="nav-sub">
-          {kategorie.map((item) => (
-            <a href={`/eventy/${item.id}/`}>{item.data.nav_label}</a>
-          ))}
-          <a href="/scenariusze/">Scenariusze</a>
-        </div>
+      <div class="nav-dd">
+        <a
+          href="/eventy/"
+          id="wydarzenia-link"
+          aria-expanded="false"
+          aria-controls="mega"
+          aria-current={current("/eventy/") ? "page" : undefined}
+        >
+          Wydarzenia <i class="chev" aria-hidden="true"></i>
+        </a>
       </div>
       {
-        NAV.filter((item) => item.href !== "/eventy/").map((item) => (
+        links.map((item) => (
           <a href={item.href} aria-current={current(item.href) ? "page" : undefined}>
             {item.label}
           </a>
         ))
       }
     </nav>
-    <a class="btn btn-primary btn-sm head-cta" href="/kontakt/">Zaplanuj event</a>
-    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="nav-panel">
-      Menu
+    <div class="head-ctas">
+      {kontakt && <a class="tel" href={`tel:${kontakt.telefon_href}`}>{kontakt.telefon_wyswietlany}</a>}
+      <a class="btn btn-primary btn-sm" href="/kontakt/">Zaplanuj event</a>
+    </div>
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="nav-panel" aria-label="Menu">
+      <span></span><span></span>
     </button>
   </div>
 </header>
+
+<div class="mega" id="mega" hidden>
+  <div class="wrap">
+    {
+      kategorie.map((item) => (
+        <a class="mcard" href={`/eventy/${item.id}/`}>
+          <span class="ph"><img src={item.data.cover} alt="" /></span>
+          <b>{item.data.title}</b>
+          <span>{item.data.lead}</span>
+        </a>
+      ))
+    }
+    <div class="mside">
+      <small>Zaplanuj</small>
+      <a href="/scenariusze/">Scenariusze dnia</a>
+      <a href="/realizacje/">Realizacje</a>
+      <a href="/ceny/#estymator">Ceny i estymator</a>
+      <a class="btn btn-primary btn-sm" href="/kontakt/?cel=ogledziny">Umów oględziny</a>
+    </div>
+  </div>
+</div>
+
 <div class="nav-panel" id="nav-panel" hidden>
   <nav aria-label="Mobilna">
     <p class="drawer-label">Co planujesz?</p>
-    {kategorie.map((item) => (
-      <a class="drawer-cat" href={`/eventy/${item.id}/`}>{item.data.nav_label}</a>
-    ))}
-    <a href="/przestrzenie/">Przestrzenie</a>
-    <a href="/ceny/">Ceny i budżet</a>
-    <a href="/realizacje/">Realizacje</a>
-    <a href="/jedzenie-i-bar/">Jedzenie i bar</a>
-    <a href="/poradnik/">Poradnik</a>
-    <a href="/warto-wiedziec/">Warto wiedzieć</a>
-    <a href="/scenariusze/">Scenariusze</a>
-    <a href="/kontakt/">Zaplanuj event</a>
-    <a href="/kontakt/?cel=ogledziny">Umów oględziny</a>
+    <div class="drawer-tiles">
+      {
+        kategorie.map((item) => (
+          <a class="mcard" href={`/eventy/${item.id}/`}>
+            <span class="ph"><img src={item.data.cover} alt="" /></span>
+            <b>{item.data.nav_label}</b>
+          </a>
+        ))
+      }
+    </div>
+    {links.map((item) => <a class="drawer-link" href={item.href}>{item.label}</a>)}
+    <a class="drawer-link" href="/scenariusze/">Scenariusze</a>
+    <a class="drawer-link" href="/warto-wiedziec/">Warto wiedzieć</a>
+    <div class="drawer-cta">
+      <a class="btn btn-primary" href="/kontakt/">Zaplanuj event</a>
+      {kontakt && <a class="btn btn-ghost" href={`tel:${kontakt.telefon_href}`}>Zadzwoń</a>}
+    </div>
   </nav>
 </div>
+
 <script>
   const btn = document.querySelector(".nav-toggle");
   const panel = document.querySelector(".nav-panel");
-  const setOpen = (open) => {
+  const mega = document.querySelector("#mega");
+  const trigger = document.querySelector("#wydarzenia-link");
+  const dd = document.querySelector(".nav-dd");
+  let timer = 0;
+
+  const setDrawer = (open) => {
     if (!panel || !btn) return;
     panel.hidden = !open;
     btn.setAttribute("aria-expanded", open ? "true" : "false");
-    btn.textContent = open ? "Zamknij" : "Menu";
     document.body.classList.toggle("nav-open", open);
     document.dispatchEvent(new Event("miejsce:nav"));
     if (open) panel.querySelector("a")?.focus();
   };
-  btn?.addEventListener("click", () => setOpen(Boolean(panel?.hidden)));
-  panel?.querySelectorAll("a").forEach((link) => link.addEventListener("click", () => setOpen(false)));
+
+  const setMega = (open) => {
+    if (!mega || !trigger) return;
+    mega.hidden = !open;
+    trigger.setAttribute("aria-expanded", open ? "true" : "false");
+    dd?.classList.toggle("open", open);
+    document.body.classList.toggle("menu-open", open);
+  };
+
+  btn?.addEventListener("click", () => setDrawer(Boolean(panel?.hidden)));
+  panel?.querySelectorAll("a").forEach((link) => link.addEventListener("click", () => setDrawer(false)));
+
+  const arm = (open) => {
+    window.clearTimeout(timer);
+    timer = window.setTimeout(() => setMega(open), open ? 120 : 160);
+  };
+  dd?.addEventListener("mouseenter", () => arm(true));
+  dd?.addEventListener("mouseleave", () => arm(false));
+  mega?.addEventListener("mouseenter", () => arm(true));
+  mega?.addEventListener("mouseleave", () => arm(false));
+  dd?.addEventListener("focusin", () => setMega(true));
+  mega?.addEventListener("focusin", () => setMega(true));
+  dd?.addEventListener("focusout", (event) => {
+    if (!dd.contains(event.relatedTarget) && !mega?.contains(event.relatedTarget)) setMega(false);
+  });
+  mega?.addEventListener("focusout", (event) => {
+    if (!mega.contains(event.relatedTarget) && !dd?.contains(event.relatedTarget)) setMega(false);
+  });
+
   document.addEventListener("keydown", (event) => {
-    if (event.key === "Escape") setOpen(false);
+    if (event.key !== "Escape") return;
+    setDrawer(false);
+    if (!mega?.hidden) {
+      setMega(false);
+      trigger?.focus();
+    }
   });
 </script>

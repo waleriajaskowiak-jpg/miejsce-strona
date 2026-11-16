@@ -24,10 +24,10 @@ const budzetHref = `/ceny/?typ=${typ}${osoby ? `&osoby=${osoby}` : ""}#estymator
 const kontaktHref = `/kontakt/?typ=${typ}${osoby ? `&osoby=${osoby}` : ""}`;
 const spaceLinks = [];
 const gdzie = entry.data.przestrzen;
-if (/CAŁE/i.test(gdzie)) spaceLinks.push({ href: "/przestrzenie/cale-miejsce/", label: "Całe Miejsce" });
-if (/Małe|MAŁE|NOWE/i.test(gdzie)) spaceLinks.push({ href: "/przestrzenie/nowe-miejsce/", label: "Małe Miejsce" });
-if (/DUŻE/i.test(gdzie)) spaceLinks.push({ href: "/przestrzenie/duze-miejsce/", label: "Duże Miejsce" });
-if (/OGRÓD/i.test(gdzie)) spaceLinks.push({ href: "/przestrzenie/ogrod/", label: "Ogród" });
+if (/całe|cale/i.test(gdzie)) spaceLinks.push({ href: "/przestrzenie/cale-miejsce/", label: "Całe Miejsce" });
+if (/małe|male|nowe/i.test(gdzie)) spaceLinks.push({ href: "/przestrzenie/nowe-miejsce/", label: "Małe Miejsce" });
+if (/duże|duze/i.test(gdzie)) spaceLinks.push({ href: "/przestrzenie/duze-miejsce/", label: "Duże Miejsce" });
+if (/ogród|ogrod/i.test(gdzie)) spaceLinks.push({ href: "/przestrzenie/ogrod/", label: "Ogród" });
 const kategoria = entry.data.kategorie?.[0];
 ---
 

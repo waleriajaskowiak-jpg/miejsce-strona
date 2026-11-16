@@ -1,5 +1,5 @@
 ---
-title: "OGRÓD"
+title: "Ogród"
 adres_url: ogrod
 kolejnosc: 3
 lead: "300 m² zieleni, własny bar i trochę mniej formalności"
@@ -40,4 +40,4 @@ zdjecia:
   - "/img/gallery/og20.jpg"
 
 ---
-OGRÓD to osobna, pełnoprawna przestrzeń eventowa od maja do września. Wynajem wyceniamy indywidualnie. Są drzewa, światła, zadaszona część, wysokie i niskie stoliki, trybuny ze schodkami i miejsca do siedzenia. Można zrobić tu garden party, integrację, wesele albo po prostu przenieść część większego wydarzenia na zewnątrz.
+Ogród to osobna, pełnoprawna przestrzeń eventowa od maja do września. Wynajem wyceniamy indywidualnie. Są drzewa, światła, zadaszona część, wysokie i niskie stoliki, trybuny ze schodkami i miejsca do siedzenia. Można zrobić tu garden party, integrację, wesele albo po prostu przenieść część większego wydarzenia na zewnątrz.

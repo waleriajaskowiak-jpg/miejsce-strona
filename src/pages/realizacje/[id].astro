@@ -33,7 +33,7 @@ const articleLd = entry.data.szkic
 
 <Base
   title={`${entry.data.title} | Realizacje | MIEJSCE`}
-  description={entry.data.opis_seo}
+  description={entry.data.szkic ? `${entry.data.title} w MIEJSCU nad Wisłą.` : entry.data.opis_seo}
   image={entry.data.cover}
   robots={entry.data.szkic ? "noindex,follow" : "index,follow"}
   jsonLd={[
@@ -52,10 +52,9 @@ const articleLd = entry.data.szkic
   <section class="band">
     <div class="wrap split">
       <div class="stack">
-        {entry.data.szkic && <p class="szkic-banner">Szkic do uzupełnienia w CMS. Nie indeksujemy tej strony, dopóki pole „szkic” jest włączone.</p>}
-        <p class="meta">{entry.data.meta}</p>
-        <p class="meta">Goście: do uzupełnienia</p>
-        <div class="prose"><Content /></div>
+        {entry.data.meta && !/uzupełn/i.test(entry.data.meta) && <p class="meta">{entry.data.meta}</p>}
+        {!entry.data.szkic && <div class="prose"><Content /></div>}
+        {entry.data.szkic && <p class="btn-row"><a class="btn btn-primary" href="/kontakt/">Zapytaj o podobny wieczór</a></p>}
       </div>
       <dl class="sheet">
         <div><dt>Przestrzenie</dt><dd>{entry.data.przestrzenie}</dd></div>
