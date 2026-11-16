@@ -1,8 +1,9 @@
 ---
 import { getEntry } from "astro:content";
 import Base from "../layouts/Base.astro";
-import Crumbs from "../components/Crumbs.astro";
+import PageHero from "../components/PageHero.astro";
 import Gallery from "../components/Gallery.astro";
+import NextBand from "../components/NextBand.astro";
 import { crumbsJsonLd } from "../lib/nav.js";
 
 const galeria = (await getEntry("ustawienia", "galeria"))!.data;
@@ -14,11 +15,21 @@ const crumbs = [{ href: "/galeria/", label: "Galeria" }];
   description={galeria.opis}
   jsonLd={[crumbsJsonLd([{ href: "/", label: "MIEJSCE" }, ...crumbs])]}
 >
-  <header class="wrap page-hero">
-    <Crumbs items={crumbs} />
-    <p class="kicker">Port Czerniakowski</p>
-    <h1>{galeria.naglowek}</h1>
-    <p class="lede">{galeria.opis}</p>
-  </header>
+  <PageHero
+    crumbs={crumbs}
+    kicker="Port Czerniakowski"
+    title={galeria.naglowek}
+    lede={galeria.opis}
+    image="/img/gallery/dm22.jpg"
+    imageAlt="Wieczór na barce"
+  />
   <Gallery galeria={galeria} limit={24} />
+  <NextBand
+    title="Widziałeś dość?"
+    links={[
+      { href: "/przestrzenie/", label: "Zobacz przestrzenie" },
+      { href: "/eventy/", label: "Rodzaje wydarzeń" },
+      { href: "/kontakt/", label: "Zaplanuj event" },
+    ]}
+  />
 </Base>

@@ -28,11 +28,13 @@ jedzenie_bar: "Menu weselne ustalamy w ofercie. Na stronie są trzy progi cateri
 atrakcje: "Zespół albo DJ, tort i bar są w przykładowym przebiegu. Nie wchodzą automatycznie w cenę wynajmu."
 plan_b: "Altana i sala są przy wodzie, pod dachem tam, gdzie stoi zadaszenie. Ogród zostaje opcją na dobrą pogodę."
 fakty:
-  - wartosc: "100 osób"
-    opis: "w przykładowym scenariuszu wesela"
-  - wartosc: "od 6 000 zł"
-    opis: "wynajem Dużego Miejsca, netto, od"
-  - wartosc: "altana"
+  - wartosc: "100"
+    liczba: 100
+    opis: "osób w przykładowym scenariuszu wesela"
+  - wartosc: "6000"
+    liczba: 6000
+    opis: "zł netto, wynajem Dużego Miejsca, od"
+  - wartosc: "Altana"
     opis: "ceremonia na wodzie, w scenariuszu"
 korzysci:
   - tytul: "Ceremonia i parkiet obok siebie"

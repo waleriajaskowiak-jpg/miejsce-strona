@@ -1,7 +1,8 @@
 ---
 import { getCollection, render } from "astro:content";
 import Base from "../../layouts/Base.astro";
-import Crumbs from "../../components/Crumbs.astro";
+import PageHero from "../../components/PageHero.astro";
+import NextBand from "../../components/NextBand.astro";
 import { crumbsJsonLd } from "../../lib/nav.js";
 
 export async function getStaticPaths() {
@@ -35,15 +36,26 @@ const articleLd = {
     ...(entry.data.szkic ? [] : [articleLd]),
   ]}
 >
-  <article class="wrap page-hero">
-    <Crumbs items={crumbs} />
-    {entry.data.szkic && <p class="szkic-banner">Szkic. Treść do napisania w /admin. Strona ma noindex, dopóki szkic jest włączony.</p>}
-    <p class="kicker">Poradnik organizatora</p>
-    <h1>{entry.data.title}</h1>
-  </article>
-  <div class="wrap band">
-    <div class="prose">
-      <Content />
+  <PageHero
+    crumbs={crumbs}
+    kicker="Poradnik organizatora"
+    title={entry.data.title}
+    lede={entry.data.opis}
+    image="/img/gallery/mm16.jpg"
+    imageAlt=""
+  />
+  <section class="band tight-top">
+    <div class="wrap">
+      {entry.data.szkic && <p class="szkic-banner">Szkic. Treść do napisania w /admin. Strona ma noindex, dopóki szkic jest włączony.</p>}
+      <div class="prose"><Content /></div>
     </div>
-  </div>
+  </section>
+  <NextBand
+    title="Policz albo napisz"
+    links={[
+      { href: "/poradnik/", label: "Wszystkie tematy" },
+      { href: "/ceny/#estymator", label: "Sprawdź budżet" },
+      { href: "/kontakt/", label: "Zaplanuj event" },
+    ]}
+  />
 </Base>

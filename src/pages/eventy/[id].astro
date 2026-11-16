@@ -4,6 +4,7 @@ import Base from "../../layouts/Base.astro";
 import PageHero from "../../components/PageHero.astro";
 import NextBand from "../../components/NextBand.astro";
 import SectionHeader from "../../components/SectionHeader.astro";
+import StatRow from "../../components/StatRow.astro";
 import Slider from "../../components/Slider.astro";
 import { IS_PROD } from "../../lib/env.js";
 import { crumbsJsonLd, sortByOrder } from "../../lib/nav.js";
@@ -49,17 +50,22 @@ const kontaktHref = `/kontakt/?typ=${entry.id}`;
     image={entry.data.cover}
     imageAlt={entry.data.title}
   />
-  <section class="band" aria-labelledby="co-mozna">
+  <section class="band band-ink tight-top" aria-label="W skrócie">
+    <div class="wrap stack">
+      <nav class="pills" aria-label="Zakres">
+        {entry.data.tagi.map((tag) => <a class="pill" href="#co-mozna">{tag}</a>)}
+      </nav>
+      <StatRow
+        items={entry.data.fakty.map((fact) => ({
+          value: fact.wartosc,
+          count: fact.liczba,
+          label: fact.opis,
+        }))}
+      />
+    </div>
+  </section>
+  <section class="band tight-top" aria-labelledby="co-mozna">
     <div class="wrap stack-lg">
-      <p class="meta">{entry.data.tagi.join(" · ")}</p>
-      <ul class="stat-row">
-        {entry.data.fakty.map((fact) => (
-          <li>
-            <b>{fact.wartosc}</b>
-            <span>{fact.opis}</span>
-          </li>
-        ))}
-      </ul>
       <SectionHeader eyebrow="Zakres" title="Co można tu ułożyć" />
       <ul class="included" id="co-mozna">
         {entry.data.co_mozna.map((item) => <li>{item}</li>)}

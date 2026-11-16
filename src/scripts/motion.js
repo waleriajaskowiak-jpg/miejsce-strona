@@ -78,7 +78,8 @@ if (!reduced) {
     const start = performance.now();
     const step = (now) => {
       const k = Math.min(1, (now - start) / 1100);
-      el.textContent = String(Math.round(to * (1 - Math.pow(1 - k, 3))));
+      const n = Math.round(to * (1 - Math.pow(1 - k, 3)));
+      el.textContent = n >= 1000 ? new Intl.NumberFormat("pl-PL").format(n) : String(n);
       if (k < 1) requestAnimationFrame(step);
     };
     requestAnimationFrame(step);

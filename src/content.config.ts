@@ -68,7 +68,7 @@ const kategorie = defineCollection({
     jedzenie_bar: z.string(),
     atrakcje: z.string(),
     plan_b: z.string(),
-    fakty: z.array(z.object({ wartosc: z.string(), opis: z.string() })),
+    fakty: z.array(z.object({ wartosc: z.string(), opis: z.string(), liczba: z.number().optional() })),
     korzysci: z.array(z.object({ tytul: z.string(), opis: z.string() })),
     cover: z.string(),
     zdjecia: z.array(z.string()).default([]),

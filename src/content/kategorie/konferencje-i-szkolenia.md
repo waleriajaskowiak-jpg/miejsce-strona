@@ -28,12 +28,15 @@ jedzenie_bar: "Catering całodniowy i kolacja są w scenariuszach. Progi menu: 1
 atrakcje: "W Nowym Miejscu są rzutnik, ekran i mikrofony. Większe ekrany, światło i streaming wyceniamy osobno."
 plan_b: "Sala i taras są zadaszone. Afterparty może zostać na barce, bez wychodzenia do ogrodu."
 fakty:
-  - wartosc: "od 3 000 zł"
-    opis: "wynajem Nowego Miejsca, netto, od"
-  - wartosc: "50 osób"
-    opis: "w scenariuszu konferencji z afterparty"
-  - wartosc: "25 osób"
-    opis: "w scenariuszu szkolenia z kolacją"
+  - wartosc: "3000"
+    liczba: 3000
+    opis: "zł netto, wynajem Nowego Miejsca, od"
+  - wartosc: "50"
+    liczba: 50
+    opis: "osób w scenariuszu konferencji z afterparty"
+  - wartosc: "25"
+    liczba: 25
+    opis: "osób w scenariuszu szkolenia z kolacją"
 korzysci:
   - tytul: "Sala i wieczór w jednym adresie"
     opis: "Prezentacje, lunch i afterparty nie wymagają drugiej lokalizacji."

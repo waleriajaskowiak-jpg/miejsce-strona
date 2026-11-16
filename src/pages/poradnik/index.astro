@@ -1,7 +1,8 @@
 ---
 import { getCollection, getEntry } from "astro:content";
 import Base from "../../layouts/Base.astro";
-import Crumbs from "../../components/Crumbs.astro";
+import PageHero from "../../components/PageHero.astro";
+import NextBand from "../../components/NextBand.astro";
 import { crumbsJsonLd, sortByOrder } from "../../lib/nav.js";
 
 const ustawienia = (await getEntry("ustawienia", "poradnik"))!.data;
@@ -14,32 +15,30 @@ const crumbs = [{ href: "/poradnik/", label: "Poradnik" }];
 <Base
   title="Poradnik organizatora | MIEJSCE"
   description={ustawienia.opis_seo}
+  image="/img/gallery/mm12.jpg"
   jsonLd={[crumbsJsonLd([{ href: "/", label: "MIEJSCE" }, ...crumbs])]}
 >
-  <header class="wrap page-hero">
-    <Crumbs items={crumbs} />
-    <p class="kicker">Wiedza z praktyki</p>
-    <h1>{ustawienia.naglowek}</h1>
-    <p class="lede">{ustawienia.lead}</p>
-    <p class="lead">{ustawienia.wstep}</p>
-  </header>
-  <section class="band">
-    <div class="wrap stack-lg">
-      <div>
+  <PageHero
+    crumbs={crumbs}
+    kicker="Wiedza z praktyki"
+    title={ustawienia.naglowek}
+    lede={ustawienia.lead}
+    image="/img/gallery/mm12.jpg"
+    imageAlt="Sala nad wodą"
+  />
+  <section class="band tight-top">
+    <div class="wrap stack">
+      <p class="lead">{ustawienia.wstep}</p>
       <h2>Szkice</h2>
       <ol class="queue">
-        {
-          artykuly.map((article, index) => (
-            <li>
-              <span>{String(index + 1).padStart(2, "0")}</span>
-              <a href={`/poradnik/${article.id}/`}>{article.data.title}</a>
-              {article.data.szkic && <span class="badge">Szkic</span>}
-            </li>
-          ))
-        }
+        {artykuly.map((article, index) => (
+          <li>
+            <span>{String(index + 1).padStart(2, "0")}</span>
+            <a href={`/poradnik/${article.id}/`}>{article.data.title}</a>
+            {article.data.szkic && <span class="badge">Szkic</span>}
+          </li>
+        ))}
       </ol>
-      </div>
-      <div>
       <h2>W kolejce</h2>
       <p class="fine">Tytuły z briefu. Nie mają jeszcze stron, żeby nie publikować pustych artykułów.</p>
       <ol class="queue">
@@ -51,7 +50,14 @@ const crumbs = [{ href: "/poradnik/", label: "Poradnik" }];
           </li>
         ))}
       </ol>
-      </div>
     </div>
   </section>
+  <NextBand
+    title="Wolisz policzyć niż czytać?"
+    links={[
+      { href: "/ceny/#estymator", label: "Sprawdź budżet" },
+      { href: "/eventy/", label: "Rodzaje wydarzeń" },
+      { href: "/kontakt/", label: "Zaplanuj event" },
+    ]}
+  />
 </Base>

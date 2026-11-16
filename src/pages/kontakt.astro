@@ -71,17 +71,19 @@ const icons = {
     </div>
   </section>
 
-  <section class="band band-dark">
-    <div class="wrap grid-12">
+  <section class="band band-dark tight-top">
+    <div class="wrap grid-12 align-start">
       <div class="span-7 map-block">
-        <SectionHeader eyebrow="Dojazd" title="Jak do nas trafić" lead={kontakt.dojazd} />
+        <p class="eyebrow">Dojazd</p>
+        <h2>Jak do nas trafić</h2>
+        <p class="lead">{kontakt.dojazd}</p>
         <div class="map-frame">
           <iframe title="Mapa: MIEJSCE, ul. Zaruskiego 1, Warszawa" loading="lazy" src={map}></iframe>
         </div>
-        <p class="btn-row">
-          <a class="btn btn-primary" href={google}>Wyznacz trasę</a>
-          <a class="btn btn-ghost" href={osm}>Otwórz OpenStreetMap</a>
-        </p>
+        <div class="map-actions">
+          <a class="btn btn-primary btn-sm" href={google}>Wyznacz trasę</a>
+          <a class="btn btn-ghost btn-sm" href={osm}>Otwórz OpenStreetMap</a>
+        </div>
         <p>{kontakt.parking}</p>
       </div>
       <div class="span-5">

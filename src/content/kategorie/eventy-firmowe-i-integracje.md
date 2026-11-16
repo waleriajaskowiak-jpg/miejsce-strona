@@ -29,12 +29,15 @@ jedzenie_bar: "Własna kuchnia: menu od 180 zł netto za osobę i open bar od 15
 atrakcje: "DJ, nagłośnienie i muzyka na żywo są na zamówienie. Nie mają stałej ceny na tej stronie."
 plan_b: "Część oficjalna i parkiet zostają pod dachem. Ogród dokładamy, kiedy aura pozwala."
 fakty:
-  - wartosc: "do 350"
+  - wartosc: "350"
+    liczba: 350
     opis: "gości w całym kompleksie"
-  - wartosc: "od 6 000 zł"
-    opis: "wynajem Dużego Miejsca, netto, od"
-  - wartosc: "3 bary"
-    opis: "stałe, plus bar mobilny"
+  - wartosc: "6000"
+    liczba: 6000
+    opis: "zł netto, wynajem Dużego Miejsca, od"
+  - wartosc: "3"
+    liczba: 3
+    opis: "stałe bary, plus mobilny"
 korzysci:
   - tytul: "Jedno miejsce, kilka stref"
     opis: "Barka, taras i ogród dają się ułożyć w jeden wieczór, bez przeprowadzki zespołu przez miasto."

@@ -1,7 +1,8 @@
 ---
 import { getCollection, render } from "astro:content";
 import Base from "../layouts/Base.astro";
-import Crumbs from "../components/Crumbs.astro";
+import PageHero from "../components/PageHero.astro";
+import NextBand from "../components/NextBand.astro";
 import { crumbsJsonLd, sortByOrder } from "../lib/nav.js";
 
 const entries = sortByOrder(await getCollection("faq"));
@@ -15,6 +16,7 @@ const groups = [...faq.reduce((map, row) => {
   map.set(key, [...(map.get(key) || []), row]);
   return map;
 }, new Map())];
+const slug = (label) => label.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
 const crumbs = [{ href: "/warto-wiedziec/", label: "Warto wiedzieć" }];
 const faqLd = {
   "@context": "https://schema.org",
@@ -32,20 +34,26 @@ const faqLd = {
 
 <Base
   title="Warto wiedzieć przed eventem | MIEJSCE"
-  description="Deszcz, zima, godziny, parking, dojazd, dostępność, DJ, AV, branding, menu, diety, open bar i oględziny. Krótkie odpowiedzi MIEJSCA."
+  description="Deszcz, zima, godziny, parking, dojazd, dostępność, DJ, AV, branding, menu, diety, open bar i oględziny."
+  image="/img/gallery/dm22.jpg"
   jsonLd={[crumbsJsonLd([{ href: "/", label: "MIEJSCE" }, ...crumbs]), faqLd]}
 >
-  <header class="wrap page-hero">
-    <Crumbs items={crumbs} />
-    <p class="kicker">Zanim wyślesz brief</p>
-    <h1>Warto wiedzieć przed eventem</h1>
-    <p class="lede">Krótkie odpowiedzi. Tam, gdzie nie mamy liczby w ofercie, mówimy wprost, że potwierdzimy ją pod termin.</p>
-  </header>
-  <section class="band">
-    <div class="wrap">
-      {
-        groups.map(([temat, rows]) => (
-          <div class="stack">
+  <PageHero
+    crumbs={crumbs}
+    kicker="Zanim wyślesz brief"
+    title="Warto wiedzieć przed eventem"
+    lede="Krótkie odpowiedzi. Tam, gdzie nie mamy liczby w ofercie, mówimy wprost, że potwierdzimy ją pod termin."
+    image="/img/gallery/dm22.jpg"
+    imageAlt="Barka MIEJSCA nocą"
+  />
+  <section class="band tight-top">
+    <div class="wrap faq-layout">
+      <nav class="faq-nav" aria-label="Tematy">
+        {groups.map(([temat]) => <a class="pill" href={`#${slug(temat)}`}>{temat}</a>)}
+      </nav>
+      <div>
+        {groups.map(([temat, rows]) => (
+          <div class="faq-group" id={slug(temat)}>
             <h2>{temat}</h2>
             {rows.map(({ entry, Content }) => (
               <details class="acc">
@@ -54,8 +62,16 @@ const faqLd = {
               </details>
             ))}
           </div>
-        ))
-      }
+        ))}
+      </div>
     </div>
   </section>
+  <NextBand
+    title="Zostało pytanie?"
+    links={[
+      { href: "/ceny/#estymator", label: "Sprawdź budżet" },
+      { href: "/przestrzenie/", label: "Zobacz przestrzenie" },
+      { href: "/kontakt/", label: "Zaplanuj event" },
+    ]}
+  />
 </Base>

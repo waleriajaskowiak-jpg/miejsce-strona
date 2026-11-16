@@ -28,12 +28,14 @@ jedzenie_bar: "Koktajl, kolacja i bar. Progi są takie jak na stronie jedzenia: 
 atrakcje: "Wnętrza i nabrzeże udostępniamy pod produkcje filmowe, reklamowe i sesje. Zaplecze, prąd i parking dla ekipy są na miejscu. DJ i większe AV wyceniamy osobno."
 plan_b: "Zdjęcia i część gości mogą zostać pod dachem na barce. Ogród nie jest warunkiem premiery."
 fakty:
-  - wartosc: "40 osób"
-    opis: "w scenariuszu premiery"
-  - wartosc: "do 350"
+  - wartosc: "40"
+    liczba: 40
+    opis: "osób w scenariuszu premiery"
+  - wartosc: "350"
+    liczba: 350
     opis: "gości w całym kompleksie"
-  - wartosc: "parking ekipy"
-    opis: "przy produkcjach, na miejscu"
+  - wartosc: "Ekipa"
+    opis: "parking przy produkcjach, na miejscu"
 korzysci:
   - tytul: "Wieczór dla klientów"
     opis: "Taras, kolacja i bar, bez sali wykładowej w tle."
