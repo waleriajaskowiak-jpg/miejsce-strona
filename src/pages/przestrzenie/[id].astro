@@ -1,6 +1,7 @@
 ---
 import { getCollection, render } from "astro:content";
 import Base from "../../layouts/Base.astro";
+import Icon from "../../components/Icon.astro";
 import PageHero from "../../components/PageHero.astro";
 import NextBand from "../../components/NextBand.astro";
 import { crumbsJsonLd, sortByOrder, zloty } from "../../lib/nav.js";
@@ -74,8 +75,8 @@ const crumbs = [
           {entry.data.najlepiej.map((item) => <li>{item}</li>)}
         </ul>
         <p class="eyebrow">W skrócie</p>
-        <ul class="spec-list">
-          {entry.data.w_skrocie.map((item) => <li>{item}</li>)}
+        <ul class="spec-list icon-specs">
+          {entry.data.w_skrocie.map((item) => <li><Icon name="check" /><span>{item}</span></li>)}
         </ul>
       </div>
     </div>
@@ -96,22 +97,19 @@ const crumbs = [
   <section class="band">
     <div class="wrap">
       <h2>Pozostałe przestrzenie</h2>
-      <ul class="scenario-index">
+      <div class="more-spaces">
         {
           inne.map((space, index) => (
-            <li>
-              <a href={`/przestrzenie/${space.id}/`}>
-                <span class="num">0{index + 1}</span>
-                <span>
-                  <strong>{space.data.title}</strong>
-                  <em>{space.data.meta}</em>
-                </span>
-                <img src={space.data.cover} alt="" loading="lazy" />
-              </a>
-            </li>
+            <a class="more-card" href={`/przestrzenie/${space.id}/`}>
+              <img src={space.data.cover} alt="" loading="lazy" />
+              <span class="num">0{index + 1}</span>
+              <h3>{space.data.title}</h3>
+              <p><Icon name="ruler" /><span>{space.data.meta}</span></p>
+              <span class="go">Zobacz <Icon name="arrow" /></span>
+            </a>
           ))
         }
-      </ul>
+      </div>
     </div>
   </section>
   <NextBand

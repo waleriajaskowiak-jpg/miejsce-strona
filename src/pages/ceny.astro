@@ -1,6 +1,7 @@
 ---
 import { getCollection, getEntry, render } from "astro:content";
 import Base from "../layouts/Base.astro";
+import Icon from "../components/Icon.astro";
 import Budzet from "../components/Budzet.astro";
 import NextBand from "../components/NextBand.astro";
 import PageHero from "../components/PageHero.astro";
@@ -45,7 +46,9 @@ const payload = JSON.stringify({
     imageAlt="Taras nad wodą"
   >
     <ul class="price-notes">
-      {(cennik.uwagi || []).map((item) => <li>{typeof item === "string" ? item : item.tekst}</li>)}
+      {(cennik.uwagi || []).map((item, index) => (
+        <li><Icon name={["info", "ruler", "check", "tag"][index] || "info"} /><span>{typeof item === "string" ? item : item.tekst}</span></li>
+      ))}
     </ul>
   </PageHero>
 
@@ -289,8 +292,14 @@ const payload = JSON.stringify({
     if (count) count.textContent = `Krok ${estStep + 1} z ${panels.length}`;
     const prev = nav?.querySelector("[data-est-prev]");
     const next = nav?.querySelector("[data-est-next]");
-    if (prev) prev.hidden = estStep === 0;
-    if (next) next.hidden = estStep >= panels.length - 1;
+    if (prev) {
+      prev.hidden = false;
+      prev.disabled = estStep === 0;
+    }
+    if (next) {
+      next.hidden = false;
+      next.disabled = estStep >= panels.length - 1;
+    }
   };
   nav?.querySelector("[data-est-prev]")?.addEventListener("click", () => {
     estStep = Math.max(0, estStep - 1);

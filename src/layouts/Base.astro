@@ -134,7 +134,14 @@ const jsonBlocks = jsonLd.map((obj) => JSON.stringify(obj).replace(/</g, "\\u003
           return box.top < window.innerHeight - 80 && box.bottom > 120;
         });
         const phone = window.matchMedia("(max-width: 800px)").matches;
-        const show = phone && !onKontakt && !drawer && !ctaInView && !footNear && !formNear && scrollY() > 280;
+        const y = scrollY();
+        const down = y > (onScroll.lastY || 0) + 6;
+        const up = y < (onScroll.lastY || 0) - 6;
+        onScroll.lastY = y;
+        if (!phone || onKontakt || drawer || y < 160) onScroll.want = false;
+        else if (down || footNear || formNear) onScroll.want = false;
+        else if (up) onScroll.want = true;
+        const show = Boolean(onScroll.want);
         bar.hidden = !show;
         bar.classList.remove("is-quiet");
         document.body.classList.toggle("has-bar", show);
