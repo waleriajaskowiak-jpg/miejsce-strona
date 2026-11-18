@@ -21,6 +21,8 @@ const {
   overlay = false,
   ogType = "website",
   preload = false,
+  preloadSrcset,
+  preloadType,
 } = Astro.props;
 
 const canonical = new URL(Astro.url.pathname, Astro.site);
@@ -38,7 +40,16 @@ const jsonBlocks = jsonLd.map((obj) => JSON.stringify(obj).replace(/</g, "\\u003
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical.href} />
     <meta name="robots" content={robotsFinal} />
-    {preload && <link rel="preload" as="image" href={image} />}
+    {preload && (
+      <link
+        rel="preload"
+        as="image"
+        href={preloadSrcset ? "/img/hero/barki-1024.avif" : image}
+        imagesrcset={preloadSrcset}
+        imagesizes={preloadSrcset ? "100vw" : undefined}
+        type={preloadType}
+      />
+    )}
     <meta name="theme-color" content="#ffffff" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <meta property="og:type" content={ogType} />

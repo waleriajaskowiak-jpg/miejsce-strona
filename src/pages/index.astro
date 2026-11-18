@@ -20,10 +20,13 @@ const colors = {
   "premiery-i-wydarzenia-specjalne": "petrol",
 };
 const slides = [
-  { src: strona.hero_zdjecie || "/img/gallery/dm20.jpg", alt: strona.hero_zdjecie_alt || "Barka MIEJSCA" },
+  { src: strona.hero_zdjecie || "/img/hero/barki.jpg", alt: strona.hero_zdjecie_alt || "Barki MIEJSCA w Porcie Czerniakowskim" },
   { src: strona.hero_zdjecie_2 || "/img/gallery/og25.jpg", alt: strona.hero_zdjecie_2_alt || "Miejscowy Ogród" },
   { src: "/img/gallery/dm22.jpg", alt: "Duże Miejsce wieczorem" },
 ];
+const heroWidths = [640, 1024, 1600];
+const heroSrcset = (ext) => heroWidths.map((width) => `/img/hero/barki-${width}.${ext} ${width}w`).join(", ");
+const heroReady = slides[0].src === "/img/hero/barki.jpg";
 const tryb = strona.hero_tryb || "foto";
 const ask = fakty.niepogoda_brak || "zapytaj o wariant na niepogodę";
 const summer = (value) => (typeof value === "number" ? String(value) : "zapytaj o liczbę na ten układ");
@@ -84,17 +87,33 @@ const netlify = !endpoint && kontakt.formularz_netlify !== false;
   image={slides[0].src}
   jsonLd={[venueJsonLd(kontakt, strona.opis_seo, fakty)]}
   preload={true}
+  preloadSrcset={heroReady ? heroSrcset("avif") : undefined}
+  preloadType={heroReady ? "image/avif" : undefined}
 >
   <section class="r12-hero">
     <div class="r12-hero-media">
       {tryb === "wideo" && strona.hero_wideo ? (
         <video src={strona.hero_wideo} poster={slides[0].src} autoplay muted loop playsinline></video>
       ) : tryb === "slider" ? (
-        slides.map((slide, index) => (
-          <img class:list={["r12-slide", index === 0 && "is-on"]} src={slide.src} alt={slide.alt} width="1800" height="1200" />
-        ))
+        slides.map((slide, index) =>
+          index === 0 && heroReady ? (
+            <picture class:list={["r12-slide", "is-on"]}>
+              <source type="image/avif" srcset={heroSrcset("avif")} sizes="100vw" />
+              <source type="image/webp" srcset={heroSrcset("webp")} sizes="100vw" />
+              <img src={slide.src} srcset={heroSrcset("jpg")} sizes="100vw" alt={slide.alt} width="1600" height="1066" fetchpriority="high" />
+            </picture>
+          ) : (
+            <img class:list={["r12-slide", index === 0 && "is-on"]} src={slide.src} alt={slide.alt} width="1600" height="1066" />
+          ),
+        )
+      ) : heroReady ? (
+        <picture>
+          <source type="image/avif" srcset={heroSrcset("avif")} sizes="100vw" />
+          <source type="image/webp" srcset={heroSrcset("webp")} sizes="100vw" />
+          <img src={slides[0].src} srcset={heroSrcset("jpg")} sizes="100vw" alt={slides[0].alt} width="1600" height="1066" fetchpriority="high" />
+        </picture>
       ) : (
-        <img src={slides[0].src} alt={slides[0].alt} width="1800" height="1200" fetchpriority="high" />
+        <img src={slides[0].src} alt={slides[0].alt} width="1600" height="1066" fetchpriority="high" />
       )}
     </div>
     <div class="wrap r12-hero-copy">

@@ -26,3 +26,9 @@ Prototyp HTML klienta nie był w tym środowisku, więc żadnej liczby nie wzię
 | Serwis | +10%, obok ceny | `fakty.json` |
 
 350 gości dotyczy Całego Miejsca. Nie dotyczy każdej barki i każdego układu stołów.
+
+## Hero
+
+Główne zdjęcie strony to wiosenny kadr barek w Porcie Czerniakowskim, pole `hero_zdjecie` w `src/content/ustawienia/strona.json` (`/img/hero/barki.jpg`). W panelu jest to „Hero — zdjęcie”. Przy trybie slider ten plik jest pierwszym slajdem.
+
+Plik dostarczony z tą notatką ma 1600×1066 px. Żaden wariant nie jest od niego szerszy: 640, 1024 i 1600 px, każdy jako AVIF, WebP i JPG. Przeglądarka na ekranie 1920 i tak powiększa ten kadr. Pełnowymiarowy oryginał jest nadal potrzebny od klienta.
