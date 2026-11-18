@@ -54,6 +54,40 @@ h4 { line-height: 1; }
 .site-foot .brand img { filter: none; height: 32px; width: auto; }
 .nav-desk > a,
 .nav-dd > a { color: var(--ink); font-size: 15px; }
+.site-head .nav-desk > a:hover,
+.site-head .nav-dd > a:hover,
+.site-head .nav-dd.open > a,
+.site-head .nav-desk > a:focus,
+.site-head .nav-desk > a:focus-visible,
+.site-head .nav-dd > a:focus,
+.site-head .nav-dd > a:focus-visible,
+.site-head .nav-desk a[aria-current="page"],
+.site-head .nav-dd > a[aria-current="page"],
+.has-overlay .site-head .nav-desk a,
+.has-overlay .site-head .nav-dd > a,
+.has-overlay .site-head:not(.is-stuck) .nav-desk a,
+.has-overlay .site-head:not(.is-stuck) .nav-desk a[aria-current="page"],
+.has-overlay .site-head:not(.is-stuck) .nav-dd > a[aria-current="page"] {
+  color: var(--ink);
+}
+.site-head .nav-desk > a:hover,
+.site-head .nav-dd > a:hover,
+.site-head .nav-dd.open > a {
+  background: rgba(43, 43, 43, 0.06);
+}
+.site-head .nav-desk a[aria-current="page"]::after,
+.site-head .nav-dd > a[aria-current="page"]::after {
+  content: "";
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+@media (min-width: 1100px) {
+  .editorial,
+  .page-hero,
+  .page-hero-media { padding-top: calc(var(--header) + 40px); }
+}
 .nav-dd { position: relative; }
 .nav-pop {
   display: none;
