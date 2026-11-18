@@ -52,21 +52,18 @@ const icons = {
     <div class="wrap">
       <div class="contact-3">
         <article class="info-card">
-          <svg class="ico" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" set:html={icons.phone} />
           <p class="eyebrow">Telefon</p>
-          <a href={`tel:${kontakt.telefon_href}`}>{kontakt.telefon_wyswietlany}</a>
+          <p class="icon-line"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" set:html={icons.phone} /><a href={`tel:${kontakt.telefon_href}`}>{kontakt.telefon_wyswietlany}</a></p>
           <p>{kontakt.ogledziny}</p>
         </article>
         <article class="info-card">
-          <svg class="ico" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" set:html={icons.mail} />
           <p class="eyebrow">Mail</p>
-          <a href={`mailto:${kontakt.email}`}>{kontakt.email}</a>
+          <p class="icon-line"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" set:html={icons.mail} /><a href={`mailto:${kontakt.email}`}>{kontakt.email}</a></p>
           <p>Brief z formularza trafia na tę skrzynkę.</p>
         </article>
         <article class="info-card">
-          <svg class="ico" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" set:html={icons.pin} />
           <p class="eyebrow">Adres</p>
-          <p><b>{kontakt.ulica}</b><br />{kontakt.kod} {kontakt.miasto}<br />{kontakt.dzielnica}</p>
+          <p class="icon-line"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" set:html={icons.pin} /><span><b>{kontakt.ulica}</b>, {kontakt.kod} {kontakt.miasto}</span></p>
         </article>
       </div>
     </div>

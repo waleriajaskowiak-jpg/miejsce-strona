@@ -1,5 +1,6 @@
 ---
 import { getCollection, getEntry } from "astro:content";
+import Icon from "./Icon.astro";
 import { sortByOrder } from "../lib/nav.js";
 
 const kontakt = (await getEntry("ustawienia", "kontakt"))?.data;
@@ -12,13 +13,9 @@ const kategorie = sortByOrder(await getCollection("kategorie"));
       <a class="brand" href="/" aria-label="MIEJSCE">
         <img src="/img/logo-ecru.svg" alt="" width="440" height="86" />
       </a>
-      <p>
-        {kontakt?.ulica}<br />
-        {kontakt?.kod} {kontakt?.miasto}<br />
-        {kontakt?.dzielnica}
-      </p>
-      <p><a href={`mailto:${kontakt?.email}`}>{kontakt?.email}</a></p>
-      <p><a href={`tel:${kontakt?.telefon_href}`}>{kontakt?.telefon_wyswietlany}</a></p>
+      <p class="icon-line"><Icon name="pin" /><span>{kontakt?.ulica}, {kontakt?.kod} {kontakt?.miasto}</span></p>
+      <p class="icon-line"><Icon name="mail" /><a href={`mailto:${kontakt?.email}`}>{kontakt?.email}</a></p>
+      <p class="icon-line"><Icon name="phone" /><a href={`tel:${kontakt?.telefon_href}`}>{kontakt?.telefon_wyswietlany}</a></p>
     </div>
     <div>
       <p class="foot-label">Wydarzenia</p>

@@ -11,6 +11,21 @@ export async function getStaticPaths() {
   return entries.map((entry) => ({ params: { id: entry.id }, props: { entry } }));
 }
 
+const specIcon = (text) => {
+  const t = text.toLowerCase();
+  if (t.includes("taras")) return "terrace";
+  if (t.includes("bar")) return "glass";
+  if (t.includes("osób") || t.includes("osob") || t.includes("gości")) return "users";
+  if (t.includes("m²") || t.includes("m2")) return "ruler";
+  if (t.includes("kuch")) return "utensils";
+  return "check";
+};
+const specChips = (text) =>
+  String(text || "")
+    .split("·")
+    .map((part) => part.trim())
+    .filter(Boolean)
+    .map((label) => ({ label, name: specIcon(label) }));
 const { entry } = Astro.props;
 const { Content } = await render(entry);
 const wszystkie = sortByOrder(await getCollection("przestrzenie"));
@@ -75,8 +90,10 @@ const crumbs = [
           {entry.data.najlepiej.map((item) => <li>{item}</li>)}
         </ul>
         <p class="eyebrow">W skrócie</p>
-        <ul class="spec-list icon-specs">
-          {entry.data.w_skrocie.map((item) => <li><Icon name="check" /><span>{item}</span></li>)}
+        <ul class="spec-chips">
+          {entry.data.w_skrocie.map((item) => (
+            <li><Icon name={specIcon(item)} /><span>{item}</span></li>
+          ))}
         </ul>
       </div>
     </div>
@@ -102,10 +119,16 @@ const crumbs = [
           inne.map((space, index) => (
             <a class="more-card" href={`/przestrzenie/${space.id}/`}>
               <img src={space.data.cover} alt="" loading="lazy" />
-              <span class="num">0{index + 1}</span>
-              <h3>{space.data.title}</h3>
-              <p><Icon name="ruler" /><span>{space.data.meta}</span></p>
-              <span class="go">Zobacz <Icon name="arrow" /></span>
+              <span class="more-body">
+                <span class="num">0{index + 1}</span>
+                <h3>{space.data.title}</h3>
+                <ul class="spec-chips">
+                  {specChips(space.data.meta).map((chip) => (
+                    <li><Icon name={chip.name} /><span>{chip.label}</span></li>
+                  ))}
+                </ul>
+                <span class="go">Zobacz <Icon name="arrow" /></span>
+              </span>
             </a>
           ))
         }
