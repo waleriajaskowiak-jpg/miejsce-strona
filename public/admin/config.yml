@@ -72,6 +72,8 @@ collections:
           - { label: "Nagłówek „zaufali nam”", name: zaufali_h, widget: string }
           - { label: Nagłówek kontaktu, name: kontakt_h, widget: string }
           - { label: Lead kontaktu, name: kontakt_lead, widget: text }
+          - { label: "Hero — tryb", name: hero_tryb, widget: select, options: ["foto", "slider", "wideo"] }
+          - { label: "Hero — plik wideo", name: hero_wideo, widget: string, required: false }
 
       - name: kontakt
         label: Kontakt
@@ -91,6 +93,8 @@ collections:
           - { label: Parking, name: parking, widget: text }
           - { label: Oględziny, name: ogledziny, widget: text }
           - { label: Opis SEO, name: opis_seo, widget: text }
+          - { label: "Adres formularza", name: formularz_endpoint, widget: string, required: false }
+          - { label: "Fallback Netlify Forms", name: formularz_netlify, widget: boolean, default: true }
 
       - name: cennik
         label: Ceny i budżet
@@ -432,6 +436,8 @@ collections:
       - { label: Kolejność, name: kolejnosc, widget: number, value_type: int }
       - { label: "Szkic (ukryty przed Google)", name: szkic, widget: boolean, default: true }
       - { label: Typ, name: typ, widget: string }
+      - { label: "Liczba gości", name: goscie, widget: number, value_type: int, required: false }
+      - { label: Zakres, name: zakres, widget: text, required: false }
       - { label: Metka, name: meta, widget: string }
       - { label: "Lead / opis SEO", name: lead, widget: text }
       - { label: Opis SEO, name: opis_seo, widget: text }
