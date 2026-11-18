@@ -374,7 +374,7 @@ h4 { line-height: 1; }
 .nav-panel nav {
   display: flex;
   flex-direction: column;
-  min-height: calc(100dvh - var(--header) - 40px);
+  gap: 0;
 }
 .nav-panel .drawer-label {
   margin: 18px 0 6px;
@@ -396,13 +396,27 @@ h4 { line-height: 1; }
   text-decoration: none;
 }
 .nav-panel .drawer-cta {
-  margin-top: auto;
-  position: sticky;
-  bottom: 0;
-  padding: 16px 0 4px;
-  background: var(--paper);
+  margin-top: 24px;
+  position: static;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 0;
+  background: transparent;
 }
-.nav-panel .drawer-cta .btn { width: 100%; }
+.nav-panel .drawer-cta .btn {
+  width: 100%;
+  height: 52px;
+  min-height: 52px;
+  padding: 0 26px;
+  font-family: var(--font-sans);
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: 0.01em;
+  text-transform: none;
+  color: var(--ink);
+}
 
 .eyebrow::before,
 .kicker::before {
