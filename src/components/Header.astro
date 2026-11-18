@@ -67,11 +67,7 @@ const mains = [
 
 <div class="nav-panel" id="nav-panel" role="dialog" aria-modal="true" aria-label="Menu" aria-hidden="true">
   <nav aria-label="Mobilna">
-    <div class="menu-groups">
-      <a class="menu-tile rise" style="--d:0" href="/eventy/">Wydarzenia</a>
-      <a class="menu-tile rise" style="--d:1" href="/przestrzenie/">Przestrzenie</a>
-    </div>
-    <p class="menu-kicker rise" style="--d:2">Wydarzenia</p>
+    <p class="menu-kicker rise" style="--d:0">Wydarzenia</p>
     <div class="menu-cats">
       {kategorie.map((item, index) => (
         <a class:list={["menu-cat", "rise", catColor[item.id]]} style={`--d:${3 + index}`} href={`/eventy/${item.id}/`}>
