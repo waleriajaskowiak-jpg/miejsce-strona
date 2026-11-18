@@ -369,14 +369,21 @@ h4 { line-height: 1; }
 .nav-panel {
   background: var(--paper);
   color: var(--ink);
-  padding: 24px 20px 32px;
+  padding: calc(var(--header) + 20px) 20px 20px;
+}
+.nav-panel nav {
+  display: flex;
+  flex-direction: column;
+  min-height: calc(100dvh - var(--header) - 40px);
 }
 .nav-panel .drawer-label {
   margin: 18px 0 6px;
   color: var(--muted);
   letter-spacing: 0.14em;
   font-size: 12px;
+  text-transform: uppercase;
 }
+.nav-panel .drawer-label:first-child { margin-top: 0; }
 .nav-panel .drawer-link {
   display: flex;
   align-items: center;
@@ -388,7 +395,13 @@ h4 { line-height: 1; }
   line-height: 1;
   text-decoration: none;
 }
-.nav-panel .drawer-cta { margin-top: 20px; }
+.nav-panel .drawer-cta {
+  margin-top: auto;
+  position: sticky;
+  bottom: 0;
+  padding: 16px 0 4px;
+  background: var(--paper);
+}
 .nav-panel .drawer-cta .btn { width: 100%; }
 
 .eyebrow::before,
@@ -498,9 +511,15 @@ a.more-card:hover .go,
   white-space: nowrap;
   position: static;
 }
-.est-nav { display: flex; gap: 12px; min-height: 48px; margin-top: 4px; position: relative; z-index: 1; }
-.est-nav .btn { flex: 1; }
-.est-nav .btn:disabled { opacity: 0.45; }
+.est-nav { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; min-height: 48px; margin-top: 8px; position: relative; z-index: 1; }
+.est-nav .btn { width: 100%; }
+.estimator .est-nav .btn-ghost {
+  color: var(--paper);
+  border-color: var(--paper);
+  background: transparent;
+  opacity: 1;
+}
+.estimator .est-nav .btn-ghost:disabled { opacity: 0.4; }
 
 .mob-cta {
   position: fixed;
@@ -524,8 +543,10 @@ body.has-bar .page-scroll { padding-bottom: 84px; }
   .band, .sec { padding-block: 112px; }
   .editorial-grid { gap: 32px; }
 }
+header.page-hero-media.editorial { background: var(--paper); padding-bottom: 80px; }
 @media (max-width: 800px) {
-  .editorial, .page-hero, .page-hero-media { padding-top: 40px; padding-bottom: 32px; }
+  header.page-hero-media.editorial { padding-bottom: 48px; }
+  .editorial, .page-hero, .page-hero-media { padding-top: 40px; }
   .band, .sec { padding-block: 64px; }
   .editorial + .band, .page-hero-media + .band { padding-top: 48px; }
   .editorial-frame, .editorial-grid { gap: 32px; }
