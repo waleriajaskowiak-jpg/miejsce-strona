@@ -67,5 +67,13 @@
 }
 
 @media (max-width: 800px) {
-  :root { --section: 80px; --gutter: 20px; --header: 68px; }
+  :root {
+    --section: 72px;
+    --gutter: 20px;
+    --header: 64px;
+    --header-stuck: 64px;
+    --eyebrow-gap: 18px;
+    --t-72: 48px;
+    --t-h2: 36px;
+  }
 }

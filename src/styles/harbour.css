@@ -494,7 +494,7 @@ main > section + section {
 .sec-top-pills { align-items: center; margin-bottom: 24px; }
 .sec-top-pills > :last-child { margin-top: 0; }
 
-@media (max-width: 900px) {
+@media (max-width: 760px) {
   .sec-head h2 + p, .sec-head h2 + .sec-note, .sec-head h2 + .lead { margin-top: 20px; }
   .split-hero { height: auto; min-height: 100vh; padding: 0; overflow: hidden; position: relative; }
   .split-hero .wrap { display: block; position: static; min-height: 100vh; height: auto; }
@@ -540,7 +540,8 @@ main > section + section {
 .addon p { color: var(--on-dark); margin-top: 12px; font-size: 15px; line-height: 1.5; }
 .addon:hover { border-color: var(--accent); transform: translateY(-4px); }
 .addon:hover svg { transform: translateY(-3px) rotate(-6deg); }
-.addon-foot { margin-top: 28px; }
+.addon-block { display: grid; gap: 16px; }
+.addon-foot { margin: 0; }
 @media (max-width: 1100px) {
   .addon-row { grid-template-columns: 1fr 1fr; }
 }

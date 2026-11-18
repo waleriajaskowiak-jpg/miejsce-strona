@@ -1204,7 +1204,7 @@ body.lb-open { overflow: hidden; }
   .sec-head:has(.eyebrow) .lead,
   .sec-head:has(.eyebrow) .sec-note,
   .sec-head:has(.kicker) .lead,
-  .sec-head:has(.kicker) .sec-note { margin-top: 0; }
+  .sec-head:has(.kicker) .sec-note { margin-top: 22px; }
   .sec-head > div, .sec-head .lead, .sec-head .sec-note,
   .cine-bottom > :first-child, .cine-bottom > :last-child,
   .split > *, .kitchen-photos, .kitchen-points,

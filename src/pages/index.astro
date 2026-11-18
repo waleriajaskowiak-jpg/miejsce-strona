@@ -127,6 +127,7 @@ const shortLabel = {
           ))
         }
       </div>
+      <div class="snap-dots" data-panedots aria-hidden="true"></div>
     </div>
   </section>
 
@@ -241,10 +242,39 @@ const shortLabel = {
 </Base>
 
 <script>
-  document.querySelectorAll(".format-acc .pane").forEach((pane) => {
+  const acc = document.querySelector(".format-acc");
+  const dots = document.querySelector("[data-panedots]");
+  const panes = [...document.querySelectorAll(".format-acc .pane")];
+  if (dots) dots.innerHTML = panes.map((_, i) => `<i class="${i === 0 ? "is-on" : ""}"></i>`).join("");
+  const phonePanes = () => window.matchMedia("(max-width: 760px)").matches;
+  const mark = () => {
+    if (!phonePanes() || !acc || !panes.length) return;
+    const box = acc.getBoundingClientRect();
+    let best = 0;
+    let bestDist = Infinity;
+    panes.forEach((pane, index) => {
+      const dist = Math.abs(pane.getBoundingClientRect().left - box.left);
+      if (dist < bestDist) {
+        bestDist = dist;
+        best = index;
+      }
+    });
+    panes.forEach((pane, index) => pane.classList.toggle("on", index === best));
+    dots?.querySelectorAll("i").forEach((dot, index) => dot.classList.toggle("is-on", index === best));
+  };
+  panes.forEach((pane) => {
     pane.addEventListener("mouseenter", () => {
-      pane.parentElement?.querySelectorAll(".pane").forEach((item) => item.classList.remove("on"));
+      if (window.matchMedia("(max-width: 760px)").matches) return;
+      panes.forEach((item) => item.classList.remove("on"));
       pane.classList.add("on");
     });
   });
+  acc?.addEventListener("scroll", mark, { passive: true });
+  dots?.addEventListener("click", (event) => {
+    const dot = event.target.closest("i");
+    if (!dot || !acc) return;
+    const index = [...dots.children].indexOf(dot);
+    panes[index]?.scrollIntoView({ inline: "start", block: "nearest", behavior: "smooth" });
+  });
+  mark();
 </script>
