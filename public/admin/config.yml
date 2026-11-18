@@ -113,7 +113,11 @@ collections:
           - { label: Nagłówek dodatków, name: dodatki_h, widget: string }
           - { label: Lead dodatków, name: dodatki_lead, widget: text }
           - { label: Nagłówek modułu budżetu, name: budzet_h, widget: string }
-          - { label: "Informacja „ceny netto”", name: netto_info, widget: text }
+          - { label: "Informacja „ceny netto”", name: netto_info, widget: text, hint: "Dłuższy opis do oferty. Na stronie wstęp korzysta z listy uwag." }
+          - label: "Uwagi pod wstępem"
+            name: uwagi
+            widget: list
+            field: { label: Uwaga, name: tekst, widget: string }
           - { label: Plik PDF oferty, name: pdf, widget: string }
           - { label: Podpis linku PDF, name: pdf_etykieta, widget: string }
           - { label: "Jak porównujemy budżet (tekst na stronie)", name: jak_porownujemy, widget: text }

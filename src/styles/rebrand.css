@@ -114,9 +114,10 @@ h4 { line-height: 1; }
   background: var(--paper);
   color: var(--ink);
 }
-.editorial h1, .page-hero h1, .editorial .kicker, .editorial .lede, .editorial .crumbs a, .editorial .crumbs span {
+.editorial h1, .page-hero h1, .editorial .kicker, .editorial .lede, .editorial .meta, .editorial .crumbs a, .editorial .crumbs span {
   color: var(--ink);
 }
+.editorial .meta { color: var(--muted); }
 .eyebrow, .kicker { color: var(--muted); letter-spacing: 0.12em; }
 
 .r12-hero { position: relative; min-height: 78vh; color: var(--paper); background: var(--ink); }
@@ -250,8 +251,58 @@ h4 { line-height: 1; }
   .r12-hero h1 { font-size: 50px; max-width: none; }
   h2 { font-size: 42px; }
 }
+.price-notes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 18px;
+  list-style: none;
+  margin: 18px 0 0;
+  padding: 0;
+}
+.price-notes li { font-size: 14px; line-height: 1.4; }
+.price-notes li::before {
+  content: "";
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  margin-right: 8px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+
 @media (max-width: 700px) {
   .r12-usp { grid-template-columns: 1fr; }
+  .r12-hero {
+    min-height: 0;
+    background: var(--paper);
+    color: var(--ink);
+  }
+  .r12-hero-media {
+    position: relative;
+    inset: auto;
+    height: 42vh;
+    min-height: 260px;
+    overflow: hidden;
+  }
+  .r12-hero-media img,
+  .r12-hero-media video {
+    object-position: 45% 62%;
+    transform: scale(1.2);
+    transform-origin: 45% 62%;
+  }
+  .r12-hero-media::after {
+    background: linear-gradient(to top, rgba(43, 43, 43, 0.2) 0%, rgba(43, 43, 43, 0) 40%);
+  }
+  .r12-hero-copy {
+    min-height: 0;
+    padding-top: 20px;
+    padding-bottom: 8px;
+    color: var(--ink);
+  }
+  .r12-hero .eyebrow,
+  .r12-hero h1,
+  .r12-hero .lead { color: var(--ink); }
+  .r12-hero .btn-ghost { color: var(--ink); border-color: var(--ink); }
   .r12-hero h1 { font-size: 46px; }
   .r12-hero .btn-row { flex-direction: row; flex-wrap: wrap; }
   .r12-hero .btn { width: auto; flex: 1 1 auto; white-space: nowrap; }

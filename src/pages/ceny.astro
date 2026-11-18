@@ -40,10 +40,14 @@ const payload = JSON.stringify({
     crumbs={crumbs}
     kicker="Oferta 2026 · netto"
     title={cennik.naglowek}
-    lede={`${cennik.lead} ${cennik.netto_info}`}
+    lede={cennik.lead}
     image="/img/gallery/og16.jpg"
     imageAlt="Taras nad wodą"
-  />
+  >
+    <ul class="price-notes">
+      {(cennik.uwagi || []).map((item) => <li>{typeof item === "string" ? item : item.tekst}</li>)}
+    </ul>
+  </PageHero>
 
   <section class="band" id="wynajem">
     <div class="wrap">

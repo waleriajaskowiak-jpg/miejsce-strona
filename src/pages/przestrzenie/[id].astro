@@ -30,10 +30,12 @@ const crumbs = [
     crumbs={crumbs}
     kicker="Przestrzeń"
     title={entry.data.title}
-    lede={`${entry.data.lead} ${entry.data.meta}`}
+    lede={entry.data.lead}
     image={entry.data.cover}
     imageAlt={entry.data.title}
-  />
+  >
+    {entry.data.meta && <p class="meta">{entry.data.meta}</p>}
+  </PageHero>
 
   <section class="band">
     <div class="wrap">

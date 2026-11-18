@@ -1,6 +1,12 @@
 {
   "naglowek": "Ile kosztuje event w MIEJSCU?",
-  "lead": "Zależy, co robimy. Ale nie musisz wysyłać zapytania, żeby dowiedzieć się, czy mówimy o 20 czy 100 tysiącach",
+  "lead": "Zależy, co robimy. Nie musisz wysyłać zapytania, żeby zobaczyć, czy mówimy o 20 czy o 100 tysiącach.",
+  "uwagi": [
+    "Ceny netto",
+    "Za 5 godzin",
+    "Do kwoty doliczamy 10% serwisu",
+    "Widełki „od”, nie wycena końcowa"
+  ],
   "opis_seo": "Orientacyjne ceny wynajmu, cateringu i open baru w MIEJSCU. Moduł budżetu odpowiada słownie, bez kwoty co do złotówki",
   "wynajem_h": "Przestrzeń",
   "wynajem_lead": "Orientacyjnie:",
