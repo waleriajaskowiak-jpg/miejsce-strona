@@ -29,7 +29,8 @@
   .foot-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 8px 28px;
+    row-gap: 32px;
+    column-gap: 28px;
     height: auto;
     align-items: start;
   }
@@ -526,7 +527,8 @@
   .foot-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 8px 20px;
+    row-gap: 32px;
+    column-gap: 20px;
     height: auto;
     align-items: start;
   }

@@ -355,7 +355,20 @@ main > section + section {
 .text-links .text-link { margin-top: 0; }
 
 .format-acc { display: flex; gap: 12px; height: 580px; }
-.pane { position: relative; flex: 1; border-radius: 20px; overflow: hidden; color: #fff; min-width: 0; transition: flex 0.8s var(--ease); }
+.pane { position: relative; flex: 1; border-radius: 20px; overflow: hidden; color: #fff; min-width: 0; transition: flex 0.8s var(--ease); text-decoration: none; }
+a.pane,
+a.pane :is(h3, p, small, span, b),
+a.pane .btn,
+a.pane .btn::after,
+.bento a,
+.bento a span,
+.media-card a,
+.media-card a :is(h3, p, span),
+.media-card a .btn,
+.media-card a .btn::after,
+a.mcard,
+a.mcard :is(b, span),
+a.feature-media { text-decoration: none; }
 .pane.on { flex: 3.4; }
 .pane img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; border-radius: 0; }
 .pane::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(13, 15, 18, 0.1), rgba(13, 15, 18, 0.82)); }
