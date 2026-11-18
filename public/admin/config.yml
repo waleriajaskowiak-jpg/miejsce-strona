@@ -35,14 +35,14 @@ collections:
         fields:
           - { label: Tytuł SEO, name: tytul_seo, widget: string }
           - { label: Opis SEO, name: opis_seo, widget: text }
-          - { label: Hero — miejscownik, name: hero_kicker, widget: string }
-          - { label: Hero — marka, name: hero_marka, widget: string }
-          - { label: Hero — nagłówek, name: hero_h1, widget: string }
-          - { label: Hero — lead, name: hero_lead, widget: text }
-          - { label: Hero — zdjęcie, name: hero_zdjecie, widget: image }
-          - { label: Hero — opis zdjęcia, name: hero_zdjecie_alt, widget: string }
-          - { label: Hero — drugie zdjęcie, name: hero_zdjecie_2, widget: image }
-          - { label: Hero — opis drugiego zdjęcia, name: hero_zdjecie_2_alt, widget: string }
+          - { label: "Hero — miejscownik", name: hero_kicker, widget: string }
+          - { label: "Hero — marka", name: hero_marka, widget: string }
+          - { label: "Hero — nagłówek", name: hero_h1, widget: string }
+          - { label: "Hero — lead", name: hero_lead, widget: text }
+          - { label: "Hero — zdjęcie", name: hero_zdjecie, widget: image }
+          - { label: "Hero — opis zdjęcia", name: hero_zdjecie_alt, widget: string }
+          - { label: "Hero — drugie zdjęcie", name: hero_zdjecie_2, widget: image }
+          - { label: "Hero — opis drugiego zdjęcia", name: hero_zdjecie_2_alt, widget: string }
           - { label: Przycisk główny, name: cta_glowny, widget: string }
           - { label: Przycisk drugi, name: cta_drugi, widget: string }
           - { label: Link do przestrzeni, name: link_przestrzenie, widget: string }
@@ -66,10 +66,10 @@ collections:
           - { label: Lead jedzenia, name: jedzenie_lead, widget: text }
           - { label: Nagłówek realizacji, name: realizacje_h, widget: string }
           - { label: Lead realizacji, name: realizacje_lead, widget: text }
-          - { label: Nagłówek „warto wiedzieć”, name: wiedza_h, widget: string }
+          - { label: "Nagłówek „warto wiedzieć”", name: wiedza_h, widget: string }
           - { label: Nagłówek poradnika, name: poradnik_h, widget: string }
           - { label: Lead poradnika, name: poradnik_lead, widget: text }
-          - { label: Nagłówek „zaufali nam”, name: zaufali_h, widget: string }
+          - { label: "Nagłówek „zaufali nam”", name: zaufali_h, widget: string }
           - { label: Nagłówek kontaktu, name: kontakt_h, widget: string }
           - { label: Lead kontaktu, name: kontakt_lead, widget: text }
 
@@ -78,13 +78,13 @@ collections:
         file: src/content/ustawienia/kontakt.json
         format: json
         fields:
-          - { label: Telefon (wyświetlany), name: telefon_wyswietlany, widget: string }
-          - { label: Telefon (link, bez spacji), name: telefon_href, widget: string }
+          - { label: "Telefon (wyświetlany)", name: telefon_wyswietlany, widget: string }
+          - { label: "Telefon (link, bez spacji)", name: telefon_href, widget: string }
           - { label: E-mail, name: email, widget: string }
           - { label: Ulica, name: ulica, widget: string }
           - { label: Kod pocztowy, name: kod, widget: string }
           - { label: Miasto, name: miasto, widget: string }
-          - { label: Dzielnica / port, name: dzielnica, widget: string }
+          - { label: "Dzielnica / port", name: dzielnica, widget: string }
           - { label: Szerokość geograficzna, name: lat, widget: number, value_type: float }
           - { label: Długość geograficzna, name: lon, widget: number, value_type: float }
           - { label: Dojazd, name: dojazd, widget: text }
@@ -109,17 +109,17 @@ collections:
           - { label: Nagłówek dodatków, name: dodatki_h, widget: string }
           - { label: Lead dodatków, name: dodatki_lead, widget: text }
           - { label: Nagłówek modułu budżetu, name: budzet_h, widget: string }
-          - { label: Informacja „ceny netto”, name: netto_info, widget: text }
+          - { label: "Informacja „ceny netto”", name: netto_info, widget: text }
           - { label: Plik PDF oferty, name: pdf, widget: string }
           - { label: Podpis linku PDF, name: pdf_etykieta, widget: string }
-          - { label: Jak porównujemy budżet (tekst na stronie), name: jak_porownujemy, widget: text }
+          - { label: "Jak porównujemy budżet (tekst na stronie)", name: jak_porownujemy, widget: text }
           - label: Wynajem
             name: wynajem
             widget: list
             fields:
               - { label: Identyfikator, name: id, widget: string, hint: "nowe, duze albo cale — używa go moduł budżetu" }
               - { label: Nazwa, name: nazwa, widget: string }
-              - { label: Cena od (netto, zł), name: cena_od, widget: number, value_type: int }
+              - { label: "Cena od (netto, zł)", name: cena_od, widget: number, value_type: int }
               - { label: Dopisek, name: dopisek, widget: string }
           - label: Catering
             name: catering
@@ -167,19 +167,19 @@ collections:
             name: wyniki
             widget: object
             fields:
-              - label: A — mieścimy się
+              - label: "A — mieścimy się"
                 name: A
                 widget: object
                 fields:
                   - { label: Tytuł, name: tytul, widget: string }
                   - { label: Treść, name: tresc, widget: text }
-              - label: B — da się poukładać
+              - label: "B — da się poukładać"
                 name: B
                 widget: object
                 fields:
                   - { label: Tytuł, name: tytul, widget: string }
                   - { label: Treść, name: tresc, widget: text }
-              - label: C — ciasno
+              - label: "C — ciasno"
                 name: C
                 widget: object
                 fields:
@@ -193,14 +193,14 @@ collections:
               - { label: Id cateringu środkowego, name: catering_komfort, widget: string }
               - { label: Id baru oszczędnego, name: bar_min, widget: string }
               - { label: Id baru środkowego, name: bar_komfort, widget: string }
-              - { label: Próg A (zapas ponad wersję środkową), name: prog_a, widget: number, value_type: float, hint: "1.12 oznacza, że budżet musi być o 12% wyższy niż wersja środkowa" }
-              - { label: Próg B (względem wersji oszczędnej), name: prog_b, widget: number, value_type: float }
+              - { label: "Próg A (zapas ponad wersję środkową)", name: prog_a, widget: number, value_type: float, hint: "1.12 oznacza, że budżet musi być o 12% wyższy niż wersja środkowa" }
+              - { label: "Próg B (względem wersji oszczędnej)", name: prog_b, widget: number, value_type: float }
               - { label: Współczynnik weekendu i sezonu, name: wspolczynnik_terminu, widget: number, value_type: float, hint: "1.05 to +5%. To nie jest cena z oferty." }
-              - label: Miesiące sezonu (numery)
+              - label: "Miesiące sezonu (numery)"
                 name: miesiace_sezonu
                 widget: list
                 field: { label: Miesiąc, name: miesiac, widget: number, value_type: int }
-              - label: Dni weekendu (identyfikatory)
+              - label: "Dni weekendu (identyfikatory)"
                 name: dni_weekendu
                 widget: list
                 field: { label: Dzień, name: dzien, widget: string }
@@ -215,10 +215,10 @@ collections:
                     widget: list
                     required: false
                     field: { label: Id typu, name: typ, widget: string }
-                  - { label: Przestrzeń (id wynajmu), name: przestrzen, widget: string }
+                  - { label: "Przestrzeń (id wynajmu)", name: przestrzen, widget: string }
 
       - name: jedzenie
-        label: Jedzenie i bar — teksty
+        label: "Jedzenie i bar — teksty"
         file: src/content/ustawienia/jedzenie.json
         format: json
         fields:
@@ -249,10 +249,10 @@ collections:
             widget: list
             fields:
               - { label: Plik, name: src, widget: image }
-              - { label: Nazwa (tekst alt), name: alt, widget: string }
+              - { label: "Nazwa (tekst alt)", name: alt, widget: string }
 
       - name: poradnik_ustawienia
-        label: Poradnik — wprowadzenie i kolejka
+        label: "Poradnik — wprowadzenie i kolejka"
         file: src/content/ustawienia/poradnik.json
         format: json
         fields:
@@ -288,24 +288,24 @@ collections:
         file: src/content/ustawienia/sekcje.json
         format: json
         fields:
-          - { label: Klimat — nagłówek, name: klimat_h, widget: string }
-          - { label: Klimat — lead, name: klimat_lead, widget: text }
-          - { label: Klimat — zdjęcie, name: klimat_foto, widget: image }
+          - { label: "Klimat — nagłówek", name: klimat_h, widget: string }
+          - { label: "Klimat — lead", name: klimat_lead, widget: text }
+          - { label: "Klimat — zdjęcie", name: klimat_foto, widget: image }
           - label: Punkty klimatu
             name: klimat_punkty
             widget: list
             fields:
               - { label: Tytuł, name: tytul, widget: string }
               - { label: Opis, name: opis, widget: text }
-          - label: Ikony / cechy
+          - label: "Ikony / cechy"
             name: cechy
             widget: list
             fields:
-              - { label: Ikona (woda, barka, pin, lisc), name: ikona, widget: string }
+              - { label: "Ikona (woda, barka, pin, lisc)", name: ikona, widget: string }
               - { label: Tytuł, name: tytul, widget: string }
               - { label: Opis, name: opis, widget: text }
-          - { label: Atrakcje — nagłówek, name: atrakcje_h, widget: string }
-          - { label: Atrakcje — dopisek, name: atrakcje_note, widget: string }
+          - { label: "Atrakcje — nagłówek", name: atrakcje_h, widget: string }
+          - { label: "Atrakcje — dopisek", name: atrakcje_note, widget: string }
           - label: Atrakcje ze zdjęciem
             name: atrakcje
             widget: list
@@ -313,9 +313,9 @@ collections:
               - { label: Zdjęcie, name: zdjecie, widget: image }
               - { label: Tytuł, name: tytul, widget: string }
               - { label: Opis, name: opis, widget: string }
-          - { label: Plany zdjęciowe — nagłówek, name: film_h, widget: string }
-          - { label: Plany zdjęciowe — dopisek, name: film_note, widget: string }
-          - { label: Plany zdjęciowe — opis, name: film_body, widget: text }
+          - { label: "Plany zdjęciowe — nagłówek", name: film_h, widget: string }
+          - { label: "Plany zdjęciowe — dopisek", name: film_note, widget: string }
+          - { label: "Plany zdjęciowe — opis", name: film_body, widget: text }
           - label: Zdjęcia planów
             name: film_zdjecia
             widget: list
@@ -335,12 +335,12 @@ collections:
       - { label: Tytuł, name: title, widget: string }
       - { label: Etykieta w menu, name: nav_label, widget: string }
       - { label: Kolejność, name: kolejnosc, widget: number, value_type: int }
-      - { label: Szkic (noindex), name: szkic, widget: boolean, default: false }
+      - { label: "Szkic (noindex)", name: szkic, widget: boolean, default: false }
       - { label: Tytuł SEO, name: seo_title, widget: string }
       - { label: Opis SEO, name: seo_description, widget: text }
       - { label: Lead, name: lead, widget: text }
       - { label: Tekst przycisku, name: cta, widget: string }
-      - { label: Do uzupełnienia (nie publikować w produkcji), name: do_uzupelnienia, widget: text, required: false }
+      - { label: "Do uzupełnienia (nie publikować w produkcji)", name: do_uzupelnienia, widget: text, required: false }
       - { label: Wstęp, name: body, widget: markdown }
 
   - name: przestrzenie
@@ -361,7 +361,7 @@ collections:
       - { label: Lead, name: lead, widget: text }
       - { label: Linia ze specyfikacją, name: meta, widget: string }
       - { label: Opis SEO, name: opis_seo, widget: text }
-      - { label: Cena od (zł, puste jeśli brak), name: cena_od, widget: number, value_type: int, required: false }
+      - { label: "Cena od (zł, puste jeśli brak)", name: cena_od, widget: number, value_type: int, required: false }
       - { label: Etykieta ceny, name: cena_etykieta, widget: string, required: false }
       - label: Najlepiej sprawdza się na
         name: najlepiej
@@ -430,10 +430,10 @@ collections:
       - { label: Tytuł, name: title, widget: string }
       - { label: Adres URL, name: adres_url, widget: string }
       - { label: Kolejność, name: kolejnosc, widget: number, value_type: int }
-      - { label: Szkic (ukryty przed Google), name: szkic, widget: boolean, default: true }
+      - { label: "Szkic (ukryty przed Google)", name: szkic, widget: boolean, default: true }
       - { label: Typ, name: typ, widget: string }
       - { label: Metka, name: meta, widget: string }
-      - { label: Lead / opis SEO, name: lead, widget: text }
+      - { label: "Lead / opis SEO", name: lead, widget: text }
       - { label: Opis SEO, name: opis_seo, widget: text }
       - { label: Przestrzenie, name: przestrzenie, widget: text }
       - { label: Jedzenie, name: jedzenie, widget: text }
@@ -447,7 +447,7 @@ collections:
       - { label: Opis, name: body, widget: markdown }
 
   - name: artykuly
-    label: Poradnik — artykuły
+    label: "Poradnik — artykuły"
     label_singular: Artykuł
     folder: src/content/poradnik
     create: true
@@ -461,7 +461,7 @@ collections:
       - { label: Tytuł, name: title, widget: string }
       - { label: Adres URL, name: adres_url, widget: string, hint: "małe litery, bez spacji i polskich znaków" }
       - { label: Kolejność, name: kolejnosc, widget: number, value_type: int }
-      - { label: Szkic (ukryty przed Google), name: szkic, widget: boolean, default: true }
+      - { label: "Szkic (ukryty przed Google)", name: szkic, widget: boolean, default: true }
       - { label: Krótki opis, name: opis, widget: text }
       - { label: Opis SEO, name: opis_seo, widget: text }
       - { label: Treść, name: body, widget: markdown }
