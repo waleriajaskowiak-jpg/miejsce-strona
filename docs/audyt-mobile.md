@@ -14,3 +14,19 @@ Checked all 34 built routes at 360, 390, 430, 768 and 1024. Phone type is H1 48p
 | Footer on a phone was one long column. 404 and the thank-you page painted a black column with white side gaps. | Footer is the address plus a 2-column link grid. Those two pages are full-bleed. |
 | At 768 the home headline started underneath the fixed header. Cards collapsed to one stretched column. | Tablet keeps a 2-column hero, cards and editorial splits, and the headline clears the 64px header. |
 | Inputs could fall under 16px, which zooms the page on iOS. | Form fields are 16px with visible labels, and the types stay email, tel and numeric. |
+
+Round 11, from the 390 and 768 review:
+
+| Problem | Fix |
+| --- | --- |
+| The hero pill sat under the fixed header. | The photo starts 16px below the header. The pill is inset 16px. |
+| The carousel number overlapped the eyebrow and the title was clipped. | Number, eyebrow and title stack with 14px gaps, inside the card. |
+| The menu close mark was two chevrons. | One pair of strokes draws the X. |
+| Gallery captions wrapped on the photo edge. | Single-line pills with a 12px inset. |
+| Footer columns were uneven, „Scenariusze” was listed twice, and the row gap was about 64px. | Four headed groups, one „Scenariusze”, 14px between rows. |
+| Category heroes left a dark void above the pills. | A 16:9 photo sits under the lead, then the pills, on all four categories. |
+| The kontakt heading sat about 80px above the first field. | 28px. |
+| The add-on lead sat about 90px above the cards, and the estimate looked grey. | 28px gap. The price is white. |
+| At 768 the four stats shared one cramped row. | 2×2 up to 900px. Hero buttons share a row when they fit, otherwise both are full width. |
+| Partner marks did not match on the dark band. | The same white treatment, in a looping row. |
+| The contact bar covered the last line of a section. | It sits under the scroller, with 76px of padding so the last lines clear it. It hides while the menu is open or the contact form is on screen. |

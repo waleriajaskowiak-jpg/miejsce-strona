@@ -1,6 +1,6 @@
 ---
 import { getCollection, getEntry } from "astro:content";
-import { FOOTER_PAGES, sortByOrder } from "../lib/nav.js";
+import { sortByOrder } from "../lib/nav.js";
 
 const kontakt = (await getEntry("ustawienia", "kontakt"))?.data;
 const kategorie = sortByOrder(await getCollection("kategorie"));
@@ -26,18 +26,31 @@ const kategorie = sortByOrder(await getCollection("kategorie"));
         {kategorie.map((item) => (
           <li><a href={`/eventy/${item.id}/`}>{item.data.nav_label}</a></li>
         ))}
-        <li><a href="/scenariusze/">Scenariusze</a></li>
       </ul>
     </div>
     <div>
-      <p class="foot-label">Na stronie</p>
+      <p class="foot-label">Miejsce</p>
       <ul>
         <li><a href="/przestrzenie/">Przestrzenie</a></li>
         <li><a href="/ceny/">Ceny</a></li>
         <li><a href="/realizacje/">Realizacje</a></li>
-        {FOOTER_PAGES.map((item) => (
-          <li><a href={item.href}>{item.label}</a></li>
-        ))}
+        <li><a href="/galeria/">Galeria</a></li>
+      </ul>
+    </div>
+    <div>
+      <p class="foot-label">Plan</p>
+      <ul>
+        <li><a href="/scenariusze/">Scenariusze</a></li>
+        <li><a href="/jedzenie-i-bar/">Jedzenie i bar</a></li>
+        <li><a href="/poradnik/">Poradnik</a></li>
+        <li><a href="/warto-wiedziec/">Warto wiedzieć</a></li>
+      </ul>
+    </div>
+    <div>
+      <p class="foot-label">Kontakt</p>
+      <ul>
+        <li><a href="/kontakt/">Napisz do nas</a></li>
+        <li><a href="/mapa-strony/">Mapa strony</a></li>
       </ul>
     </div>
   </div>

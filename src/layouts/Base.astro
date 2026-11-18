@@ -125,10 +125,10 @@ const jsonBlocks = jsonLd.map((obj) => JSON.stringify(obj).replace(/</g, "\\u003
           return box.top < window.innerHeight - 80 && box.bottom > 120;
         });
         const phone = window.matchMedia("(max-width: 800px)").matches;
-        const quiet = drawer || ctaInView || footNear || formNear || scrollY() < 280;
-        bar.hidden = onKontakt || !phone;
-        bar.classList.toggle("is-quiet", phone && !onKontakt && quiet);
-        const show = phone && !onKontakt && !quiet;
+        const show = phone && !onKontakt && !drawer && !ctaInView && !footNear && !formNear && scrollY() > 280;
+        bar.hidden = !show;
+        bar.classList.remove("is-quiet");
+        document.body.classList.toggle("has-bar", show);
         bar.setAttribute("aria-hidden", show ? "false" : "true");
         bar.tabIndex = show ? 0 : -1;
       };
