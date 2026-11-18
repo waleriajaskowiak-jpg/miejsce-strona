@@ -807,3 +807,8 @@ header.page-hero-media.editorial { background: var(--paper); padding-bottom: 80p
 .nav-panel .menu-space { color: var(--paper); text-decoration: none; }
 .nav-panel .menu-foot .btn-primary { color: var(--ink); background: var(--accent); }
 .nav-panel .menu-foot .btn-ghost { color: var(--paper); border-color: var(--paper); background: transparent; }
+
+main > section + section { margin-top: 0; }
+@media (max-width: 800px) {
+  .r12-hero-copy { padding-bottom: 40px; }
+}
