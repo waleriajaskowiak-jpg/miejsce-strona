@@ -1,5 +1,6 @@
 ---
 import { getCollection, getEntry } from "astro:content";
+import Icon from "./Icon.astro";
 import { sortByOrder } from "../lib/nav.js";
 
 const path = Astro.url.pathname;
@@ -7,12 +8,30 @@ const current = (href: string) => path === href || (href !== "/" && path.startsW
 const kategorie = sortByOrder(await getCollection("kategorie"));
 const przestrzenie = sortByOrder(await getCollection("przestrzenie"));
 const kontakt = (await getEntry("ustawienia", "kontakt"))?.data;
+const catColor = {
+  "eventy-firmowe-i-integracje": "terakota",
+  "konferencje-i-szkolenia": "szalwia",
+  "wesela-i-przyjecia-prywatne": "piasek",
+  "premiery-i-wydarzenia-specjalne": "petrol",
+};
+const shortSpace = {
+  "duze-miejsce": "Duże",
+  "nowe-miejsce": "Małe",
+  ogrod: "Ogród",
+  "cale-miejsce": "Całe",
+};
+const mains = [
+  { href: "/ceny/", label: "Ceny", n: "01" },
+  { href: "/realizacje/", label: "Realizacje", n: "02" },
+  { href: "/kontakt/", label: "Kontakt", n: "03" },
+];
 ---
 
 <header class="site-head">
   <div class="wrap head-inner">
     <a class="brand" href="/" aria-label="MIEJSCE, strona główna">
-      <img src="/img/logo-grafit.svg" alt="MIEJSCE" width="440" height="86" />
+      <img class="logo-day" src="/img/logo-grafit.svg" alt="MIEJSCE" width="1550" height="444" />
+      <img class="logo-night" src="/img/logo-ecru.svg" alt="" width="1550" height="444" />
     </a>
     <nav class="nav-desk" aria-label="Główna">
       <div class="nav-dd">
@@ -41,30 +60,53 @@ const kontakt = (await getEntry("ustawienia", "kontakt"))?.data;
     </nav>
     <a class="btn btn-primary btn-sm head-plan" href="/kontakt/">Zaplanuj wydarzenie</a>
     <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="nav-panel" aria-label="Menu">
-      <span></span>
+      <span class="burger" aria-hidden="true"><i></i><i></i></span>
     </button>
   </div>
 </header>
 
-<div class="nav-panel" id="nav-panel" hidden>
+<div class="nav-panel" id="nav-panel" role="dialog" aria-modal="true" aria-label="Menu" aria-hidden="true">
   <nav aria-label="Mobilna">
-    <p class="drawer-label">Wydarzenia</p>
-    {kategorie.map((item) => (
-      <a class="drawer-link" href={`/eventy/${item.id}/`} aria-current={path === `/eventy/${item.id}/` ? "page" : undefined}>{item.data.nav_label}</a>
-    ))}
-    <p class="drawer-label">Przestrzenie</p>
-    {przestrzenie.map((item) => (
-      <a class="drawer-link" href={`/przestrzenie/${item.id}/`} aria-current={path === `/przestrzenie/${item.id}/` ? "page" : undefined}>{item.data.title}</a>
-    ))}
-    <a class="drawer-link" href="/ceny/" aria-current={current("/ceny/") ? "page" : undefined}>Ceny</a>
-    <a class="drawer-link" href="/realizacje/" aria-current={current("/realizacje/") ? "page" : undefined}>Realizacje</a>
-    <a class="drawer-link" href="/kontakt/" aria-current={current("/kontakt/") ? "page" : undefined}>Kontakt</a>
-    <a class="drawer-link" href="/scenariusze/">Scenariusze</a>
-    <a class="drawer-link" href="/jedzenie-i-bar/">Jedzenie i bar</a>
-    <a class="drawer-link" href="/warto-wiedziec/">Warto wiedzieć</a>
-    <div class="drawer-cta">
+    <div class="menu-groups">
+      <a class="menu-tile rise" style="--d:0" href="/eventy/">Wydarzenia</a>
+      <a class="menu-tile rise" style="--d:1" href="/przestrzenie/">Przestrzenie</a>
+    </div>
+    <p class="menu-kicker rise" style="--d:2">Wydarzenia</p>
+    <div class="menu-cats">
+      {kategorie.map((item, index) => (
+        <a class:list={["menu-cat", "rise", catColor[item.id]]} style={`--d:${3 + index}`} href={`/eventy/${item.id}/`}>
+          <i></i>
+          <span>{item.data.nav_label}</span>
+          <Icon name="arrow" />
+        </a>
+      ))}
+    </div>
+    <p class="menu-kicker rise" style="--d:7">Przestrzenie</p>
+    <div class="menu-spaces rise" style="--d:8">
+      {przestrzenie.map((space) => (
+        <a class="menu-space" href={`/przestrzenie/${space.id}/`}>
+          <img src={space.data.cover} alt="" />
+          <span>{shortSpace[space.id] || space.data.title}</span>
+        </a>
+      ))}
+    </div>
+    <div class="menu-mains">
+      {mains.map((item, index) => (
+        <a class="menu-main rise" style={`--d:${9 + index}`} href={item.href} aria-current={current(item.href) ? "page" : undefined}>
+          <em>{item.n}</em>
+          <span>{item.label}</span>
+          <Icon name="arrow" />
+        </a>
+      ))}
+    </div>
+    <div class="menu-foot rise" style="--d:12">
       <a class="btn btn-primary" href="/kontakt/">Zaplanuj wydarzenie</a>
       {kontakt && <a class="btn btn-ghost" href={`tel:${kontakt.telefon_href}`}>Zadzwoń</a>}
+      <div class="menu-meta">
+        {kontakt && <a class="icon-line" href={`tel:${kontakt.telefon_href}`}><Icon name="phone" /><span>{kontakt.telefon_wyswietlany}</span></a>}
+        {kontakt && <a class="icon-line" href={`mailto:${kontakt.email}`}><Icon name="mail" /><span>{kontakt.email}</span></a>}
+        <a class="icon-line" href="https://instagram.com/miejsceto/" rel="noopener"><Icon name="ig" /><span>Instagram</span></a>
+      </div>
     </div>
   </nav>
 </div>
@@ -72,14 +114,22 @@ const kontakt = (await getEntry("ustawienia", "kontakt"))?.data;
 <script>
   const btn = document.querySelector(".nav-toggle");
   const panel = document.querySelector(".nav-panel");
+  const scroller = document.querySelector(".page-scroll");
+  const focusables = () => [btn, ...panel.querySelectorAll("a")].filter(Boolean);
   const setDrawer = (open) => {
     if (!panel || !btn) return;
-    panel.hidden = !open;
+    const was = document.body.classList.contains("nav-open");
+    panel.setAttribute("aria-hidden", open ? "false" : "true");
     btn.setAttribute("aria-expanded", open ? "true" : "false");
+    btn.setAttribute("aria-label", open ? "Zamknij menu" : "Menu");
     document.body.classList.toggle("nav-open", open);
+    if (scroller) scroller.style.overflow = open ? "hidden" : "";
+    document.body.style.overflow = open ? "hidden" : "";
+    if (open && !was) panel.querySelector("a")?.focus();
+    if (!open && was) btn.focus();
     document.dispatchEvent(new Event("miejsce:nav"));
   };
-  btn?.addEventListener("click", () => setDrawer(Boolean(panel?.hidden)));
+  btn?.addEventListener("click", () => setDrawer(!document.body.classList.contains("nav-open")));
   panel?.querySelectorAll("a").forEach((link) => link.addEventListener("click", () => setDrawer(false)));
   document.querySelectorAll(".nav-dd").forEach((dd) => {
     const trigger = dd.querySelector("a");
@@ -93,6 +143,21 @@ const kontakt = (await getEntry("ustawienia", "kontakt"))?.data;
     pop?.querySelectorAll("a").forEach((link) => link.addEventListener("click", () => trigger?.setAttribute("aria-expanded", "false")));
   });
   document.addEventListener("keydown", (event) => {
-    if (event.key === "Escape") setDrawer(false);
+    if (!document.body.classList.contains("nav-open")) return;
+    if (event.key === "Escape") {
+      setDrawer(false);
+      return;
+    }
+    if (event.key !== "Tab") return;
+    const items = focusables();
+    const first = items[0];
+    const last = items[items.length - 1];
+    if (event.shiftKey && document.activeElement === first) {
+      event.preventDefault();
+      last.focus();
+    } else if (!event.shiftKey && document.activeElement === last) {
+      event.preventDefault();
+      first.focus();
+    }
   });
 </script>
