@@ -30,8 +30,17 @@ const heroSrcset = (ext) => heroWidths.map((width) => `/img/hero/barki-${width}.
 const heroReady = slides[0].src === "/img/hero/barki.jpg";
 const tryb = strona.hero_tryb || "foto";
 const ask = fakty.niepogoda_brak || "zapytaj o wariant na niepogodę";
-const summer = (value) => (typeof value === "number" ? String(value) : "zapytaj o liczbę na ten układ");
+const summer = (value) => (typeof value === "number" ? String(value) : "zapytaj");
 const winter = (value) => (typeof value === "number" ? String(value) : ask);
+const inspirationIcon = {
+  konferencja: "grid",
+  szkolenie: "users",
+  wesele: "glass",
+  integracja: "users",
+  premiera: "tag",
+  "garden-party": "sun",
+  firmowy: "utensils",
+};
 const spaces = [
   {
     id: "duze",
@@ -170,9 +179,9 @@ const netlify = !endpoint && kontakt.formularz_netlify !== false;
         {spaces.map((space, index) => (
           <article class="r12-panel" data-panel={space.id} hidden={index !== 0}>
             <img src={space.photo} alt="" width="1600" height="1000" />
-            <div>
+            <div class="r12-panel-body">
               <h3>{space.title}</h3>
-              <p>{space.meta}</p>
+              <p class="r12-meta">{space.meta}</p>
               <p class="r12-price">{space.price} <small>5 h · netto · +10% serwisu</small></p>
               <div class="r12-layouts" role="tablist" aria-label="Układ stołów">
                 {space.rows.map((row, rowIndex) => (
@@ -181,11 +190,11 @@ const netlify = !endpoint && kontakt.formularz_netlify !== false;
               </div>
               {space.rows.map((row, rowIndex) => (
                 <div class="r12-cap" data-cap={rowIndex} hidden={rowIndex !== 0}>
-                  <p>Lato: <b>{row.lato}</b></p>
-                  <p>Zima i deszcz: <b>{row.zima}</b></p>
+                  <p class="cap-stat"><Icon name="sun" /><span><small>Lato</small><b>{row.lato}</b></span></p>
+                  <p class="cap-stat"><Icon name="rain" /><span><small>Zima i deszcz</small><b>{row.zima}</b></span></p>
                 </div>
               ))}
-              <p class="meta">{space.note}</p>
+              <p class="cap-note">{space.note}</p>
               <a class="btn btn-primary" href={space.href}>Zobacz {space.title}</a>
             </div>
           </article>
@@ -220,8 +229,12 @@ const netlify = !endpoint && kontakt.formularz_netlify !== false;
         {inspiracje.map((item) => (
           <a class="r12-card" href={published ? `/realizacje/${item.id}/` : `/scenariusze/${item.id}/`}>
             <img src={item.data.cover} alt="" width="1200" height="800" />
-            <span class="eyebrow">{published ? item.data.typ : "Inspiracja"}</span>
-            <b>{item.data.title}</b>
+            <span class="r12-card-body">
+              <span class="eyebrow"><Icon name={inspirationIcon[item.data.typ_budzetu] || "tag"} />{published ? item.data.typ : "Inspiracja"}</span>
+              <h3>{item.data.title}</h3>
+              <span class="r12-card-note">{item.data.lead}</span>
+              <span class="go">Zobacz <Icon name="arrow" /></span>
+            </span>
           </a>
         ))}
       </div>
