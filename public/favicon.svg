@@ -1,6 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
   <rect width="64" height="64" rx="8" fill="#2B2B2B"/>
-  <text x="32" y="42" text-anchor="middle" font-family="Arial Narrow, sans-serif" font-size="28" fill="#F4EDE3" letter-spacing="1">M</text>
-  <circle cx="32" cy="52" r="2.2" fill="#FF6A00"/>
+  <path fill="#F4EDE3" d="M20.925714285714285 12.0H28.551428571428573L31.951428571428572 36.33428571428571H32.04857142857143L35.44857142857143 12.0H43.074285714285715V46.0H38.02285714285714V20.257142857142856H37.925714285714285L34.04 46.0H29.57142857142857L25.685714285714287 20.257142857142856H25.588571428571427V46.0H20.925714285714285Z"/>
+  <circle cx="32.00" cy="54.00" r="2.3" fill="#FF6A00"/>
 </svg>

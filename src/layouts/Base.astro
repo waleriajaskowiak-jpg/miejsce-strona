@@ -1,8 +1,5 @@
 ---
-import "@fontsource/bebas-neue/latin-ext-400.css";
-import "@fontsource/inter/latin-ext-400.css";
-import "@fontsource/inter/latin-ext-500.css";
-import "@fontsource/inter/latin-ext-600.css";
+import "../styles/fonts.css";
 import "../styles/tokens.css";
 import "../styles/system.css";
 import "../styles/harbour.css";
@@ -40,6 +37,8 @@ const jsonBlocks = jsonLd.map((obj) => JSON.stringify(obj).replace(/</g, "\\u003
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical.href} />
     <meta name="robots" content={robotsFinal} />
+    <link rel="preload" href="/fonts/bebas-neue-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/bebas-neue-latin-ext.woff2" as="font" type="font/woff2" crossorigin />
     {preload && (
       <link
         rel="preload"
