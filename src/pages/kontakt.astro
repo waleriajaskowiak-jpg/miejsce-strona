@@ -90,7 +90,13 @@ const icons = {
       <div class="span-5">
         <div class="form-panel pad stack">
           <SectionHeader eyebrow="Brief" title="Napisz, co planujesz" />
-          <FormBrief typy={typy} cel={wizyta ? "ogledziny" : "zapytanie"} przestrzen={przestrzen} />
+          <FormBrief
+            typy={typy}
+            cel={wizyta ? "ogledziny" : "zapytanie"}
+            przestrzen={przestrzen}
+            endpoint={kontakt.formularz_endpoint || ""}
+            netlify={kontakt.formularz_netlify !== false}
+          />
         </div>
       </div>
     </div>

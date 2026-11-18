@@ -6,7 +6,7 @@ import Gallery from "../../components/Gallery.astro";
 import NextBand from "../../components/NextBand.astro";
 import { crumbsJsonLd, sortByOrder } from "../../lib/nav.js";
 
-const realizacje = sortByOrder(await getCollection("realizacje"));
+const realizacje = sortByOrder(await getCollection("realizacje")).filter((item) => !item.data.szkic);
 const galeria = (await getEntry("ustawienia", "galeria"))!.data;
 const featured = realizacje[0];
 const crumbs = [{ href: "/realizacje/", label: "Realizacje" }];
@@ -19,14 +19,14 @@ const crumbs = [{ href: "/realizacje/", label: "Realizacje" }];
 >
   <PageHero
     crumbs={crumbs}
-    kicker={featured.data.typ}
+    kicker={featured ? featured.data.typ : "Wkrótce"}
     title="Realizacje"
-    lede="Zdjęcia z wieczorów, które już się tu odbyły"
-    image={featured.data.cover}
-    imageAlt={featured.data.title}
+    lede={featured ? "Zdjęcia z wieczorów, które już się tu odbyły" : "Opublikowane realizacje pojawią się tutaj. Szkice zostają w panelu"}
+    image={featured?.data.cover || "/img/gallery/dm20.jpg"}
+    imageAlt={featured?.data.title || "MIEJSCE"}
   />
 
-  <section class="band">
+  {featured && <section class="band">
     <div class="wrap">
       <article class="feature">
         <a class="feature-media" href={`/realizacje/${featured.id}/`}>
@@ -41,7 +41,7 @@ const crumbs = [{ href: "/realizacje/", label: "Realizacje" }];
         </div>
       </article>
     </div>
-  </section>
+  </section>}
 
   <section class="band band-surface">
     <div class="wrap">

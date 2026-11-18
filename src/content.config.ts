@@ -99,6 +99,8 @@ const realizacje = defineCollection({
     jedzenie: z.string(),
     bar: z.string(),
     atrakcje: z.string(),
+    goscie: z.number().optional(),
+    zakres: z.string().optional(),
     cover: z.string(),
     zdjecia: z.array(z.string()),
   }),

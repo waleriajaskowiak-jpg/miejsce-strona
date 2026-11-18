@@ -1,14 +1,16 @@
 ---
-const { typy = [], cel = "zapytanie", przestrzen = "" } = Astro.props;
+const { typy = [], cel = "zapytanie", przestrzen = "", endpoint = "", netlify = true } = Astro.props;
 const wizyta = cel === "ogledziny";
+const action = endpoint || "/dziekujemy/";
+const useNetlify = !endpoint && netlify;
 ---
 
 <form
   id="brief"
   name="brief"
   method="POST"
-  action="/dziekujemy/"
-  data-netlify="true"
+  action={action}
+  data-netlify={useNetlify ? "true" : undefined}
   netlify-honeypot="bot-field"
   class="form-grid"
 >
@@ -32,16 +34,18 @@ const wizyta = cel === "ogledziny";
     <span>Termin</span>
     <input id="data" name="data" type="text" autocomplete="off" placeholder={wizyta ? "Kiedy chcesz wpaść" : "np. czwartek, czerwiec 2026"} />
   </label>
-  <label class="field" for="rodzaj">
-    <span>Rodzaj wydarzenia</span>
-    <select id="rodzaj" name="rodzaj" required>
-      <option value="">Wybierz</option>
-      {typy.map((typ) => <option value={typ.id}>{typ.nazwa}</option>)}
-    </select>
-  </label>
   <label class="field" for="osoby">
     <span>Liczba osób</span>
     <input id="osoby" name="osoby" type="number" inputmode="numeric" min="1" />
+  </label>
+  <details class="brief-more">
+    <summary>Doprecyzuj brief</summary>
+  <label class="field" for="rodzaj">
+    <span>Rodzaj wydarzenia</span>
+    <select id="rodzaj" name="rodzaj">
+      <option value="">Wybierz</option>
+      {typy.map((typ) => <option value={typ.id}>{typ.nazwa}</option>)}
+    </select>
   </label>
   <label class="field" for="budzet">
     <span>Budżet</span>
@@ -62,8 +66,9 @@ const wizyta = cel === "ogledziny";
   <input type="hidden" name="cel" value={cel} />
   <input type="hidden" name="wynik" value="" />
   <input type="hidden" name="przestrzen" value={przestrzen} />
-  <button class="btn" type="submit">{wizyta ? "Umów oględziny" : "Wyślij brief"}</button>
-  <p class="fine">Odezwiemy się z terminem albo propozycją oględzin. Formularz trafia do skrzynki MIEJSCA przez Netlify Forms.</p>
+  </details>
+  <button class="btn" type="submit">{wizyta ? "Umów oględziny" : "Wyślij zapytanie"}</button>
+  <p class="fine">Odezwiemy się z terminem albo propozycją oględzin. Wiadomość idzie na eventy@miejsce.to</p>
 </form>
 
 <script>

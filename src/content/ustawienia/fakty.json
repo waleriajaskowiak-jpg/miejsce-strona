@@ -44,7 +44,7 @@
       "czas": "5 h"
     },
     "ogrod": {
-      "nazwa": "Ogród",
+      "nazwa": "Miejscowy Ogród",
       "powierzchnia_m2": 300,
       "sezon": "maj–wrzesień",
       "cena": "indywidualnie",
@@ -60,6 +60,24 @@
       "czas": "5 h"
     }
   },
+  "uklady": {
+    "duze": [
+      { "id": "bankiet", "nazwa": "Bankiet", "zima": 120, "lato": null },
+      { "id": "teatr", "nazwa": "Teatr", "zima": null, "lato": null },
+      { "id": "stojaco", "nazwa": "Stojąco", "zima": null, "lato": null }
+    ],
+    "male": [
+      { "id": "bankiet", "nazwa": "Bankiet", "zima": 70, "lato": 70 },
+      { "id": "teatr", "nazwa": "Teatr", "zima": null, "lato": null }
+    ],
+    "ogrod": [
+      { "id": "przyjecie", "nazwa": "Przyjęcie w sezonie", "zima": null, "lato": 100 }
+    ],
+    "cale": [
+      { "id": "kompleks", "nazwa": "Cały kompleks", "zima": 350, "lato": 350 }
+    ]
+  },
+  "niepogoda_brak": "zapytaj o wariant na niepogodę",
   "ceny": {
     "menu": [180, 220, 250],
     "open_bar": [150, 190, 230],

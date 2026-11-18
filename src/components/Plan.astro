@@ -4,7 +4,7 @@ const byId = Object.fromEntries(spaces.map((space) => [space.id, space]));
 const zones = [
   { id: "duze", label: "Duże Miejsce", slug: "duze-miejsce" },
   { id: "male", label: "Małe Miejsce", slug: "nowe-miejsce" },
-  { id: "ogrod", label: "Ogród", slug: "ogrod" },
+  { id: "ogrod", label: "Miejscowy Ogród", slug: "ogrod" },
   { id: "all", label: "Całe Miejsce", slug: "cale-miejsce" },
 ].map((zone) => {
   const space = byId[zone.slug];
@@ -31,11 +31,11 @@ const payload = JSON.stringify(zones).replace(/</g, "\\u003c");
           <rect class="zone zone-all" data-zone="all" tabindex="0" role="button" aria-label="Całe Miejsce" x="6.5" y="0.5" width="91" height="94" rx="1.4" ry="2.1"></rect>
           <polygon class="zone" data-zone="duze" tabindex="0" role="button" aria-label="Duże Miejsce" points="31.2,5.6 51.8,5.6 51.8,1.2 83.3,1.2 83.3,50.2 63.8,50.2 63.8,58.8 53.2,58.8 53.2,47.4 31.2,47.4"></polygon>
           <polygon class="zone" data-zone="male" tabindex="0" role="button" aria-label="Małe Miejsce" points="10.4,48.6 30.6,48.6 30.6,47.2 43.8,47.2 43.8,86.8 10.4,86.8"></polygon>
-          <polygon class="zone" data-zone="ogrod" tabindex="0" role="button" aria-label="Ogród" points="44.8,58.8 93.6,58.8 93.6,73.8 44.8,73.8"></polygon>
+          <polygon class="zone" data-zone="ogrod" tabindex="0" role="button" aria-label="Miejscowy Ogród" points="44.8,58.8 93.6,58.8 93.6,73.8 44.8,73.8"></polygon>
         </svg>
         <span class="plan-tag" data-tag="duze">Duże</span>
         <span class="plan-tag" data-tag="male">Małe</span>
-        <span class="plan-tag" data-tag="ogrod">Ogród</span>
+        <span class="plan-tag" data-tag="ogrod">Miejscowy Ogród</span>
         <span class="plan-tag" data-tag="all">Całe</span>
       </div>
     </figure>

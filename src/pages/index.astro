@@ -1,280 +1,266 @@
 ---
-import { getCollection, getEntry, render } from "astro:content";
+import { getCollection, getEntry } from "astro:content";
 import Base from "../layouts/Base.astro";
-import DayTimeline from "../components/DayTimeline.astro";
-import SpacePicker from "../components/SpacePicker.astro";
 import { sortByOrder, venueJsonLd } from "../lib/nav.js";
 
 const strona = (await getEntry("ustawienia", "strona"))!.data;
 const cennik = (await getEntry("ustawienia", "cennik"))!.data;
 const kontakt = (await getEntry("ustawienia", "kontakt"))!.data;
 const fakty = (await getEntry("ustawienia", "fakty"))!.data;
-const loga = (await getEntry("ustawienia", "loga"))!.data;
 const kategorie = sortByOrder(await getCollection("kategorie"));
-const scenariusze = sortByOrder(await getCollection("scenariusze"));
 const przestrzenie = sortByOrder(await getCollection("przestrzenie"));
-const faqAll = sortByOrder(await getCollection("faq")).slice(0, 4);
-const faq = [];
-for (const entry of faqAll) {
-  const { Content } = await render(entry);
-  faq.push({ entry, Content });
-}
-const slides = [
-  { src: "/img/gallery/dm20.jpg", alt: "Duże Miejsce o zmierzchu", chip: "Duże Miejsce · zmierzch", cap: "Barka nocą, widok z Wisły" },
-  { src: "/img/gallery/dm22.jpg", alt: "Duże Miejsce nocą", chip: "Duże Miejsce · noc", cap: "Światła na wodzie" },
-  { src: "/img/gallery/og25.jpg", alt: "Ogród MIEJSCA", chip: "Ogród · sezon", cap: "Girlandy i trybuny" },
-  { src: "/img/gallery/ws01.jpg", alt: "Przyjęcie na barce", chip: "Wieczór", cap: "Stół nad rzeką" },
-];
-const photos = [
-  { src: "/img/gallery/dm01.jpg", cap: "Kolacja na tarasie" },
-  { src: "/img/gallery/cm01.jpg", cap: "Barki od strony Wisły" },
-  { src: "/img/gallery/dm04.jpg", cap: "Barka nocą" },
-  { src: "/img/gallery/og20.jpg", cap: "Garden party" },
-  { src: "/img/gallery/ws01.jpg", cap: "Wesele nad Wisłą" },
-  { src: "/img/gallery/og25.jpg", cap: "Ogród, sezon" },
-];
-const logos = [...loga.loga, ...loga.loga];
-const h1 = String(strona.hero_h1 || "");
-const accent = h1
-  .replace("nad wodą", "nad wodą<br>")
-  .replace("w centrum", "<span>w centrum</span><br>");
-const shortLabel = {
-  "eventy-firmowe-i-integracje": "Integracje",
-  "konferencje-i-szkolenia": "Konferencje",
-  "wesela-i-przyjecia-prywatne": "Wesela",
-  "premiery-i-wydarzenia-specjalne": "Premiery",
+const scenariusze = sortByOrder(await getCollection("scenariusze")).filter((item) => !item.data.szkic);
+const realizacje = sortByOrder(await getCollection("realizacje")).filter((item) => !item.data.szkic);
+const published = realizacje.length > 0;
+const inspiracje = published ? realizacje.slice(0, 3) : scenariusze.slice(0, 3);
+const colors = {
+  "eventy-firmowe-i-integracje": "terakota",
+  "konferencje-i-szkolenia": "szalwia",
+  "wesela-i-przyjecia-prywatne": "piasek",
+  "premiery-i-wydarzenia-specjalne": "petrol",
 };
+const slides = [
+  { src: strona.hero_zdjecie || "/img/gallery/dm20.jpg", alt: strona.hero_zdjecie_alt || "Barka MIEJSCA" },
+  { src: strona.hero_zdjecie_2 || "/img/gallery/og25.jpg", alt: strona.hero_zdjecie_2_alt || "Miejscowy Ogród" },
+  { src: "/img/gallery/dm22.jpg", alt: "Duże Miejsce wieczorem" },
+];
+const tryb = strona.hero_tryb || "foto";
+const ask = fakty.niepogoda_brak || "zapytaj o wariant na niepogodę";
+const summer = (value) => (typeof value === "number" ? String(value) : "zapytaj o liczbę na ten układ");
+const winter = (value) => (typeof value === "number" ? String(value) : ask);
+const spaces = [
+  {
+    id: "duze",
+    title: "Duże Miejsce",
+    href: "/przestrzenie/duze-miejsce/",
+    photo: "/img/gallery/dm22.jpg",
+    meta: `${fakty.przestrzenie.duze.wnetrze_m2} m² + ${fakty.przestrzenie.duze.taras_m2} m² tarasu`,
+    price: "od 5 000 zł",
+    note: "Zimą bankiet mieści około 120 osób. 350 gości to pojemność całego kompleksu, nie tej barki",
+    rows: (fakty.uklady?.duze || []).map((row) => ({
+      name: row.nazwa,
+      lato: summer(row.lato),
+      zima: winter(row.zima),
+    })),
+  },
+  {
+    id: "male",
+    title: "Małe Miejsce",
+    href: "/przestrzenie/nowe-miejsce/",
+    photo: "/img/gallery/mm12.jpg",
+    meta: `${fakty.przestrzenie.male.wnetrze_m2} m² + ${fakty.przestrzenie.male.taras_m2} m² tarasu`,
+    price: "od 3 000 zł",
+    note: "Sala i zadaszony taras. Liczba 70 dotyczy znanego układu bankietowego",
+    rows: (fakty.uklady?.male || []).map((row) => ({ name: row.nazwa, lato: summer(row.lato), zima: winter(row.zima) })),
+  },
+  {
+    id: "ogrod",
+    title: "Miejscowy Ogród",
+    href: "/przestrzenie/ogrod/",
+    photo: "/img/gallery/og25.jpg",
+    meta: `${fakty.przestrzenie.ogrod.powierzchnia_m2} m² · ${fakty.przestrzenie.ogrod.sezon}`,
+    price: "wycena indywidualna",
+    note: "Sezon maj–wrzesień. Na deszcz nie podajemy liczby",
+    rows: (fakty.uklady?.ogrod || []).map((row) => ({ name: row.nazwa, lato: summer(row.lato), zima: winter(row.zima) })),
+  },
+  {
+    id: "cale",
+    title: "Całe Miejsce",
+    href: "/przestrzenie/cale-miejsce/",
+    photo: "/img/gallery/cm01.jpg",
+    meta: "Dwie barki, tarasy i Miejscowy Ogród",
+    price: "wycena indywidualna",
+    note: "Do 350 gości, także w deszczu. To nie znaczy, że każda sala mieści 350",
+    rows: (fakty.uklady?.cale || []).map((row) => ({ name: row.nazwa, lato: summer(row.lato), zima: winter(row.zima) })),
+  },
+];
+const endpoint = kontakt.formularz_endpoint || "";
+const netlify = !endpoint && kontakt.formularz_netlify !== false;
 ---
 
 <Base
   title={strona.tytul_seo}
   description={strona.opis_seo}
-  image="/img/gallery/dm20.jpg"
+  image={slides[0].src}
   jsonLd={[venueJsonLd(kontakt, strona.opis_seo, fakty)]}
-  overlay={true}
   preload={true}
 >
-  <section class="split-hero">
-    <div class="wrap">
-      <div class="h-copy">
-        <div>
-          <p class="eyebrow">{strona.hero_kicker}</p>
-          <h1 class="d1" set:html={accent}></h1>
-          <p class="lead">{strona.hero_lead}</p>
-          <div class="btn-row">
-            <a class="btn btn-primary" href="/kontakt/">Zaplanuj event</a>
-            <a class="btn btn-ghost" href="/przestrzenie/">Zobacz przestrzenie</a>
-          </div>
-        </div>
-        <ul class="stat-row">
-          <li><b data-count={fakty.przestrzenie.cale.maks_osob}>{fakty.przestrzenie.cale.maks_osob}</b><span>gości, także w deszczu</span></li>
-          <li><b>2</b><span>barki</span></li>
-          <li><b data-count={fakty.przestrzenie.ogrod.powierzchnia_m2}>{fakty.przestrzenie.ogrod.powierzchnia_m2}</b><span>m² ogrodu</span></li>
-          <li><b>10 min</b><span>do Pałacu Kultury</span></li>
-        </ul>
-      </div>
-      <div class="h-media" id="heroMedia">
-        {
-          slides.map((slide, index) => (
-            <img
-              class:list={["hs", index === 0 && "is-on"]}
-              src={slide.src}
-              alt={slide.alt}
-              width="1800"
-              height="1200"
-              data-chip={slide.chip}
-              data-cap={slide.cap}
-              fetchpriority={index === 0 ? "high" : undefined}
-            />
-          ))
-        }
-        <div class="grain"></div>
-        <span class="chip" id="heroChip">{slides[0].chip}</span>
-        <div class="h-cap">
-          <p><small id="heroCount">01 / 04</small><span id="heroCap">{slides[0].cap}</span></p>
-          <button type="button" id="heroPause" aria-label="Pauza" aria-pressed="false"></button>
-        </div>
+  <section class="r12-hero">
+    <div class="r12-hero-media">
+      {tryb === "wideo" && strona.hero_wideo ? (
+        <video src={strona.hero_wideo} poster={slides[0].src} autoplay muted loop playsinline></video>
+      ) : tryb === "slider" ? (
+        slides.map((slide, index) => (
+          <img class:list={["r12-slide", index === 0 && "is-on"]} src={slide.src} alt={slide.alt} width="1800" height="1200" />
+        ))
+      ) : (
+        <img src={slides[0].src} alt={slides[0].alt} width="1800" height="1200" fetchpriority="high" />
+      )}
+    </div>
+    <div class="wrap r12-hero-copy">
+      <p class="eyebrow">{strona.hero_kicker}</p>
+      <h1>{strona.hero_h1}</h1>
+      <p class="lead">{strona.hero_lead}</p>
+      <div class="btn-row">
+        <a class="btn btn-primary" href="/kontakt/">Zaplanuj wydarzenie</a>
+        <a class="btn btn-ghost" href="/przestrzenie/">Zobacz przestrzenie</a>
       </div>
     </div>
   </section>
 
-  <section class="band" id="rodzaje-home">
-    <div class="wrap">
-      <div class="sec-top">
-        <div>
-          <p class="eyebrow">01 · Wydarzenia</p>
-          <h2>Co planujesz?</h2>
-        </div>
-        <div>
-          <p>Cztery formaty, każdy z własną przestrzenią, menu i scenariuszem dnia</p>
-          <a class="text-link" href="/eventy/">Wszystkie wydarzenia</a>
-        </div>
-      </div>
-      <div class="format-acc">
-        {
-          kategorie.map((item, index) => (
-            <a class:list={["pane", index === 0 && "on"]} href={`/eventy/${item.id}/`}>
-              <img src={item.data.cover} alt="" width="1800" height="1200" />
-              <span class="idx">0{index + 1}</span>
-              <span class="vlab">{shortLabel[item.id] || item.data.nav_label}</span>
-              <span class="body">
-                <small>{item.data.tagi?.[0]}</small>
-                <h3>{item.data.title}</h3>
-                <p>{item.data.lead}</p>
-                <span class="btn btn-primary">{item.data.cta}</span>
-              </span>
-            </a>
-          ))
-        }
-      </div>
-      <div class="snap-dots" data-panedots aria-hidden="true"></div>
-    </div>
-  </section>
+  <ul class="r12-usp wrap">
+    <li><b>Nad wodą</b><span>Port Czerniakowski, ok. 10 min do Pałacu Kultury</span></li>
+    <li><b>Cztery układy</b><span>Duże, Małe, Miejscowy Ogród i Całe Miejsce</span></li>
+    <li><b>Własna kuchnia</b><span>Menu od 180 zł netto za osobę</span></li>
+    <li><b>Do 350 gości</b><span>Tylko w Całym Miejscu, także gdy pada</span></li>
+  </ul>
 
-  <section class="band band-ink">
+  <section class="band" id="wydarzenia">
     <div class="wrap">
-      <SpacePicker fakty={fakty} spaces={przestrzenie} />
-    </div>
-  </section>
-
-  <section class="band" aria-label="Przykładowy scenariusz">
-    <div class="wrap">
-      <div class="sec-top">
-        <div>
-          <p class="eyebrow">03 · Dzień</p>
-          <h2>Jak może wyglądać dzień</h2>
-        </div>
-        <p>Od porannej sali do parkietu po zmroku. Wybierz format i przesuń dzień</p>
-      </div>
-      <DayTimeline kategorie={kategorie} scenariusze={scenariusze} />
-    </div>
-  </section>
-
-  <section class="band band-sand">
-    <div class="wrap">
-      <div class="sec-top">
-        <div>
-          <p class="eyebrow">04 · Realizacje</p>
-          <h2>Zdjęcia z wody</h2>
-        </div>
-        <p>Wieczory, które już się odbyły: integracje, wesela, premiery i kolacje na wodzie</p>
-      </div>
-      <div class="bento">
-        {photos.map((photo, index) => (
-          <a class={`bento-${index + 1}`} href="/galeria/">
-            <img src={photo.src} alt={photo.cap} width="1800" height="1200" />
-            <span>{photo.cap}</span>
+      <p class="eyebrow">02</p>
+      <h2>Co możesz u nas zorganizować</h2>
+      <div class="r12-tiles">
+        {kategorie.map((item) => (
+          <a class:list={["r12-tile", colors[item.id]]} href={`/eventy/${item.id}/`}>
+            <img src={item.data.cover} alt="" width="1200" height="800" />
+            <span class="r12-plate">
+              <b>{item.data.nav_label}</b>
+              <small>{item.data.lead}</small>
+            </span>
           </a>
         ))}
       </div>
-      <p class="btn-row"><a class="btn btn-ghost" href="/galeria/">Cała galeria</a></p>
     </div>
   </section>
 
-  <section class="logos" aria-label="Zaufali nam">
+  <section class="band band-sand" id="przestrzenie">
     <div class="wrap">
-      <p>Zaufali nam</p>
-      <div class="mq">
-        <div class="mq-track">
-          {logos.map((logo) => <img src={logo.src.replace("/logo/", "/logo/w-")} alt={logo.alt || ""} />)}
+      <p class="eyebrow">03</p>
+      <h2>Nasze przestrzenie</h2>
+      <p class="lead">Wybierz układ. Liczby, których nie mamy, zostawiamy jako pytanie, nie jako zgadywanie</p>
+      <div class="r12-spaces" data-spaces>
+        <div class="r12-space-tabs" role="tablist">
+          {spaces.map((space, index) => (
+            <button type="button" data-space={space.id} aria-selected={index === 0 ? "true" : "false"}>{space.title}</button>
+          ))}
         </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="band band-ink">
-    <div class="wrap food">
-      <div class="flow">
-        <p class="eyebrow">Kuchnia</p>
-        <h2>{strona.jedzenie_h}</h2>
-        <p class="lead">{strona.jedzenie_lead}</p>
-        <a class="btn btn-primary" href="/jedzenie-i-bar/">Zobacz jedzenie i bar</a>
-      </div>
-      <div class="tiers">
-        {cennik.catering.map((row) => (
-          <article class="tier">
+        {spaces.map((space, index) => (
+          <article class="r12-panel" data-panel={space.id} hidden={index !== 0}>
+            <img src={space.photo} alt="" width="1600" height="1000" />
             <div>
-              <b>{row.nazwa}</b>
-              <span>{row.opis}</span>
+              <h3>{space.title}</h3>
+              <p>{space.meta}</p>
+              <p class="r12-price">{space.price} <small>5 h · netto · +10% serwisu</small></p>
+              <div class="r12-layouts" role="tablist" aria-label="Układ stołów">
+                {space.rows.map((row, rowIndex) => (
+                  <button type="button" data-layout={rowIndex} aria-selected={rowIndex === 0 ? "true" : "false"}>{row.name}</button>
+                ))}
+              </div>
+              {space.rows.map((row, rowIndex) => (
+                <div class="r12-cap" data-cap={rowIndex} hidden={rowIndex !== 0}>
+                  <p>Lato: <b>{row.lato}</b></p>
+                  <p>Zima i deszcz: <b>{row.zima}</b></p>
+                </div>
+              ))}
+              <p class="meta">{space.note}</p>
+              <a class="btn btn-primary" href={space.href}>Zobacz {space.title}</a>
             </div>
-            <em>{row.cena}<small>{row.jednostka}</small></em>
           </article>
         ))}
       </div>
     </div>
   </section>
 
-  <section class="band" aria-labelledby="faq-home">
-    <div class="wrap">
-      <div class="sec-top">
-        <div>
-          <p class="eyebrow">05 · Przed eventem</p>
-          <h2 id="faq-home">{strona.wiedza_h}</h2>
-        </div>
-        <p>Deszcz, godziny, dojazd i menu, zanim wyślecie brief</p>
-      </div>
+  <section class="band">
+    <div class="wrap r12-split">
+      <img src="/img/pdf/menu-1.jpg" alt="Danie z kuchni MIEJSCA" width="1400" height="1000" />
       <div>
-        {faq.map(({ entry, Content }) => (
-          <details class="acc">
-            <summary>{entry.data.pytanie}</summary>
-            <div class="acc-body"><Content /></div>
-          </details>
-        ))}
+        <p class="eyebrow">04</p>
+        <h2>{strona.jedzenie_h}</h2>
+        <p class="lead">{strona.jedzenie_lead}</p>
+        <ul class="r12-menu">
+          {cennik.catering.map((row) => (
+            <li><b>{row.nazwa}</b><span>{row.cena} {row.jednostka}</span></li>
+          ))}
+        </ul>
+        <a class="btn btn-ghost" href="/jedzenie-i-bar/">Jedzenie i bar</a>
       </div>
-      <p class="btn-row"><a class="text-link" href="/warto-wiedziec/">Wszystkie odpowiedzi</a></p>
     </div>
   </section>
 
-  <section class="close-band" aria-label="Kontakt">
-    <div class="wrap close-grid">
-      <img src="/img/gallery/dm22.jpg" alt="Barka MIEJSCA wieczorem" width="1800" height="1200" />
-      <div>
-        <p class="kicker">Kontakt</p>
-        <h2>{strona.kontakt_h}</h2>
-        <p class="lead">{kontakt.ulica}, {kontakt.dzielnica}</p>
-        <div class="btn-row">
-          <a class="btn btn-primary" href="/kontakt/">Zaplanuj event</a>
-          <a class="btn btn-ghost" href="/kontakt/?cel=ogledziny">Umów oględziny</a>
-        </div>
+  <section class="band band-sand">
+    <div class="wrap">
+      <p class="eyebrow">05</p>
+      <h2>{published ? "Inspiracje i realizacje" : "Inspiracje"}</h2>
+      <p class="lead">{published ? "Opublikowane wieczory" : "To scenariusze i zdjęcia miejsca, nie relacja z konkretnego zlecenia. Realizacje uzupełnicie w panelu"}</p>
+      <div class="r12-cards">
+        {inspiracje.map((item) => (
+          <a class="r12-card" href={published ? `/realizacje/${item.id}/` : `/scenariusze/${item.id}/`}>
+            <img src={item.data.cover} alt="" width="1200" height="800" />
+            <span class="eyebrow">{published ? item.data.typ : "Inspiracja"}</span>
+            <b>{item.data.title}</b>
+          </a>
+        ))}
       </div>
+    </div>
+  </section>
+
+  <section class="band" id="zaplanuj">
+    <div class="wrap r12-plan">
+      <div>
+        <p class="eyebrow">06</p>
+        <h2>Zaplanuj wydarzenie</h2>
+        <p class="lead">Ceny „od”, za 5 godzin, netto. Do kwoty doliczamy 10% serwisu. To nie jest wycena końcowa</p>
+        <ul class="r12-menu">
+          {cennik.wynajem.map((row) => (
+            <li>
+              <b>{row.dopisek}</b>
+              <span>{row.cena_od ? `od ${row.cena_od.toLocaleString("pl-PL")} zł` : "wycena indywidualna"}</span>
+            </li>
+          ))}
+        </ul>
+        <a class="btn btn-primary" href="/ceny/#budzet">Sprawdź orientacyjny budżet</a>
+      </div>
+      <form class="r12-quick" name="szybki" method="POST" action={endpoint || "/dziekujemy/"} data-netlify={netlify ? "true" : undefined}>
+        {netlify && <input type="hidden" name="form-name" value="szybki" />}
+        <p class="eyebrow">Szybkie pytanie</p>
+        <label>Imię <input name="imie" required autocomplete="given-name" /></label>
+        <label>E-mail <input name="email" type="email" required autocomplete="email" /></label>
+        <label>Telefon <input name="telefon" type="tel" autocomplete="tel" /></label>
+        <label>Termin <input name="data" type="text" placeholder="np. czerwiec 2026" /></label>
+        <label>Liczba osób <input name="osoby" type="number" inputmode="numeric" min="1" /></label>
+        <button class="btn btn-primary" type="submit">Wyślij zapytanie</button>
+        <a class="text-link" href="/kontakt/#brief">Chcę podać więcej szczegółów</a>
+      </form>
     </div>
   </section>
 </Base>
 
 <script>
-  const acc = document.querySelector(".format-acc");
-  const dots = document.querySelector("[data-panedots]");
-  const panes = [...document.querySelectorAll(".format-acc .pane")];
-  if (dots) dots.innerHTML = panes.map((_, i) => `<i class="${i === 0 ? "is-on" : ""}"></i>`).join("");
-  const phonePanes = () => window.matchMedia("(max-width: 760px)").matches;
-  const mark = () => {
-    if (!phonePanes() || !acc || !panes.length) return;
-    const box = acc.getBoundingClientRect();
-    let best = 0;
-    let bestDist = Infinity;
-    panes.forEach((pane, index) => {
-      const dist = Math.abs(pane.getBoundingClientRect().left - box.left);
-      if (dist < bestDist) {
-        bestDist = dist;
-        best = index;
-      }
+  document.querySelectorAll("[data-spaces]").forEach((root) => {
+    const show = (id) => {
+      root.querySelectorAll("[data-space]").forEach((button) => {
+        button.setAttribute("aria-selected", button.getAttribute("data-space") === id ? "true" : "false");
+      });
+      root.querySelectorAll("[data-panel]").forEach((panel) => {
+        panel.hidden = panel.getAttribute("data-panel") !== id;
+      });
+    };
+    root.querySelectorAll("[data-space]").forEach((button) => {
+      button.addEventListener("click", () => show(button.getAttribute("data-space")));
     });
-    panes.forEach((pane, index) => pane.classList.toggle("on", index === best));
-    dots?.querySelectorAll("i").forEach((dot, index) => dot.classList.toggle("is-on", index === best));
-  };
-  panes.forEach((pane) => {
-    pane.addEventListener("mouseenter", () => {
-      if (window.matchMedia("(max-width: 760px)").matches) return;
-      panes.forEach((item) => item.classList.remove("on"));
-      pane.classList.add("on");
+    root.querySelectorAll("[data-panel]").forEach((panel) => {
+      panel.querySelectorAll("[data-layout]").forEach((button) => {
+        button.addEventListener("click", () => {
+          const index = button.getAttribute("data-layout");
+          panel.querySelectorAll("[data-layout]").forEach((peer) => {
+            peer.setAttribute("aria-selected", peer === button ? "true" : "false");
+          });
+          panel.querySelectorAll("[data-cap]").forEach((block) => {
+            block.hidden = block.getAttribute("data-cap") !== index;
+          });
+        });
+      });
     });
   });
-  acc?.addEventListener("scroll", mark, { passive: true });
-  dots?.addEventListener("click", (event) => {
-    const dot = event.target.closest("i");
-    if (!dot || !acc) return;
-    const index = [...dots.children].indexOf(dot);
-    panes[index]?.scrollIntoView({ inline: "start", block: "nearest", behavior: "smooth" });
-  });
-  mark();
 </script>
