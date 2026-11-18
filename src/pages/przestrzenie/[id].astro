@@ -13,13 +13,12 @@ export async function getStaticPaths() {
 
 const specIcon = (text) => {
   const t = text.toLowerCase();
-  if (t.includes("taras")) return "terrace";
-  if (t.includes("bar")) return "glass";
   if (t.includes("osób") || t.includes("osob") || t.includes("gości")) return "users";
+  if (t.includes("taras")) return "terrace";
   if (t.includes("m²") || t.includes("m2")) return "ruler";
-  if (t.includes("kuch")) return "utensils";
   return "check";
 };
+const specRank = (name) => (name === "users" ? 0 : name === "ruler" || name === "terrace" ? 1 : 2);
 const specChips = (text) =>
   String(text || "")
     .split("·")
@@ -91,9 +90,11 @@ const crumbs = [
         </ul>
         <p class="eyebrow">W skrócie</p>
         <ul class="spec-chips">
-          {entry.data.w_skrocie.map((item) => (
-            <li><Icon name={specIcon(item)} /><span>{item}</span></li>
-          ))}
+          {[...entry.data.w_skrocie]
+            .sort((a, b) => specRank(specIcon(a)) - specRank(specIcon(b)))
+            .map((item) => (
+              <li><Icon name={specIcon(item)} /><span>{item}</span></li>
+            ))}
         </ul>
       </div>
     </div>
