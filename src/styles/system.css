@@ -364,7 +364,8 @@ h4 { font-size: var(--t-20); }
 .site-foot { background: var(--ink); color: var(--on-dark); padding-block: var(--section); border-top: 1px solid var(--line-dark); }
 .site-foot p, .site-foot li, .site-foot a { font-size: var(--t-15); line-height: var(--lh-snug); }
 .foot-grid { display: grid; grid-template-columns: repeat(var(--cols), minmax(0, 1fr)); gap: var(--space-4); height: auto; align-items: start; }
-.foot-grid > * { grid-column: span 4; }
+.foot-grid > * { grid-column: span 3; }
+.foot-grid > :first-child { grid-column: span 3; }
 .site-foot p, .site-foot a { color: var(--on-dark); }
 .site-foot .foot-label { color: var(--on-dark-strong); margin-bottom: var(--space-2); }
 .site-foot ul { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--space-1); }
@@ -1204,7 +1205,7 @@ body.lb-open { overflow: hidden; }
   .sec-head:has(.eyebrow) .lead,
   .sec-head:has(.eyebrow) .sec-note,
   .sec-head:has(.kicker) .lead,
-  .sec-head:has(.kicker) .sec-note { margin-top: 0; }
+  .sec-head:has(.kicker) .sec-note { margin-top: 22px; }
   .sec-head > div, .sec-head .lead, .sec-head .sec-note,
   .cine-bottom > :first-child, .cine-bottom > :last-child,
   .split > *, .kitchen-photos, .kitchen-points,

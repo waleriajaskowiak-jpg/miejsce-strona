@@ -2,6 +2,7 @@
 import "../styles/tokens.css";
 import "../styles/system.css";
 import "../styles/harbour.css";
+import "../styles/mobile.css";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 import { IS_PROD } from "../lib/env.js";
@@ -64,10 +65,12 @@ const jsonBlocks = jsonLd.map((obj) => JSON.stringify(obj).replace(/</g, "\\u003
   <body class:list={[overlay && "has-overlay"]}>
     <a class="skip" href="#main">Przejdź do treści</a>
     <Header />
-    <main id="main" tabindex="-1">
-      <slot />
-    </main>
-    <Footer />
+    <div class="page-scroll">
+      <main id="main" tabindex="-1">
+        <slot />
+      </main>
+      <Footer />
+    </div>
     <a class="mob-cta btn btn-primary" href="/kontakt/" hidden>Zaplanuj event</a>
     <script>
       const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -103,24 +106,58 @@ const jsonBlocks = jsonLd.map((obj) => JSON.stringify(obj).replace(/</g, "\\u003
 
       const head = document.querySelector(".site-head");
       const bar = document.querySelector(".mob-cta");
+      const scroller = document.querySelector(".page-scroll");
       const onKontakt = location.pathname.startsWith("/kontakt");
+      const scrollY = () => scroller?.scrollTop || window.scrollY;
       const onScroll = () => {
-        head?.classList.toggle("is-stuck", window.scrollY > 40);
+        head?.classList.toggle("is-stuck", scrollY() > 40);
         if (!bar) return;
         const drawer = document.body.classList.contains("nav-open");
         const ctaInView = [...document.querySelectorAll('a[href^="/kontakt/"]')].some((link) => {
           if (link === bar) return false;
           const box = link.getBoundingClientRect();
-          return box.bottom > 0 && box.top < window.innerHeight;
+          return box.bottom > 80 && box.top < window.innerHeight - 80;
         });
-        const show = !onKontakt && !drawer && !ctaInView && window.scrollY > 650;
+        const foot = document.querySelector(".site-foot");
+        const footNear = foot ? foot.getBoundingClientRect().top < window.innerHeight - 24 : false;
+        const formNear = [...document.querySelectorAll("form, .form-panel")].some((el) => {
+          const box = el.getBoundingClientRect();
+          return box.top < window.innerHeight - 80 && box.bottom > 120;
+        });
+        const phone = window.matchMedia("(max-width: 800px)").matches;
+        const show = phone && !onKontakt && !drawer && !ctaInView && !footNear && !formNear && scrollY() > 280;
         bar.hidden = !show;
+        bar.classList.remove("is-quiet");
+        document.body.classList.toggle("has-bar", show);
         bar.setAttribute("aria-hidden", show ? "false" : "true");
         bar.tabIndex = show ? 0 : -1;
       };
       onScroll();
       window.addEventListener("scroll", onScroll, { passive: true });
+      scroller?.addEventListener("scroll", onScroll, { passive: true });
       document.addEventListener("miejsce:nav", onScroll);
+
+      document.querySelectorAll("[data-snap]").forEach((scroller) => {
+        const dots = scroller.parentElement?.querySelector("[data-snapdots]");
+        if (!dots) return;
+        const items = [...scroller.children];
+        dots.innerHTML = items.map((_, index) => `<i class="${index === 0 ? "is-on" : ""}"></i>`).join("");
+        const markSnap = () => {
+          const edge = scroller.getBoundingClientRect().left;
+          let best = 0;
+          let bestDist = Infinity;
+          items.forEach((item, index) => {
+            const dist = Math.abs(item.getBoundingClientRect().left - edge);
+            if (dist < bestDist) {
+              bestDist = dist;
+              best = index;
+            }
+          });
+          dots.querySelectorAll("i").forEach((dot, index) => dot.classList.toggle("is-on", index === best));
+        };
+        scroller.addEventListener("scroll", markSnap, { passive: true });
+        markSnap();
+      });
     </script>
     <script>
       import "../scripts/motion.js";

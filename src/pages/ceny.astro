@@ -67,13 +67,16 @@ const payload = JSON.stringify({
       <div class="estimator" id="estymator" data-estimator>
         <script type="application/json" id="estimator-data" set:html={payload} />
         <div class="controls">
-          <h3>Estymator</h3>
-          <label class="slider-block">
+          <div class="est-head">
+            <h3>Estymator</h3>
+            <p class="est-count" data-est-count hidden>Krok 1 z 3</p>
+          </div>
+          <label class="slider-block" data-est-panel>
             <span class="slider-k">Liczba gości</span>
             <span class="slider-val" data-est-guests>80<small>osób</small></span>
             <input type="range" min="10" max="350" step="5" value="80" data-guests />
           </label>
-          <div>
+          <div data-est-panel>
             <p class="eyebrow">Catering</p>
             <div class="chips">
               {cennik.catering.map((row, index) => (
@@ -81,13 +84,17 @@ const payload = JSON.stringify({
               ))}
             </div>
           </div>
-          <div>
+          <div data-est-panel>
             <p class="eyebrow">Bar</p>
             <div class="chips">
               {cennik.open_bar.map((row, index) => (
                 <button type="button" class="choice" data-bar={row.id} aria-pressed={index === 0 ? "true" : "false"}>{row.nazwa}</button>
               ))}
             </div>
+          </div>
+          <div class="est-nav" data-est-nav hidden>
+            <button type="button" class="btn btn-ghost btn-sm" data-est-prev>Wstecz</button>
+            <button type="button" class="btn btn-primary btn-sm" data-est-next>Dalej</button>
           </div>
         </div>
         <div class="total">
@@ -129,7 +136,8 @@ const payload = JSON.stringify({
         ))}
       </div>
       <SectionHeader eyebrow="Dodatki" title={cennik.dodatki_h} lead={cennik.dodatki_lead} />
-      <div class="addon-row">
+      <div class="addon-block">
+      <div class="addon-row" data-snap>
         {cennik.dodatki.map((row) => (
           <article class="addon">
             <svg viewBox="0 0 24 24" aria-hidden="true" set:html={addonIcons[row.nazwa]} />
@@ -138,8 +146,10 @@ const payload = JSON.stringify({
           </article>
         ))}
       </div>
+      <div class="snap-dots" data-snapdots aria-hidden="true"></div>
       <div class="addon-foot">
         <a class="btn btn-ghost" href={cennik.pdf}>{cennik.pdf_etykieta}</a>
+      </div>
       </div>
     </div>
   </section>
@@ -259,4 +269,33 @@ const payload = JSON.stringify({
   const osoby = Number(String(params.get("osoby") || "").replace(/[^\d]/g, ""));
   if (guests && Number.isFinite(osoby) && osoby > 0) guests.value = String(Math.min(350, Math.max(10, osoby)));
   paint();
+
+  const estMq = window.matchMedia("(max-width: 760px)");
+  const panels = [...(root?.querySelectorAll("[data-est-panel]") || [])];
+  const nav = root?.querySelector("[data-est-nav]");
+  const count = root?.querySelector("[data-est-count]");
+  let estStep = 0;
+  const syncSteps = () => {
+    const on = estMq.matches;
+    if (nav) nav.hidden = !on;
+    if (count) count.hidden = !on;
+    panels.forEach((panel, index) => {
+      panel.hidden = on ? index !== estStep : false;
+    });
+    if (count) count.textContent = `Krok ${estStep + 1} z ${panels.length}`;
+    const prev = nav?.querySelector("[data-est-prev]");
+    const next = nav?.querySelector("[data-est-next]");
+    if (prev) prev.hidden = estStep === 0;
+    if (next) next.hidden = estStep >= panels.length - 1;
+  };
+  nav?.querySelector("[data-est-prev]")?.addEventListener("click", () => {
+    estStep = Math.max(0, estStep - 1);
+    syncSteps();
+  });
+  nav?.querySelector("[data-est-next]")?.addEventListener("click", () => {
+    estStep = Math.min(panels.length - 1, estStep + 1);
+    syncSteps();
+  });
+  syncSteps();
+  estMq.addEventListener("change", syncSteps);
 </script>

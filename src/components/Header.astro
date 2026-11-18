@@ -77,16 +77,18 @@ const links = [
     <div class="drawer-tiles">
       {
         kategorie.map((item) => (
-          <a class="mcard" href={`/eventy/${item.id}/`}>
+          <a class="mcard" href={`/eventy/${item.id}/`} aria-current={path === `/eventy/${item.id}/` ? "page" : undefined}>
             <span class="ph"><img src={item.data.cover} alt="" /></span>
             <b>{item.data.nav_label}</b>
           </a>
         ))
       }
     </div>
-    {links.map((item) => <a class="drawer-link" href={item.href}>{item.label}</a>)}
-    <a class="drawer-link" href="/scenariusze/">Scenariusze</a>
-    <a class="drawer-link" href="/warto-wiedziec/">Warto wiedzieć</a>
+    {links.map((item) => (
+      <a class="drawer-link" href={item.href} aria-current={current(item.href) ? "page" : undefined}>{item.label}</a>
+    ))}
+    <a class="drawer-link" href="/scenariusze/" aria-current={current("/scenariusze/") ? "page" : undefined}>Scenariusze</a>
+    <a class="drawer-link" href="/warto-wiedziec/" aria-current={current("/warto-wiedziec/") ? "page" : undefined}>Warto wiedzieć</a>
     <div class="drawer-cta">
       <a class="btn btn-primary" href="/kontakt/">Zaplanuj event</a>
       {kontakt && <a class="btn btn-ghost" href={`tel:${kontakt.telefon_href}`}>Zadzwoń</a>}
