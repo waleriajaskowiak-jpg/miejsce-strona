@@ -19,7 +19,8 @@ Prototyp HTML klienta nie był w tym środowisku, więc żadnej liczby nie wzię
 | Miejscowy Ogród, zima i deszcz | brak | ogród nie działa poza sezonem |
 | Miejscowy Ogród, metraż | ok. 300 m² | `fakty.json` |
 | Miejscowy Ogród, wynajem | indywidualnie | `fakty.json` |
-| Całe Miejsce, lato i deszcz | 350 | `fakty.json` → `cale.maks_osob`, także w deszczu |
+| Całe Miejsce, lato, z ogrodem | 350 | `fakty.json` → `cale.maks_osob` i `maks_kiedy` |
+| Całe Miejsce, zima i deszcz | brak | `uklady.cale.zima` jest puste, na stronie „zapytaj” |
 | Całe Miejsce, wynajem | indywidualnie | `cennik.json` |
 | Menu | 180 / 220 / 250 zł netto za osobę | `cennik.json` |
 | Open bar, 5 h | 150 / 190 / 230 zł netto za osobę | `cennik.json` |

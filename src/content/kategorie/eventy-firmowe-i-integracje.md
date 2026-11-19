@@ -34,7 +34,7 @@ formaty:
     zdjecie: "/img/gallery/dm22.jpg"
     rodzaj: "firmowy"
     fakty:
-      - { ikona: users, tekst: "Do 350 gości w całym kompleksie" }
+      - { ikona: users, tekst: "Do 350 gości, cały kompleks latem, z ogrodem" }
       - { ikona: terrace, tekst: "Duże Miejsce, taras pod dachem" }
       - { ikona: clock, tekst: "Wynajem od 5 godzin" }
       - { ikona: glass, tekst: "Open bar od 150 zł netto za osobę" }
@@ -43,7 +43,7 @@ formaty:
     zdjecie: "/img/gallery/og25.jpg"
     rodzaj: "garden-party"
     fakty:
-      - { ikona: users, tekst: "Do 300 gości w tej formule, cały kompleks do 350" }
+      - { ikona: users, tekst: "Do 300 gości w tej formule. Cały kompleks latem, z ogrodem: 350" }
       - { ikona: sun, tekst: "Ogród wchodzi przy dobrej pogodzie" }
       - { ikona: terrace, tekst: "Miejscowy Ogród i cały kompleks" }
       - { ikona: utensils, tekst: "Grill, finger food albo bufet" }
@@ -56,7 +56,7 @@ formaty:
       - { ikona: terrace, tekst: "Taras zadaszony i ogród" }
       - { ikona: clock, tekst: "Wynajem od 5 godzin" }
       - { ikona: check, tekst: "Program układamy pod zespół" }
-dla_ilu: "Od kilkudziesięciu osób po garden party dla 300. Cały kompleks przyjmuje do 350 gości"
+dla_ilu: "Od kilkudziesięciu osób po garden party dla 300. Cały kompleks latem, z ogrodem, przyjmuje do 350 gości"
 przestrzenie:
   - "duze-miejsce"
   - "ogrod"
@@ -70,7 +70,7 @@ plan_b: "Część oficjalna i parkiet zostają pod dachem. Ogród dokładamy, ki
 fakty:
   - wartosc: "350"
     liczba: 350
-    opis: "gości w całym kompleksie"
+    opis: "gości, cały kompleks latem, z ogrodem"
   - wartosc: "5000"
     liczba: 5000
     opis: "zł netto, wynajem Dużego Miejsca od, za 5 h"

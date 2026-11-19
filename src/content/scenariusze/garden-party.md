@@ -10,7 +10,7 @@ h1: "Duży event i garden party"
 kolejnosc: 6
 tag: "Firma · 300 osób"
 lead: "Urodziny firmy, jubileusz albo podsumowanie roku z całym zespołem"
-opis_seo: "Duży event i garden party: cały kompleks, ogród, bufety i parkiet. Do 350 osób"
+opis_seo: "Duży event i garden party: cały kompleks latem, z ogrodem, bufety i parkiet. Do 350 gości"
 przestrzen: "Całe Miejsce"
 program:
   - godzina: "16:00"

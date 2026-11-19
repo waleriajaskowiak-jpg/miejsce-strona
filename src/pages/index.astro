@@ -23,10 +23,10 @@ const slides = [
 const heroWidths = [640, 1024, 1600];
 const heroSrcset = (ext) => heroWidths.map((width) => `/img/hero/barki-${width}.${ext} ${width}w`).join(", ");
 const heroReady = slides[0].src === "/img/hero/barki.jpg";
-const tryb = strona.hero_tryb || "foto";
-const ask = fakty.niepogoda_brak || "zapytaj o wariant na niepogodę";
+const tryb = strona.hero_tryb === "foto" ? "zdjecie" : (strona.hero_tryb || "zdjecie");
 const summer = (value) => (typeof value === "number" ? String(value) : "zapytaj");
-const winter = (value) => (typeof value === "number" ? String(value) : ask);
+const winter = summer;
+const kiedy = fakty.przestrzenie.cale.maks_kiedy || "cały kompleks latem, z ogrodem";
 const inspirationIcon = {
   konferencja: "grid",
   szkolenie: "users",
@@ -44,7 +44,7 @@ const spaces = [
     photo: "/img/gallery/dm22.jpg",
     meta: `${fakty.przestrzenie.duze.wnetrze_m2}\u00A0m² + ${fakty.przestrzenie.duze.taras_m2}\u00A0m² tarasu`,
     price: `od ${zloty(5000)}`,
-    note: "Zimą bankiet mieści około 120 osób. 350 gości to pojemność całego kompleksu, nie tej barki",
+    note: `Zimą bankiet mieści około 120 osób. 350 gości to ${kiedy}, nie ta barka`,
     rows: (fakty.uklady?.duze || []).map((row) => ({
       name: row.nazwa,
       lato: summer(row.lato),
@@ -78,7 +78,7 @@ const spaces = [
     photo: "/img/gallery/cm01.jpg",
     meta: "Dwie barki, tarasy i Miejscowy Ogród",
     price: "wycena indywidualna",
-    note: "Do 350 gości, także w deszczu. To nie znaczy, że każda sala mieści 350",
+    note: `350 gości to ${kiedy}. Zimą i w deszczu: zapytaj. To nie znaczy, że każda sala mieści 350`,
     rows: (fakty.uklady?.cale || []).map((row) => ({ name: row.nazwa, lato: summer(row.lato), zima: winter(row.zima) })),
   },
 ];
@@ -137,7 +137,7 @@ const netlify = !endpoint && kontakt.formularz_netlify !== false;
       <li><Icon name="waves" /><span><b>Nad wodą</b><small>Port Czerniakowski, ok. 10 min do Pałacu Kultury</small></span></li>
       <li><Icon name="grid" /><span><b>Cztery układy</b><small>Duże, Małe, Miejscowy Ogród i Całe Miejsce</small></span></li>
       <li><Icon name="utensils" /><span><b>Własna kuchnia</b><small>Menu od 180 zł netto za osobę</small></span></li>
-      <li><Icon name="users" /><span><b>Do 350 gości</b><small>Tylko w Całym Miejscu, także gdy pada</small></span></li>
+      <li><Icon name="users" /><span><b>350 gości</b><small>Cały kompleks latem, z ogrodem</small></span></li>
     </ul>
   </section>
 

@@ -5,4 +5,4 @@ kolejnosc: 1
 adres_url: co-jesli-pada
 
 ---
-Całe Miejsce przyjmuje do 350 gości także wtedy, gdy pada. Zadaszone tarasy i obie barki pracują niezależnie od pogody. Ogród jest otwarty od maja do września i nie jest warunkiem większego eventu
+Zadaszone tarasy i obie barki pracują niezależnie od pogody. Ogród jest otwarty od maja do września. 350 gości to cały kompleks latem, z ogrodem. Liczbę na deszcz i na zimę dla całego kompleksu potwierdzamy pod termin: zapytaj

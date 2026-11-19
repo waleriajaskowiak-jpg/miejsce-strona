@@ -24,7 +24,7 @@ for (const item of faqAll) {
   const rendered = await render(item);
   faq.push({ item, Content: rendered.Content });
 }
-const sekcje = entry.id === "premiery-i-wydarzenia-specjalne" ? (await getEntry("ustawienia", "sekcje"))?.data : null;
+const sekcje = entry.id === "premiery-i-eventy-marek" ? (await getEntry("ustawienia", "sekcje"))?.data : null;
 const crumbs = [
   { href: "/eventy/", label: "Wydarzenia" },
   { label: entry.data.nav_label },
@@ -48,7 +48,7 @@ const spaceSlides = orderedSpaces.map((space, index) => {
   if (fact.powierzchnia_m2) facts.push({ ikona: "ruler", tekst: `${nb(fact.powierzchnia_m2, "m²")}${fact.sezon ? ` · ${fact.sezon}` : ""}` });
   if (fact.zima_osob) facts.push({ ikona: "users", tekst: `Zimą ${fact.zima_osob}` });
   if (fact.gosci) facts.push({ ikona: "users", tekst: fact.gosci_tekst || nb(fact.gosci, "gości") });
-  if (fact.maks_osob) facts.push({ ikona: "users", tekst: `Do ${nb(fact.maks_osob, "gości")}, także w deszczu` });
+  if (fact.maks_osob) facts.push({ ikona: "users", tekst: `Do ${nb(fact.maks_osob, "gości")}, ${fact.maks_kiedy || "cały kompleks latem, z ogrodem"}` });
   if (fact.czas) facts.push({ ikona: "clock", tekst: `Wynajem ${fact.czas.replace(/^(\d+)\s+/, "$1\u00A0")}` });
   const price = typeof fact.cena_od === "number"
     ? `od ${zloty(fact.cena_od)}`

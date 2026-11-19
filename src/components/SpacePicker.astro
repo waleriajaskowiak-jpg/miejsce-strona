@@ -35,10 +35,10 @@ const rows = [
     id: "all",
     slug: "cale-miejsce",
     cap: f.cale.maks_osob,
-    capt: `do ${f.cale.maks_osob}\u00A0osób`,
-    meta: "2 barki + ogród, także w deszczu",
+    capt: `${f.cale.maks_osob}\u00A0gości`,
+    meta: f.cale.maks_kiedy || "cały kompleks latem, z ogrodem",
     kick: "Cały kompleks",
-    kpis: [[String(f.cale.maks_osob), "gości"], [String(fakty.bary.stale), "bary"], ["2", "barki"]],
+    kpis: [[String(f.cale.maks_osob), "gości latem"], [String(fakty.bary.stale), "bary"], ["2", "barki"]],
   },
 ].map((row) => {
   const space = byId[row.slug];

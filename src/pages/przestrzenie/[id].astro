@@ -1,7 +1,8 @@
 ---
-import { getCollection, render } from "astro:content";
+import { getCollection, getEntry, render } from "astro:content";
 import Base from "../../layouts/Base.astro";
 import Icon from "../../components/Icon.astro";
+import CapacityTabs from "../../components/CapacityTabs.astro";
 import PageHero from "../../components/PageHero.astro";
 import NextBand from "../../components/NextBand.astro";
 import { crumbsJsonLd, sortByOrder, zloty } from "../../lib/nav.js";
@@ -26,6 +27,15 @@ const specChips = (text) =>
     .filter(Boolean)
     .map((label) => ({ label, name: specIcon(label) }));
 const { entry } = Astro.props;
+const fakty = (await getEntry("ustawienia", "fakty"))!.data;
+const ukladKey = { "duze-miejsce": "duze", "nowe-miejsce": "male", ogrod: "ogrod", "cale-miejsce": "cale" }[entry.id];
+const kiedy = fakty.przestrzenie?.cale?.maks_kiedy || "cały kompleks latem, z ogrodem";
+const configNote = {
+  "duze-miejsce": `Zimą bankiet mieści około 120 osób. 350 gości to ${kiedy}, nie ta barka`,
+  "nowe-miejsce": "Liczba 70 dotyczy znanego układu bankietowego",
+  ogrod: "Sezon maj–wrzesień. Na deszcz i zimę: zapytaj",
+  "cale-miejsce": `350 gości to ${kiedy}. Zimą i w deszczu: zapytaj`,
+}[entry.id] || "";
 const { Content } = await render(entry);
 const wszystkie = sortByOrder(await getCollection("przestrzenie"));
 const inne = wszystkie.filter((item) => item.id !== entry.id);
@@ -76,6 +86,7 @@ const crumbs = [
             </p>
           ) : null
         }
+        <CapacityTabs rows={fakty.uklady?.[ukladKey] || []} note={configNote} />
         <div class="btn-row">
           <a class="btn" href={`/kontakt/?przestrzen=${encodeURIComponent(entry.data.title)}`}>
             Zapytaj o {entry.data.title}

@@ -1,0 +1,40 @@
+---
+import Icon from "./Icon.astro";
+
+const { rows = [], note = "" } = Astro.props;
+const label = (value) => (typeof value === "number" ? String(value) : "zapytaj");
+---
+
+{rows.length > 0 && (
+  <div class="space-configs" data-configs>
+    <p class="eyebrow">Układy</p>
+    <div class="r12-layouts" role="tablist" aria-label="Układ stołów">
+      {rows.map((row, index) => (
+        <button type="button" data-config={index} aria-selected={index === 0 ? "true" : "false"}>{row.nazwa}</button>
+      ))}
+    </div>
+    {rows.map((row, index) => (
+      <div class="r12-cap" data-config-cap={index} hidden={index !== 0}>
+        <p class="cap-stat"><Icon name="sun" /><span><small>Lato</small><b>{label(row.lato)}</b></span></p>
+        <p class="cap-stat"><Icon name="rain" /><span><small>Zima i deszcz</small><b>{label(row.zima)}</b></span></p>
+      </div>
+    ))}
+    {note && <p class="cap-note">{note}</p>}
+  </div>
+)}
+
+<script>
+  document.querySelectorAll("[data-configs]").forEach((root) => {
+    root.querySelectorAll("[data-config]").forEach((button) => {
+      button.addEventListener("click", () => {
+        const index = button.getAttribute("data-config");
+        root.querySelectorAll("[data-config]").forEach((peer) => {
+          peer.setAttribute("aria-selected", peer === button ? "true" : "false");
+        });
+        root.querySelectorAll("[data-config-cap]").forEach((block) => {
+          block.hidden = block.getAttribute("data-config-cap") !== index;
+        });
+      });
+    });
+  });
+</script>

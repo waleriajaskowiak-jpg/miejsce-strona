@@ -52,7 +52,6 @@ export function venueJsonLd(kontakt, opis, fakty) {
     },
     areaServed: "Warszawa",
     parentOrganization: { "@id": "https://miejsce.to/#org" },
-    maximumAttendeeCapacity: fakty?.przestrzenie?.cale?.maks_osob || 350,
   };
   const org = {
     "@type": "Organization",

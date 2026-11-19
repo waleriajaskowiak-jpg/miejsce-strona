@@ -72,7 +72,7 @@ collections:
           - { label: "Nagłówek „zaufali nam”", name: zaufali_h, widget: string }
           - { label: Nagłówek kontaktu, name: kontakt_h, widget: string }
           - { label: Lead kontaktu, name: kontakt_lead, widget: text }
-          - { label: "Hero — tryb", name: hero_tryb, widget: select, options: ["foto", "slider", "wideo"] }
+          - { label: "Hero — tryb", name: hero_tryb, widget: select, options: ["zdjecie", "slider", "wideo"], hint: "zdjecie, slider albo wideo. Starsza wartość foto też pokazuje zdjęcie." }
           - { label: "Hero — plik wideo", name: hero_wideo, widget: string, required: false }
 
       - name: kontakt
@@ -95,6 +95,158 @@ collections:
           - { label: Opis SEO, name: opis_seo, widget: text }
           - { label: "Adres formularza", name: formularz_endpoint, widget: string, required: false }
           - { label: "Fallback Netlify Forms", name: formularz_netlify, widget: boolean, default: true }
+
+      - name: fakty
+        label: Liczby i pojemności
+        file: src/content/ustawienia/fakty.json
+        format: json
+        fields:
+          - label: Adres
+            name: adres
+            widget: object
+            fields:
+              - { label: Ulica, name: ulica, widget: string }
+              - { label: Kod, name: kod, widget: string }
+              - { label: Miasto, name: miasto, widget: string }
+              - { label: Dzielnica, name: dzielnica, widget: string }
+          - label: Kontakt w faktach
+            name: kontakt
+            widget: object
+            fields:
+              - { label: Telefon wyświetlany, name: telefon_wyswietlany, widget: string }
+              - { label: Telefon do linku, name: telefon_href, widget: string }
+              - { label: E-mail, name: email, widget: string }
+          - label: Działamy od
+            name: dzialamy_od
+            widget: object
+            fields:
+              - { label: Tekst, name: tekst, widget: string }
+              - { label: Rok, name: rok, widget: number, value_type: int }
+          - label: Lokalizacja
+            name: lokalizacja
+            widget: object
+            fields:
+              - { label: Tekst, name: tekst, widget: string }
+              - { label: Przystanek, name: przystanek, widget: string }
+              - { label: Parking, name: parking, widget: text }
+              - { label: Dojście, name: dojscie, widget: text }
+          - { label: Dostępność, name: dostepnosc, widget: text }
+          - label: Przestrzenie
+            name: przestrzenie
+            widget: object
+            fields:
+              - label: Duże Miejsce
+                name: duze
+                widget: object
+                fields:
+                  - { label: Nazwa, name: nazwa, widget: string }
+                  - { label: "Wnętrze, m²", name: wnetrze_m2, widget: number, value_type: int }
+                  - { label: "Taras, m²", name: taras_m2, widget: number, value_type: int }
+                  - { label: Zima, tekst, name: zima_osob, widget: string }
+                  - { label: Zima, liczba, name: zima_liczba, widget: number, value_type: int }
+                  - { label: Lato do potwierdzenia, name: lato_do_potwierdzenia, widget: text }
+                  - { label: Cena od, name: cena_od, widget: number, value_type: int }
+                  - { label: Czas, name: czas, widget: string }
+                  - { label: Kontenery, name: kontenery, widget: boolean }
+                  - { label: Notatka, name: do_potwierdzenia, widget: text }
+              - label: Małe Miejsce
+                name: male
+                widget: object
+                fields:
+                  - { label: Nazwa, name: nazwa, widget: string }
+                  - { label: Id, name: id, widget: string }
+                  - { label: Goście, name: gosci, widget: number, value_type: int }
+                  - { label: "Wnętrze, m²", name: wnetrze_m2, widget: number, value_type: int }
+                  - { label: "Taras, m²", name: taras_m2, widget: number, value_type: int }
+                  - { label: Cena od, name: cena_od, widget: number, value_type: int }
+                  - { label: Czas, name: czas, widget: string }
+              - label: Ogród
+                name: ogrod
+                widget: object
+                fields:
+                  - { label: Nazwa, name: nazwa, widget: string }
+                  - { label: "Powierzchnia, m²", name: powierzchnia_m2, widget: number, value_type: int }
+                  - { label: Sezon, name: sezon, widget: string }
+                  - { label: Cena, name: cena, widget: string }
+                  - { label: Goście, name: gosci, widget: number, value_type: int }
+                  - { label: Goście, tekst, name: gosci_tekst, widget: string }
+                  - { label: Notatka, name: do_potwierdzenia, widget: text }
+              - label: Całe Miejsce
+                name: cale
+                widget: object
+                fields:
+                  - { label: Nazwa, name: nazwa, widget: string }
+                  - { label: "Goście latem", name: maks_osob, widget: number, value_type: int, hint: "350 tylko jako cały kompleks latem, z ogrodem" }
+                  - { label: Kiedy dotyczy liczba, name: maks_kiedy, widget: string }
+                  - { label: Cena, name: cena, widget: string }
+                  - { label: Czas, name: czas, widget: string }
+          - label: Układy stołów
+            name: uklady
+            widget: object
+            fields:
+              - label: Duże Miejsce
+                name: duze
+                widget: list
+                fields:
+                  - { label: Id, name: id, widget: string }
+                  - { label: Nazwa, name: nazwa, widget: string }
+                  - { label: Zima, name: zima, widget: number, value_type: int, required: false, hint: "Puste pole oznacza zapytaj" }
+                  - { label: Lato, name: lato, widget: number, value_type: int, required: false }
+              - label: Małe Miejsce
+                name: male
+                widget: list
+                fields:
+                  - { label: Id, name: id, widget: string }
+                  - { label: Nazwa, name: nazwa, widget: string }
+                  - { label: Zima, name: zima, widget: number, value_type: int, required: false }
+                  - { label: Lato, name: lato, widget: number, value_type: int, required: false }
+              - label: Ogród
+                name: ogrod
+                widget: list
+                fields:
+                  - { label: Id, name: id, widget: string }
+                  - { label: Nazwa, name: nazwa, widget: string }
+                  - { label: Zima, name: zima, widget: number, value_type: int, required: false }
+                  - { label: Lato, name: lato, widget: number, value_type: int, required: false }
+              - label: Całe Miejsce
+                name: cale
+                widget: list
+                fields:
+                  - { label: Id, name: id, widget: string }
+                  - { label: Nazwa, name: nazwa, widget: string }
+                  - { label: Zima, name: zima, widget: number, value_type: int, required: false, hint: "Zostaw puste, dopóki nie ma potwierdzonej liczby na deszcz i zimę" }
+                  - { label: Lato, name: lato, widget: number, value_type: int, required: false }
+          - { label: "Tekst, gdy brak liczby", name: niepogoda_brak, widget: string }
+          - label: Ceny skrót
+            name: ceny
+            widget: object
+            fields:
+              - label: Menu
+                name: menu
+                widget: list
+                field: { label: Kwota, name: kwota, widget: number, value_type: int }
+              - label: Open bar
+                name: open_bar
+                widget: list
+                field: { label: Kwota, name: kwota, widget: number, value_type: int }
+              - { label: Czas open baru, name: open_bar_czas, widget: string }
+              - { label: Serwis, procent, name: oplata_serwisowa_proc, widget: number, value_type: int }
+              - { label: Netto, name: netto, widget: boolean }
+              - { label: Źródło, name: zrodlo, widget: string }
+          - { label: Godziny, name: godziny, widget: string }
+          - { label: Wesela, goście, name: wesela_goscie, widget: string }
+          - { label: Logotypy do publikacji, name: logotypy_do_publikacji, widget: boolean }
+          - label: Bary
+            name: bary
+            widget: object
+            fields:
+              - { label: Stałe, name: stale, widget: number, value_type: int }
+              - { label: Mobilny, name: mobilny, widget: boolean }
+              - { label: Tekst, name: tekst, widget: string }
+          - label: Profile
+            name: same_as
+            widget: list
+            field: { label: Adres, name: adres, widget: string }
 
       - name: cennik
         label: Ceny i budżet

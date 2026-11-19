@@ -55,7 +55,7 @@
     "cale": {
       "nazwa": "Całe Miejsce",
       "maks_osob": 350,
-      "takze_w_deszczu": true,
+      "maks_kiedy": "cały kompleks latem, z ogrodem",
       "cena": "wycena indywidualna",
       "czas": "5 h"
     }
@@ -74,7 +74,7 @@
       { "id": "przyjecie", "nazwa": "Przyjęcie w sezonie", "zima": null, "lato": 100 }
     ],
     "cale": [
-      { "id": "kompleks", "nazwa": "Cały kompleks", "zima": 350, "lato": 350 }
+      { "id": "kompleks", "nazwa": "Cały kompleks", "zima": null, "lato": 350 }
     ]
   },
   "niepogoda_brak": "zapytaj o wariant na niepogodę",

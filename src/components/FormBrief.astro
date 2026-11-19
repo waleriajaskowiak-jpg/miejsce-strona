@@ -89,8 +89,9 @@ const useNetlify = !endpoint && netlify;
     }
     const map = ["rodzaj", "typ", "data", "osoby", "budzet", "wynik", "przestrzen", "wiadomosc", "jednostka", "imie", "email"];
     const aliases = { typ: "rodzaj", kind: "rodzaj", guests: "osoby", budget: "budzet", unit: "jednostka", date: "data" };
-    for (const [key, value] of params.entries()) {
+    for (const [key, raw] of params.entries()) {
       const name = aliases[key] || key;
+      const value = name === "rodzaj" && raw === "premiery-i-wydarzenia-specjalne" ? "premiery-i-eventy-marek" : raw;
       if (!map.includes(name) && !map.includes(key)) continue;
       const field = form.elements.namedItem(name);
       if (!value || !field || !("value" in field)) continue;

@@ -1,12 +1,12 @@
 ---
-title: "Premiery i wydarzenia specjalne"
-nav_label: "Premiery i wydarzenia specjalne"
+title: "Premiery i eventy marek"
+nav_label: "Premiery i eventy marek"
 kolor: "#375C6B"
 kolor_tekst: "#F4EDE3"
 kolejnosc: 4
 szkic: false
-seo_title: "Premiery i wydarzenia specjalne | MIEJSCE"
-seo_description: "Premiery, spotkania dla klientów i plany zdjęciowe na barkach w Porcie Czerniakowskim"
+seo_title: "Premiery i eventy marek | MIEJSCE"
+seo_description: "Premiery, eventy marek i plany zdjęciowe na barkach w Porcie Czerniakowskim"
 lead: "Zachód słońca nad Wisłą, koktajle i kolacja w dobrym towarzystwie. Ten sam adres wynajmujemy też pod zdjęcia i produkcje"
 cta: "Opowiedz nam o pomyśle"
 tagi:
@@ -25,7 +25,7 @@ formaty:
     zdjecie: "/img/gallery/kn08.jpg"
     rodzaj: "premiera"
     fakty:
-      - { ikona: users, tekst: "40 osób w scenariuszu, większe do 350" }
+      - { ikona: users, tekst: "40 osób w scenariuszu, większe do 350 latem, z ogrodem" }
       - { ikona: terrace, tekst: "Duże Miejsce albo cały kompleks" }
       - { ikona: clock, tekst: "Wieczór, wynajem od 5 godzin" }
       - { ikona: glass, tekst: "Koktajl, kolacja i open bar od 150 zł netto" }
@@ -34,7 +34,7 @@ formaty:
     zdjecie: "/img/gallery/dm22.jpg"
     rodzaj: "premiera"
     fakty:
-      - { ikona: users, tekst: "Kameralnie albo do 350 w całym miejscu" }
+      - { ikona: users, tekst: "Kameralnie albo 350, cały kompleks latem, z ogrodem" }
       - { ikona: terrace, tekst: "Taras nad wodą" }
       - { ikona: clock, tekst: "Wieczór" }
       - { ikona: utensils, tekst: "Menu od 180 zł netto za osobę" }
@@ -43,7 +43,7 @@ formaty:
     zdjecie: "/img/gallery/kn01.jpg"
     rodzaj: "premiera"
     fakty:
-      - { ikona: users, tekst: "Od kameralnej grupy po cały kompleks, do 350" }
+      - { ikona: users, tekst: "Od kameralnej grupy po 350, cały kompleks latem, z ogrodem" }
       - { ikona: terrace, tekst: "Całe Miejsce" }
       - { ikona: check, tekst: "ELLE i The Voice of Poland, produkcje na nabrzeżu" }
       - { ikona: info, tekst: "Światło i streaming wyceniamy osobno" }
@@ -56,7 +56,7 @@ formaty:
       - { ikona: terrace, tekst: "Barki i nabrzeże, także pod dachem" }
       - { ikona: clock, tekst: "Czas zdjęć potwierdzamy w ofercie" }
       - { ikona: check, tekst: "Zaplecze i prąd są na miejscu" }
-dla_ilu: "Scenariusz premiery jest opisany dla 40 osób. Większe wydarzenie marki idzie na całe Miejsce, do 350 gości"
+dla_ilu: "Scenariusz premiery jest opisany dla 40 osób. Większe wydarzenie marki idzie na cały kompleks latem, z ogrodem, do 350 gości"
 przestrzenie:
   - "cale-miejsce"
   - "nowe-miejsce"
@@ -72,7 +72,7 @@ fakty:
     opis: "osób w scenariuszu premiery"
   - wartosc: "350"
     liczba: 350
-    opis: "gości w całym kompleksie"
+    opis: "gości, cały kompleks latem, z ogrodem"
   - wartosc: "ELLE"
     opis: "i The Voice of Poland, produkcje na nabrzeżu"
 korzysci:
