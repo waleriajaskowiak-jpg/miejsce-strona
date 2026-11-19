@@ -2,7 +2,6 @@
 import Icon from "./Icon.astro";
 
 const { slides = [] } = Astro.props;
-const total = String(slides.length).padStart(2, "0");
 const hrefFor = (slide) => {
   const query = new URLSearchParams();
   if (slide.rodzaj) query.set("rodzaj", slide.rodzaj);
@@ -11,35 +10,26 @@ const hrefFor = (slide) => {
 };
 ---
 
-<section class="event-format event-tint reveal" id="co-mozna" data-format aria-roledescription="karuzela">
+<section class="event-format event-tint reveal" id="co-mozna" data-format>
   <div class="wrap">
     <header class="event-head">
       <p class="eyebrow">Zakres</p>
       <h2>Co można tu ułożyć</h2>
     </header>
-    <div class="format-chips" role="tablist" aria-label="Formaty">
+    <div class="format-row">
       {slides.map((slide, index) => (
-        <button
-          type="button"
-          class="format-chip"
-          role="tab"
-          id={`format-tab-${index}`}
-          aria-controls={`format-slide-${index}`}
-          aria-selected={index === 0 ? "true" : "false"}
-          data-format-tab={index}
-        >
-          {slide.tytul}
-        </button>
-      ))}
-    </div>
-    <div class="format-meta">
-      <p><b data-format-current>01</b> <span>/ {total}</span></p>
-      <div class="format-bar" aria-hidden="true"><i data-format-bar></i></div>
-    </div>
-    <div class="format-stage">
-      <div class="format-track" tabindex="0" data-format-track>
-        {slides.map((slide, index) => (
-          <article class="format-slide" id={`format-slide-${index}`} role="tabpanel" aria-labelledby={`format-tab-${index}`} data-format-slide>
+        <article class:list={["format-panel", index === 0 && "is-open"]} data-format-panel>
+          <button
+            type="button"
+            class="format-panel-tab"
+            aria-expanded={index === 0 ? "true" : "false"}
+            aria-controls={`format-body-${index}`}
+            id={`format-tab-${index}`}
+          >
+            <img src={slide.zdjecie} alt="" width="800" height="1000" />
+            <span>{slide.tytul}</span>
+          </button>
+          <div class="format-panel-body" id={`format-body-${index}`}>
             <div class="format-photo">
               <img src={slide.zdjecie} alt="" width="1600" height="1100" />
             </div>
@@ -53,83 +43,49 @@ const hrefFor = (slide) => {
               </ul>
               <a class="btn btn-primary" href={hrefFor(slide)}>Zapytaj o ten format</a>
             </div>
-          </article>
-        ))}
-      </div>
-      <div class="format-arrows">
-        <button type="button" class="format-arrow" data-format-prev aria-label="Poprzedni format" disabled>
-          <Icon name="arrow" />
-        </button>
-        <button type="button" class="format-arrow format-arrow-next" data-format-next aria-label="Następny format">
-          <Icon name="arrow" />
-        </button>
-      </div>
+          </div>
+        </article>
+      ))}
     </div>
   </div>
 </section>
 
 <script>
+  const fine = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
   const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   document.querySelectorAll("[data-format]").forEach((root) => {
-    const track = root.querySelector("[data-format-track]");
-    const slides = [...root.querySelectorAll("[data-format-slide]")];
-    const tabs = [...root.querySelectorAll("[data-format-tab]")];
-    const prev = root.querySelector("[data-format-prev]");
-    const next = root.querySelector("[data-format-next]");
-    const current = root.querySelector("[data-format-current]");
-    const bar = root.querySelector("[data-format-bar]");
-    if (!track || slides.length === 0) return;
-    let index = 0;
-    let lock = false;
+    const panels = [...root.querySelectorAll("[data-format-panel]")];
+    if (!panels.length) return;
+    let index = Math.max(0, panels.findIndex((panel) => panel.classList.contains("is-open")));
 
-    const paint = (scroll) => {
-      tabs.forEach((tab, i) => {
+    const open = (next, moveFocus = false) => {
+      index = Math.max(0, Math.min(panels.length - 1, next));
+      panels.forEach((panel, i) => {
         const on = i === index;
-        tab.setAttribute("aria-selected", on ? "true" : "false");
-        tab.tabIndex = on ? 0 : -1;
+        panel.classList.toggle("is-open", on);
+        panel.querySelector(".format-panel-tab")?.setAttribute("aria-expanded", on ? "true" : "false");
       });
-      if (current) current.textContent = String(index + 1).padStart(2, "0");
-      if (bar) bar.style.width = `${((index + 1) / slides.length) * 100}%`;
-      if (prev) prev.disabled = index === 0;
-      if (next) next.disabled = index === slides.length - 1;
-      const tab = tabs[index];
-      const row = tab?.parentElement;
-      if (tab && row) {
-        const left = tab.offsetLeft - (row.clientWidth - tab.offsetWidth) / 2;
-        row.scrollTo({ left: Math.max(0, left), behavior: reduce ? "auto" : "smooth" });
-      }
-      if (!scroll) return;
-      lock = true;
-      track.scrollTo({ left: slides[index].offsetLeft, behavior: reduce ? "auto" : "smooth" });
-      window.setTimeout(() => { lock = false; }, reduce ? 0 : 450);
+      if (!moveFocus) return;
+      const tab = panels[index].querySelector(".format-panel-tab");
+      const cta = panels[index].querySelector(".btn");
+      if (tab instanceof HTMLElement && tab.offsetParent) tab.focus();
+      else if (cta instanceof HTMLElement) cta.focus();
     };
 
-    const go = (nextIndex) => {
-      const clamped = Math.max(0, Math.min(slides.length - 1, nextIndex));
-      if (clamped === index) return;
-      index = clamped;
-      paint(true);
-    };
-
-    tabs.forEach((tab) => {
-      tab.addEventListener("click", () => go(Number(tab.getAttribute("data-format-tab"))));
+    panels.forEach((panel, i) => {
+      const tab = panel.querySelector(".format-panel-tab");
+      tab?.addEventListener("click", () => open(i));
+      if (fine) panel.addEventListener("mouseenter", () => open(i));
     });
-    prev?.addEventListener("click", () => go(index - 1));
-    next?.addEventListener("click", () => go(index + 1));
-    track.addEventListener("scroll", () => {
-      if (lock) return;
-      const width = track.clientWidth || 1;
-      const nextIndex = Math.round(track.scrollLeft / width);
-      if (nextIndex === index || nextIndex < 0 || nextIndex >= slides.length) return;
-      index = nextIndex;
-      paint(false);
-    }, { passive: true });
+
     root.addEventListener("keydown", (event) => {
-      if (event.key !== "ArrowRight" && event.key !== "ArrowLeft") return;
+      if (event.key !== "ArrowRight" && event.key !== "ArrowLeft" && event.key !== "ArrowDown" && event.key !== "ArrowUp") return;
       if (event.target instanceof HTMLInputElement || event.target instanceof HTMLTextAreaElement) return;
+      const forward = event.key === "ArrowRight" || event.key === "ArrowDown";
       event.preventDefault();
-      go(index + (event.key === "ArrowRight" ? 1 : -1));
+      open(index + (forward ? 1 : -1), true);
     });
-    paint(false);
+
+    if (reduce) root.classList.add("is-instant");
   });
 </script>
