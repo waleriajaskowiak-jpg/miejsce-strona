@@ -39,6 +39,14 @@ collections:
           - { label: "Hero — marka", name: hero_marka, widget: string }
           - { label: "Hero — nagłówek", name: hero_h1, widget: string }
           - { label: "Hero — lead", name: hero_lead, widget: text }
+          - label: "Hero — slajdy"
+            name: hero_slajdy
+            widget: list
+            summary: "{{fields.alt}}"
+            hint: "Kolejność to kolejność pokazu. Pierwsze zdjęcie jest od razu."
+            fields:
+              - { label: Zdjęcie, name: src, widget: image }
+              - { label: Opis zdjęcia, name: alt, widget: string }
           - { label: "Hero — zdjęcie", name: hero_zdjecie, widget: image, hint: "Główne zdjęcie hero. Przy sliderze jest pierwszym slajdem. Nie powiększaj pliku ponad oryginał." }
           - { label: "Hero — opis zdjęcia", name: hero_zdjecie_alt, widget: string }
           - { label: "Hero — drugie zdjęcie", name: hero_zdjecie_2, widget: image }

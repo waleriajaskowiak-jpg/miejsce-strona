@@ -167,10 +167,47 @@ h4 { line-height: 1; }
 .r12-hero-media picture { display: block; }
 .r12-hero-media img, .r12-hero-media video {
   object-fit: cover;
-  object-position: 45% 55%;
+  object-position: center center;
 }
-.r12-hero-media .r12-slide { opacity: 0; }
+.r12-hero-media img[data-fit="pano"] { object-position: 62% 46%; }
+.r12-hero-media img[data-fit="wesele"] {
+  object-position: center 42%;
+  transform-origin: left center;
+}
+.r12-hero-media .r12-slide {
+  opacity: 0;
+  transition: opacity 1.2s ease;
+}
 .r12-hero-media .r12-slide.is-on { opacity: 1; }
+.r12-hero-media .r12-slide.is-on img[data-fit="pano"] { animation: hero-drift 7s linear forwards; }
+.r12-hero-media .r12-slide.is-on img[data-fit="wesele"] { animation: hero-drift-wesele 7s linear forwards; }
+@keyframes hero-drift {
+  from { transform: scale(1); }
+  to { transform: scale(1.03); }
+}
+@keyframes hero-drift-wesele {
+  from { transform: scale(1.42); }
+  to { transform: scale(1.46); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .r12-hero-media .r12-slide { transition: none; }
+  .r12-hero-media .r12-slide.is-on img { animation: none; }
+}
+.r12-hero-dots {
+  position: absolute;
+  right: 28px;
+  bottom: 22px;
+  z-index: 2;
+  display: flex;
+  gap: 8px;
+}
+.r12-hero-dots i {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(244, 237, 227, 0.4);
+}
+.r12-hero-dots i.is-on { background: #f4ede3; }
 .r12-hero-media::after { content: none; }
 .r12-hero .eyebrow,
 .r12-hero h1,
@@ -317,10 +354,17 @@ h4 { line-height: 1; }
     overflow: hidden;
   }
   .r12-hero-media img,
-  .r12-hero-media video {
-    object-position: 45% 62%;
-    transform: scale(1.2);
-    transform-origin: 45% 62%;
+  .r12-hero-media video,
+  .r12-hero-media img[data-fit="pano"] {
+    object-position: center center;
+    transform: none;
+    animation: none;
+  }
+  .r12-hero-media .r12-slide.is-on img[data-fit="wesele"],
+  .r12-hero-media img[data-fit="wesele"] {
+    object-position: 50% center;
+    transform: none;
+    animation: none;
   }
   .r12-hero-media::after { content: none; }
   .r12-hero .eyebrow,

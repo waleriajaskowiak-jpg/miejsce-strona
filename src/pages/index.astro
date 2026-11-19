@@ -1,5 +1,8 @@
 ---
+import { getImage } from "astro:assets";
 import { getCollection, getEntry } from "astro:content";
+import barkiPano from "../assets/hero/barki-pano.jpg";
+import weseleHero from "../assets/hero/wesele.jpg";
 import Base from "../layouts/Base.astro";
 import Icon from "../components/Icon.astro";
 import { etykiety, podstrony, sekcje } from "../lib/copy.js";
@@ -18,11 +21,43 @@ const realizacje = sortByOrder(await getCollection("realizacje")).filter((item) 
 const published = realizacje.length > 0;
 const inspiracje = published ? realizacje.slice(0, 3) : scenariusze.slice(0, 3);
 const toneById = Object.fromEntries(kategorie.map((item) => [item.id, item.data]));
-const slides = [
-  { src: strona.hero_zdjecie, alt: strona.hero_zdjecie_alt }, { src: strona.hero_zdjecie_2, alt: strona.hero_zdjecie_2_alt }, { src: home.hero_slajd_3, alt: home.hero_slajd_3_alt }, ];
-const heroWidths = [640, 1024, 1600];
-const heroSrcset = (ext) => heroWidths.map((width) => `/img/hero/barki-${width}.${ext} ${width}w`).join(", ");
-const heroReady = slides[0].src === "/img/hero/barki.jpg";
+const heroFiles = {
+  "/img/hero/barki-pano.jpg": barkiPano,
+  "/img/hero/wesele.jpg": weseleHero,
+};
+const heroRaw = (strona.hero_slajdy?.length ? strona.hero_slajdy : [
+  { src: strona.hero_zdjecie, alt: strona.hero_zdjecie_alt },
+]).filter((slide) => slide?.src);
+const heroWidths = [750, 1200, 1600, 1920, 2256];
+const heroSlides = [];
+for (const slide of heroRaw) {
+  const file = heroFiles[slide.src];
+  const fit = String(slide.src).includes("wesele") ? "wesele" : String(slide.src).includes("barki") ? "pano" : "center";
+  if (!file) {
+    heroSlides.push({ src: slide.src, alt: slide.alt || "", fit, avif: "", webp: "", eager: heroSlides.length === 0 });
+    continue;
+  }
+  const widths = heroWidths.filter((width) => width <= file.width);
+  const srcsetFor = async (format, quality) => {
+    const parts = [];
+    for (const width of widths) {
+      const image = await getImage({ src: file, width, format, quality });
+      parts.push(`${image.src} ${width}w`);
+    }
+    return parts.join(", ");
+  };
+  const fallback = await getImage({ src: file, width: Math.min(1600, file.width), format: "jpeg", quality: 75 });
+  heroSlides.push({
+    src: fallback.src,
+    alt: slide.alt || "",
+    fit,
+    width: file.width,
+    height: file.height,
+    avif: await srcsetFor("avif", 48),
+    webp: await srcsetFor("webp", 70),
+    eager: heroSlides.length === 0,
+  });
+}
 const tryb = strona.hero_tryb === "foto" ? "zdjecie" : (strona.hero_tryb || "zdjecie");
 const summer = (value) => (typeof value === "number" ? String(value) : etykiety.zapytaj);
 const winter = summer;
@@ -56,35 +91,37 @@ const netlify = !endpoint && kontakt.formularz_netlify !== false;
 <Base
   title={strona.tytul_seo}
   description={strona.opis_seo}
-  image={slides[0].src}
+  image={heroRaw[0]?.src || strona.hero_zdjecie}
   jsonLd={[venueJsonLd(kontakt, strona.opis_seo, fakty)]}
-  preload={true}
-  preloadSrcset={heroReady ? heroSrcset("avif") : undefined}
-  preloadType={heroReady ? "image/avif" : undefined}
+  preload={heroSlides[0]?.avif ? true : false}
+  preloadHref={heroSlides[0]?.avif?.split(" ")[0]}
+  preloadSrcset={heroSlides[0]?.avif || undefined}
+  preloadType={heroSlides[0]?.avif ? "image/avif" : undefined}
 >
   <section class="r12-hero">
-    <div class="r12-hero-media">
+    <div class="r12-hero-media" data-hero>
       {tryb === "wideo" && strona.hero_wideo ? (
-        <video src={strona.hero_wideo} poster={slides[0].src} autoplay muted loop playsinline></video>
-      ) : tryb === "slider" ? (
-        slides.map((slide, index) =>
-          index === 0 && heroReady ? (
-            <picture class:list={["r12-slide", "is-on"]}>
-              <source type="image/avif" srcset={heroSrcset("avif")} sizes="100vw" />
-              <source type="image/webp" srcset={heroSrcset("webp")} sizes="100vw" />
-              <img src={slide.src} srcset={heroSrcset("jpg")} sizes="100vw" alt={slide.alt} width="1600" height="1066" fetchpriority="high" />
-            </picture>
-          ) : (
-            <img class:list={["r12-slide", index === 0 && "is-on"]} src={slide.src} alt={slide.alt} width="1600" height="1066" />
-          ), )
-      ) : heroReady ? (
-        <picture>
-          <source type="image/avif" srcset={heroSrcset("avif")} sizes="100vw" />
-          <source type="image/webp" srcset={heroSrcset("webp")} sizes="100vw" />
-          <img src={slides[0].src} srcset={heroSrcset("jpg")} sizes="100vw" alt={slides[0].alt} width="1600" height="1066" fetchpriority="high" />
+        <video src={strona.hero_wideo} poster={heroSlides[0]?.src} autoplay muted loop playsinline></video>
+      ) : heroSlides.map((slide, index) => (
+        <picture class:list={["r12-slide", index === 0 && "is-on"]} data-hero-slide>
+          {slide.avif && <source type="image/avif" srcset={slide.avif} sizes="100vw" />}
+          {slide.webp && <source type="image/webp" srcset={slide.webp} sizes="100vw" />}
+          <img
+            src={slide.src}
+            alt={slide.alt}
+            width={slide.width || 1600}
+            height={slide.height || 900}
+            data-fit={slide.fit}
+            loading={slide.eager ? "eager" : "lazy"}
+            fetchpriority={slide.eager ? "high" : "low"}
+            decoding={slide.eager ? "sync" : "async"}
+          />
         </picture>
-      ) : (
-        <img src={slides[0].src} alt={slides[0].alt} width="1600" height="1066" fetchpriority="high" />
+      ))}
+      {heroSlides.length > 1 && (
+        <div class="r12-hero-dots" aria-hidden="true">
+          {heroSlides.map((_, index) => <i class:list={[index === 0 && "is-on"]}></i>)}
+        </div>
       )}
     </div>
     <div class="wrap r12-hero-copy">
@@ -234,6 +271,23 @@ const netlify = !endpoint && kontakt.formularz_netlify !== false;
     </div>
   </section>
 </Base>
+
+<script>
+  const heroReduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  document.querySelectorAll("[data-hero]").forEach((root) => {
+    const slides = [...root.querySelectorAll("[data-hero-slide]")];
+    const dots = [...root.querySelectorAll(".r12-hero-dots i")];
+    if (heroReduce || slides.length < 2) return;
+    let index = 0;
+    window.setInterval(() => {
+      slides[index].classList.remove("is-on");
+      dots[index]?.classList.remove("is-on");
+      index = (index + 1) % slides.length;
+      slides[index].classList.add("is-on");
+      dots[index]?.classList.add("is-on");
+    }, 6500);
+  });
+</script>
 
 <script>
   const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;

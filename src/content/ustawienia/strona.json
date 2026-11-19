@@ -5,6 +5,16 @@
   "hero_marka": "MIEJSCE",
   "hero_h1": "Eventy nad wodą w centrum Warszawy",
   "hero_lead": "Dwie barki, zadaszone tarasy i ogród w Porcie Czerniakowskim. Od szkolenia dla 20 osób po 350 gości latem, z ogrodem",
+  "hero_slajdy": [
+    {
+      "src": "/img/hero/barki-pano.jpg",
+      "alt": "Dwie barki MIEJSCA na wodzie w Porcie Czerniakowskim"
+    },
+    {
+      "src": "/img/hero/wesele.jpg",
+      "alt": "Panna młoda z ojcem na pomoście MIEJSCA"
+    }
+  ],
   "hero_zdjecie": "/img/hero/barki.jpg",
   "hero_zdjecie_alt": "Barki MIEJSCA na wodzie w Porcie Czerniakowskim, wiosna",
   "hero_zdjecie_2": "/img/gallery/og25.jpg",
