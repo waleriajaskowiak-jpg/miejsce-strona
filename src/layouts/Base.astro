@@ -89,28 +89,38 @@ const jsonBlocks = jsonLd.map((obj) => JSON.stringify(obj).replace(/</g, "\\u003
     <a class="mob-cta btn btn-primary" href="/kontakt/" hidden>Zaplanuj event</a>
     <script>
       const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-      const nodes = document.querySelectorAll(".reveal");
-      if (reduce) {
-        nodes.forEach((el) => el.classList.add("is-in"));
+      const nodes = [...document.querySelectorAll(".reveal")];
+      const show = (el) => el.classList.add("is-in");
+      if (reduce || !("IntersectionObserver" in window)) {
+        nodes.forEach(show);
       } else {
+        const scroller = document.querySelector(".page-scroll");
+        const scrolls = scroller && getComputedStyle(scroller).overflowY !== "visible";
         const io = new IntersectionObserver(
           (entries) => {
             for (const entry of entries) {
               if (!entry.isIntersecting) continue;
-              entry.target.classList.add("is-in");
+              show(entry.target);
               io.unobserve(entry.target);
             }
           },
-          { threshold: 0.12, rootMargin: "0px 0px -8% 0px" },
+          { root: scrolls ? scroller : null, threshold: 0, rootMargin: "0px" },
         );
         nodes.forEach((el) => io.observe(el));
+        const finish = () => nodes.forEach(show);
+        window.addEventListener("load", finish, { once: true });
+        window.setTimeout(finish, 1200);
       }
 
       const root = document.querySelector("main");
       const skip = new Set(["SCRIPT", "STYLE", "TEXTAREA", "INPUT", "SELECT"]);
+      const glueText = (value) => value
+        .replace(/(\d)[ \u00A0\u202F]+(?=\d{3}(?:\D|$))/g, "$1\u00A0")
+        .replace(/(\d)[ \u00A0\u202F]+(zł|m²|osób|osoby|osoba|h)(?![A-Za-zÀ-ž])/gi, "$1\u00A0$2")
+        .replace(/(^|[\s\u00A0])([aiouwzAIOUWZ])[ \t]+/g, "$1$2\u00A0");
       const glue = (node) => {
         if (node.nodeType === 3 && node.nodeValue) {
-          node.nodeValue = node.nodeValue.replace(/(^|\s)([aiouwzAIOUWZ])\s+/g, "$1$2\u00A0");
+          node.nodeValue = glueText(node.nodeValue);
           return;
         }
         if (node.nodeType === 1 && !skip.has(node.nodeName)) {

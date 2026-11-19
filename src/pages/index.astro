@@ -2,7 +2,7 @@
 import { getCollection, getEntry } from "astro:content";
 import Base from "../layouts/Base.astro";
 import Icon from "../components/Icon.astro";
-import { sortByOrder, venueJsonLd } from "../lib/nav.js";
+import { sortByOrder, venueJsonLd, zloty } from "../lib/nav.js";
 
 const strona = (await getEntry("ustawienia", "strona"))!.data;
 const cennik = (await getEntry("ustawienia", "cennik"))!.data;
@@ -42,8 +42,8 @@ const spaces = [
     title: "Duże Miejsce",
     href: "/przestrzenie/duze-miejsce/",
     photo: "/img/gallery/dm22.jpg",
-    meta: `${fakty.przestrzenie.duze.wnetrze_m2} m² + ${fakty.przestrzenie.duze.taras_m2} m² tarasu`,
-    price: "od 5 000 zł",
+    meta: `${fakty.przestrzenie.duze.wnetrze_m2}\u00A0m² + ${fakty.przestrzenie.duze.taras_m2}\u00A0m² tarasu`,
+    price: `od ${zloty(5000)}`,
     note: "Zimą bankiet mieści około 120 osób. 350 gości to pojemność całego kompleksu, nie tej barki",
     rows: (fakty.uklady?.duze || []).map((row) => ({
       name: row.nazwa,
@@ -56,8 +56,8 @@ const spaces = [
     title: "Małe Miejsce",
     href: "/przestrzenie/nowe-miejsce/",
     photo: "/img/gallery/mm12.jpg",
-    meta: `${fakty.przestrzenie.male.wnetrze_m2} m² + ${fakty.przestrzenie.male.taras_m2} m² tarasu`,
-    price: "od 3 000 zł",
+    meta: `${fakty.przestrzenie.male.wnetrze_m2}\u00A0m² + ${fakty.przestrzenie.male.taras_m2}\u00A0m² tarasu`,
+    price: `od ${zloty(3000)}`,
     note: "Sala i zadaszony taras. Liczba 70 dotyczy znanego układu bankietowego",
     rows: (fakty.uklady?.male || []).map((row) => ({ name: row.nazwa, lato: summer(row.lato), zima: winter(row.zima) })),
   },
@@ -66,7 +66,7 @@ const spaces = [
     title: "Miejscowy Ogród",
     href: "/przestrzenie/ogrod/",
     photo: "/img/gallery/og25.jpg",
-    meta: `${fakty.przestrzenie.ogrod.powierzchnia_m2} m² · ${fakty.przestrzenie.ogrod.sezon}`,
+    meta: `${fakty.przestrzenie.ogrod.powierzchnia_m2}\u00A0m² · ${fakty.przestrzenie.ogrod.sezon}`,
     price: "wycena indywidualna",
     note: "Sezon maj–wrzesień. Na deszcz nie podajemy liczby",
     rows: (fakty.uklady?.ogrod || []).map((row) => ({ name: row.nazwa, lato: summer(row.lato), zima: winter(row.zima) })),
@@ -249,7 +249,7 @@ const netlify = !endpoint && kontakt.formularz_netlify !== false;
           {cennik.wynajem.map((row) => (
             <li>
               <b>{row.dopisek}</b>
-              <span>{row.cena_od ? `od ${row.cena_od.toLocaleString("pl-PL")} zł` : "wycena indywidualna"}</span>
+              <span>{row.cena_od ? `od ${zloty(row.cena_od)}` : "wycena indywidualna"}</span>
             </li>
           ))}
         </ul>

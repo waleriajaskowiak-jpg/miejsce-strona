@@ -7,7 +7,7 @@ import SpaceSlider from "../../components/SpaceSlider.astro";
 import NextBand from "../../components/NextBand.astro";
 import StatRow from "../../components/StatRow.astro";
 import Slider from "../../components/Slider.astro";
-import { crumbsJsonLd, sortByOrder } from "../../lib/nav.js";
+import { crumbsJsonLd, sortByOrder, zloty } from "../../lib/nav.js";
 
 export async function getStaticPaths() {
   const entries = await getCollection("kategorie");
@@ -43,14 +43,15 @@ const orderedSpaces = entry.data.przestrzenie.map((id) => przestrzenie.find((spa
 const spaceSlides = orderedSpaces.map((space, index) => {
   const fact = fakty[factKey[space.id]] || {};
   const facts = [];
-  if (fact.wnetrze_m2) facts.push({ ikona: "ruler", tekst: `${fact.wnetrze_m2} m² wnętrza${fact.taras_m2 ? ` + ${fact.taras_m2} m² tarasu` : ""}` });
-  if (fact.powierzchnia_m2) facts.push({ ikona: "ruler", tekst: `${fact.powierzchnia_m2} m²${fact.sezon ? ` · ${fact.sezon}` : ""}` });
+  const nb = (value, unit) => `${value}\u00A0${unit}`;
+  if (fact.wnetrze_m2) facts.push({ ikona: "ruler", tekst: `${nb(fact.wnetrze_m2, "m²")} wnętrza${fact.taras_m2 ? ` + ${nb(fact.taras_m2, "m²")} tarasu` : ""}` });
+  if (fact.powierzchnia_m2) facts.push({ ikona: "ruler", tekst: `${nb(fact.powierzchnia_m2, "m²")}${fact.sezon ? ` · ${fact.sezon}` : ""}` });
   if (fact.zima_osob) facts.push({ ikona: "users", tekst: `Zimą ${fact.zima_osob}` });
-  if (fact.gosci) facts.push({ ikona: "users", tekst: fact.gosci_tekst || `${fact.gosci} gości` });
-  if (fact.maks_osob) facts.push({ ikona: "users", tekst: `Do ${fact.maks_osob} gości, także w deszczu` });
-  if (fact.czas) facts.push({ ikona: "clock", tekst: `Wynajem ${fact.czas}` });
+  if (fact.gosci) facts.push({ ikona: "users", tekst: fact.gosci_tekst || nb(fact.gosci, "gości") });
+  if (fact.maks_osob) facts.push({ ikona: "users", tekst: `Do ${nb(fact.maks_osob, "gości")}, także w deszczu` });
+  if (fact.czas) facts.push({ ikona: "clock", tekst: `Wynajem ${fact.czas.replace(/^(\d+)\s+/, "$1\u00A0")}` });
   const price = typeof fact.cena_od === "number"
-    ? `od ${fact.cena_od.toLocaleString("pl-PL")} zł`
+    ? `od ${zloty(fact.cena_od)}`
     : "wycena indywidualna";
   return {
     title: space.data.title,

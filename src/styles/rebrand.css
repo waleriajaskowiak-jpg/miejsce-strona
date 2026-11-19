@@ -1384,6 +1384,7 @@ html { overflow-x: clip; }
   text-transform: none;
   font-family: var(--font-sans);
   line-height: 1.2;
+  white-space: nowrap;
 }
 .space-facts { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
 .space-facts li { display: flex; align-items: flex-start; gap: 10px; margin: 0; color: var(--ink); }
@@ -1532,9 +1533,11 @@ html { overflow-x: clip; }
   opacity: 0;
   transform: translateY(16px);
   transition: opacity 700ms ease, transform 700ms ease;
+  animation: reveal-done 1ms linear 1.2s forwards;
 }
-.has-event .reveal.is-in { opacity: 1; transform: none; }
-html:not(.js) .has-event .reveal { opacity: 1; transform: none; }
+.has-event .reveal.is-in { opacity: 1; transform: none; animation: none; }
+html:not(.js) .has-event .reveal { opacity: 1; transform: none; animation: none; }
+@keyframes reveal-done { to { opacity: 1; transform: none; } }
 
 @media (min-width: 901px) {
   .event-hero-band { padding-top: calc(var(--header) + 28px); }

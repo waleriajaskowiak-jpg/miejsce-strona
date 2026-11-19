@@ -194,9 +194,9 @@ const payload = JSON.stringify({
 </Base>
 
 <script>
+  import { zloty } from "../lib/nav.js";
   const root = document.querySelector("[data-estimator]");
   const data = JSON.parse(document.querySelector("#estimator-data")?.textContent || "{}");
-  const money = new Intl.NumberFormat("pl-PL", { useGrouping: true });
   const guests = root?.querySelector("[data-guests]");
   const guestOut = root?.querySelector("[data-est-guests]");
   const totalEl = root?.querySelector("[data-total]");
@@ -239,7 +239,7 @@ const payload = JSON.stringify({
       if (mine !== frame) return;
       const k = Math.min(1, (now - start) / 420);
       shown = Math.round(from + (next - from) * (1 - Math.pow(1 - k, 3)));
-      if (totalEl) totalEl.textContent = `od ${money.format(shown)} zł`;
+      if (totalEl) totalEl.textContent = `od ${zloty(shown)}`;
       if (k < 1) requestAnimationFrame(step);
     };
     requestAnimationFrame(step);

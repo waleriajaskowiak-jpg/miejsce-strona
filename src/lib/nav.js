@@ -17,8 +17,15 @@ export const FOOTER_PAGES = [
   { href: "/kontakt/", label: "Kontakt" },
 ];
 
+export function plNumber(n) {
+  const value = Math.round(Number(n));
+  if (!Number.isFinite(value)) return "";
+  const sign = value < 0 ? "-" : "";
+  return sign + String(Math.abs(value)).replace(/\B(?=(\d{3})+(?!\d))/g, "\u00A0");
+}
+
 export function zloty(n) {
-  return `${new Intl.NumberFormat("pl-PL", { useGrouping: true }).format(n)}\u00a0zł`;
+  return `${plNumber(n)}\u00A0zł`;
 }
 
 export function sortByOrder(entries) {

@@ -107,7 +107,7 @@ const steps = [
     <div class="step-panel" data-step="3" hidden>
       <label class="slider-block">
         <span class="slider-k">Budżet netto</span>
-        <span class="slider-val" data-budzet-val>40 000<small>zł</small></span>
+        <span class="slider-val" data-budzet-val>40&nbsp;000<small>&nbsp;zł</small></span>
         <input type="range" name="budzet" min="5000" max="250000" step="1000" value="40000" />
       </label>
     </div>
@@ -133,8 +133,7 @@ const steps = [
 
 <script>
   import { ocen } from "../lib/budzet.js";
-
-  const money = new Intl.NumberFormat("pl-PL", { useGrouping: true });
+  import { plNumber, zloty } from "../lib/nav.js";
   const hints = [
     "Wybierz rodzaj wydarzenia",
     "Przesuń suwak",
@@ -176,7 +175,7 @@ const steps = [
 
     const paintRange = (input, output, suffix) => {
       if (!input || !output) return;
-      const formatted = suffix === "zł" ? money.format(Number(input.value)) : input.value;
+      const formatted = suffix === "zł" ? plNumber(Number(input.value)) : input.value;
       output.firstChild.textContent = formatted;
     };
 
@@ -258,7 +257,7 @@ const steps = [
           `Rodzaj: ${rodzaj}`,
           `Termin: ${dzien} / ${miesiac}`,
           `Liczba osób: ${osobyN}`,
-          `Budżet: ${money.format(Number(budzetN))} zł`,
+          `Budżet: ${zloty(Number(budzetN))}`,
           `Wynik: ${result.kod} — ${result.tytul}`,
           `Przestrzeń, na którą patrzy moduł: ${result.przestrzen}`,
         ].join("\n"),
