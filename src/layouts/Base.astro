@@ -8,6 +8,7 @@ import "../styles/rebrand.css";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 import { IS_PROD } from "../lib/env.js";
+import { toneIsLight } from "../lib/event-color.js";
 
 const {
   title,
@@ -20,6 +21,8 @@ const {
   preload = false,
   preloadSrcset,
   preloadType,
+  eventColor = "",
+  eventOn = "",
 } = Astro.props;
 
 const canonical = new URL(Astro.url.pathname, Astro.site);
@@ -71,7 +74,10 @@ const jsonBlocks = jsonLd.map((obj) => JSON.stringify(obj).replace(/</g, "\\u003
       }
     </script>
   </head>
-  <body class:list={[overlay && "has-overlay"]}>
+  <body
+    class:list={[overlay && "has-overlay", eventColor && "has-event", eventColor && toneIsLight(eventColor) && "tone-light"]}
+    style={eventColor ? `--event-color:${eventColor};--event-on:${eventOn}` : undefined}
+  >
     <a class="skip" href="#main">Przejdź do treści</a>
     <Header />
     <div class="page-scroll">

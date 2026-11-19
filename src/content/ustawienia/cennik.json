@@ -111,31 +111,38 @@
   "typy_eventu": [
     {
       "id": "firmowy",
-      "nazwa": "Event firmowy"
+      "nazwa": "Event firmowy",
+      "kategoria": "eventy-firmowe-i-integracje"
     },
     {
       "id": "konferencja",
-      "nazwa": "Konferencja"
+      "nazwa": "Konferencja",
+      "kategoria": "konferencje-i-szkolenia"
     },
     {
       "id": "szkolenie",
-      "nazwa": "Szkolenie"
+      "nazwa": "Szkolenie",
+      "kategoria": "konferencje-i-szkolenia"
     },
     {
       "id": "integracja",
-      "nazwa": "Integracja"
+      "nazwa": "Integracja",
+      "kategoria": "eventy-firmowe-i-integracje"
     },
     {
       "id": "premiera",
-      "nazwa": "Premiera / event dla klientów"
+      "nazwa": "Premiera / event dla klientów",
+      "kategoria": "premiery-i-wydarzenia-specjalne"
     },
     {
       "id": "wesele",
-      "nazwa": "Wesele"
+      "nazwa": "Wesele",
+      "kategoria": "wesela-i-przyjecia-prywatne"
     },
     {
       "id": "garden-party",
-      "nazwa": "Garden party"
+      "nazwa": "Garden party",
+      "kategoria": "eventy-firmowe-i-integracje"
     },
     {
       "id": "inne",

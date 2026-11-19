@@ -60,6 +60,8 @@ const kategorie = defineCollection({
     seo_description: z.string(),
     lead: z.string(),
     cta: z.string(),
+    kolor: z.string().regex(/^#[0-9A-Fa-f]{6}$/),
+    kolor_tekst: z.string().regex(/^#[0-9A-Fa-f]{6}$/),
     tagi: z.array(z.string()),
     co_mozna: z.array(z.string()),
     dla_ilu: z.string(),

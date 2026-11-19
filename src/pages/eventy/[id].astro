@@ -7,6 +7,7 @@ import SectionHeader from "../../components/SectionHeader.astro";
 import StatRow from "../../components/StatRow.astro";
 import Slider from "../../components/Slider.astro";
 import { crumbsJsonLd, sortByOrder } from "../../lib/nav.js";
+import { statSurface } from "../../lib/event-color.js";
 
 export async function getStaticPaths() {
   const entries = await getCollection("kategorie");
@@ -31,6 +32,7 @@ const crumbs = [
 const typ = pierwszy?.data.typ_budzetu || "firmowy";
 const budzetHref = `/ceny/?typ=${typ}${pierwszy?.data.goscie ? `&osoby=${pierwszy.data.goscie}` : ""}#estymator`;
 const kontaktHref = `/kontakt/?typ=${entry.id}`;
+const statsOn = statSurface(entry.data.kolor);
 ---
 
 <Base
@@ -39,6 +41,8 @@ const kontaktHref = `/kontakt/?typ=${entry.id}`;
   image={entry.data.cover}
   robots={entry.data.szkic ? "noindex,follow" : "index,follow"}
   jsonLd={[crumbsJsonLd([{ href: "/", label: "MIEJSCE" }, { href: "/eventy/", label: "Wydarzenia" }, { href: `/eventy/${entry.id}/`, label: entry.data.title }])]}
+  eventColor={entry.data.kolor}
+  eventOn={entry.data.kolor_tekst}
 >
   <PageHero
     crumbs={crumbs}
@@ -48,7 +52,7 @@ const kontaktHref = `/kontakt/?typ=${entry.id}`;
     image={entry.data.cover}
     imageAlt={entry.data.title}
   />
-  <section class="band band-ink tight-top" aria-label="W skrócie">
+  <section class:list={["band", "tight-top", "event-stats", statsOn === "ink" && "band-ink"]} aria-label="W skrócie">
     <div class="wrap stack">
       <nav class="pills" aria-label="Zakres">
         {entry.data.tagi.map((tag) => <a class="pill" href="#co-mozna">{tag}</a>)}

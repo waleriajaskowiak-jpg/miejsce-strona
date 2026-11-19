@@ -33,7 +33,7 @@ const crumbs = [{ href: "/eventy/", label: "Wydarzenia" }];
             <a href={`/eventy/${item.id}/`}>
               <img src={item.data.cover} alt="" />
               <div class="card-body">
-                <p class="eyebrow">{item.data.nav_label}</p>
+                <p class="event-tag" style={`--event-color:${item.data.kolor};--event-on:${item.data.kolor_tekst}`}>{item.data.nav_label}</p>
                 <h3>{item.data.title}</h3>
                 <p>{item.data.lead}</p>
                 <span class="btn btn-primary">{item.data.cta}</span>

@@ -1,5 +1,9 @@
 ---
+import { getCollection } from "astro:content";
+
 const { cennik, wariant = "pelny" } = Astro.props;
+const toneById = Object.fromEntries((await getCollection("kategorie")).map((item) => [item.id, item.data]));
+const neutralTone = { kolor: "#F4EDE3", kolor_tekst: "#2B2B2B" };
 const safe = JSON.stringify(cennik).replace(/</g, "\\u003c");
 const photos = {
   firmowy: "/img/gallery/dm22.jpg",
@@ -47,14 +51,17 @@ const steps = [
     <div class="step-panel" data-step="0">
       <div class="type-grid" role="group" aria-label="Rodzaj eventu">
         {
-          cennik.typy_eventu.map((typ) => (
-            <button type="button" class="type-tile" data-group="typ" data-value={typ.id} aria-pressed="false">
+          cennik.typy_eventu.map((typ) => {
+            const tone = toneById[typ.kategoria] || neutralTone;
+            return (
+            <button type="button" class="type-tile" data-group="typ" data-value={typ.id} aria-pressed="false" style={`--event-color:${tone.kolor};--event-on:${tone.kolor_tekst}`}>
               <span class="type-photo">
                 {photos[typ.id] && <img src={photos[typ.id]} alt="" width="640" height="480" />}
               </span>
-              <span class="type-name">{typ.nazwa}</span>
+              <span class="type-name"><i class="event-dot" aria-hidden="true"></i>{typ.nazwa}</span>
             </button>
-          ))
+            );
+          })
         }
       </div>
       <input type="hidden" name="typ" value="" />

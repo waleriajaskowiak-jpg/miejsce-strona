@@ -14,12 +14,7 @@ const scenariusze = sortByOrder(await getCollection("scenariusze")).filter((item
 const realizacje = sortByOrder(await getCollection("realizacje")).filter((item) => !item.data.szkic);
 const published = realizacje.length > 0;
 const inspiracje = published ? realizacje.slice(0, 3) : scenariusze.slice(0, 3);
-const colors = {
-  "eventy-firmowe-i-integracje": "terakota",
-  "konferencje-i-szkolenia": "szalwia",
-  "wesela-i-przyjecia-prywatne": "piasek",
-  "premiery-i-wydarzenia-specjalne": "petrol",
-};
+const toneById = Object.fromEntries(kategorie.map((item) => [item.id, item.data]));
 const slides = [
   { src: strona.hero_zdjecie || "/img/hero/barki.jpg", alt: strona.hero_zdjecie_alt || "Barki MIEJSCA w Porcie Czerniakowskim" },
   { src: strona.hero_zdjecie_2 || "/img/gallery/og25.jpg", alt: strona.hero_zdjecie_2_alt || "Miejscowy Ogród" },
@@ -152,7 +147,7 @@ const netlify = !endpoint && kontakt.formularz_netlify !== false;
       <h2>Co możesz u nas zorganizować</h2>
       <div class="r12-tiles">
         {kategorie.map((item) => (
-          <a class:list={["r12-tile", colors[item.id]]} href={`/eventy/${item.id}/`}>
+          <a class="r12-tile" style={`--event-color:${item.data.kolor};--event-on:${item.data.kolor_tekst}`} href={`/eventy/${item.id}/`}>
             <img src={item.data.cover} alt="" width="1200" height="800" />
             <span class="r12-plate">
               <b>{item.data.nav_label}</b>
@@ -226,17 +221,20 @@ const netlify = !endpoint && kontakt.formularz_netlify !== false;
       <h2>{published ? "Inspiracje i realizacje" : "Inspiracje"}</h2>
       <p class="lead">{published ? "Opublikowane wieczory" : "To scenariusze i zdjęcia miejsca, nie relacja z konkretnego zlecenia. Realizacje uzupełnicie w panelu"}</p>
       <div class="r12-cards">
-        {inspiracje.map((item) => (
-          <a class="r12-card" href={published ? `/realizacje/${item.id}/` : `/scenariusze/${item.id}/`}>
+        {inspiracje.map((item) => {
+          const tone = toneById[item.data.kategorie?.[0]];
+          return (
+          <a class="r12-card" style={tone ? `--event-color:${tone.kolor};--event-on:${tone.kolor_tekst}` : undefined} href={published ? `/realizacje/${item.id}/` : `/scenariusze/${item.id}/`}>
             <img src={item.data.cover} alt="" width="1200" height="800" />
             <span class="r12-card-body">
-              <span class="eyebrow"><Icon name={inspirationIcon[item.data.typ_budzetu] || "tag"} />{published ? item.data.typ : "Inspiracja"}</span>
+              <span class="event-tag"><Icon name={inspirationIcon[item.data.typ_budzetu] || "tag"} />{published ? item.data.typ : "Inspiracja"}</span>
               <h3>{item.data.title}</h3>
               <span class="r12-card-note">{item.data.lead}</span>
               <span class="go">Zobacz <Icon name="arrow" /></span>
             </span>
           </a>
-        ))}
+          );
+        })}
       </div>
     </div>
   </section>

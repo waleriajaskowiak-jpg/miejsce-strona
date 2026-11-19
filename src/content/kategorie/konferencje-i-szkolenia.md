@@ -1,6 +1,8 @@
 ---
 title: "Konferencje i szkolenia"
 nav_label: "Konferencje"
+kolor: "#6B7A5E"
+kolor_tekst: "#FFFFFF"
 kolejnosc: 2
 szkic: false
 seo_title: "Konferencje i szkolenia nad wodą | MIEJSCE"

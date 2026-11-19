@@ -1,6 +1,8 @@
 ---
 title: "Premiery i wydarzenia specjalne"
 nav_label: "Premiery i wydarzenia specjalne"
+kolor: "#375C6B"
+kolor_tekst: "#F4EDE3"
 kolejnosc: 4
 szkic: false
 seo_title: "Premiery i wydarzenia specjalne | MIEJSCE"

@@ -1,6 +1,8 @@
 ---
 title: "Wesela i przyjęcia prywatne"
 nav_label: "Wesela i przyjęcia"
+kolor: "#D9C8B4"
+kolor_tekst: "#2B2B2B"
 kolejnosc: 3
 szkic: false
 seo_title: "Wesela i przyjęcia nad wodą w Warszawie | MIEJSCE"
