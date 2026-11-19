@@ -19,6 +19,43 @@ co_mozna:
   - "Spotkanie dla klientów"
   - "Prezentacja marki"
   - "Plan zdjęciowy i produkcja"
+formaty:
+  - tytul: "Premiera produktu"
+    opis: "Taras, kolacja i bar, bez sali wykładowej w tle. Scenariusz premiery jest opisany dla 40 osób, większe wydarzenie idzie na cały kompleks."
+    zdjecie: "/img/gallery/kn08.jpg"
+    rodzaj: "premiera"
+    fakty:
+      - { ikona: users, tekst: "40 osób w scenariuszu, większe do 350" }
+      - { ikona: terrace, tekst: "Duże Miejsce albo cały kompleks" }
+      - { ikona: clock, tekst: "Wieczór, wynajem od 5 godzin" }
+      - { ikona: glass, tekst: "Koktajl, kolacja i open bar od 150 zł netto" }
+  - tytul: "Spotkanie dla klientów"
+    opis: "Kolacja na tarasie dla gości marki. Menu od 180 zł netto za osobę, bar ustalamy w ofercie."
+    zdjecie: "/img/gallery/dm22.jpg"
+    rodzaj: "premiera"
+    fakty:
+      - { ikona: users, tekst: "Kameralnie albo do 350 w całym miejscu" }
+      - { ikona: terrace, tekst: "Taras nad wodą" }
+      - { ikona: clock, tekst: "Wieczór" }
+      - { ikona: utensils, tekst: "Menu od 180 zł netto za osobę" }
+  - tytul: "Prezentacja marki"
+    opis: "Nabrzeże i barki jako tło marki. Były tu m.in. ELLE i The Voice of Poland."
+    zdjecie: "/img/gallery/kn01.jpg"
+    rodzaj: "premiera"
+    fakty:
+      - { ikona: users, tekst: "Od kameralnej grupy po cały kompleks, do 350" }
+      - { ikona: terrace, tekst: "Całe Miejsce" }
+      - { ikona: check, tekst: "ELLE i The Voice of Poland, produkcje na nabrzeżu" }
+      - { ikona: info, tekst: "Światło i streaming wyceniamy osobno" }
+  - tytul: "Plan zdjęciowy i produkcja"
+    opis: "Wnętrza i nabrzeże pod zdjęcia i produkcje. Zaplecze i prąd są na miejscu. Czas planu potwierdzamy w ofercie."
+    zdjecie: "/img/gallery/cm04.jpg"
+    rodzaj: "premiera"
+    fakty:
+      - { ikona: users, tekst: "Ekipa i plan dnia ustalamy osobno" }
+      - { ikona: terrace, tekst: "Barki i nabrzeże, także pod dachem" }
+      - { ikona: clock, tekst: "Czas zdjęć potwierdzamy w ofercie" }
+      - { ikona: check, tekst: "Zaplecze i prąd są na miejscu" }
 dla_ilu: "Scenariusz premiery jest opisany dla 40 osób. Większe wydarzenie marki idzie na całe Miejsce, do 350 gości"
 przestrzenie:
   - "cale-miejsce"

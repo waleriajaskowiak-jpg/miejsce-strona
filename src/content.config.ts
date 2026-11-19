@@ -64,6 +64,16 @@ const kategorie = defineCollection({
     kolor_tekst: z.string().regex(/^#[0-9A-Fa-f]{6}$/),
     tagi: z.array(z.string()),
     co_mozna: z.array(z.string()),
+    formaty: z.array(z.object({
+      tytul: z.string(),
+      opis: z.string(),
+      zdjecie: z.string(),
+      rodzaj: z.string().optional(),
+      fakty: z.array(z.object({
+        ikona: z.string(),
+        tekst: z.string(),
+      })).min(3).max(4),
+    })).min(1),
     dla_ilu: z.string(),
     przestrzenie: z.array(z.string()),
     scenariusze: z.array(z.string()),

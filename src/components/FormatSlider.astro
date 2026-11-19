@@ -1,0 +1,135 @@
+---
+import Icon from "./Icon.astro";
+
+const { slides = [] } = Astro.props;
+const total = String(slides.length).padStart(2, "0");
+const hrefFor = (slide) => {
+  const query = new URLSearchParams();
+  if (slide.rodzaj) query.set("rodzaj", slide.rodzaj);
+  query.set("wiadomosc", `Chcę zapytać o format: ${slide.tytul}`);
+  return `/kontakt/?${query}#brief`;
+};
+---
+
+<section class="event-format event-tint reveal" id="co-mozna" data-format aria-roledescription="karuzela">
+  <div class="wrap">
+    <header class="event-head">
+      <p class="eyebrow">Zakres</p>
+      <h2>Co można tu ułożyć</h2>
+    </header>
+    <div class="format-chips" role="tablist" aria-label="Formaty">
+      {slides.map((slide, index) => (
+        <button
+          type="button"
+          class="format-chip"
+          role="tab"
+          id={`format-tab-${index}`}
+          aria-controls={`format-slide-${index}`}
+          aria-selected={index === 0 ? "true" : "false"}
+          data-format-tab={index}
+        >
+          {slide.tytul}
+        </button>
+      ))}
+    </div>
+    <div class="format-meta">
+      <p><b data-format-current>01</b> <span>/ {total}</span></p>
+      <div class="format-bar" aria-hidden="true"><i data-format-bar></i></div>
+    </div>
+    <div class="format-stage">
+      <div class="format-track" tabindex="0" data-format-track>
+        {slides.map((slide, index) => (
+          <article class="format-slide" id={`format-slide-${index}`} role="tabpanel" aria-labelledby={`format-tab-${index}`} data-format-slide>
+            <div class="format-photo">
+              <img src={slide.zdjecie} alt="" width="1600" height="1100" />
+            </div>
+            <div class="format-copy">
+              <h3>{slide.tytul}</h3>
+              <p>{slide.opis}</p>
+              <ul class="format-facts">
+                {slide.fakty.map((fact) => (
+                  <li><Icon name={fact.ikona} /><span>{fact.tekst}</span></li>
+                ))}
+              </ul>
+              <a class="btn btn-primary" href={hrefFor(slide)}>Zapytaj o ten format</a>
+            </div>
+          </article>
+        ))}
+      </div>
+      <div class="format-arrows">
+        <button type="button" class="format-arrow" data-format-prev aria-label="Poprzedni format" disabled>
+          <Icon name="arrow" />
+        </button>
+        <button type="button" class="format-arrow format-arrow-next" data-format-next aria-label="Następny format">
+          <Icon name="arrow" />
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  document.querySelectorAll("[data-format]").forEach((root) => {
+    const track = root.querySelector("[data-format-track]");
+    const slides = [...root.querySelectorAll("[data-format-slide]")];
+    const tabs = [...root.querySelectorAll("[data-format-tab]")];
+    const prev = root.querySelector("[data-format-prev]");
+    const next = root.querySelector("[data-format-next]");
+    const current = root.querySelector("[data-format-current]");
+    const bar = root.querySelector("[data-format-bar]");
+    if (!track || slides.length === 0) return;
+    let index = 0;
+    let lock = false;
+
+    const paint = (scroll) => {
+      tabs.forEach((tab, i) => {
+        const on = i === index;
+        tab.setAttribute("aria-selected", on ? "true" : "false");
+        tab.tabIndex = on ? 0 : -1;
+      });
+      if (current) current.textContent = String(index + 1).padStart(2, "0");
+      if (bar) bar.style.width = `${((index + 1) / slides.length) * 100}%`;
+      if (prev) prev.disabled = index === 0;
+      if (next) next.disabled = index === slides.length - 1;
+      const tab = tabs[index];
+      const row = tab?.parentElement;
+      if (tab && row) {
+        const left = tab.offsetLeft - (row.clientWidth - tab.offsetWidth) / 2;
+        row.scrollTo({ left: Math.max(0, left), behavior: reduce ? "auto" : "smooth" });
+      }
+      if (!scroll) return;
+      lock = true;
+      track.scrollTo({ left: slides[index].offsetLeft, behavior: reduce ? "auto" : "smooth" });
+      window.setTimeout(() => { lock = false; }, reduce ? 0 : 450);
+    };
+
+    const go = (nextIndex) => {
+      const clamped = Math.max(0, Math.min(slides.length - 1, nextIndex));
+      if (clamped === index) return;
+      index = clamped;
+      paint(true);
+    };
+
+    tabs.forEach((tab) => {
+      tab.addEventListener("click", () => go(Number(tab.getAttribute("data-format-tab"))));
+    });
+    prev?.addEventListener("click", () => go(index - 1));
+    next?.addEventListener("click", () => go(index + 1));
+    track.addEventListener("scroll", () => {
+      if (lock) return;
+      const width = track.clientWidth || 1;
+      const nextIndex = Math.round(track.scrollLeft / width);
+      if (nextIndex === index || nextIndex < 0 || nextIndex >= slides.length) return;
+      index = nextIndex;
+      paint(false);
+    }, { passive: true });
+    root.addEventListener("keydown", (event) => {
+      if (event.key !== "ArrowRight" && event.key !== "ArrowLeft") return;
+      if (event.target instanceof HTMLInputElement || event.target instanceof HTMLTextAreaElement) return;
+      event.preventDefault();
+      go(index + (event.key === "ArrowRight" ? 1 : -1));
+    });
+    paint(false);
+  });
+</script>

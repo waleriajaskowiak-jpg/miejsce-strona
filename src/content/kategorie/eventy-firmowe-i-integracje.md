@@ -19,6 +19,43 @@ co_mozna:
   - "Impreza firmowa i jubileusz"
   - "Garden party"
   - "Team building nad wodą"
+formaty:
+  - tytul: "Integracja firmowa"
+    opis: "Grill, woda i muzyka. Barka, taras i ogród dają się ułożyć w jeden wieczór, bez przeprowadzki zespołu przez miasto."
+    zdjecie: "/img/gallery/og16.jpg"
+    rodzaj: "integracja"
+    fakty:
+      - { ikona: users, tekst: "Od kilkudziesięciu osób" }
+      - { ikona: terrace, tekst: "Duże Miejsce i ogród" }
+      - { ikona: clock, tekst: "Wynajem od 5 godzin" }
+      - { ikona: utensils, tekst: "Menu od 180 zł netto za osobę" }
+  - tytul: "Impreza firmowa i jubileusz"
+    opis: "Część oficjalna i parkiet zostają pod dachem. Jedzenie może być finger food, bufet albo grill, bez trzygodzinnej kolacji."
+    zdjecie: "/img/gallery/dm22.jpg"
+    rodzaj: "firmowy"
+    fakty:
+      - { ikona: users, tekst: "Do 350 gości w całym kompleksie" }
+      - { ikona: terrace, tekst: "Duże Miejsce, taras pod dachem" }
+      - { ikona: clock, tekst: "Wynajem od 5 godzin" }
+      - { ikona: glass, tekst: "Open bar od 150 zł netto za osobę" }
+  - tytul: "Garden party"
+    opis: "Ogród, bufety i grill, kiedy aura pozwala. Zadaszone tarasy zostają w układzie jako plan na deszcz."
+    zdjecie: "/img/gallery/og25.jpg"
+    rodzaj: "garden-party"
+    fakty:
+      - { ikona: users, tekst: "Do 300 gości w tej formule, cały kompleks do 350" }
+      - { ikona: sun, tekst: "Ogród wchodzi przy dobrej pogodzie" }
+      - { ikona: terrace, tekst: "Miejscowy Ogród i cały kompleks" }
+      - { ikona: utensils, tekst: "Grill, finger food albo bufet" }
+  - tytul: "Team building nad wodą"
+    opis: "Warsztat i czas na zewnątrz w jednym adresie. Na deszcz zostaje zadaszony taras, bez drugiej lokalizacji."
+    zdjecie: "/img/gallery/cm04.jpg"
+    rodzaj: "integracja"
+    fakty:
+      - { ikona: users, tekst: "Kilkadziesiąt osób, większą grupę bierzemy na cały kompleks" }
+      - { ikona: terrace, tekst: "Taras zadaszony i ogród" }
+      - { ikona: clock, tekst: "Wynajem od 5 godzin" }
+      - { ikona: check, tekst: "Program układamy pod zespół" }
 dla_ilu: "Od kilkudziesięciu osób po garden party dla 300. Cały kompleks przyjmuje do 350 gości"
 przestrzenie:
   - "duze-miejsce"

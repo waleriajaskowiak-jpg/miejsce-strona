@@ -350,6 +350,24 @@ collections:
       - { label: Opis SEO, name: seo_description, widget: text }
       - { label: Lead, name: lead, widget: text }
       - { label: Tekst przycisku, name: cta, widget: string }
+      - label: Formaty
+        name: formaty
+        widget: list
+        summary: "{{fields.tytul}}"
+        hint: "Każdy punkt to jeden slajd w sekcji „Co można tu ułożyć”"
+        fields:
+          - { label: Tytuł, name: tytul, widget: string }
+          - { label: Opis, name: opis, widget: text }
+          - { label: Zdjęcie, name: zdjecie, widget: image }
+          - { label: Rodzaj w formularzu, name: rodzaj, widget: string, hint: "id z cennika: wesele, integracja, firmowy, garden-party, konferencja, szkolenie, premiera", required: false }
+          - label: Fakty
+            name: fakty
+            widget: list
+            min: 3
+            max: 4
+            fields:
+              - { label: Ikona, name: ikona, widget: select, options: ["users", "terrace", "clock", "utensils", "glass", "check", "sun", "info"] }
+              - { label: Tekst, name: tekst, widget: string }
       - { label: "Do uzupełnienia (nie publikować w produkcji)", name: do_uzupelnienia, widget: text, required: false }
       - { label: Wstęp, name: body, widget: markdown }
 

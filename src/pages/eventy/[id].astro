@@ -2,6 +2,7 @@
 import { getCollection, getEntry, render } from "astro:content";
 import Base from "../../layouts/Base.astro";
 import Crumbs from "../../components/Crumbs.astro";
+import FormatSlider from "../../components/FormatSlider.astro";
 import NextBand from "../../components/NextBand.astro";
 import StatRow from "../../components/StatRow.astro";
 import Slider from "../../components/Slider.astro";
@@ -73,25 +74,7 @@ const restSpaces = przestrzenie.slice(1);
       />
     </div>
   </section>
-  <section class="event-tint reveal" aria-labelledby="co-mozna">
-    <div class="wrap">
-      <header class="event-head">
-        <p class="eyebrow">Zakres</p>
-        <h2 id="co-mozna">Co można tu ułożyć</h2>
-        <p class="event-range">{entry.data.co_mozna.join(" · ")}</p>
-      </header>
-      {entry.body?.trim() && <p class="lead event-lead">{entry.body.trim()}</p>}
-      <div class="event-offers">
-        {entry.data.korzysci.map((item, index) => (
-          <article class="event-card">
-            <p class="event-num">0{index + 1}</p>
-            <h3>{item.tytul}</h3>
-            <p>{item.opis}</p>
-          </article>
-        ))}
-      </div>
-    </div>
-  </section>
+  <FormatSlider slides={entry.data.formaty} />
   {feature && (
     <section class="event-spaces reveal" aria-labelledby="miejsca">
       <div class="wrap">

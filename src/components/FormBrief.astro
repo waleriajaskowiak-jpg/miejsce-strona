@@ -98,6 +98,7 @@ const useNetlify = !endpoint && netlify;
       field.value = value;
     }
     if (params.has("rodzaj") || params.has("typ") || params.has("budzet") || params.has("budget") || params.has("cel")) {
+      form.querySelector("details")?.setAttribute("open", "");
       form.scrollIntoView({ block: "start" });
     }
   }
