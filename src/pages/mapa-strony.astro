@@ -3,69 +3,69 @@ import { getCollection } from "astro:content";
 import Base from "../layouts/Base.astro";
 import PageHero from "../components/PageHero.astro";
 import NextBand from "../components/NextBand.astro";
+import { podstrony, crumb } from "../lib/copy.js";
 import { crumbsJsonLd, sortByOrder } from "../lib/nav.js";
+
+const page = podstrony.mapa;
 
 const kategorie = sortByOrder(await getCollection("kategorie"));
 const scenariusze = sortByOrder(await getCollection("scenariusze"));
 const przestrzenie = sortByOrder(await getCollection("przestrzenie"));
-const crumbs = [{ href: "/mapa-strony/", label: "Mapa strony" }];
+const crumbs = [{ href: "/mapa-strony/", label: page.h }];
 ---
 
 <Base
-  title="Mapa strony MIEJSCE"
-  description="Wszystkie publiczne działy strony MIEJSCE: wydarzenia, przestrzenie, ceny, wiedza i kontakt"
-  image="/img/gallery/og05.jpg"
-  jsonLd={[crumbsJsonLd([{ href: "/", label: "MIEJSCE" }, ...crumbs])]}
+  title={page.tytul}
+  description={page.opis}
+  image={page.zdjecie}
+  jsonLd={[crumbsJsonLd([{ href: "/", label: crumb("/") }, ...crumbs])]}
 >
   <PageHero
     crumbs={crumbs}
-    kicker="Spis"
-    title="Mapa strony"
-    lede="Te same adresy, które zbiera mapa XML. Szkice nie są tu podlinkowane"
-    image="/img/gallery/og05.jpg"
-    imageAlt="Ogród MIEJSCA"
+    kicker={page.kicker}
+    title={page.h}
+    lede={page.lead}
+    image={page.zdjecie}
+    imageAlt={page.alt}
   />
   <section class="band tight-top">
     <div class="wrap cards-3">
       <article class="info-card">
-        <h2>Strona i wydarzenia</h2>
+        <h2>{page.strona}</h2>
         <ul class="spec-list">
-          <li><a href="/">Strona główna</a></li>
-          <li><a href="/eventy/">Rodzaje wydarzeń</a></li>
+          <li><a href="/">{page.home}</a></li>
+          <li><a href="/eventy/">{page.rodzaje}</a></li>
           {kategorie.filter((item) => !item.data.szkic).map((item) => <li><a href={`/eventy/${item.id}/`}>{item.data.title}</a></li>)}
-          <li><a href="/scenariusze/">Scenariusze</a></li>
+          <li><a href="/scenariusze/">{page.scenariusze}</a></li>
           {scenariusze.filter((item) => !item.data.szkic).map((item) => <li><a href={`/scenariusze/${item.id}/`}>{item.data.title}</a></li>)}
         </ul>
       </article>
       <article class="info-card">
-        <h2>Przestrzenie i oferta</h2>
+        <h2>{page.oferta}</h2>
         <ul class="spec-list">
-          <li><a href="/przestrzenie/">Przestrzenie</a></li>
+          <li><a href="/przestrzenie/">{page.przestrzenie}</a></li>
           {przestrzenie.map((item) => <li><a href={`/przestrzenie/${item.id}/`}>{item.data.title}</a></li>)}
-          <li><a href="/ceny/">Ceny</a></li>
-          <li><a href="/ceny/#estymator">Estymator</a></li>
-          <li><a href="/jedzenie-i-bar/">Jedzenie i bar</a></li>
-          <li><a href="/galeria/">Galeria</a></li>
+          <li><a href="/ceny/">{page.ceny}</a></li>
+          <li><a href="/ceny/#estymator">{page.estymator}</a></li>
+          <li><a href="/jedzenie-i-bar/">{page.jedzenie}</a></li>
+          <li><a href="/galeria/">{page.galeria}</a></li>
         </ul>
       </article>
       <article class="info-card">
-        <h2>Wiedza i kontakt</h2>
+        <h2>{page.wiedza}</h2>
         <ul class="spec-list">
-          <li><a href="/realizacje/">Realizacje</a></li>
-          <li><a href="/warto-wiedziec/">Warto wiedzieć</a></li>
-          <li><a href="/poradnik/">Poradnik</a></li>
-          <li><a href="/kontakt/">Kontakt</a></li>
-          <li><a href="/kontakt/?cel=ogledziny">Oględziny</a></li>
+          <li><a href="/realizacje/">{page.realizacje}</a></li>
+          <li><a href="/warto-wiedziec/">{page.warto}</a></li>
+          <li><a href="/poradnik/">{page.poradnik}</a></li>
+          <li><a href="/kontakt/">{page.kontakt}</a></li>
+          <li><a href="/kontakt/?cel=ogledziny">{page.ogledziny}</a></li>
         </ul>
       </article>
     </div>
   </section>
   <NextBand
-    title="Wybierz jeden adres"
+    title={page.nastepny}
     links={[
-      { href: "/eventy/", label: "Rodzaje wydarzeń" },
-      { href: "/ceny/#estymator", label: "Sprawdź budżet" },
-      { href: "/kontakt/", label: "Zaplanuj event" },
-    ]}
+      { href: "/eventy/", label: page.link_rodzaje }, { href: "/ceny/#estymator", label: page.link_budzet }, { href: "/kontakt/", label: page.cta }, ]}
   />
 </Base>

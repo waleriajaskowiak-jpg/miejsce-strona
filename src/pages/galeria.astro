@@ -4,32 +4,32 @@ import Base from "../layouts/Base.astro";
 import PageHero from "../components/PageHero.astro";
 import Gallery from "../components/Gallery.astro";
 import NextBand from "../components/NextBand.astro";
+import { podstrony, crumb } from "../lib/copy.js";
 import { crumbsJsonLd } from "../lib/nav.js";
 
+const page = podstrony.galeria;
+
 const galeria = (await getEntry("ustawienia", "galeria"))!.data;
-const crumbs = [{ href: "/galeria/", label: "Galeria" }];
+const crumbs = [{ href: "/galeria/", label: crumb("/galeria/") }];
 ---
 
 <Base
-  title="Galeria zdjęć | MIEJSCE"
+  title={page.tytul}
   description={galeria.opis}
-  jsonLd={[crumbsJsonLd([{ href: "/", label: "MIEJSCE" }, ...crumbs])]}
+  jsonLd={[crumbsJsonLd([{ href: "/", label: crumb("/") }, ...crumbs])]}
 >
   <PageHero
     crumbs={crumbs}
-    kicker="Port Czerniakowski"
+    kicker={page.kicker}
     title={galeria.naglowek}
     lede={galeria.opis}
-    image="/img/gallery/dm22.jpg"
-    imageAlt="Wieczór na barce"
+    image={page.zdjecie}
+    imageAlt={page.alt}
   />
   <Gallery galeria={galeria} limit={24} />
   <NextBand
-    title="Widziałeś dość?"
+    title={page.nastepny}
     links={[
-      { href: "/przestrzenie/", label: "Zobacz przestrzenie" },
-      { href: "/eventy/", label: "Rodzaje wydarzeń" },
-      { href: "/kontakt/", label: "Zaplanuj event" },
-    ]}
+      { href: "/przestrzenie/", label: page.link_przestrzenie }, { href: "/eventy/", label: page.link }, { href: "/kontakt/", label: page.cta }, ]}
   />
 </Base>

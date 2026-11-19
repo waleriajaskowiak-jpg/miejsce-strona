@@ -402,7 +402,7 @@ a.feature-media { text-decoration: none; }
 .item.on .n { color: var(--accent); }
 .item.on .go { background: var(--accent); color: var(--ink); border-color: var(--accent); }
 .item.off { opacity: 0.35; }
-.item.off .cap::after { content: "Za mało miejsca"; display: table; margin-top: 8px; padding: 6px 10px; border-radius: 999px; background: var(--accent); color: var(--ink); font-size: 13px; font-weight: 700; letter-spacing: 0; }
+.item.off .cap::after { content: var(--za-malo, "Za mało miejsca"); display: table; margin-top: 8px; padding: 6px 10px; border-radius: 999px; background: var(--accent); color: var(--ink); font-size: 13px; font-weight: 700; letter-spacing: 0; }
 .kpis { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 24px; }
 .kpis div { background: var(--dark); border-radius: 16px; padding: 16px; }
 .kpis b { display: block; font-family: var(--font-display); font-size: 36px; color: #fff; }

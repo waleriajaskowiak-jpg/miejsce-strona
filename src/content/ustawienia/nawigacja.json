@@ -1,0 +1,32 @@
+{
+  "aria_marka": "MIEJSCE, strona główna",
+  "aria_logo": "MIEJSCE",
+  "aria_glowna": "Główna",
+  "aria_menu": "Menu",
+  "aria_zamknij": "Zamknij menu",
+  "aria_mobilna": "Mobilna",
+  "logo": "/img/logo-grafit.svg",
+  "logo_noc": "/img/logo-ecru.svg",
+  "wydarzenia": "Wydarzenia",
+  "przestrzenie": "Przestrzenie",
+  "ceny": "Ceny",
+  "realizacje": "Realizacje",
+  "kontakt": "Kontakt",
+  "cta": "Zaplanuj wydarzenie",
+  "cta_mobile": "Zaplanuj event",
+  "zadzwon": "Zadzwoń",
+  "instagram": "Instagram",
+  "instagram_url": "https://instagram.com/miejsceto/",
+  "pomin": "Przejdź do treści",
+  "krotkie_przestrzenie": [
+    { "id": "duze-miejsce", "etykieta": "Duże" },
+    { "id": "nowe-miejsce", "etykieta": "Małe" },
+    { "id": "ogrod", "etykieta": "Ogród" },
+    { "id": "cale-miejsce", "etykieta": "Całe" }
+  ],
+  "menu_mobilne": [
+    { "href": "/ceny/", "etykieta": "Ceny", "numer": "01" },
+    { "href": "/realizacje/", "etykieta": "Realizacje", "numer": "02" },
+    { "href": "/kontakt/", "etykieta": "Kontakt", "numer": "03" }
+  ]
+}

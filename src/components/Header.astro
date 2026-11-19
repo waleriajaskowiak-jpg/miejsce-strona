@@ -1,6 +1,7 @@
 ---
 import { getCollection, getEntry } from "astro:content";
 import Icon from "./Icon.astro";
+import { nawigacja as nav } from "../lib/copy.js";
 import { sortByOrder } from "../lib/nav.js";
 
 const path = Astro.url.pathname;
@@ -8,29 +9,20 @@ const current = (href: string) => path === href || (href !== "/" && path.startsW
 const kategorie = sortByOrder(await getCollection("kategorie"));
 const przestrzenie = sortByOrder(await getCollection("przestrzenie"));
 const kontakt = (await getEntry("ustawienia", "kontakt"))?.data;
-const shortSpace = {
-  "duze-miejsce": "Duże",
-  "nowe-miejsce": "Małe",
-  ogrod: "Ogród",
-  "cale-miejsce": "Całe",
-};
-const mains = [
-  { href: "/ceny/", label: "Ceny", n: "01" },
-  { href: "/realizacje/", label: "Realizacje", n: "02" },
-  { href: "/kontakt/", label: "Kontakt", n: "03" },
-];
+const shortSpace = Object.fromEntries(nav.krotkie_przestrzenie.map((item) => [item.id, item.etykieta]));
+const mains = nav.menu_mobilne.map((item) => ({ href: item.href, label: item.etykieta, n: item.numer }));
 ---
 
 <header class="site-head">
   <div class="wrap head-inner">
-    <a class="brand" href="/" aria-label="MIEJSCE, strona główna">
-      <img class="logo-day" src="/img/logo-grafit.svg" alt="MIEJSCE" width="1550" height="444" />
-      <img class="logo-night" src="/img/logo-ecru.svg" alt="" width="1550" height="444" />
+    <a class="brand" href="/" aria-label={nav.aria_marka}>
+      <img class="logo-day" src={nav.logo} alt={nav.aria_logo} width="1550" height="444" />
+      <img class="logo-night" src={nav.logo_noc} alt="" width="1550" height="444" />
     </a>
-    <nav class="nav-desk" aria-label="Główna">
+    <nav class="nav-desk" aria-label={nav.aria_glowna}>
       <div class="nav-dd">
         <a href="/eventy/" aria-expanded="false" aria-controls="menu-wydarzenia" aria-current={current("/eventy/") ? "page" : undefined}>
-          Wydarzenia <i class="chev" aria-hidden="true"></i>
+          {nav.wydarzenia} <i class="chev" aria-hidden="true"></i>
         </a>
         <div class="nav-pop" id="menu-wydarzenia">
           {kategorie.map((item) => (
@@ -40,7 +32,7 @@ const mains = [
       </div>
       <div class="nav-dd">
         <a href="/przestrzenie/" aria-expanded="false" aria-controls="menu-przestrzenie" aria-current={current("/przestrzenie/") ? "page" : undefined}>
-          Przestrzenie <i class="chev" aria-hidden="true"></i>
+          {nav.przestrzenie} <i class="chev" aria-hidden="true"></i>
         </a>
         <div class="nav-pop" id="menu-przestrzenie">
           {przestrzenie.map((item) => (
@@ -48,20 +40,20 @@ const mains = [
           ))}
         </div>
       </div>
-      <a href="/ceny/" aria-current={current("/ceny/") ? "page" : undefined}>Ceny</a>
-      <a href="/realizacje/" aria-current={current("/realizacje/") ? "page" : undefined}>Realizacje</a>
-      <a href="/kontakt/" aria-current={current("/kontakt/") ? "page" : undefined}>Kontakt</a>
+      <a href="/ceny/" aria-current={current("/ceny/") ? "page" : undefined}>{nav.ceny}</a>
+      <a href="/realizacje/" aria-current={current("/realizacje/") ? "page" : undefined}>{nav.realizacje}</a>
+      <a href="/kontakt/" aria-current={current("/kontakt/") ? "page" : undefined}>{nav.kontakt}</a>
     </nav>
-    <a class="btn btn-primary btn-sm head-plan" href="/kontakt/">Zaplanuj wydarzenie</a>
-    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="nav-panel" aria-label="Menu">
+    <a class="btn btn-primary btn-sm head-plan" href="/kontakt/">{nav.cta}</a>
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="nav-panel" aria-label={nav.aria_menu} data-menu={nav.aria_menu} data-zamknij={nav.aria_zamknij}>
       <span class="burger" aria-hidden="true"><i></i><i></i></span>
     </button>
   </div>
 </header>
 
-<div class="nav-panel" id="nav-panel" role="dialog" aria-modal="true" aria-label="Menu" aria-hidden="true">
-  <nav aria-label="Mobilna">
-    <p class="menu-kicker rise" style="--d:0">Wydarzenia</p>
+<div class="nav-panel" id="nav-panel" role="dialog" aria-modal="true" aria-label={nav.aria_menu} aria-hidden="true">
+  <nav aria-label={nav.aria_mobilna}>
+    <p class="menu-kicker rise" style="--d:0">{nav.wydarzenia}</p>
     <div class="menu-cats">
       {kategorie.map((item, index) => (
         <a class:list={["menu-cat", "rise"]} style={`--d:${3 + index};--event-color:${item.data.kolor};--event-on:${item.data.kolor_tekst}`} href={`/eventy/${item.id}/`}>
@@ -71,7 +63,7 @@ const mains = [
         </a>
       ))}
     </div>
-    <p class="menu-kicker rise" style="--d:7">Przestrzenie</p>
+    <p class="menu-kicker rise" style="--d:7">{nav.przestrzenie}</p>
     <div class="menu-spaces rise" style="--d:8">
       {przestrzenie.map((space) => (
         <a class="menu-space" href={`/przestrzenie/${space.id}/`}>
@@ -90,12 +82,12 @@ const mains = [
       ))}
     </div>
     <div class="menu-foot rise" style="--d:12">
-      <a class="btn btn-primary" href="/kontakt/">Zaplanuj wydarzenie</a>
-      {kontakt && <a class="btn btn-ghost" href={`tel:${kontakt.telefon_href}`}>Zadzwoń</a>}
+      <a class="btn btn-primary" href="/kontakt/">{nav.cta}</a>
+      {kontakt && <a class="btn btn-ghost" href={`tel:${kontakt.telefon_href}`}>{nav.zadzwon}</a>}
       <div class="menu-meta">
         {kontakt && <a class="icon-line" href={`tel:${kontakt.telefon_href}`}><Icon name="phone" /><span>{kontakt.telefon_wyswietlany}</span></a>}
         {kontakt && <a class="icon-line" href={`mailto:${kontakt.email}`}><Icon name="mail" /><span>{kontakt.email}</span></a>}
-        <a class="icon-line" href="https://instagram.com/miejsceto/" rel="noopener"><Icon name="ig" /><span>Instagram</span></a>
+        <a class="icon-line" href={nav.instagram_url} rel="noopener"><Icon name="ig" /><span>{nav.instagram}</span></a>
       </div>
     </div>
   </nav>
@@ -111,7 +103,7 @@ const mains = [
     const was = document.body.classList.contains("nav-open");
     panel.setAttribute("aria-hidden", open ? "false" : "true");
     btn.setAttribute("aria-expanded", open ? "true" : "false");
-    btn.setAttribute("aria-label", open ? "Zamknij menu" : "Menu");
+    btn.setAttribute("aria-label", open ? btn.getAttribute("data-zamknij") : btn.getAttribute("data-menu"));
     document.body.classList.toggle("nav-open", open);
     if (scroller) scroller.style.overflow = open ? "hidden" : "";
     document.body.style.overflow = open ? "hidden" : "";

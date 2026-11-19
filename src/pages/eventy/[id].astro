@@ -7,7 +7,11 @@ import SpaceSlider from "../../components/SpaceSlider.astro";
 import NextBand from "../../components/NextBand.astro";
 import StatRow from "../../components/StatRow.astro";
 import Slider from "../../components/Slider.astro";
+import { etykiety, podstrony, crumb } from "../../lib/copy.js";
 import { crumbsJsonLd, sortByOrder, zloty } from "../../lib/nav.js";
+
+const page = podstrony.event;
+const slow = etykiety.fakty_slow;
 
 export async function getStaticPaths() {
   const entries = await getCollection("kategorie");
@@ -26,41 +30,29 @@ for (const item of faqAll) {
 }
 const sekcje = entry.id === "premiery-i-eventy-marek" ? (await getEntry("ustawienia", "sekcje"))?.data : null;
 const crumbs = [
-  { href: "/eventy/", label: "Wydarzenia" },
-  { label: entry.data.nav_label },
-];
+  { href: "/eventy/", label: crumb("/eventy/") }, { label: entry.data.nav_label }, ];
 const typ = pierwszy?.data.typ_budzetu || "firmowy";
 const budzetHref = `/ceny/?typ=${typ}${pierwszy?.data.goscie ? `&osoby=${pierwszy.data.goscie}` : ""}#estymator`;
 const kontaktHref = `/kontakt/?typ=${entry.id}`;
 const fakty = (await getEntry("ustawienia", "fakty"))!.data.przestrzenie;
 const factKey = {
-  "duze-miejsce": "duze",
-  "nowe-miejsce": "male",
-  ogrod: "ogrod",
-  "cale-miejsce": "cale",
-};
+  "duze-miejsce": "duze", "nowe-miejsce": "male", ogrod: "ogrod", "cale-miejsce": "cale", };
 const orderedSpaces = entry.data.przestrzenie.map((id) => przestrzenie.find((space) => space.id === id)).filter(Boolean);
 const spaceSlides = orderedSpaces.map((space, index) => {
   const fact = fakty[factKey[space.id]] || {};
   const facts = [];
   const nb = (value, unit) => `${value}\u00A0${unit}`;
-  if (fact.wnetrze_m2) facts.push({ ikona: "ruler", tekst: `${nb(fact.wnetrze_m2, "m²")} wnętrza${fact.taras_m2 ? ` + ${nb(fact.taras_m2, "m²")} tarasu` : ""}` });
+  if (fact.wnetrze_m2) facts.push({ ikona: "ruler", tekst: `${nb(fact.wnetrze_m2, "m²")} ${slow.wnetrze}${fact.taras_m2 ? ` + ${nb(fact.taras_m2, "m²")} ${slow.tarasu}` : ""}` });
   if (fact.powierzchnia_m2) facts.push({ ikona: "ruler", tekst: `${nb(fact.powierzchnia_m2, "m²")}${fact.sezon ? ` · ${fact.sezon}` : ""}` });
-  if (fact.zima_osob) facts.push({ ikona: "users", tekst: `Zimą ${fact.zima_osob}` });
-  if (fact.gosci) facts.push({ ikona: "users", tekst: fact.gosci_tekst || nb(fact.gosci, "gości") });
-  if (fact.maks_osob) facts.push({ ikona: "users", tekst: `Do ${nb(fact.maks_osob, "gości")}, ${fact.maks_kiedy || "cały kompleks latem, z ogrodem"}` });
-  if (fact.czas) facts.push({ ikona: "clock", tekst: `Wynajem ${fact.czas.replace(/^(\d+)\s+/, "$1\u00A0")}` });
+  if (fact.zima_osob) facts.push({ ikona: "users", tekst: `${slow.zima} ${fact.zima_osob}` });
+  if (fact.gosci) facts.push({ ikona: "users", tekst: fact.gosci_tekst || nb(fact.gosci, slow.goscie) });
+  if (fact.maks_osob) facts.push({ ikona: "users", tekst: `${slow.do} ${nb(fact.maks_osob, slow.goscie)}, ${fact.maks_kiedy || podstrony.przestrzen.fallback_kiedy}` });
+  if (fact.czas) facts.push({ ikona: "clock", tekst: `${slow.wynajem} ${fact.czas.replace(/^(\d+)\s+/, "$1\u00A0")}` });
   const price = typeof fact.cena_od === "number"
-    ? `od ${zloty(fact.cena_od)}`
-    : "wycena indywidualna";
+    ? `${etykiety.od} ${zloty(fact.cena_od)}`
+    : etykiety.wycena_indywidualna;
   return {
-    title: space.data.title,
-    photo: space.data.cover,
-    href: `/przestrzenie/${space.id}/`,
-    recommended: index === 0,
-    price,
-    facts: facts.slice(0, 4),
-  };
+    title: space.data.title, photo: space.data.cover, href: `/przestrzenie/${space.id}/`, recommended: index === 0, price, facts: facts.slice(0, 4), };
 });
 ---
 
@@ -69,7 +61,7 @@ const spaceSlides = orderedSpaces.map((space, index) => {
   description={entry.data.seo_description}
   image={entry.data.cover}
   robots={entry.data.szkic ? "noindex,follow" : "index,follow"}
-  jsonLd={[crumbsJsonLd([{ href: "/", label: "MIEJSCE" }, { href: "/eventy/", label: "Wydarzenia" }, { href: `/eventy/${entry.id}/`, label: entry.data.title }])]}
+  jsonLd={[crumbsJsonLd([{ href: "/", label: crumb("/") }, { href: "/eventy/", label: crumb("/eventy/") }, { href: `/eventy/${entry.id}/`, label: entry.data.title }])]}
   eventColor={entry.data.kolor}
   eventOn={entry.data.kolor_tekst}
 >
@@ -89,17 +81,14 @@ const spaceSlides = orderedSpaces.map((space, index) => {
       </div>
     </div>
   </header>
-  <section class="event-sheet" aria-label="W skrócie">
+  <section class="event-sheet" aria-label={page.skrot}>
     <div class="wrap">
-      <nav class="pills" aria-label="Zakres">
+      <nav class="pills" aria-label={page.zakres}>
         {entry.data.tagi.map((tag) => <a class="pill" href="#co-mozna">{tag}</a>)}
       </nav>
       <StatRow
         items={entry.data.fakty.map((fact) => ({
-          value: fact.wartosc,
-          count: fact.liczba,
-          label: fact.opis,
-        }))}
+          value: fact.wartosc, count: fact.liczba, label: fact.opis, }))}
       />
     </div>
   </section>
@@ -113,15 +102,15 @@ const spaceSlides = orderedSpaces.map((space, index) => {
         </figure>
         <div>
           <p class="eyebrow">{pierwszy.data.title}</p>
-          <h2 id="scenariusz">Przykładowy scenariusz</h2>
+          <h2 id="scenariusz">{page.scenariusz}</h2>
           <p class="lead">{pierwszy.data.lead}</p>
           <ol class="event-steps">
             {pierwszy.data.program.map((punkt, index) => (
               <li><b>0{index + 1}</b><span>{punkt.tytul}</span></li>
             ))}
           </ol>
-          <p class="fine">Godziny i zakres dopasowujemy do Waszego wydarzenia</p>
-          <p class="btn-row"><a class="btn btn-primary" href={`/scenariusze/${pierwszy.id}/`}>Zobacz cały scenariusz</a></p>
+          <p class="fine">{page.godziny}</p>
+          <p class="btn-row"><a class="btn btn-primary" href={`/scenariusze/${pierwszy.id}/`}>{page.zobacz}</a></p>
         </div>
       </div>
     </section>
@@ -129,18 +118,18 @@ const spaceSlides = orderedSpaces.map((space, index) => {
   <section class="event-feast reveal" aria-labelledby="menu-kat">
     <div class="wrap event-feast-grid">
       <div>
-        <p class="eyebrow">Kuchnia</p>
-        <h2 id="menu-kat">Jedzenie, bar i dobry plan</h2>
+        <p class="eyebrow">{page.kuchnia}</p>
+        <h2 id="menu-kat">{page.menu}</h2>
         <p class="lead">{entry.data.jedzenie_bar}</p>
         <p>{entry.data.atrakcje}</p>
-        <p class="fine">Dodatkowe AV, DJ i oprawa wyceniamy osobno, poza kwotą „od”</p>
+        <p class="fine">{page.osobno}</p>
         <div class="btn-row">
-          <a class="btn btn-ghost" href="/jedzenie-i-bar/">Jedzenie i bar</a>
-          <a class="btn btn-primary" href={budzetHref}>Porozmawiajmy o budżecie</a>
+          <a class="btn btn-ghost" href="/jedzenie-i-bar/">{page.jedzenie}</a>
+          <a class="btn btn-primary" href={budzetHref}>{page.budzet}</a>
         </div>
       </div>
       <aside class="event-note">
-        <p class="eyebrow">Plan B</p>
+        <p class="eyebrow">{page.plan}</p>
         <p class="lead">{entry.data.plan_b}</p>
       </aside>
     </div>
@@ -149,15 +138,15 @@ const spaceSlides = orderedSpaces.map((space, index) => {
     <Slider
       title={sekcje.film_h}
       note={sekcje.film_body}
-      items={sekcje.film_zdjecia.map((src, index) => ({ src, alt: `${sekcje.film_h}, zdjęcie ${index + 1}`, title: sekcje.film_note }))}
+      items={sekcje.film_zdjecia.map((src, index) => ({ src, alt: page.zdjecie_szablon.replace("{tytul}", sekcje.film_h).replace("{n}", String(index + 1)), title: sekcje.film_note }))}
     />
   )}
   <section class="event-faq event-tint reveal" aria-labelledby="faq-kat">
     <div class="wrap event-faq-grid">
       <header class="event-head">
-        <p class="eyebrow">Pytania</p>
-        <h2 id="faq-kat">Zanim napiszesz</h2>
-        <p class="lead">Deszcz, godziny, dojazd i menu. Resztę doprecyzujemy w briefie</p>
+        <p class="eyebrow">{page.pytania}</p>
+        <h2 id="faq-kat">{page.faq}</h2>
+        <p class="lead">{page.faq_lead}</p>
       </header>
       <div>
         {faq.map(({ item, Content }) => (
@@ -172,10 +161,7 @@ const spaceSlides = orderedSpaces.map((space, index) => {
   <NextBand
     title={entry.data.cta}
     links={[
-      { href: budzetHref, label: "Sprawdź budżet" },
-      { href: "/przestrzenie/", label: "Wszystkie przestrzenie" },
-      { href: kontaktHref, label: entry.data.cta },
-    ]}
+      { href: budzetHref, label: page.sprawdz }, { href: "/przestrzenie/", label: page.przestrzenie }, { href: kontaktHref, label: entry.data.cta }, ]}
     cta={entry.data.cta}
     href={kontaktHref}
   />

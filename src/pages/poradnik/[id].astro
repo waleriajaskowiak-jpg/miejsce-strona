@@ -3,7 +3,10 @@ import { getCollection, render } from "astro:content";
 import Base from "../../layouts/Base.astro";
 import PageHero from "../../components/PageHero.astro";
 import NextBand from "../../components/NextBand.astro";
+import { podstrony, crumb } from "../../lib/copy.js";
 import { crumbsJsonLd } from "../../lib/nav.js";
+
+const page = podstrony.poradnik;
 
 export async function getStaticPaths() {
   const entries = await getCollection("artykuly");
@@ -13,18 +16,9 @@ export async function getStaticPaths() {
 const { entry } = Astro.props;
 const { Content } = await render(entry);
 const crumbs = [
-  { href: "/poradnik/", label: "Poradnik" },
-  { label: entry.data.title },
-];
+  { href: "/poradnik/", label: crumb("/poradnik/") }, { label: entry.data.title }, ];
 const articleLd = {
-  "@context": "https://schema.org",
-  "@type": "Article",
-  headline: entry.data.title,
-  description: entry.data.opis_seo,
-  mainEntityOfPage: `https://miejsce.to/poradnik/${entry.id}/`,
-  author: { "@type": "Organization", name: "MIEJSCE" },
-  publisher: { "@type": "Organization", name: "MIEJSCE" },
-};
+  "@context": "https://schema.org", "@type": "Article", headline: entry.data.title, description: entry.data.opis_seo, mainEntityOfPage: `https://miejsce.to/poradnik/${entry.id}/`, author: { "@type": "Organization", name: "MIEJSCE" }, publisher: { "@type": "Organization", name: "MIEJSCE" }, };
 ---
 
 <Base
@@ -32,29 +26,24 @@ const articleLd = {
   description={entry.data.opis_seo}
   robots={entry.data.szkic ? "noindex,follow" : "index,follow"}
   jsonLd={[
-    crumbsJsonLd([{ href: "/", label: "MIEJSCE" }, { href: "/poradnik/", label: "Poradnik" }, { href: `/poradnik/${entry.id}/`, label: entry.data.title }]),
-    ...(entry.data.szkic ? [] : [articleLd]),
-  ]}
+    crumbsJsonLd([{ href: "/", label: crumb("/") }, { href: "/poradnik/", label: crumb("/poradnik/") }, { href: `/poradnik/${entry.id}/`, label: entry.data.title }]), ...(entry.data.szkic ? [] : [articleLd]), ]}
 >
   <PageHero
     crumbs={crumbs}
-    kicker="Poradnik organizatora"
+    kicker={page.kicker_artykul}
     title={entry.data.title}
     lede={entry.data.opis}
-    image="/img/gallery/mm16.jpg"
+    image={page.zdjecie_artykul}
     imageAlt=""
   />
   <section class="band tight-top">
     <div class="wrap">
-      {entry.data.szkic ? <p class="btn-row"><a class="btn btn-primary" href="/kontakt/">Zapytaj o event</a></p> : <div class="prose"><Content /></div>}
+      {entry.data.szkic ? <p class="btn-row"><a class="btn btn-primary" href="/kontakt/">{page.pusty}</a></p> : <div class="prose"><Content /></div>}
     </div>
   </section>
   <NextBand
-    title="Policz albo napisz"
+    title={page.nastepny_artykul}
     links={[
-      { href: "/poradnik/", label: "Wszystkie tematy" },
-      { href: "/ceny/#estymator", label: "Sprawdź budżet" },
-      { href: "/kontakt/", label: "Zaplanuj event" },
-    ]}
+      { href: "/poradnik/", label: page.link_tematy }, { href: "/ceny/#estymator", label: page.link_budzet }, { href: "/kontakt/", label: page.cta }, ]}
   />
 </Base>

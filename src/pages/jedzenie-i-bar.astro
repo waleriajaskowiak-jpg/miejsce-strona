@@ -3,41 +3,44 @@ import { getEntry } from "astro:content";
 import Base from "../layouts/Base.astro";
 import NextBand from "../components/NextBand.astro";
 import PageHero from "../components/PageHero.astro";
+import { etykiety, podstrony, crumb } from "../lib/copy.js";
 import { crumbsJsonLd } from "../lib/nav.js";
+
+const page = podstrony.jedzenie;
 
 const jedzenie = (await getEntry("ustawienia", "jedzenie"))!.data;
 const cennik = (await getEntry("ustawienia", "cennik"))!.data;
-const crumbs = [{ href: "/jedzenie-i-bar/", label: "Jedzenie i bar" }];
-const foodPhoto = ["/img/pdf/menu-1.jpg", "/img/pdf/menu-2.jpg", "/img/pdf/menu-3.jpg"];
-const barPhoto = ["/img/pdf/menu-4.jpg", "/img/pdf/menu-5.jpg", "/img/gallery/kn08.jpg"];
+const crumbs = [{ href: "/jedzenie-i-bar/", label: page.tytul.split(" | ")[0] }];
+const foodPhoto = page.menu;
+const barPhoto = page.bar_zdjecia;
 ---
 
 <Base
-  title="Jedzenie i bar | MIEJSCE"
+  title={page.tytul}
   description={jedzenie.opis_seo}
   image={jedzenie.zdjecia[0]}
-  jsonLd={[crumbsJsonLd([{ href: "/", label: "MIEJSCE" }, ...crumbs])]}
+  jsonLd={[crumbsJsonLd([{ href: "/", label: crumb("/") }, ...crumbs])]}
 >
   <PageHero
     crumbs={crumbs}
-    kicker="Kuchnia na miejscu"
+    kicker={page.kicker}
     title={jedzenie.naglowek}
     lede={jedzenie.lead}
     image={jedzenie.zdjecia[0]}
-    imageAlt="Jedzenie na evencie"
+    imageAlt={page.alt}
   />
 
   <section class="band">
     <div class="wrap">
       <div class="tablist" role="tablist" aria-label="Jedzenie i bar">
-        <button type="button" role="tab" id="tab-catering" aria-controls="panel-catering" aria-selected="true">Catering</button>
-        <button type="button" role="tab" id="tab-bar" aria-controls="panel-bar" aria-selected="false" tabindex="-1">Bar</button>
+        <button type="button" role="tab" id="tab-catering" aria-controls="panel-catering" aria-selected="true">{page.catering}</button>
+        <button type="button" role="tab" id="tab-bar" aria-controls="panel-bar" aria-selected="false" tabindex="-1">{page.bar}</button>
       </div>
 
       <div class="person-toggle">
         <label class="slider-block">
-          <span class="slider-k">Przelicz na liczbę gości</span>
-          <output data-people>dla 80 osób</output>
+          <span class="slider-k">{page.przelicz}</span>
+          <output data-people>{page.dla_start}</output>
           <input type="range" min="10" max="350" step="5" value="80" data-people-range />
         </label>
       </div>
@@ -45,7 +48,7 @@ const barPhoto = ["/img/pdf/menu-4.jpg", "/img/pdf/menu-5.jpg", "/img/gallery/kn
       <div role="tabpanel" id="panel-catering" aria-labelledby="tab-catering">
         <div class="stack-lg">
           <div class="kitchen-photos">
-            {jedzenie.zdjecia.slice(0, 3).map((src) => <img src={src} alt="Jedzenie na evencie w MIEJSCU" />)}
+            {jedzenie.zdjecia.slice(0, 3).map((src) => <img src={src} alt={page.alt_jedzenie} />)}
           </div>
           <div class="tier-grid">
             {
@@ -71,7 +74,7 @@ const barPhoto = ["/img/pdf/menu-4.jpg", "/img/pdf/menu-5.jpg", "/img/gallery/kn
       <div role="tabpanel" id="panel-bar" aria-labelledby="tab-bar" hidden>
         <div class="stack-lg">
           <div class="kitchen-photos">
-            {jedzenie.zdjecia.slice(2, 5).map((src) => <img src={src} alt="Bar na evencie w MIEJSCU" />)}
+            {jedzenie.zdjecia.slice(2, 5).map((src) => <img src={src} alt={page.alt_bar} />)}
           </div>
           <div class="tier-grid">
             {
@@ -102,15 +105,15 @@ const barPhoto = ["/img/pdf/menu-4.jpg", "/img/pdf/menu-5.jpg", "/img/gallery/kn
   <section class="band band-dark eat-section">
     <div class="wrap eat-grid">
       <div class="eat-copy">
-        <p class="eyebrow">Kuchnia</p>
-        <h2>Jak jemy na evencie</h2>
+        <p class="eyebrow">{page.kuchnia}</p>
+        <h2>{page.h}</h2>
         <p class="lead">{jedzenie.filozofia}</p>
         <p>{jedzenie.diety}</p>
         <p>{jedzenie.bary}</p>
         <p><a class="btn btn-primary" href={jedzenie.pdf}>{jedzenie.pdf_etykieta}</a></p>
       </div>
       <div class="eat-side">
-        <p class="eyebrow">Specjalizacja</p>
+        <p class="eyebrow">{page.specjalizacja}</p>
         <ul class="included">
           {jedzenie.specjalizacja.map((item) => <li>{item}</li>)}
         </ul>
@@ -119,20 +122,21 @@ const barPhoto = ["/img/pdf/menu-4.jpg", "/img/pdf/menu-5.jpg", "/img/gallery/kn
   </section>
 
   <NextBand
-    kicker="Następny krok"
-    title="Dobierz budżet do menu"
-    lead="Zestawimy to menu z Twoim budżetem. Wynik jest orientacyjny."
+    kicker={etykiety.nastepny_krok}
+    title={page.nastepny}
+    lead={page.lead}
     links={[
-      { href: "/ceny/", label: "Ceny i estymator" },
-      { href: "/eventy/", label: "Scenariusze" },
-      { href: "/kontakt/", label: "Brief" },
-    ]}
-    cta="Wyślij brief"
+      { href: "/ceny/", label: page.ceny }, { href: "/eventy/", label: page.scenariusze }, { href: "/kontakt/", label: page.brief }, ]}
+    cta={podstrony.ceny.cta}
   />
 </Base>
 
 <script>
+  import { podstrony, crumb } from "../lib/copy.js";
   import { zloty } from "../lib/nav.js";
+  const pageDla = podstrony.jedzenie.dla;
+  const pageOsob = podstrony.jedzenie.osob;
+  const lineTpl = podstrony.jedzenie.linia;
   const tabs = [...document.querySelectorAll('[role="tab"]')];
   const panels = [...document.querySelectorAll('[role="tabpanel"]')];
   const select = (index) => {
@@ -158,10 +162,10 @@ const barPhoto = ["/img/pdf/menu-4.jpg", "/img/pdf/menu-5.jpg", "/img/gallery/kn
   const out = document.querySelector("[data-people]");
   const paint = () => {
     const n = Number(range.value);
-    out.textContent = `dla ${n}\u00A0osób`;
+    out.textContent = `${pageDla} ${n}\u00A0${pageOsob}`;
     document.querySelectorAll("[data-line]").forEach((node) => {
       const rate = Number(node.getAttribute("data-line"));
-      node.textContent = `${n} × ${zloty(rate)} = ${zloty(n * rate)} netto +10% serwisu`;
+      node.textContent = lineTpl.replace("{n}", String(n)).replace("{stawka}", zloty(rate)).replace("{suma}", zloty(n * rate));
     });
   };
   range?.addEventListener("input", paint);

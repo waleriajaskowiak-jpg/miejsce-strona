@@ -4,18 +4,21 @@ import Base from "../../layouts/Base.astro";
 import Crumbs from "../../components/Crumbs.astro";
 import NextBand from "../../components/NextBand.astro";
 import SpacePicker from "../../components/SpacePicker.astro";
+import { etykiety, podstrony, crumb } from "../../lib/copy.js";
 import { crumbsJsonLd, sortByOrder } from "../../lib/nav.js";
+
+const page = podstrony.przestrzenie;
 
 const przestrzenie = sortByOrder(await getCollection("przestrzenie"));
 const fakty = (await getEntry("ustawienia", "fakty"))!.data;
-const crumbs = [{ href: "/przestrzenie/", label: "Przestrzenie" }];
-const description = "Dwie barki, zadaszone tarasy i ogród w Porcie Czerniakowskim. Cztery układy: Duże Miejsce, Małe Miejsce, ogród i cały kompleks.";
+const crumbs = [{ href: "/przestrzenie/", label: crumb("/przestrzenie/") }];
+const description = page.opis;
 ---
 
 <Base
-  title="Przestrzenie — dwie barki, tarasy i ogród | MIEJSCE"
+  title={page.tytul}
   description={description}
-  jsonLd={[crumbsJsonLd([{ href: "/", label: "MIEJSCE" }, ...crumbs])]}
+  jsonLd={[crumbsJsonLd([{ href: "/", label: crumb("/") }, ...crumbs])]}
 >
   <section class="band band-ink editorial">
     <div class="wrap">
@@ -37,7 +40,7 @@ const description = "Dwie barki, zadaszone tarasy i ogród w Porcie Czerniakowsk
             <ul class="spec-list">
               {space.data.w_skrocie.slice(0, 6).map((item) => <li>{item}</li>)}
             </ul>
-            <p class="btn-row"><a class="btn btn-primary" href={`/przestrzenie/${space.id}/`}>Zobacz {space.data.title}</a></p>
+            <p class="btn-row"><a class="btn btn-primary" href={`/przestrzenie/${space.id}/`}>{page.zobacz} {space.data.title}</a></p>
           </div>
           <div class="space-shots">
             {space.data.zdjecia.slice(0, 3).map((src) => <img src={src} alt="" width="1800" height="1200" />)}
@@ -47,13 +50,10 @@ const description = "Dwie barki, zadaszone tarasy i ogród w Porcie Czerniakowsk
     ))
   }
   <NextBand
-    kicker="Następny krok"
-    title="Wybierz scenariusz albo policz budżet"
+    kicker={etykiety.nastepny_krok}
+    title={page.nastepny}
     links={[
-      { href: "/eventy/", label: "Scenariusze eventów" },
-      { href: "/ceny/", label: "Ceny" },
-      { href: "/kontakt/", label: "Umów oględziny" },
-    ]}
-    cta="Zapytaj o termin"
+      { href: "/eventy/", label: page.eventy }, { href: "/ceny/", label: page.ceny }, { href: "/kontakt/", label: page.ogledziny }, ]}
+    cta={page.cta}
   />
 </Base>

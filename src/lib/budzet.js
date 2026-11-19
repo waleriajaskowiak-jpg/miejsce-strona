@@ -33,6 +33,10 @@
  * Przykład z briefu: firmowy, 80 osób, czwartek, czerwiec, 40 000 zł → B.
  */
 
+import { etykiety } from "./copy.js";
+
+const bledy = etykiety.estymator.bledy;
+
 function kwota(row) {
   const n = row?.cena_od ?? row?.cena;
   return typeof n === "number" && Number.isFinite(n) ? n : null;
@@ -89,16 +93,16 @@ export function ocen(input, cennik) {
   const typy = new Set((cennik?.typy_eventu || []).map((t) => t.id));
   const dni = new Set((cennik?.dni || []).map((d) => d.id));
 
-  if (!typy.has(typ)) return { ok: false, error: "Wybierz rodzaj wydarzenia." };
+  if (!typy.has(typ)) return { ok: false, error: bledy.rodzaj };
   if (!Number.isFinite(osoby) || osoby < 1 || osoby > 2000) {
-    return { ok: false, error: "Podaj liczbę osób." };
+    return { ok: false, error: bledy.osoby };
   }
-  if (!dni.has(dzien)) return { ok: false, error: "Wybierz dzień tygodnia." };
+  if (!dni.has(dzien)) return { ok: false, error: bledy.dzien };
   if (!Number.isFinite(miesiac) || miesiac < 1 || miesiac > 12) {
-    return { ok: false, error: "Wybierz miesiąc." };
+    return { ok: false, error: bledy.miesiac };
   }
   if (!Number.isFinite(budzet) || budzet <= 0 || budzet > 1_000_000_000) {
-    return { ok: false, error: "Podaj budżet w złotych." };
+    return { ok: false, error: bledy.budzet };
   }
 
   const przestrzenId = wybierzPrzestrzen(typ, osoby, miesiac, heur);
@@ -109,9 +113,9 @@ export function ocen(input, cennik) {
       ok: true,
       kod: "I",
       indywidualna: true,
-      tytul: "Wycena indywidualna",
-      tresc: "Całe Miejsce nie ma ceny „od”. Napisz, ile osób i jaki dzień — ułożymy ofertę za 5 godzin. Do opublikowanych cen jedzenia i baru doliczamy 10% serwisu. Obsługa kelnerska jest osobno.",
-      przestrzen: przestrzen?.dopisek || "Całe Miejsce",
+      tytul: etykiety.estymator.wycena_tytul,
+      tresc: etykiety.estymator.wycena_tresc,
+      przestrzen: przestrzen?.dopisek || etykiety.estymator.cale,
     };
   }
   const catMin = kwota(znajdz(cennik.catering, heur.catering_min));
@@ -120,7 +124,7 @@ export function ocen(input, cennik) {
   const barKom = kwota(znajdz(cennik.open_bar, heur.bar_komfort));
 
   if ([cenaPrzestrzeni, catMin, catKom, barMin, barKom].some((n) => n == null)) {
-    return { ok: false, error: "Brakuje cen w konfiguracji. Uzupełnij cennik w CMS." };
+    return { ok: false, error: bledy.brak_cen };
   }
 
   let min = cenaPrzestrzeni + osoby * (catMin + barMin);
@@ -139,7 +143,7 @@ export function ocen(input, cennik) {
 
   const wynik = cennik?.wyniki?.[kod];
   if (!wynik?.tytul || !wynik?.tresc) {
-    return { ok: false, error: "Brakuje treści odpowiedzi w CMS." };
+    return { ok: false, error: bledy.brak_tresci };
   }
 
   return {

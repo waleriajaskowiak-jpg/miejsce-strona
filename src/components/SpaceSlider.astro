@@ -1,15 +1,17 @@
 ---
 import Icon from "./Icon.astro";
+import { etykiety } from "../lib/copy.js";
 
 const { slides = [], lead = "" } = Astro.props;
+const ui = etykiety.slider;
 const total = String(slides.length).padStart(2, "0");
 ---
 
 <section class="event-spaces reveal" id="miejsca" aria-labelledby="miejsca-title" data-spaces>
   <div class="wrap">
     <header class="event-head">
-      <p class="eyebrow">Przestrzeń</p>
-      <h2 id="miejsca-title">Dobierzmy do tego właściwe MIEJSCE</h2>
+      <p class="eyebrow">{ui.przestrzen}</p>
+      <h2 id="miejsca-title">{ui.dobierz}</h2>
       {lead && <p class="lead">{lead}</p>}
     </header>
     <div class="space-meta">
@@ -22,7 +24,7 @@ const total = String(slides.length).padStart(2, "0");
           <article class="space-slide" data-space-slide>
             <div class="space-photo">
               <img src={slide.photo} alt="" width="1600" height="1100" />
-              {slide.recommended && <span class="space-badge">Polecane</span>}
+              {slide.recommended && <span class="space-badge">{etykiety.polecane}</span>}
             </div>
             <div class="space-copy">
               <h3>{slide.title}</h3>
@@ -32,16 +34,16 @@ const total = String(slides.length).padStart(2, "0");
                   <li><Icon name={fact.ikona} /><span>{fact.tekst}</span></li>
                 ))}
               </ul>
-              <a class="btn btn-primary" href={slide.href}>Zobacz {slide.title}</a>
+              <a class="btn btn-primary" href={slide.href}>{etykiety.zobacz} {slide.title}</a>
             </div>
           </article>
         ))}
       </div>
       <div class="space-arrows">
-        <button type="button" class="space-arrow" data-space-prev aria-label="Poprzednia przestrzeń" disabled>
+        <button type="button" class="space-arrow" data-space-prev aria-label={ui.poprzednia} disabled>
           <Icon name="arrow" />
         </button>
-        <button type="button" class="space-arrow space-arrow-next" data-space-next aria-label="Następna przestrzeń">
+        <button type="button" class="space-arrow space-arrow-next" data-space-next aria-label={ui.nastepna}>
           <Icon name="arrow" />
         </button>
       </div>

@@ -6,7 +6,10 @@ import Budzet from "../components/Budzet.astro";
 import NextBand from "../components/NextBand.astro";
 import PageHero from "../components/PageHero.astro";
 import SectionHeader from "../components/SectionHeader.astro";
+import { etykiety, podstrony, crumb } from "../lib/copy.js";
 import { crumbsJsonLd, sortByOrder, zloty } from "../lib/nav.js";
+
+const page = podstrony.ceny;
 
 const cennik = (await getEntry("ustawienia", "cennik"))!.data;
 const faqEntries = sortByOrder(await getCollection("faq")).slice(0, 8);
@@ -15,35 +18,28 @@ for (const entry of faqEntries) {
   const { Content } = await render(entry);
   faq.push({ entry, Content });
 }
-const crumbs = [{ href: "/ceny/", label: "Ceny" }];
-const cardPhoto = { nowe: "/img/gallery/mm12.jpg", duze: "/img/gallery/dm22.jpg", cale: "/img/gallery/og05.jpg" };
+const crumbs = [{ href: "/ceny/", label: crumb("/ceny/") }];
+const cardPhoto = Object.fromEntries(page.karty.map((item) => [item.id, item.zdjecie]));
 const addonIcons = {
-  "Obsługa": `<circle cx="6" cy="4.6" r="1.7"/><path d="M3.8 10.2c.6-1.4 1.5-2 2.2-2s1.6.6 2.2 2"/><path d="M4.6 10.4v8.2M7.4 10.4v8.2"/><path d="M9.2 8.8h12"/><path d="M11 8.8V7.2a3 3 0 0 1 6 0v1.6"/>`,
-  "AV": `<rect x="1.4" y="3.6" width="9.4" height="6.4" rx="1.2"/><path d="M3.4 12.4h5.4"/><rect x="14.2" y="6.2" width="4.2" height="7.2" rx="2.1"/><path d="M13.2 12.6a3.1 3.1 0 0 0 6.2 0"/><path d="M16.3 15.8V19"/><path d="M14.2 19h4.2"/>`,
-  "DJ i muzyka": `<circle cx="10" cy="12" r="7"/><circle cx="10" cy="12" r="4.2"/><circle cx="10" cy="12" r="1.2"/><path d="M16.2 4.8c.8.6 1.4 1.8.8 3.1L13.2 12.4"/><circle cx="17.6" cy="4.4" r="1.15"/>`,
-  "Bar mobilny": `<path d="M6.4 2.6h6.2l.7 2H5.7z"/><path d="M5.6 4.6h8l-.8 2.6H6.4z"/><path d="M6.4 7.2 5.2 17.4h8.6l-1.2-10.2"/><path d="M4.6 17.4h10"/><path d="M15.6 8.2h5.2L18.2 13h-2.6z"/><path d="M16.9 13v3.4"/><path d="M15.2 16.4h3.4"/>`,
-};
-const foodPhoto = ["/img/pdf/menu-1.jpg", "/img/pdf/menu-2.jpg", "/img/pdf/menu-3.jpg"];
-const barPhoto = ["/img/pdf/menu-4.jpg", "/img/pdf/menu-5.jpg", "/img/gallery/dm06.jpg"];
+  "Obsługa": `<circle cx="6" cy="4.6" r="1.7"/><path d="M3.8 10.2c.6-1.4 1.5-2 2.2-2s1.6.6 2.2 2"/><path d="M4.6 10.4v8.2M7.4 10.4v8.2"/><path d="M9.2 8.8h12"/><path d="M11 8.8V7.2a3 3 0 0 1 6 0v1.6"/>`, "AV": `<rect x="1.4" y="3.6" width="9.4" height="6.4" rx="1.2"/><path d="M3.4 12.4h5.4"/><rect x="14.2" y="6.2" width="4.2" height="7.2" rx="2.1"/><path d="M13.2 12.6a3.1 3.1 0 0 0 6.2 0"/><path d="M16.3 15.8V19"/><path d="M14.2 19h4.2"/>`, "DJ i muzyka": `<circle cx="10" cy="12" r="7"/><circle cx="10" cy="12" r="4.2"/><circle cx="10" cy="12" r="1.2"/><path d="M16.2 4.8c.8.6 1.4 1.8.8 3.1L13.2 12.4"/><circle cx="17.6" cy="4.4" r="1.15"/>`, "Bar mobilny": `<path d="M6.4 2.6h6.2l.7 2H5.7z"/><path d="M5.6 4.6h8l-.8 2.6H6.4z"/><path d="M6.4 7.2 5.2 17.4h8.6l-1.2-10.2"/><path d="M4.6 17.4h10"/><path d="M15.6 8.2h5.2L18.2 13h-2.6z"/><path d="M16.9 13v3.4"/><path d="M15.2 16.4h3.4"/>`, };
+const foodPhoto = page.menu;
+const barPhoto = page.bar;
 const payload = JSON.stringify({
-  wynajem: cennik.wynajem,
-  catering: cennik.catering,
-  bar: cennik.open_bar,
-}).replace(/</g, "\\u003c");
+  wynajem: cennik.wynajem, catering: cennik.catering, bar: cennik.open_bar, }).replace(/</g, "\\u003c");
 ---
 
 <Base
-  title="Ile kosztuje event w MIEJSCU? | Ceny"
+  title={page.tytul}
   description={cennik.opis_seo}
-  jsonLd={[crumbsJsonLd([{ href: "/", label: "MIEJSCE" }, ...crumbs])]}
+  jsonLd={[crumbsJsonLd([{ href: "/", label: crumb("/") }, ...crumbs])]}
 >
   <PageHero
     crumbs={crumbs}
-    kicker="Oferta 2026 · netto"
+    kicker={page.kicker}
     title={cennik.naglowek}
     lede={cennik.lead}
-    image="/img/gallery/og16.jpg"
-    imageAlt="Taras nad wodą"
+    image={page.zdjecie}
+    imageAlt={page.alt}
   >
     <ul class="price-notes">
       {(cennik.uwagi || []).map((item, index) => (
@@ -54,7 +50,7 @@ const payload = JSON.stringify({
 
   <section class="band" id="wynajem">
     <div class="wrap">
-      <SectionHeader eyebrow="Przestrzeń" title="Wybierz pakiet" lead="Kliknij kartę. Estymator poniżej przeliczy widełki z opublikowanych cen." />
+      <SectionHeader eyebrow={page.brew} title={page.h} lead={page.lead} />
       <div class="price-cards" data-packages>
         {
           cennik.wynajem.map((row) => (
@@ -63,28 +59,39 @@ const payload = JSON.stringify({
               <span class="card-body">
                 <span class="eyebrow">{row.dopisek}</span>
                 <h3>{row.nazwa}</h3>
-                <span class="price">{row.cena_od ? `od ${zloty(row.cena_od)}` : "wycena indywidualna"}</span>
-                <span class="meta">5 h · netto · +10% serwisu</span>
+                <span class="price">{row.cena_od ? `${etykiety.od} ${zloty(row.cena_od)}` : etykiety.wycena_indywidualna}</span>
+                <span class="meta">{page.serwis}</span>
               </span>
             </button>
           ))
         }
       </div>
 
-      <div class="estimator" id="estymator" data-estimator>
+      <div
+        class="estimator"
+        id="estymator"
+        data-estimator
+        data-wycena={etykiety.wycena_indywidualna}
+        data-serwis={page.serwis_dlugi}
+        data-serwis-cale={page.serwis_cale}
+        data-od={etykiety.od}
+        data-osob={page.osob}
+        data-cale={page.cale}
+        data-krok={page.krok_szablon}
+      >
         <script type="application/json" id="estimator-data" set:html={payload} />
         <div class="controls">
           <div class="est-head">
-            <h3>Estymator</h3>
-            <p class="est-count" data-est-count hidden>Krok 1 z 3</p>
+            <h3>{page.estymator}</h3>
+            <p class="est-count" data-est-count hidden>{page.krok}</p>
           </div>
           <label class="slider-block" data-est-panel>
-            <span class="slider-k">Liczba gości</span>
-            <span class="slider-val" data-est-guests>80<small>osób</small></span>
+            <span class="slider-k">{page.goscie}</span>
+            <span class="slider-val" data-est-guests>80<small>{page.osob}</small></span>
             <input type="range" min="10" max="350" step="5" value="80" data-guests />
           </label>
           <div data-est-panel>
-            <p class="eyebrow">Catering</p>
+            <p class="eyebrow">{page.catering}</p>
             <div class="chips">
               {cennik.catering.map((row, index) => (
                 <button type="button" class="choice" data-catering={row.id} aria-pressed={index === 0 ? "true" : "false"}>{row.nazwa}</button>
@@ -92,7 +99,7 @@ const payload = JSON.stringify({
             </div>
           </div>
           <div data-est-panel>
-            <p class="eyebrow">Bar</p>
+            <p class="eyebrow">{page.bar_etykieta}</p>
             <div class="chips">
               {cennik.open_bar.map((row, index) => (
                 <button type="button" class="choice" data-bar={row.id} aria-pressed={index === 0 ? "true" : "false"}>{row.nazwa}</button>
@@ -100,15 +107,15 @@ const payload = JSON.stringify({
             </div>
           </div>
           <div class="est-nav" data-est-nav hidden>
-            <button type="button" class="btn btn-ghost btn-sm" data-est-prev>Wstecz</button>
-            <button type="button" class="btn btn-primary btn-sm" data-est-next>Dalej</button>
+            <button type="button" class="btn btn-ghost btn-sm" data-est-prev>{page.wstecz}</button>
+            <button type="button" class="btn btn-primary btn-sm" data-est-next>{page.dalej}</button>
           </div>
         </div>
         <div class="total">
-          <p class="eyebrow">Orientacyjnie</p>
-          <p class="total-num" data-total>od 0 zł</p>
-          <p data-service>netto, za 5 h wynajmu. +10% serwisu. Bez obsługi kelnerskiej, AV i DJ-a.</p>
-          <p data-quote hidden><a class="btn btn-primary" href="/kontakt/?przestrzen=Ca%C5%82e%20Miejsce">Poproś o wycenę</a></p>
+          <p class="eyebrow">{page.orientacyjnie}</p>
+          <p class="total-num" data-total>{page.od_zera}</p>
+          <p data-service>{page.serwis_dlugi}</p>
+          <p data-quote hidden><a class="btn btn-primary" href="/kontakt/?przestrzen=Ca%C5%82e%20Miejsce">{page.wycena}</a></p>
         </div>
       </div>
     </div>
@@ -116,7 +123,7 @@ const payload = JSON.stringify({
 
   <section class="band band-dark">
     <div class="wrap stack-lg">
-      <SectionHeader eyebrow="W cenie pakietu" title={cennik.catering_h} lead={cennik.catering_lead} />
+      <SectionHeader eyebrow={page.brew_pakiet} title={cennik.catering_h} lead={cennik.catering_lead} />
       <div class="cards-3">
         {cennik.catering.map((row, index) => (
           <article class="tier-card">
@@ -129,7 +136,7 @@ const payload = JSON.stringify({
           </article>
         ))}
       </div>
-      <SectionHeader eyebrow="Open bar" title={cennik.bar_h} lead={cennik.bar_info} />
+      <SectionHeader eyebrow={page.brew_bar} title={cennik.bar_h} lead={cennik.bar_info} />
       <div class="cards-3">
         {cennik.open_bar.map((row, index) => (
           <article class="tier-card">
@@ -142,7 +149,7 @@ const payload = JSON.stringify({
           </article>
         ))}
       </div>
-      <SectionHeader eyebrow="Dodatki" title={cennik.dodatki_h} lead={cennik.dodatki_lead} />
+      <SectionHeader eyebrow={page.brew_dodatki} title={cennik.dodatki_h} lead={cennik.dodatki_lead} />
       <div class="addon-block">
       <div class="addon-row" data-snap>
         {cennik.dodatki.map((row) => (
@@ -169,7 +176,7 @@ const payload = JSON.stringify({
 
   <section class="band">
     <div class="wrap">
-      <SectionHeader eyebrow="Pytania" title="Zanim wyślesz brief" lead="Krótkie odpowiedzi. Tam, gdzie nie mamy liczby, potwierdzamy ją pod termin." />
+      <SectionHeader eyebrow={page.brew_pytania} title={page.faq_h} lead={page.faq_lead} />
       {
         faq.map(({ entry, Content }) => (
           <details class="acc">
@@ -182,14 +189,11 @@ const payload = JSON.stringify({
   </section>
 
   <NextBand
-    kicker="Następny krok"
-    title="Ułóż menu albo napisz do nas"
+    kicker={etykiety.nastepny_krok}
+    title={page.nastepny}
     links={[
-      { href: "/jedzenie-i-bar/", label: "Jedzenie i bar" },
-      { href: "/eventy/", label: "Scenariusze eventów" },
-      { href: "/przestrzenie/", label: "Przestrzenie" },
-    ]}
-    cta="Wyślij brief"
+      { href: "/jedzenie-i-bar/", label: page.link_menu }, { href: "/eventy/", label: page.link_eventy }, { href: "/przestrzenie/", label: page.link_przestrzenie }, ]}
+    cta={page.cta}
   />
 </Base>
 
@@ -222,16 +226,16 @@ const payload = JSON.stringify({
     if (rental == null) {
       shown = 0;
       totalEl?.classList.add("is-quote");
-      if (totalEl) totalEl.textContent = "wycena indywidualna";
-      if (service) service.textContent = "Całe Miejsce nie ma ceny „od”. Jedzenie i bar zostają w progach na tej stronie. +10% serwisu. Bez obsługi kelnerskiej, AV i DJ-a.";
+      if (totalEl) totalEl.textContent = root.getAttribute("data-wycena");
+      if (service) service.textContent = root.getAttribute("data-serwis-cale");
       const link = quote?.querySelector("a");
-      if (link) link.setAttribute("href", `/kontakt/?przestrzen=${encodeURIComponent("Całe Miejsce")}&osoby=${guests.value}`);
+      if (link) link.setAttribute("href", `/kontakt/?przestrzen=${encodeURIComponent(root.getAttribute("data-cale"))}&osoby=${guests.value}`);
       if (quote) quote.hidden = false;
       return;
     }
     totalEl?.classList.remove("is-quote");
     if (quote) quote.hidden = true;
-    if (service) service.textContent = "netto, za 5 h wynajmu. +10% serwisu. Bez obsługi kelnerskiej, AV i DJ-a.";
+    if (service) service.textContent = root.getAttribute("data-serwis");
     const next = rental + Number(guests.value) * ((priceOf(data.catering, catering) || 0) + (priceOf(data.bar, bar) || 0));
     const from = shown;
     const start = performance.now();
@@ -239,7 +243,7 @@ const payload = JSON.stringify({
       if (mine !== frame) return;
       const k = Math.min(1, (now - start) / 420);
       shown = Math.round(from + (next - from) * (1 - Math.pow(1 - k, 3)));
-      if (totalEl) totalEl.textContent = `od ${zloty(shown)}`;
+      if (totalEl) totalEl.textContent = `${root.getAttribute("data-od")} ${zloty(shown)}`;
       if (k < 1) requestAnimationFrame(step);
     };
     requestAnimationFrame(step);
@@ -289,7 +293,7 @@ const payload = JSON.stringify({
     panels.forEach((panel, index) => {
       panel.hidden = on ? index !== estStep : false;
     });
-    if (count) count.textContent = `Krok ${estStep + 1} z ${panels.length}`;
+    if (count) count.textContent = root.getAttribute("data-krok").replace("{n}", String(estStep + 1)).replace("{m}", String(panels.length));
     const prev = nav?.querySelector("[data-est-prev]");
     const next = nav?.querySelector("[data-est-next]");
     if (prev) {

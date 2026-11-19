@@ -4,65 +4,57 @@ import Base from "../layouts/Base.astro";
 import PageHero from "../components/PageHero.astro";
 import FormBrief from "../components/FormBrief.astro";
 import SectionHeader from "../components/SectionHeader.astro";
+import { podstrony, crumb } from "../lib/copy.js";
 import { crumbsJsonLd, venueJsonLd } from "../lib/nav.js";
+
+const page = podstrony.kontakt;
 
 const kontakt = (await getEntry("ustawienia", "kontakt"))!.data;
 const cennik = (await getEntry("ustawienia", "cennik"))!.data;
 const strona = (await getEntry("ustawienia", "strona"))!.data;
-const crumbs = [{ href: "/kontakt/", label: "Kontakt" }];
+const crumbs = [{ href: "/kontakt/", label: crumb("/kontakt/") }];
 const wizyta = Astro.url.searchParams.get("cel") === "ogledziny";
 const przestrzen = Astro.url.searchParams.get("przestrzen") || "";
-const typy = [
-  ...cennik.typy_eventu,
-  { id: "eventy-firmowe-i-integracje", nazwa: "Event firmowy / integracja" },
-  { id: "konferencje-i-szkolenia", nazwa: "Konferencja / szkolenie" },
-  { id: "wesela-i-przyjecia-prywatne", nazwa: "Wesele / przyjęcie" },
-  { id: "premiery-i-eventy-marek", nazwa: "Premiery i eventy marek" },
-];
+const typy = [...cennik.typy_eventu, ...page.typy];
 const adres = `${kontakt.ulica}, ${kontakt.kod} ${kontakt.miasto}`;
 const map = `https://maps.google.com/maps?q=${encodeURIComponent(adres)}&z=16&output=embed`;
 const osm = `https://www.openstreetmap.org/search?query=${encodeURIComponent(adres)}`;
 const google = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(adres)}`;
 const icons = {
-  phone: `<path d="M6 3h3l2 5-2 1a12 12 0 0 0 6 6l1-2 5 2v3a2 2 0 0 1-2 2A16 16 0 0 1 4 5a2 2 0 0 1 2-2z"/>`,
-  mail: `<rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/>`,
-  pin: `<path d="M12 21s7-5.5 7-11a7 7 0 1 0-14 0c0 5.5 7 11 7 11z"/><circle cx="12" cy="10" r="2.4"/>`,
-};
+  phone: `<path d="M6 3h3l2 5-2 1a12 12 0 0 0 6 6l1-2 5 2v3a2 2 0 0 1-2 2A16 16 0 0 1 4 5a2 2 0 0 1 2-2z"/>`, mail: `<rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/>`, pin: `<path d="M12 21s7-5.5 7-11a7 7 0 1 0-14 0c0 5.5 7 11 7 11z"/><circle cx="12" cy="10" r="2.4"/>`, };
 ---
 
 <Base
-  title={wizyta ? "Umów oględziny nad wodą | MIEJSCE" : "Kontakt i brief eventowy | MIEJSCE"}
-  description={wizyta ? "Napisz, kiedy chcesz zobaczyć MIEJSCE. Termin wizyty potwierdzimy indywidualnie." : kontakt.opis_seo}
-  image="/img/pdf/contact.jpg"
+  title={wizyta ? page.tytul_wizyta : page.tytul}
+  description={wizyta ? page.opis_wizyta : kontakt.opis_seo}
+  image={page.zdjecie}
   jsonLd={[
-    crumbsJsonLd([{ href: "/", label: "MIEJSCE" }, ...crumbs]),
-    venueJsonLd(kontakt, strona.opis_seo),
-  ]}
+    crumbsJsonLd([{ href: "/", label: crumb("/") }, ...crumbs]), venueJsonLd(kontakt, strona.opis_seo), ]}
 >
   <PageHero
     crumbs={crumbs}
-    kicker="Port Czerniakowski"
-    title={wizyta ? "Zobacz MIEJSCE. Wyobraź sobie resztę" : strona.kontakt_h}
-    lede={wizyta ? "Napisz, kiedy chcesz nas odwiedzić. Termin wizyty potwierdzimy indywidualnie." : "Podaj to, co już wiesz. Resztę ustalimy razem."}
-    image="/img/pdf/contact.jpg"
-    imageAlt="MIEJSCE od strony wody"
+    kicker={page.kicker}
+    title={wizyta ? page.h_wizyta : strona.kontakt_h}
+    lede={wizyta ? page.lead_wizyta : page.lead_brief}
+    image={page.zdjecie}
+    imageAlt={page.alt}
   />
 
   <section class="band">
     <div class="wrap">
       <div class="contact-3">
         <article class="info-card">
-          <p class="eyebrow">Telefon</p>
+          <p class="eyebrow">{page.telefon}</p>
           <p class="icon-line"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" set:html={icons.phone} /><a href={`tel:${kontakt.telefon_href}`}>{kontakt.telefon_wyswietlany}</a></p>
           <p>{kontakt.ogledziny}</p>
         </article>
         <article class="info-card">
-          <p class="eyebrow">Mail</p>
+          <p class="eyebrow">{page.mail}</p>
           <p class="icon-line"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" set:html={icons.mail} /><a href={`mailto:${kontakt.email}`}>{kontakt.email}</a></p>
-          <p>Brief z formularza trafia na tę skrzynkę.</p>
+          <p>{page.skrzynka}</p>
         </article>
         <article class="info-card">
-          <p class="eyebrow">Adres</p>
+          <p class="eyebrow">{page.adres}</p>
           <p class="icon-line"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" set:html={icons.pin} /><span><b>{kontakt.ulica}</b>, {kontakt.kod} {kontakt.miasto}</span></p>
         </article>
       </div>
@@ -72,21 +64,21 @@ const icons = {
   <section class="band band-dark tight-top">
     <div class="wrap grid-12 align-start">
       <div class="span-7 map-block">
-        <p class="eyebrow">Dojazd</p>
-        <h2>Jak do nas trafić</h2>
+        <p class="eyebrow">{page.dojazd}</p>
+        <h2>{page.jak}</h2>
         <p class="lead">{kontakt.dojazd}</p>
         <div class="map-frame">
-          <iframe title="Mapa: MIEJSCE, ul. Zaruskiego 1, Warszawa" loading="lazy" src={map}></iframe>
+          <iframe title={page.mapa_alt} loading="lazy" src={map}></iframe>
         </div>
         <div class="map-actions">
-          <a class="btn btn-primary btn-sm" href={google}>Wyznacz trasę</a>
-          <a class="btn btn-ghost btn-sm" href={osm}>Otwórz OpenStreetMap</a>
+          <a class="btn btn-primary btn-sm" href={google}>{page.trasa}</a>
+          <a class="btn btn-ghost btn-sm" href={osm}>{page.osm}</a>
         </div>
         <p>{kontakt.parking}</p>
       </div>
       <div class="span-5">
         <div class="form-panel pad stack">
-          <SectionHeader eyebrow="Brief" title="Napisz, co planujesz" />
+          <SectionHeader eyebrow={page.brew} title={page.sekcja} />
           <FormBrief
             typy={typy}
             cel={wizyta ? "ogledziny" : "zapytanie"}

@@ -4,26 +4,29 @@ import Base from "../../layouts/Base.astro";
 import PageHero from "../../components/PageHero.astro";
 import Gallery from "../../components/Gallery.astro";
 import NextBand from "../../components/NextBand.astro";
+import { etykiety, podstrony, crumb } from "../../lib/copy.js";
 import { crumbsJsonLd, sortByOrder } from "../../lib/nav.js";
+
+const page = podstrony.realizacje;
 
 const realizacje = sortByOrder(await getCollection("realizacje")).filter((item) => !item.data.szkic);
 const galeria = (await getEntry("ustawienia", "galeria"))!.data;
 const featured = realizacje[0];
-const crumbs = [{ href: "/realizacje/", label: "Realizacje" }];
+const crumbs = [{ href: "/realizacje/", label: crumb("/realizacje/") }];
 ---
 
 <Base
-  title="Realizacje | MIEJSCE"
-  description="Wybrane wydarzenia w MIEJSCU: zdjęcia z barek, ogrodu i wesel nad Wisłą"
-  jsonLd={[crumbsJsonLd([{ href: "/", label: "MIEJSCE" }, ...crumbs])]}
+  title={page.tytul}
+  description={page.opis}
+  jsonLd={[crumbsJsonLd([{ href: "/", label: crumb("/") }, ...crumbs])]}
 >
   <PageHero
     crumbs={crumbs}
-    kicker={featured ? featured.data.typ : "Wkrótce"}
-    title="Realizacje"
-    lede={featured ? "Zdjęcia z wieczorów, które już się tu odbyły" : "Opublikowane realizacje pojawią się tutaj. Szkice zostają w panelu"}
-    image={featured?.data.cover || "/img/gallery/dm20.jpg"}
-    imageAlt={featured?.data.title || "MIEJSCE"}
+    kicker={featured ? featured.data.typ : page.wkrotce}
+    title={page.h}
+    lede={featured ? page.lead_tak : page.lead_nie}
+    image={featured?.data.cover || page.zdjecie_puste}
+    imageAlt={featured?.data.title || page.alt_pusty}
   />
 
   {featured && <section class="band">
@@ -37,7 +40,7 @@ const crumbs = [{ href: "/realizacje/", label: "Realizacje" }];
           <h2>{featured.data.title}</h2>
           {featured.data.lead && !/uzupełn|szkic/i.test(featured.data.lead) && <p class="lead">{featured.data.lead}</p>}
           {featured.data.meta && !/uzupełn/i.test(featured.data.meta) && <p class="meta">{featured.data.meta}</p>}
-          <a class="btn btn-primary" href={`/realizacje/${featured.id}/`}>Zobacz realizację</a>
+          <a class="btn btn-primary" href={`/realizacje/${featured.id}/`}>{page.zobacz}</a>
         </div>
       </article>
     </div>
@@ -55,7 +58,7 @@ const crumbs = [{ href: "/realizacje/", label: "Realizacje" }];
                   <p class="eyebrow">{item.data.typ}</p>
                   <h3>{item.data.title}</h3>
                   {item.data.lead && !/uzupełn|szkic/i.test(item.data.lead) ? <p>{item.data.lead}</p> : null}
-                  <span class="btn btn-ghost">Otwórz</span>
+                  <span class="btn btn-ghost">{page.otworz}</span>
                 </div>
               </a>
             </article>
@@ -67,13 +70,10 @@ const crumbs = [{ href: "/realizacje/", label: "Realizacje" }];
 
   <Gallery galeria={galeria} limit={9} />
   <NextBand
-    kicker="Następny krok"
-    title="Zróbmy podobny wieczór"
+    kicker={etykiety.nastepny_krok}
+    title={page.nastepny}
     links={[
-      { href: "/galeria/", label: "Cała galeria" },
-      { href: "/eventy/", label: "Scenariusze" },
-      { href: "/ceny/", label: "Ceny" },
-    ]}
-    cta="Zapytaj o termin"
+      { href: "/galeria/", label: page.galeria }, { href: "/eventy/", label: page.scenariusze }, { href: "/ceny/", label: page.ceny }, ]}
+    cta={page.cta}
   />
 </Base>

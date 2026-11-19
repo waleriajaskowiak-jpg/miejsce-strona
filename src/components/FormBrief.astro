@@ -1,5 +1,8 @@
 ---
+import { etykiety } from "../lib/copy.js";
+
 const { typy = [], cel = "zapytanie", przestrzen = "", endpoint = "", netlify = true } = Astro.props;
+const f = etykiety.formularz;
 const wizyta = cel === "ogledziny";
 const action = endpoint || "/dziekujemy/";
 const useNetlify = !endpoint && netlify;
@@ -13,62 +16,65 @@ const useNetlify = !endpoint && netlify;
   data-netlify={useNetlify ? "true" : undefined}
   netlify-honeypot="bot-field"
   class="form-grid"
+  data-h-ogledziny={f.h_ogledziny}
+  data-lead-ogledziny={f.lead_ogledziny}
+  data-placeholder-wizyta={f.placeholder_wizyta_msg}
 >
   <input type="hidden" name="form-name" value="brief" />
   <p class="hp">
-    <label>Nie wypełniaj tego pola <input name="bot-field" tabindex="-1" autocomplete="off" /></label>
+    <label>{f.honeypot} <input name="bot-field" tabindex="-1" autocomplete="off" /></label>
   </p>
   <label class="field" for="imie">
-    <span id="imie-label">Imię</span>
+    <span id="imie-label">{f.imie}</span>
     <input id="imie" name="imie" type="text" autocomplete="given-name" required />
   </label>
   <label class="field" for="email">
-    <span>E-mail</span>
+    <span>{f.email}</span>
     <input id="email" name="email" type="email" autocomplete="email" required />
   </label>
   <label class="field" for="telefon">
-    <span>Telefon</span>
+    <span>{f.telefon}</span>
     <input id="telefon" name="telefon" type="tel" autocomplete="tel" inputmode="tel" />
   </label>
   <label class="field" for="data">
-    <span>Termin</span>
-    <input id="data" name="data" type="text" autocomplete="off" placeholder={wizyta ? "Kiedy chcesz wpaść" : "np. czwartek, czerwiec 2026"} />
+    <span>{f.termin}</span>
+    <input id="data" name="data" type="text" autocomplete="off" placeholder={wizyta ? f.placeholder_wizyta : f.placeholder_termin_pelny} />
   </label>
   <label class="field" for="osoby">
-    <span>Liczba osób</span>
+    <span>{f.osoby}</span>
     <input id="osoby" name="osoby" type="number" inputmode="numeric" min="1" />
   </label>
   <details class="brief-more">
-    <summary>Doprecyzuj brief</summary>
+    <summary>{f.doprecyzuj}</summary>
   <label class="field" for="rodzaj">
-    <span>Rodzaj wydarzenia</span>
+    <span>{f.rodzaj}</span>
     <select id="rodzaj" name="rodzaj">
-      <option value="">Wybierz</option>
+      <option value="">{f.wybierz}</option>
       {typy.map((typ) => <option value={typ.id}>{typ.nazwa}</option>)}
     </select>
   </label>
   <label class="field" for="budzet">
-    <span>Budżet</span>
-    <input id="budzet" name="budzet" type="text" inputmode="numeric" placeholder="np. 40 000" />
+    <span>{f.budzet}</span>
+    <input id="budzet" name="budzet" type="text" inputmode="numeric" placeholder={f.placeholder_budzet} />
   </label>
   <label class="field" for="jednostka">
-    <span>Netto czy brutto</span>
+    <span>{f.netto_brutto}</span>
     <select id="jednostka" name="jednostka">
-      <option value="netto">netto</option>
-      <option value="brutto">brutto</option>
+      <option value="netto">{f.netto}</option>
+      <option value="brutto">{f.brutto}</option>
     </select>
   </label>
-  {przestrzen && <p class="meta">Pytasz o: {przestrzen}</p>}
+  {przestrzen && <p class="meta">{f.pytasz} {przestrzen}</p>}
   <label class="field" for="wiadomosc">
-    <span>Wiadomość</span>
-    <textarea id="wiadomosc" name="wiadomosc" placeholder={wizyta ? "Napisz, kiedy chcesz nas odwiedzić." : "Podaj to, co już wiesz. Resztę ustalimy razem."}></textarea>
+    <span>{f.wiadomosc}</span>
+    <textarea id="wiadomosc" name="wiadomosc" placeholder={wizyta ? f.placeholder_wizyta_msg : f.placeholder_wiadomosc}></textarea>
   </label>
   <input type="hidden" name="cel" value={cel} />
   <input type="hidden" name="wynik" value="" />
   <input type="hidden" name="przestrzen" value={przestrzen} />
   </details>
-  <button class="btn" type="submit">{wizyta ? "Umów oględziny" : "Wyślij zapytanie"}</button>
-  <p class="fine">Odezwiemy się z terminem albo propozycją oględzin. Wiadomość idzie na eventy@miejsce.to</p>
+  <button class="btn" type="submit" data-wizyta={f.umow} data-wyslij={f.wyslij}>{wizyta ? f.umow : f.wyslij}</button>
+  <p class="fine">{f.stopka}</p>
 </form>
 
 <script>
@@ -78,14 +84,14 @@ const useNetlify = !endpoint && netlify;
     if (params.get("cel") === "ogledziny") {
       const h1 = document.querySelector("h1");
       const lede = document.querySelector(".lede");
-      if (h1) h1.textContent = "Zobacz MIEJSCE. Wyobraź sobie resztę";
-      if (lede) lede.textContent = "Napisz, kiedy chcesz nas odwiedzić. Termin wizyty potwierdzimy indywidualnie.";
+      if (h1) h1.textContent = form.dataset.hOgledziny || h1.textContent;
+      if (lede) lede.textContent = form.dataset.leadOgledziny || lede.textContent;
       const cel = form.elements.namedItem("cel");
       if (cel && "value" in cel) cel.value = "ogledziny";
       const submit = form.querySelector('button[type="submit"]');
-      if (submit) submit.textContent = "Umów oględziny";
+      if (submit) submit.textContent = submit.getAttribute("data-wizyta");
       const note = form.querySelector("#wiadomosc");
-      if (note instanceof HTMLTextAreaElement) note.placeholder = "Napisz, kiedy chcesz nas odwiedzić.";
+      if (note instanceof HTMLTextAreaElement) note.placeholder = form.dataset.placeholderWizyta || note.placeholder;
     }
     const map = ["rodzaj", "typ", "data", "osoby", "budzet", "wynik", "przestrzen", "wiadomosc", "jednostka", "imie", "email"];
     const aliases = { typ: "rodzaj", kind: "rodzaj", guests: "osoby", budget: "budzet", unit: "jednostka", date: "data" };

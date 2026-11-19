@@ -1,5 +1,8 @@
 ---
+import { etykiety, podstrony } from "../lib/copy.js";
+
 const { galeria, limit = 11, embed = true, anchor = false } = Astro.props;
+const ui = etykiety.galeria_ui;
 const cats = galeria?.kategorie || [];
 const all = cats.flatMap((cat) => (cat.zdjecia || []).map((src) => ({ src, cat: cat.id, name: cat.nazwa })));
 const shown = limit ? all.slice(0, limit) : all;
@@ -9,15 +12,15 @@ const thumb = (src) => src.includes("/img/gallery/") && !src.includes("/thumb/")
 const payload = JSON.stringify({ cats: cats.map((cat) => ({ id: cat.id, nazwa: cat.nazwa })), all }).replace(/</g, "\\u003c");
 ---
 
-<section class="sec sec-dark gal-block" data-gallery id={anchor ? "galeria" : undefined}>
+<section class="sec sec-dark gal-block" data-gallery data-wszystkie={ui.wszystkie} id={anchor ? "galeria" : undefined}>
   <script type="application/json" class="gal-json" set:html={payload} />
   <div class="wrap">
     <div class="sec-head">
       <h2>{galeria.naglowek}</h2>
       <p class="sec-note">{galeria.opis}</p>
     </div>
-    <div class="gal-filters" role="tablist" aria-label="Filtr galerii">
-      <button type="button" class="is-on" data-filter="all">Wszystkie</button>
+    <div class="gal-filters" role="tablist" aria-label={podstrony.galeria_widget.filtr}>
+      <button type="button" class="is-on" data-filter="all">{ui.wszystkie}</button>
       {cats.map((cat) => <button type="button" data-filter={cat.id}>{cat.nazwa}</button>)}
     </div>
     <div class="gal-masonry">
@@ -30,7 +33,7 @@ const payload = JSON.stringify({ cats: cats.map((cat) => ({ id: cat.id, nazwa: c
       }
     </div>
     <div class="gal-actions">
-      <button class="btn btn-primary" type="button" data-open-all>Zobacz wszystkie zdjęcia ({all.length})</button>
+      <button class="btn btn-primary" type="button" data-open-all>{ui.zobacz} ({all.length})</button>
     </div>
   </div>
 
@@ -38,14 +41,14 @@ const payload = JSON.stringify({ cats: cats.map((cat) => ({ id: cat.id, nazwa: c
     <div class="lb" hidden>
       <div class="lb-head">
         <div class="lb-filters" role="tablist" aria-label="Kategorie zdjęć"></div>
-        <button class="lb-x" type="button" aria-label="Zamknij">&times;</button>
+        <button class="lb-x" type="button" aria-label={podstrony.galeria.zamknij}>&times;</button>
       </div>
       <div class="lb-grid"></div>
       <div class="lb-view" hidden>
-        <button class="lb-nav lb-p" type="button" aria-label="Poprzednie zdjęcie"></button>
+        <button class="lb-nav lb-p" type="button" aria-label={etykiety.slider.poprzednie}></button>
         <img alt="" />
-        <button class="lb-nav lb-n" type="button" aria-label="Następne zdjęcie"></button>
-        <button class="lb-back" type="button">Wróć do siatki</button>
+        <button class="lb-nav lb-n" type="button" aria-label={etykiety.slider.nastepne}></button>
+        <button class="lb-back" type="button">{ui.wroc}</button>
       </div>
     </div>
   )}
@@ -69,7 +72,7 @@ const payload = JSON.stringify({ cats: cats.map((cat) => ({ id: cat.id, nazwa: c
     let touchX = 0;
 
     const renderFilters = (active) => {
-      const buttons = [{ id: "all", nazwa: "Wszystkie" }, ...(data.cats || [])];
+      const buttons = [{ id: "all", nazwa: root.getAttribute("data-wszystkie") }, ...(data.cats || [])];
       filters.innerHTML = buttons.map((cat) =>
         `<button type="button" data-cat="${cat.id}" class="${cat.id === active ? "is-on" : ""}" aria-pressed="${cat.id === active}">${cat.nazwa}</button>`
       ).join("");

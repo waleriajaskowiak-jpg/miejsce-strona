@@ -1,3 +1,5 @@
+import { etykiety } from "./copy.js";
+
 export const NAV = [
   { href: "/eventy/", label: "Wydarzenia" },
   { href: "/przestrzenie/", label: "Przestrzenie" },
@@ -40,7 +42,7 @@ export function venueJsonLd(kontakt, opis, fakty) {
     name: "MIEJSCE",
     description: opis,
     url: "https://miejsce.to/",
-    image: ["https://miejsce.to/img/pdf/hero-main.jpg"],
+    image: [new URL(etykiety.og_obraz, "https://miejsce.to").href],
     telephone: kontakt.telefon_href,
     email: kontakt.email,
     address: {

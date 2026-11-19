@@ -8,22 +8,11 @@ import "../styles/rebrand.css";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 import { IS_PROD } from "../lib/env.js";
+import { etykiety, nawigacja } from "../lib/copy.js";
 import { toneIsLight, eventInk, eventNum } from "../lib/event-color.js";
 
 const {
-  title,
-  description,
-  image = "/img/pdf/hero-main.jpg",
-  robots = "index,follow",
-  jsonLd = [],
-  overlay = false,
-  ogType = "website",
-  preload = false,
-  preloadSrcset,
-  preloadType,
-  eventColor = "",
-  eventOn = "",
-} = Astro.props;
+  title, description, image = etykiety.og_obraz, robots = "index,follow", jsonLd = [], overlay = false, ogType = "website", preload = false, preloadSrcset, preloadType, eventColor = "", eventOn = "", } = Astro.props;
 
 const canonical = new URL(Astro.url.pathname, Astro.site);
 const absImage = new URL(image, Astro.site).href;
@@ -78,7 +67,7 @@ const jsonBlocks = jsonLd.map((obj) => JSON.stringify(obj).replace(/</g, "\\u003
     class:list={[overlay && "has-overlay", eventColor && "has-event", eventColor && toneIsLight(eventColor) && "tone-light"]}
     style={eventColor ? `--event-color:${eventColor};--event-on:${eventOn};--event-ink:${eventInk(eventColor)};--event-num:${eventNum(eventColor)}` : undefined}
   >
-    <a class="skip" href="#main">Przejdź do treści</a>
+    <a class="skip" href="#main">{nawigacja.pomin}</a>
     <Header />
     <div class="page-scroll">
       <main id="main" tabindex="-1">
@@ -86,7 +75,7 @@ const jsonBlocks = jsonLd.map((obj) => JSON.stringify(obj).replace(/</g, "\\u003
       </main>
       <Footer />
     </div>
-    <a class="mob-cta btn btn-primary" href="/kontakt/" hidden>Zaplanuj event</a>
+    <a class="mob-cta btn btn-primary" href="/kontakt/" hidden>{nawigacja.cta_mobile}</a>
     <script>
       const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
       const nodes = [...document.querySelectorAll(".reveal")];
@@ -103,9 +92,7 @@ const jsonBlocks = jsonLd.map((obj) => JSON.stringify(obj).replace(/</g, "\\u003
               show(entry.target);
               io.unobserve(entry.target);
             }
-          },
-          { root: scrolls ? scroller : null, threshold: 0, rootMargin: "0px" },
-        );
+          }, { root: scrolls ? scroller : null, threshold: 0, rootMargin: "0px" }, );
         nodes.forEach((el) => io.observe(el));
         const finish = () => nodes.forEach(show);
         window.addEventListener("load", finish, { once: true });

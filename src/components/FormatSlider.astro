@@ -1,13 +1,16 @@
 ---
+import { etykiety } from "../lib/copy.js";
+
 const { slides = [] } = Astro.props;
 const cardsFor = (slide) => (slide.karty || []).slice(0, 3);
+const ui = etykiety.slider;
 ---
 
 <section class="event-format event-tint reveal" id="co-mozna" data-format>
   <div class="wrap">
     <header class="event-head">
-      <p class="eyebrow">Zakres</p>
-      <h2>Co można tu ułożyć</h2>
+      <p class="eyebrow">{ui.zakres}</p>
+      <h2>{ui.co_mozna}</h2>
     </header>
     <div class="format-tabs" role="tablist" aria-label="Warianty">
       {slides.map((slide, index) => (
