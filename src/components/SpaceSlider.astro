@@ -1,0 +1,103 @@
+---
+import Icon from "./Icon.astro";
+
+const { slides = [], lead = "" } = Astro.props;
+const total = String(slides.length).padStart(2, "0");
+---
+
+<section class="event-spaces reveal" id="miejsca" aria-labelledby="miejsca-title" data-spaces>
+  <div class="wrap">
+    <header class="event-head">
+      <p class="eyebrow">Przestrzeń</p>
+      <h2 id="miejsca-title">Dobierzmy do tego właściwe MIEJSCE</h2>
+      {lead && <p class="lead">{lead}</p>}
+    </header>
+    <div class="space-meta">
+      <p><b data-space-current>01</b> <span>/ {total}</span></p>
+      <div class="space-bar" aria-hidden="true"><i data-space-bar></i></div>
+    </div>
+    <div class="space-stage">
+      <div class="space-track" tabindex="0" data-space-track>
+        {slides.map((slide) => (
+          <article class="space-slide" data-space-slide>
+            <div class="space-photo">
+              <img src={slide.photo} alt="" width="1600" height="1100" />
+              {slide.recommended && <span class="space-badge">Polecane</span>}
+            </div>
+            <div class="space-copy">
+              <h3>{slide.title}</h3>
+              <p class="space-price">{slide.price}</p>
+              <ul class="space-facts">
+                {slide.facts.map((fact) => (
+                  <li><Icon name={fact.ikona} /><span>{fact.tekst}</span></li>
+                ))}
+              </ul>
+              <a class="btn btn-primary" href={slide.href}>Zobacz {slide.title}</a>
+            </div>
+          </article>
+        ))}
+      </div>
+      <div class="space-arrows">
+        <button type="button" class="space-arrow" data-space-prev aria-label="Poprzednia przestrzeń" disabled>
+          <Icon name="arrow" />
+        </button>
+        <button type="button" class="space-arrow space-arrow-next" data-space-next aria-label="Następna przestrzeń">
+          <Icon name="arrow" />
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  document.querySelectorAll("[data-spaces]").forEach((root) => {
+    const track = root.querySelector("[data-space-track]");
+    const slides = [...root.querySelectorAll("[data-space-slide]")];
+    const prev = root.querySelector("[data-space-prev]");
+    const next = root.querySelector("[data-space-next]");
+    const current = root.querySelector("[data-space-current]");
+    const bar = root.querySelector("[data-space-bar]");
+    if (!track || !slides.length) return;
+    let index = 0;
+    let lock = false;
+
+    const paint = (scroll) => {
+      if (current) current.textContent = String(index + 1).padStart(2, "0");
+      if (bar) bar.style.width = `${((index + 1) / slides.length) * 100}%`;
+      if (prev) prev.disabled = index === 0;
+      if (next) next.disabled = index === slides.length - 1;
+      if (!scroll) return;
+      lock = true;
+      track.scrollTo({ left: slides[index].offsetLeft, behavior: reduce ? "auto" : "smooth" });
+      window.setTimeout(() => { lock = false; }, reduce ? 0 : 450);
+    };
+
+    const step = () => (slides[1] ? slides[1].offsetLeft - slides[0].offsetLeft : slides[0].offsetWidth) || 1;
+
+    const go = (nextIndex) => {
+      const clamped = Math.max(0, Math.min(slides.length - 1, nextIndex));
+      if (clamped === index) return;
+      index = clamped;
+      paint(true);
+    };
+
+    prev?.addEventListener("click", () => go(index - 1));
+    next?.addEventListener("click", () => go(index + 1));
+    track.addEventListener("scroll", () => {
+      if (lock) return;
+      const nextIndex = Math.round(track.scrollLeft / step());
+      const safe = Math.max(0, Math.min(slides.length - 1, nextIndex));
+      if (safe === index) return;
+      index = safe;
+      paint(false);
+    }, { passive: true });
+    root.addEventListener("keydown", (event) => {
+      if (event.key !== "ArrowRight" && event.key !== "ArrowLeft") return;
+      if (event.target instanceof HTMLInputElement || event.target instanceof HTMLTextAreaElement) return;
+      event.preventDefault();
+      go(index + (event.key === "ArrowRight" ? 1 : -1));
+    });
+    paint(false);
+  });
+</script>

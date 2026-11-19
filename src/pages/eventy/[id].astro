@@ -3,6 +3,7 @@ import { getCollection, getEntry, render } from "astro:content";
 import Base from "../../layouts/Base.astro";
 import Crumbs from "../../components/Crumbs.astro";
 import FormatSlider from "../../components/FormatSlider.astro";
+import SpaceSlider from "../../components/SpaceSlider.astro";
 import NextBand from "../../components/NextBand.astro";
 import StatRow from "../../components/StatRow.astro";
 import Slider from "../../components/Slider.astro";
@@ -31,8 +32,35 @@ const crumbs = [
 const typ = pierwszy?.data.typ_budzetu || "firmowy";
 const budzetHref = `/ceny/?typ=${typ}${pierwszy?.data.goscie ? `&osoby=${pierwszy.data.goscie}` : ""}#estymator`;
 const kontaktHref = `/kontakt/?typ=${entry.id}`;
-const feature = przestrzenie[0];
-const restSpaces = przestrzenie.slice(1);
+const fakty = (await getEntry("ustawienia", "fakty"))!.data.przestrzenie;
+const factKey = {
+  "duze-miejsce": "duze",
+  "nowe-miejsce": "male",
+  ogrod: "ogrod",
+  "cale-miejsce": "cale",
+};
+const orderedSpaces = entry.data.przestrzenie.map((id) => przestrzenie.find((space) => space.id === id)).filter(Boolean);
+const spaceSlides = orderedSpaces.map((space, index) => {
+  const fact = fakty[factKey[space.id]] || {};
+  const facts = [];
+  if (fact.wnetrze_m2) facts.push({ ikona: "ruler", tekst: `${fact.wnetrze_m2} m² wnętrza${fact.taras_m2 ? ` + ${fact.taras_m2} m² tarasu` : ""}` });
+  if (fact.powierzchnia_m2) facts.push({ ikona: "ruler", tekst: `${fact.powierzchnia_m2} m²${fact.sezon ? ` · ${fact.sezon}` : ""}` });
+  if (fact.zima_osob) facts.push({ ikona: "users", tekst: `Zimą ${fact.zima_osob}` });
+  if (fact.gosci) facts.push({ ikona: "users", tekst: fact.gosci_tekst || `${fact.gosci} gości` });
+  if (fact.maks_osob) facts.push({ ikona: "users", tekst: `Do ${fact.maks_osob} gości, także w deszczu` });
+  if (fact.czas) facts.push({ ikona: "clock", tekst: `Wynajem ${fact.czas}` });
+  const price = typeof fact.cena_od === "number"
+    ? `od ${fact.cena_od.toLocaleString("pl-PL")} zł`
+    : "wycena indywidualna";
+  return {
+    title: space.data.title,
+    photo: space.data.cover,
+    href: `/przestrzenie/${space.id}/`,
+    recommended: index === 0,
+    price,
+    facts: facts.slice(0, 4),
+  };
+});
 ---
 
 <Base
@@ -75,40 +103,7 @@ const restSpaces = przestrzenie.slice(1);
     </div>
   </section>
   <FormatSlider slides={entry.data.formaty} />
-  {feature && (
-    <section class="event-spaces reveal" aria-labelledby="miejsca">
-      <div class="wrap">
-        <header class="event-head">
-          <p class="eyebrow">Przestrzeń</p>
-          <h2 id="miejsca">Dobierzmy do tego właściwe MIEJSCE</h2>
-          <p class="lead">{entry.data.dla_ilu}</p>
-        </header>
-        <div class="event-stage">
-          <a class="event-feature" href={`/przestrzenie/${feature.id}/`}>
-            <img src={feature.data.cover} alt="" width="1400" height="900" />
-            <div class="event-feature-copy">
-              <h3>{feature.data.title}</h3>
-              <p>{feature.data.lead}</p>
-              <span class="btn btn-ghost">Zobacz {feature.data.title}</span>
-            </div>
-          </a>
-          {restSpaces.length > 0 && (
-            <div class="event-side">
-              {restSpaces.map((space) => (
-                <a class="event-mini" href={`/przestrzenie/${space.id}/`}>
-                  <img src={space.data.cover} alt="" width="400" height="300" />
-                  <span>
-                    <b>{space.data.title}</b>
-                    <small>{space.data.lead}</small>
-                  </span>
-                </a>
-              ))}
-            </div>
-          )}
-        </div>
-      </div>
-    </section>
-  )}
+  {spaceSlides.length > 0 && <SpaceSlider slides={spaceSlides} lead={entry.data.dla_ilu} />}
   {pierwszy && (
     <section class="event-story reveal" aria-labelledby="scenariusz">
       <div class="wrap event-story-grid">
