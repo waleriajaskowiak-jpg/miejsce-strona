@@ -1731,9 +1731,9 @@ html:not(.js) .has-event .reveal { opacity: 1; transform: none; animation: none;
   inset: 0;
   background: linear-gradient(
     to top,
-    var(--event-color) 0 42%,
-    color-mix(in srgb, var(--event-color) 78%, transparent) 58%,
-    transparent 80%
+    var(--event-color) 0 33%,
+    color-mix(in srgb, var(--event-color) 94%, transparent) 40%,
+    transparent 46%
   );
   pointer-events: none;
 }
@@ -1771,6 +1771,9 @@ html:not(.js) .has-event .reveal { opacity: 1; transform: none; animation: none;
   text-transform: uppercase;
   white-space: nowrap;
   overflow: hidden;
+  padding: 14px 7px;
+  border-radius: 8px;
+  background: var(--event-color);
   transition: opacity 180ms ease;
 }
 .event-tile .body {
