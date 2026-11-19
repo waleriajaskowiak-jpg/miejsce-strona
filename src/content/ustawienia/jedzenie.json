@@ -22,5 +22,8 @@
     "/img/pdf/menu-3.jpg",
     "/img/pdf/menu-4.jpg",
     "/img/pdf/menu-5.jpg"
-  ]
+  ],
+  "menu_pdf": "",
+  "menu_pdf_etykieta": "Pobierz menu (PDF)",
+  "menu_karta": "/img/pdf/menu-2.jpg"
 }

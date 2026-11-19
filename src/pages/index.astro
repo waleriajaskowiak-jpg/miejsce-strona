@@ -37,6 +37,18 @@ const spaces = [
     id: "male", title: card.male.tytul, href: card.male.href, photo: card.male.zdjecie, meta: `${fakty.przestrzenie.male.wnetrze_m2}\u00A0m² + ${fakty.przestrzenie.male.taras_m2}\u00A0m² tarasu`, price: `${etykiety.od} ${zloty(fakty.przestrzenie.male.cena_od)}`, note: card.male.dopisek, rows: (fakty.uklady?.male || []).map((row) => ({ name: row.nazwa, lato: summer(row.lato), zima: winter(row.zima) })), }, {
     id: "ogrod", title: card.ogrod.tytul, href: card.ogrod.href, photo: card.ogrod.zdjecie, meta: `${fakty.przestrzenie.ogrod.powierzchnia_m2}\u00A0m² · ${fakty.przestrzenie.ogrod.sezon}`, price: etykiety.wycena_indywidualna, note: card.ogrod.dopisek, rows: (fakty.uklady?.ogrod || []).map((row) => ({ name: row.nazwa, lato: summer(row.lato), zima: winter(row.zima) })), }, {
     id: "cale", title: card.cale.tytul, href: card.cale.href, photo: card.cale.zdjecie, meta: card.cale.meta, price: etykiety.wycena_indywidualna, note: card.cale.dopisek.replace("{kiedy}", kiedy), rows: (fakty.uklady?.cale || []).map((row) => ({ name: row.nazwa, lato: summer(row.lato), zima: winter(row.zima) })), }, ];
+const venue = spaces.map((space) => ({
+  id: space.id,
+  skrot: card[space.id].skrot || space.title,
+  title: space.title,
+  href: space.href,
+  photo: space.photo,
+  meta: space.meta,
+  price: space.price,
+  note: przestrzenie.find((item) => space.href === `/przestrzenie/${item.id}/`)?.data.lead || space.note,
+}));
+const venueJson = JSON.stringify(venue).replace(/</g, "\\u003c");
+const venueFirst = venue[0];
 const endpoint = kontakt.formularz_endpoint || "";
 const netlify = !endpoint && kontakt.formularz_netlify !== false;
 ---
@@ -125,35 +137,36 @@ const netlify = !endpoint && kontakt.formularz_netlify !== false;
       <p class="eyebrow">{home.przestrzenie_brew}</p>
       <h2>{home.przestrzenie_h}</h2>
       <p class="lead">{home.przestrzenie_lead}</p>
-      <div class="r12-spaces" data-spaces>
-        <div class="r12-space-tabs" role="tablist">
-          {spaces.map((space, index) => (
-            <button type="button" data-space={space.id} aria-selected={index === 0 ? "true" : "false"}>{space.title}</button>
-          ))}
+      <div class="home-venue" data-venue data-zobacz={etykiety.zobacz}>
+        <script type="application/json" class="venue-data" set:html={venueJson} />
+        <div class="home-venue-map">
+          <div class="home-venue-stage">
+            <img src={etykiety.plan.zdjecie} alt={etykiety.plan.alt} width="2000" height="1325" />
+            <svg class="home-venue-svg" viewBox="0 0 100 100" preserveAspectRatio="none">
+              <rect class="zone" data-zone="cale" tabindex="0" role="button" aria-label={card.cale.tytul} x="6.5" y="0.5" width="91" height="94" rx="1.4" ry="2.1"></rect>
+              <polygon class="zone is-on" data-zone="duze" tabindex="0" role="button" aria-label={card.duze.tytul} aria-pressed="true" points="31.2,5.6 51.8,5.6 51.8,1.2 83.3,1.2 83.3,50.2 63.8,50.2 63.8,58.8 53.2,58.8 53.2,47.4 31.2,47.4"></polygon>
+              <polygon class="zone" data-zone="male" tabindex="0" role="button" aria-label={card.male.tytul} points="10.4,48.6 30.6,48.6 30.6,47.2 43.8,47.2 43.8,86.8 10.4,86.8"></polygon>
+              <polygon class="zone" data-zone="ogrod" tabindex="0" role="button" aria-label={card.ogrod.tytul} points="44.8,58.8 93.6,58.8 93.6,73.8 44.8,73.8"></polygon>
+            </svg>
+            {venue.map((space) => <span class:list={["home-venue-tag", space.id === venueFirst.id && "is-on"]} data-tag={space.id}>{space.skrot}</span>)}
+          </div>
+          <div class="home-venue-chips" role="tablist">
+            {venue.map((space) => (
+              <button type="button" data-zone={space.id} aria-selected={space.id === venueFirst.id ? "true" : "false"}>{space.title}</button>
+            ))}
+          </div>
         </div>
-        {spaces.map((space, index) => (
-          <article class="r12-panel" data-panel={space.id} hidden={index !== 0}>
-            <img src={space.photo} alt="" width="1600" height="1000" />
-            <div class="r12-panel-body">
-              <h3>{space.title}</h3>
-              <p class="r12-meta">{space.meta}</p>
-              <p class="r12-price">{space.price} <small>{home.serwisy}</small></p>
-              <div class="r12-layouts" role="tablist" aria-label="Układ stołów">
-                {space.rows.map((row, rowIndex) => (
-                  <button type="button" data-layout={rowIndex} aria-selected={rowIndex === 0 ? "true" : "false"}>{row.name}</button>
-                ))}
-              </div>
-              {space.rows.map((row, rowIndex) => (
-                <div class="r12-cap" data-cap={rowIndex} hidden={rowIndex !== 0}>
-                  <p class="cap-stat"><Icon name="sun" /><span><small>{etykiety.lato}</small><b>{row.lato}</b></span></p>
-                  <p class="cap-stat"><Icon name="rain" /><span><small>{etykiety.zima_deszcz}</small><b>{row.zima}</b></span></p>
-                </div>
-              ))}
-              <p class="cap-note">{space.note}</p>
-              <a class="btn btn-primary" href={space.href}>{etykiety.zobacz} {space.title}</a>
-            </div>
-          </article>
-        ))}
+        <a class="home-venue-card is-grow" data-venue-card href={venueFirst.href}>
+          <img data-venue-photo src={venueFirst.photo} alt="" width="1600" height="1000" />
+          <span class="home-venue-copy">
+            <span class="eyebrow">{etykiety.plan.kicker}</span>
+            <h3 data-venue-title>{venueFirst.title}</h3>
+            <span class="home-venue-note" data-venue-note>{venueFirst.note}</span>
+            <span class="home-venue-spec" data-venue-meta>{venueFirst.meta}</span>
+            <span class="home-venue-spec" data-venue-price>{venueFirst.price}</span>
+            <span class="btn btn-primary" data-venue-cta>{etykiety.zobacz} {venueFirst.title}</span>
+          </span>
+        </a>
       </div>
     </div>
   </section>
@@ -231,30 +244,56 @@ const netlify = !endpoint && kontakt.formularz_netlify !== false;
 </Base>
 
 <script>
-  document.querySelectorAll("[data-spaces]").forEach((root) => {
-    const show = (id) => {
-      root.querySelectorAll("[data-space]").forEach((button) => {
-        button.setAttribute("aria-selected", button.getAttribute("data-space") === id ? "true" : "false");
-      });
-      root.querySelectorAll("[data-panel]").forEach((panel) => {
-        panel.hidden = panel.getAttribute("data-panel") !== id;
-      });
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  document.querySelectorAll("[data-venue]").forEach((root) => {
+    const rows = JSON.parse(root.querySelector(".venue-data")?.textContent || "[]");
+    const card = root.querySelector("[data-venue-card]");
+    let current = rows[0]?.id;
+    const grow = () => {
+      if (!card || reduce) return;
+      card.classList.remove("is-grow");
+      void card.offsetWidth;
+      card.classList.add("is-grow");
     };
-    root.querySelectorAll("[data-space]").forEach((button) => {
-      button.addEventListener("click", () => show(button.getAttribute("data-space")));
-    });
-    root.querySelectorAll("[data-panel]").forEach((panel) => {
-      panel.querySelectorAll("[data-layout]").forEach((button) => {
-        button.addEventListener("click", () => {
-          const index = button.getAttribute("data-layout");
-          panel.querySelectorAll("[data-layout]").forEach((peer) => {
-            peer.setAttribute("aria-selected", peer === button ? "true" : "false");
-          });
-          panel.querySelectorAll("[data-cap]").forEach((block) => {
-            block.hidden = block.getAttribute("data-cap") !== index;
-          });
-        });
+    const paint = (id, animate) => {
+      const row = rows.find((item) => item.id === id);
+      if (!row || !card) return;
+      current = id;
+      root.querySelectorAll(".zone").forEach((zone) => {
+        const on = zone.getAttribute("data-zone") === id;
+        zone.classList.toggle("is-on", on);
+        zone.setAttribute("aria-pressed", on ? "true" : "false");
+      });
+      root.querySelectorAll(".home-venue-tag").forEach((tag) => tag.classList.toggle("is-on", tag.getAttribute("data-tag") === id));
+      root.querySelectorAll(".home-venue-chips button").forEach((button) => {
+        button.setAttribute("aria-selected", button.getAttribute("data-zone") === id ? "true" : "false");
+      });
+      card.href = row.href;
+      const photo = card.querySelector("[data-venue-photo]");
+      if (photo) photo.src = row.photo;
+      const title = card.querySelector("[data-venue-title]");
+      if (title) title.textContent = row.title;
+      const note = card.querySelector("[data-venue-note]");
+      if (note) note.textContent = row.note;
+      const meta = card.querySelector("[data-venue-meta]");
+      if (meta) meta.textContent = row.meta;
+      const price = card.querySelector("[data-venue-price]");
+      if (price) price.textContent = row.price;
+      const cta = card.querySelector("[data-venue-cta]");
+      if (cta) cta.textContent = `${root.getAttribute("data-zobacz") || "Zobacz"} ${row.title}`;
+      if (animate) grow();
+    };
+    root.querySelectorAll("[data-zone]").forEach((node) => {
+      const pick = () => paint(node.getAttribute("data-zone"), true);
+      node.addEventListener("click", pick);
+      node.addEventListener("keydown", (event) => {
+        if (event.key !== "Enter" && event.key !== " ") return;
+        event.preventDefault();
+        pick();
       });
     });
+    paint(current, false);
+    if (reduce) card?.classList.remove("is-grow");
+    else card?.classList.add("is-grow");
   });
 </script>

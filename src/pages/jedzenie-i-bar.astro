@@ -11,6 +11,9 @@ const page = podstrony.jedzenie;
 const jedzenie = (await getEntry("ustawienia", "jedzenie"))!.data;
 const cennik = (await getEntry("ustawienia", "cennik"))!.data;
 const crumbs = [{ href: "/jedzenie-i-bar/", label: page.tytul.split(" | ")[0] }];
+const menuPdf = String(jedzenie.menu_pdf || "").trim();
+const menuCard = jedzenie.menu_karta || "";
+const menuLabel = jedzenie.menu_pdf_etykieta || "Pobierz menu (PDF)";
 const foodPhoto = page.menu;
 const barPhoto = page.bar_zdjecia;
 ---
@@ -48,7 +51,12 @@ const barPhoto = page.bar_zdjecia;
       <div role="tabpanel" id="panel-catering" aria-labelledby="tab-catering">
         <div class="stack-lg">
           <div class="kitchen-photos">
-            {jedzenie.zdjecia.slice(0, 3).map((src) => <img src={src} alt={page.alt_jedzenie} />)}
+            {jedzenie.zdjecia.slice(0, 3).map((src) => menuPdf && src === menuCard ? (
+              <a class="menu-pdf" href={menuPdf} download target="_blank" rel="noopener">
+                <img src={src} alt={menuLabel} />
+                <span class="menu-pdf-go">{menuLabel}</span>
+              </a>
+            ) : <img src={src} alt={page.alt_jedzenie} />)}
           </div>
           <div class="tier-grid">
             {
@@ -74,7 +82,12 @@ const barPhoto = page.bar_zdjecia;
       <div role="tabpanel" id="panel-bar" aria-labelledby="tab-bar" hidden>
         <div class="stack-lg">
           <div class="kitchen-photos">
-            {jedzenie.zdjecia.slice(2, 5).map((src) => <img src={src} alt={page.alt_bar} />)}
+            {jedzenie.zdjecia.slice(2, 5).map((src) => menuPdf && src === menuCard ? (
+              <a class="menu-pdf" href={menuPdf} download target="_blank" rel="noopener">
+                <img src={src} alt={menuLabel} />
+                <span class="menu-pdf-go">{menuLabel}</span>
+              </a>
+            ) : <img src={src} alt={page.alt_bar} />)}
           </div>
           <div class="tier-grid">
             {

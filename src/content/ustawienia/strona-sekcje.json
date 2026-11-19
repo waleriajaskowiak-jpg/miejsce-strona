@@ -4,10 +4,26 @@
   "hero_slajd_3": "/img/gallery/dm22.jpg",
   "hero_slajd_3_alt": "Duże Miejsce wieczorem",
   "atuty": [
-    { "ikona": "waves", "tytul": "Nad wodą", "opis": "Port Czerniakowski, ok. 10 min do Pałacu Kultury" },
-    { "ikona": "grid", "tytul": "Cztery układy", "opis": "Duże, Małe, Miejscowy Ogród i Całe Miejsce" },
-    { "ikona": "utensils", "tytul": "Własna kuchnia", "opis": "Menu od 180 zł netto za osobę" },
-    { "ikona": "users", "tytul": "350 gości", "opis": "Cały kompleks latem, z ogrodem" }
+    {
+      "ikona": "waves",
+      "tytul": "Nad wodą",
+      "opis": "Port Czerniakowski, ok. 10 min do Pałacu Kultury"
+    },
+    {
+      "ikona": "grid",
+      "tytul": "Cztery układy",
+      "opis": "Duże, Małe, Miejscowy Ogród i Całe Miejsce"
+    },
+    {
+      "ikona": "utensils",
+      "tytul": "Własna kuchnia",
+      "opis": "Menu od 180 zł netto za osobę"
+    },
+    {
+      "ikona": "users",
+      "tytul": "350 gości",
+      "opis": "Cały kompleks latem, z ogrodem"
+    }
   ],
   "wydarzenia_brew": "01 · Wydarzenia",
   "wydarzenia_h": "Co planujesz?",
@@ -35,21 +51,24 @@
       "tytul": "Duże Miejsce",
       "href": "/przestrzenie/duze-miejsce/",
       "zdjecie": "/img/gallery/dm22.jpg",
-      "dopisek": "Zimą bankiet mieści około 120 osób. 350 gości to cały kompleks latem, z ogrodem, nie ta barka"
+      "dopisek": "Zimą bankiet mieści około 120 osób. 350 gości to cały kompleks latem, z ogrodem, nie ta barka",
+      "skrot": "Duże"
     },
     {
       "id": "male",
       "tytul": "Małe Miejsce",
       "href": "/przestrzenie/nowe-miejsce/",
       "zdjecie": "/img/gallery/mm12.jpg",
-      "dopisek": "Sala i zadaszony taras. Liczba 70 dotyczy znanego układu bankietowego"
+      "dopisek": "Sala i zadaszony taras. Liczba 70 dotyczy znanego układu bankietowego",
+      "skrot": "Małe"
     },
     {
       "id": "ogrod",
       "tytul": "Miejscowy Ogród",
       "href": "/przestrzenie/ogrod/",
       "zdjecie": "/img/gallery/og25.jpg",
-      "dopisek": "Sezon maj–wrzesień. Na deszcz nie podajemy liczby"
+      "dopisek": "Sezon maj–wrzesień. Na deszcz nie podajemy liczby",
+      "skrot": "Ogród"
     },
     {
       "id": "cale",
@@ -57,7 +76,8 @@
       "href": "/przestrzenie/cale-miejsce/",
       "zdjecie": "/img/gallery/cm01.jpg",
       "meta": "Dwie barki, tarasy i Miejscowy Ogród",
-      "dopisek": "350 gości to cały kompleks latem, z ogrodem. Zimą i w deszczu: zapytaj. To nie znaczy, że każda sala mieści 350"
+      "dopisek": "350 gości to cały kompleks latem, z ogrodem. Zimą i w deszczu: zapytaj. To nie znaczy, że każda sala mieści 350",
+      "skrot": "Całe"
     }
   ]
 }

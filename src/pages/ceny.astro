@@ -59,7 +59,10 @@ const payload = JSON.stringify({
               <span class="card-body">
                 <span class="eyebrow">{row.dopisek}</span>
                 <h3>{row.nazwa}</h3>
-                <span class="price">{row.cena_od ? `${etykiety.od} ${zloty(row.cena_od)}` : etykiety.wycena_indywidualna}</span>
+                <span class="price">
+                  {row.cena_od ? <small class="wynajem-od">{page.wynajem_od}</small> : null}
+                  {row.cena_od ? `${etykiety.od} ${zloty(row.cena_od)}` : etykiety.wycena_indywidualna}
+                </span>
                 <span class="meta">{page.serwis}</span>
               </span>
             </button>
@@ -78,6 +81,8 @@ const payload = JSON.stringify({
         data-osob={page.osob}
         data-cale={page.cale}
         data-krok={page.krok_szablon}
+        data-wynajem-nota={page.wynajem_nota}
+        data-wynik-cale={page.wynik_cale}
       >
         <script type="application/json" id="estimator-data" set:html={payload} />
         <div class="controls">
@@ -224,13 +229,22 @@ const payload = JSON.stringify({
     const service = root.querySelector("[data-service]");
     const quote = root.querySelector("[data-quote]");
     if (rental == null) {
-      shown = 0;
       totalEl?.classList.add("is-quote");
-      if (totalEl) totalEl.textContent = root.getAttribute("data-wycena");
-      if (service) service.textContent = root.getAttribute("data-serwis-cale");
+      if (service) service.textContent = root.getAttribute("data-wynajem-nota");
       const link = quote?.querySelector("a");
       if (link) link.setAttribute("href", `/kontakt/?przestrzen=${encodeURIComponent(root.getAttribute("data-cale"))}&osoby=${guests.value}`);
       if (quote) quote.hidden = false;
+      const next = Number(guests.value) * ((priceOf(data.catering, catering) || 0) + (priceOf(data.bar, bar) || 0));
+      const from = shown;
+      const start = performance.now();
+      const step = (now) => {
+        if (mine !== frame) return;
+        const k = Math.min(1, (now - start) / 420);
+        shown = Math.round(from + (next - from) * (1 - Math.pow(1 - k, 3)));
+        if (totalEl) totalEl.textContent = `${root.getAttribute("data-od")} ${zloty(shown)} + ${root.getAttribute("data-wynik-cale")}`;
+        if (k < 1) requestAnimationFrame(step);
+      };
+      requestAnimationFrame(step);
       return;
     }
     totalEl?.classList.remove("is-quote");

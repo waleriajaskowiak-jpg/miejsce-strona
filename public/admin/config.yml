@@ -394,6 +394,15 @@ collections:
           - { label: Bary, name: bary, widget: string }
           - { label: Ścieżka PDF, name: pdf, widget: string }
           - { label: Podpis PDF, name: pdf_etykieta, widget: string }
+          - label: Menu PDF
+            name: menu_pdf
+            widget: file
+            required: false
+            media_folder: public/uploads/menu
+            public_folder: /uploads/menu
+            hint: "Karta menu do pobrania. Puste pole — zdjęcie nie jest linkiem."
+          - { label: Podpis przycisku menu, name: menu_pdf_etykieta, widget: string, required: false }
+          - { label: Zdjęcie karty menu, name: menu_karta, widget: image, required: false }
           - label: Zdjęcia
             name: zdjecia
             widget: list
@@ -734,6 +743,10 @@ collections:
               - label: "Meta"
                 name: meta
                 widget: string
+              - label: "Skrót na planie"
+                name: skrot
+                widget: string
+                required: false
       - name: etykiety
         label: "Etykiety, formularz i estymator"
         file: src/content/ustawienia/etykiety.json
@@ -1418,6 +1431,15 @@ collections:
               - label: "Serwis cale"
                 name: serwis_cale
                 widget: text
+              - label: "Etykieta wynajem od"
+                name: wynajem_od
+                widget: string
+              - label: "Nota wynajmu indywidualnego"
+                name: wynajem_nota
+                widget: string
+              - label: "Dopisek wyniku Całego Miejsca"
+                name: wynik_cale
+                widget: string
               - label: "Cale"
                 name: cale
                 widget: string
