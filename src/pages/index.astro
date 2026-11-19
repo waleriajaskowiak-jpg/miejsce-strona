@@ -162,7 +162,6 @@ const netlify = !endpoint && kontakt.formularz_netlify !== false;
             <span class="eyebrow">{etykiety.plan.kicker}</span>
             <h3 data-venue-title>{venueFirst.title}</h3>
             <span class="home-venue-note" data-venue-note>{venueFirst.note}</span>
-            <span class="home-venue-spec" data-venue-meta>{venueFirst.meta}</span>
             <span class="home-venue-spec" data-venue-price>{venueFirst.price}</span>
             <span class="btn btn-primary" data-venue-cta>{etykiety.zobacz} {venueFirst.title}</span>
           </span>
@@ -275,8 +274,6 @@ const netlify = !endpoint && kontakt.formularz_netlify !== false;
       if (title) title.textContent = row.title;
       const note = card.querySelector("[data-venue-note]");
       if (note) note.textContent = row.note;
-      const meta = card.querySelector("[data-venue-meta]");
-      if (meta) meta.textContent = row.meta;
       const price = card.querySelector("[data-venue-price]");
       if (price) price.textContent = row.price;
       const cta = card.querySelector("[data-venue-cta]");

@@ -241,7 +241,7 @@ const payload = JSON.stringify({
         if (mine !== frame) return;
         const k = Math.min(1, (now - start) / 420);
         shown = Math.round(from + (next - from) * (1 - Math.pow(1 - k, 3)));
-        if (totalEl) totalEl.textContent = `${root.getAttribute("data-od")} ${zloty(shown)} + ${root.getAttribute("data-wynik-cale")}`;
+        if (totalEl) totalEl.textContent = `${root.getAttribute("data-od")} ${zloty(shown)}`;
         if (k < 1) requestAnimationFrame(step);
       };
       requestAnimationFrame(step);
