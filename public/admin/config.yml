@@ -342,7 +342,7 @@ collections:
     fields:
       - { label: Tytuł, name: title, widget: string }
       - { label: Etykieta w menu, name: nav_label, widget: string }
-      - { label: Kolor wydarzenia, name: kolor, widget: color, hint: "Tło akcentu. Wesela #D9C8B4, firma #C46B4A, konferencje #6B7A5E, premiery #375C6B" }
+      - { label: Kolor wydarzenia, name: kolor, widget: color, hint: "Tło akcentu. Wesela #D9C8B4, firma #B15E3E, konferencje #6B7A5E, premiery #375C6B" }
       - { label: Tekst na kolorze, name: kolor_tekst, widget: color, hint: "Musi mieć kontrast AA z kolorem wydarzenia" }
       - { label: Kolejność, name: kolejnosc, widget: number, value_type: int }
       - { label: "Szkic (noindex)", name: szkic, widget: boolean, default: false }

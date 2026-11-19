@@ -1,8 +1,8 @@
 ---
 title: "Eventy firmowe i integracje"
 nav_label: "Eventy firmowe"
-kolor: "#C46B4A"
-kolor_tekst: "#1A1A1A"
+kolor: "#B15E3E"
+kolor_tekst: "#FFFFFF"
 kolejnosc: 1
 szkic: false
 seo_title: "Eventy firmowe i integracje nad Wisłą | MIEJSCE"
