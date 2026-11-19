@@ -1337,8 +1337,34 @@ html:not(.js) .has-event .reveal { opacity: 1; transform: none; }
   .event-faq-grid,
   .event-offers { grid-template-columns: 1fr; }
   .event-hero h1 { font-size: clamp(48px, 13vw, 68px); max-width: none; }
-  .event-hero-photo { transform: translateY(96px); }
-  .event-sheet { padding: 124px 0 56px; }
+  .event-hero-band { background: transparent; padding-bottom: 0; }
+  .event-hero-band::before {
+    content: "";
+    position: absolute;
+    z-index: 0;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: calc(0.3 * (100vw - 40px));
+    background: var(--event-color);
+  }
+  .event-wash { bottom: calc(0.3 * (100vw - 40px)); }
+  .event-wash span:first-child {
+    top: auto;
+    right: -28%;
+    bottom: -42%;
+    width: 72vw;
+    height: 72vw;
+    opacity: 0.55;
+    background: color-mix(in srgb, #fff 42%, var(--event-color));
+  }
+  .event-hero-grid { gap: 32px; align-items: start; }
+  .event-hero-copy { padding-bottom: 0; }
+  .event-hero-photo { transform: none; margin: 0; }
+  .event-sheet {
+    margin-top: calc(-0.3 * (100vw - 40px));
+    padding: calc(0.3 * (100vw - 40px) + 36px) 0 56px;
+  }
   .event-tint, .event-spaces, .event-story, .event-faq, .event-feast { padding-block: 64px; }
   .event-feature-copy h3 { font-size: 34px; }
   .event-stage:not(:has(.event-side)) .event-feature { grid-column: auto; }
@@ -1352,5 +1378,7 @@ html:not(.js) .has-event .reveal { opacity: 1; transform: none; }
   .event-card,
   .event-story-photo img { transition: none; transform: none; opacity: 1; }
   .event-hero-photo { transform: none; }
+}
+@media (prefers-reduced-motion: reduce) and (min-width: 901px) {
   .event-sheet { padding-top: 40px; }
 }
