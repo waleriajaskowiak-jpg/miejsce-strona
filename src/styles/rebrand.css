@@ -1674,3 +1674,174 @@ html:not(.js) .has-event .reveal { opacity: 1; transform: none; animation: none;
 .r12-plate .ico,
 .event-tag .ico,
 .r12-card .go .ico { color: currentColor; }
+
+.event-row {
+  display: flex;
+  gap: 12px;
+  height: 540px;
+  margin-top: 28px;
+  min-width: 0;
+}
+.event-tile {
+  position: relative;
+  flex: 1 1 0;
+  min-width: 0;
+  height: 100%;
+  border-radius: 20px;
+  overflow: hidden;
+  color: var(--event-on);
+  text-decoration: none;
+  transition: flex-grow 500ms ease;
+}
+.event-tile.is-wide { flex-grow: 1.4; }
+.event-row:hover .event-tile,
+.event-row:focus-within .event-tile { flex-grow: 1; }
+.event-row:hover .event-tile:hover,
+.event-row:focus-within .event-tile:focus-visible { flex-grow: 3.8; outline: none; }
+.event-tile:focus-visible { box-shadow: inset 0 0 0 3px var(--accent); }
+.event-tile img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 0;
+}
+.event-tile::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    var(--event-color) 0 42%,
+    color-mix(in srgb, var(--event-color) 78%, transparent) 58%,
+    transparent 80%
+  );
+  pointer-events: none;
+}
+.event-tile .idx,
+.event-tile .vlab,
+.event-tile .body { position: absolute; z-index: 1; }
+.event-tile .idx {
+  top: 16px;
+  left: 16px;
+  min-width: 36px;
+  height: 32px;
+  padding: 0 8px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  background: var(--event-color);
+  color: var(--event-on);
+  font-family: var(--font-display);
+  font-size: 20px;
+  letter-spacing: 0.04em;
+  line-height: 1;
+}
+.event-tile .vlab {
+  left: 18px;
+  bottom: 18px;
+  max-height: calc(100% - 84px);
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  transform-origin: center;
+  font-family: var(--font-display);
+  font-size: 22px;
+  letter-spacing: 0.04em;
+  line-height: 1;
+  text-transform: uppercase;
+  white-space: nowrap;
+  overflow: hidden;
+  transition: opacity 180ms ease;
+}
+.event-tile .body {
+  left: 24px;
+  right: 24px;
+  bottom: 24px;
+  display: grid;
+  justify-items: start;
+  gap: 12px;
+  max-width: 440px;
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity 160ms ease, transform 160ms ease;
+}
+.event-tile:hover .body,
+.event-tile:focus-visible .body {
+  opacity: 1;
+  transform: none;
+  transition: opacity 280ms ease 500ms, transform 280ms ease 500ms;
+}
+.event-tile:hover .vlab,
+.event-tile:focus-visible .vlab { opacity: 0; }
+.event-tile .body h3 {
+  margin: 0;
+  color: var(--event-on);
+  font-size: clamp(36px, 3vw, 56px);
+}
+.event-tile .body p {
+  margin: 0;
+  color: var(--event-on);
+  font-size: 16px;
+  line-height: 1.45;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.event-tile .btn {
+  margin-top: 4px;
+  background: var(--event-on);
+  color: var(--event-color);
+  border-color: transparent;
+}
+.event-tile .tile-go { display: none; }
+@media (max-width: 1023px) {
+  .event-row {
+    height: auto;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-padding-left: 0;
+    padding-bottom: 4px;
+    scrollbar-width: none;
+  }
+  .event-row::-webkit-scrollbar { display: none; }
+  .event-tile,
+  .event-tile.is-wide,
+  .event-row:hover .event-tile,
+  .event-tile:hover,
+  .event-tile:focus-visible {
+    flex: 0 0 86%;
+    height: 460px;
+    scroll-snap-align: start;
+  }
+  .event-tile .vlab { display: none; }
+  .event-tile .btn { display: none; }
+  .event-tile .tile-go {
+    display: inline-flex;
+    width: 40px;
+    height: 40px;
+    border-radius: 999px;
+    align-items: center;
+    justify-content: center;
+    background: var(--event-on);
+    color: var(--event-color);
+    font-size: 18px;
+  }
+  .event-tile .body,
+  .event-tile:hover .body,
+  .event-tile:focus-visible .body {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  .event-tile .body p { -webkit-line-clamp: 2; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .event-tile,
+  .event-tile .body,
+  .event-tile .vlab { transition: none; }
+  .event-tile:hover .body,
+  .event-tile:focus-visible .body { transition: none; }
+}

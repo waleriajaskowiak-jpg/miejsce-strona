@@ -143,16 +143,23 @@ const netlify = !endpoint && kontakt.formularz_netlify !== false;
 
   <section class="band" id="wydarzenia">
     <div class="wrap">
-      <p class="eyebrow">02</p>
-      <h2>Co możesz u nas zorganizować</h2>
-      <div class="r12-tiles">
-        {kategorie.map((item) => (
-          <a class="r12-tile" style={`--event-color:${item.data.kolor};--event-on:${item.data.kolor_tekst}`} href={`/eventy/${item.id}/`}>
-            <img src={item.data.cover} alt="" width="1200" height="800" />
-            <span class="r12-plate">
-              <b>{item.data.nav_label}</b>
-              <small>{item.data.lead}</small>
-              <span class="go">Zobacz <Icon name="arrow" /></span>
+      <p class="eyebrow">01 · Wydarzenia</p>
+      <h2>Co planujesz?</h2>
+      <div class="event-row">
+        {kategorie.map((item, index) => (
+          <a
+            class:list={["event-tile", index === 0 && "is-wide"]}
+            style={`--event-color:${item.data.kolor};--event-on:${item.data.kolor_tekst}`}
+            href={`/eventy/${item.id}/`}
+          >
+            <img src={item.data.cover} alt="" width="1600" height="1100" />
+            <span class="idx">0{index + 1}</span>
+            <span class="vlab">{item.data.nav_label}</span>
+            <span class="body">
+              <h3>{item.data.title}</h3>
+              <p>{item.data.lead}</p>
+              <span class="btn">{item.data.cta}</span>
+              <span class="tile-go" aria-hidden="true">→</span>
             </span>
           </a>
         ))}
