@@ -1,13 +1,11 @@
 ---
 import { getCollection, getEntry, render } from "astro:content";
 import Base from "../../layouts/Base.astro";
-import PageHero from "../../components/PageHero.astro";
+import Crumbs from "../../components/Crumbs.astro";
 import NextBand from "../../components/NextBand.astro";
-import SectionHeader from "../../components/SectionHeader.astro";
 import StatRow from "../../components/StatRow.astro";
 import Slider from "../../components/Slider.astro";
 import { crumbsJsonLd, sortByOrder } from "../../lib/nav.js";
-import { statSurface } from "../../lib/event-color.js";
 
 export async function getStaticPaths() {
   const entries = await getCollection("kategorie");
@@ -32,7 +30,8 @@ const crumbs = [
 const typ = pierwszy?.data.typ_budzetu || "firmowy";
 const budzetHref = `/ceny/?typ=${typ}${pierwszy?.data.goscie ? `&osoby=${pierwszy.data.goscie}` : ""}#estymator`;
 const kontaktHref = `/kontakt/?typ=${entry.id}`;
-const statsOn = statSurface(entry.data.kolor);
+const feature = przestrzenie[0];
+const restSpaces = przestrzenie.slice(1);
 ---
 
 <Base
@@ -44,16 +43,24 @@ const statsOn = statSurface(entry.data.kolor);
   eventColor={entry.data.kolor}
   eventOn={entry.data.kolor_tekst}
 >
-  <PageHero
-    crumbs={crumbs}
-    kicker={entry.data.nav_label}
-    title={entry.data.title}
-    lede={entry.data.lead}
-    image={entry.data.cover}
-    imageAlt={entry.data.title}
-  />
-  <section class:list={["band", "tight-top", "event-stats", statsOn === "ink" && "band-ink"]} aria-label="W skrócie">
-    <div class="wrap stack">
+  <header class="event-hero">
+    <div class="event-hero-band">
+      <div class="event-wash" aria-hidden="true"><span></span><span></span></div>
+      <div class="wrap event-hero-grid">
+        <div class="event-hero-copy">
+          <Crumbs items={crumbs} />
+          <p class="kicker">{entry.data.nav_label}</p>
+          <h1>{entry.data.title}</h1>
+          <p class="lede">{entry.data.lead}</p>
+        </div>
+        <figure class="event-hero-photo">
+          <img src={entry.data.cover} alt={entry.data.title} width="1600" height="1100" />
+        </figure>
+      </div>
+    </div>
+  </header>
+  <section class="event-sheet" aria-label="W skrócie">
+    <div class="wrap">
       <nav class="pills" aria-label="Zakres">
         {entry.data.tagi.map((tag) => <a class="pill" href="#co-mozna">{tag}</a>)}
       </nav>
@@ -66,22 +73,18 @@ const statsOn = statSurface(entry.data.kolor);
       />
     </div>
   </section>
-  <section class="band tight-top" aria-labelledby="co-mozna">
+  <section class="event-tint reveal" aria-labelledby="co-mozna">
     <div class="wrap">
-      <div class="sec-top sec-top-pills">
-        <div>
-          <p class="eyebrow">Zakres</p>
-          <h2 id="co-mozna">Co można tu ułożyć</h2>
-        </div>
-        <ul class="pills">
-          {entry.data.co_mozna.map((item) => <li>{item}</li>)}
-        </ul>
-      </div>
-      {entry.body?.trim() && <p class="lead section-lead">{entry.body.trim().replace(/\.\s*$/, "")}</p>}
-      <div class="cards-3">
+      <header class="event-head">
+        <p class="eyebrow">Zakres</p>
+        <h2 id="co-mozna">Co można tu ułożyć</h2>
+        <p class="event-range">{entry.data.co_mozna.join(" · ")}</p>
+      </header>
+      {entry.body?.trim() && <p class="lead event-lead">{entry.body.trim()}</p>}
+      <div class="event-offers">
         {entry.data.korzysci.map((item, index) => (
-          <article class="info-card">
-            <p class="eyebrow">0{index + 1}</p>
+          <article class="event-card">
+            <p class="event-num">0{index + 1}</p>
             <h3>{item.tytul}</h3>
             <p>{item.opis}</p>
           </article>
@@ -89,56 +92,78 @@ const statsOn = statSurface(entry.data.kolor);
       </div>
     </div>
   </section>
-  <section class="band band-surface" aria-labelledby="miejsca">
-    <div class="wrap">
-      <SectionHeader eyebrow="Przestrzeń" title="Dobierzmy do tego właściwe MIEJSCE" lead={entry.data.dla_ilu} />
-      <div class="cards-3" id="miejsca">
-        {przestrzenie.map((space) => (
-          <article class="media-card">
-            <a href={`/przestrzenie/${space.id}/`}>
-              <img src={space.data.cover} alt="" />
-              <div class="card-body">
-                <h3>{space.data.title}</h3>
-                <p>{space.data.lead}</p>
-                <span class="btn btn-ghost">Zobacz {space.data.title}</span>
-              </div>
-            </a>
-          </article>
-        ))}
+  {feature && (
+    <section class="event-spaces reveal" aria-labelledby="miejsca">
+      <div class="wrap">
+        <header class="event-head">
+          <p class="eyebrow">Przestrzeń</p>
+          <h2 id="miejsca">Dobierzmy do tego właściwe MIEJSCE</h2>
+          <p class="lead">{entry.data.dla_ilu}</p>
+        </header>
+        <div class="event-stage">
+          <a class="event-feature" href={`/przestrzenie/${feature.id}/`}>
+            <img src={feature.data.cover} alt="" width="1400" height="900" />
+            <div class="event-feature-copy">
+              <h3>{feature.data.title}</h3>
+              <p>{feature.data.lead}</p>
+              <span class="btn btn-ghost">Zobacz {feature.data.title}</span>
+            </div>
+          </a>
+          {restSpaces.length > 0 && (
+            <div class="event-side">
+              {restSpaces.map((space) => (
+                <a class="event-mini" href={`/przestrzenie/${space.id}/`}>
+                  <img src={space.data.cover} alt="" width="400" height="300" />
+                  <span>
+                    <b>{space.data.title}</b>
+                    <small>{space.data.lead}</small>
+                  </span>
+                </a>
+              ))}
+            </div>
+          )}
+        </div>
       </div>
-    </div>
-  </section>
+    </section>
+  )}
   {pierwszy && (
-    <section class="band" aria-labelledby="scenariusz">
-      <div class="wrap split">
+    <section class="event-story reveal" aria-labelledby="scenariusz">
+      <div class="wrap event-story-grid">
+        <figure class="event-story-photo">
+          <img src={pierwszy.data.cover} alt="" width="1400" height="1000" />
+        </figure>
         <div>
-          <SectionHeader eyebrow={pierwszy.data.title} title="Przykładowy scenariusz" lead={pierwszy.data.lead} />
-          <ol class="included" id="scenariusz">
-            {pierwszy.data.program.map((punkt) => <li>{punkt.tytul}</li>)}
+          <p class="eyebrow">{pierwszy.data.title}</p>
+          <h2 id="scenariusz">Przykładowy scenariusz</h2>
+          <p class="lead">{pierwszy.data.lead}</p>
+          <ol class="event-steps">
+            {pierwszy.data.program.map((punkt, index) => (
+              <li><b>0{index + 1}</b><span>{punkt.tytul}</span></li>
+            ))}
           </ol>
           <p class="fine">Godziny i zakres dopasowujemy do Waszego wydarzenia</p>
           <p class="btn-row"><a class="btn btn-primary" href={`/scenariusze/${pierwszy.id}/`}>Zobacz cały scenariusz</a></p>
         </div>
-        <img src={pierwszy.data.cover} alt="" />
       </div>
     </section>
   )}
-  <section class="band band-dark" aria-labelledby="menu-kat">
-    <div class="wrap split">
+  <section class="event-feast reveal" aria-labelledby="menu-kat">
+    <div class="wrap event-feast-grid">
       <div>
-        <SectionHeader eyebrow="Kuchnia" title="Jedzenie, bar i dobry plan" lead={entry.data.jedzenie_bar} />
+        <p class="eyebrow">Kuchnia</p>
+        <h2 id="menu-kat">Jedzenie, bar i dobry plan</h2>
+        <p class="lead">{entry.data.jedzenie_bar}</p>
         <p>{entry.data.atrakcje}</p>
-        <p>{entry.data.plan_b}</p>
         <p class="fine">Dodatkowe AV, DJ i oprawa wyceniamy osobno, poza kwotą „od”</p>
         <div class="btn-row">
           <a class="btn btn-ghost" href="/jedzenie-i-bar/">Jedzenie i bar</a>
           <a class="btn btn-primary" href={budzetHref}>Porozmawiajmy o budżecie</a>
         </div>
       </div>
-      <div id="menu-kat">
+      <aside class="event-note">
         <p class="eyebrow">Plan B</p>
         <p class="lead">{entry.data.plan_b}</p>
-      </div>
+      </aside>
     </div>
   </section>
   {sekcje && (
@@ -148,10 +173,14 @@ const statsOn = statSurface(entry.data.kolor);
       items={sekcje.film_zdjecia.map((src, index) => ({ src, alt: `${sekcje.film_h}, zdjęcie ${index + 1}`, title: sekcje.film_note }))}
     />
   )}
-  <section class="band" aria-labelledby="faq-kat">
-    <div class="wrap">
-      <SectionHeader eyebrow="Pytania" title="Zanim napiszesz" lead="Deszcz, godziny, dojazd i menu. Resztę doprecyzujemy w briefie" />
-      <div id="faq-kat">
+  <section class="event-faq event-tint reveal" aria-labelledby="faq-kat">
+    <div class="wrap event-faq-grid">
+      <header class="event-head">
+        <p class="eyebrow">Pytania</p>
+        <h2 id="faq-kat">Zanim napiszesz</h2>
+        <p class="lead">Deszcz, godziny, dojazd i menu. Resztę doprecyzujemy w briefie</p>
+      </header>
+      <div>
         {faq.map(({ item, Content }) => (
           <details class="acc">
             <summary>{item.data.pytanie}</summary>

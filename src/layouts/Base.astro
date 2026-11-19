@@ -8,7 +8,7 @@ import "../styles/rebrand.css";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 import { IS_PROD } from "../lib/env.js";
-import { toneIsLight } from "../lib/event-color.js";
+import { toneIsLight, eventInk, eventNum } from "../lib/event-color.js";
 
 const {
   title,
@@ -76,7 +76,7 @@ const jsonBlocks = jsonLd.map((obj) => JSON.stringify(obj).replace(/</g, "\\u003
   </head>
   <body
     class:list={[overlay && "has-overlay", eventColor && "has-event", eventColor && toneIsLight(eventColor) && "tone-light"]}
-    style={eventColor ? `--event-color:${eventColor};--event-on:${eventOn}` : undefined}
+    style={eventColor ? `--event-color:${eventColor};--event-on:${eventOn};--event-ink:${eventInk(eventColor)};--event-num:${eventNum(eventColor)}` : undefined}
   >
     <a class="skip" href="#main">Przejdź do treści</a>
     <Header />
