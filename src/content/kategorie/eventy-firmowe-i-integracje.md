@@ -22,40 +22,44 @@ co_mozna:
 formaty:
   - tytul: "Integracja firmowa"
     opis: "Grill, woda i muzyka. Barka, taras i ogród dają się ułożyć w jeden wieczór, bez przeprowadzki zespołu przez miasto."
-    zdjecie: "/img/gallery/og16.jpg"
     rodzaj: "integracja"
-    fakty:
-      - { ikona: users, tekst: "Od kilkudziesięciu osób" }
-      - { ikona: terrace, tekst: "Duże Miejsce i ogród" }
-      - { ikona: clock, tekst: "Wynajem od 5 godzin" }
-      - { ikona: utensils, tekst: "Menu od 180 zł netto za osobę" }
+    karty:
+      - tytul: "Goście"
+        opis: "Od kilkudziesięciu osób"
+      - tytul: "Strefy"
+        opis: "Duże Miejsce i ogród"
+      - tytul: "Menu"
+        opis: "Menu od 180 zł netto za osobę. Wynajem od 5 godzin"
   - tytul: "Impreza firmowa i jubileusz"
     opis: "Część oficjalna i parkiet zostają pod dachem. Jedzenie może być finger food, bufet albo grill, bez trzygodzinnej kolacji."
-    zdjecie: "/img/gallery/dm22.jpg"
     rodzaj: "firmowy"
-    fakty:
-      - { ikona: users, tekst: "Do 350 gości, cały kompleks latem, z ogrodem" }
-      - { ikona: terrace, tekst: "Duże Miejsce, taras pod dachem" }
-      - { ikona: clock, tekst: "Wynajem od 5 godzin" }
-      - { ikona: glass, tekst: "Open bar od 150 zł netto za osobę" }
+    karty:
+      - tytul: "Goście"
+        opis: "Do 350 gości, cały kompleks latem, z ogrodem"
+      - tytul: "Pod dachem"
+        opis: "Duże Miejsce, taras pod dachem"
+      - tytul: "Bar"
+        opis: "Open bar od 150 zł netto za osobę. Wynajem od 5 godzin"
   - tytul: "Garden party"
     opis: "Ogród, bufety i grill, kiedy aura pozwala. Zadaszone tarasy zostają w układzie jako plan na deszcz."
-    zdjecie: "/img/gallery/og25.jpg"
     rodzaj: "garden-party"
-    fakty:
-      - { ikona: users, tekst: "Do 300 gości w tej formule. Cały kompleks latem, z ogrodem: 350" }
-      - { ikona: sun, tekst: "Ogród wchodzi przy dobrej pogodzie" }
-      - { ikona: terrace, tekst: "Miejscowy Ogród i cały kompleks" }
-      - { ikona: utensils, tekst: "Grill, finger food albo bufet" }
+    karty:
+      - tytul: "Goście"
+        opis: "Do 300 gości w tej formule. Cały kompleks latem, z ogrodem: 350"
+      - tytul: "Pogoda"
+        opis: "Ogród wchodzi przy dobrej pogodzie. Zadaszone tarasy zostają w układzie"
+      - tytul: "Jedzenie"
+        opis: "Grill, finger food albo bufet. Miejscowy Ogród i cały kompleks"
   - tytul: "Team building nad wodą"
     opis: "Warsztat i czas na zewnątrz w jednym adresie. Na deszcz zostaje zadaszony taras, bez drugiej lokalizacji."
-    zdjecie: "/img/gallery/cm04.jpg"
     rodzaj: "integracja"
-    fakty:
-      - { ikona: users, tekst: "Kilkadziesiąt osób, większą grupę bierzemy na cały kompleks" }
-      - { ikona: terrace, tekst: "Taras zadaszony i ogród" }
-      - { ikona: clock, tekst: "Wynajem od 5 godzin" }
-      - { ikona: check, tekst: "Program układamy pod zespół" }
+    karty:
+      - tytul: "Goście"
+        opis: "Kilkadziesiąt osób, większą grupę bierzemy na cały kompleks"
+      - tytul: "Adres"
+        opis: "Taras zadaszony i ogród"
+      - tytul: "Program"
+        opis: "Program układamy pod zespół. Wynajem od 5 godzin"
 dla_ilu: "Od kilkudziesięciu osób po garden party dla 300. Cały kompleks latem, z ogrodem, przyjmuje do 350 gości"
 przestrzenie:
   - "duze-miejsce"

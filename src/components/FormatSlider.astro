@@ -1,13 +1,6 @@
 ---
-import Icon from "./Icon.astro";
-
 const { slides = [] } = Astro.props;
-const hrefFor = (slide) => {
-  const query = new URLSearchParams();
-  if (slide.rodzaj) query.set("rodzaj", slide.rodzaj);
-  query.set("wiadomosc", `Chcę zapytać o format: ${slide.tytul}`);
-  return `/kontakt/?${query}#brief`;
-};
+const cardsFor = (slide) => (slide.karty || []).slice(0, 3);
 ---
 
 <section class="event-format event-tint reveal" id="co-mozna" data-format>
@@ -16,74 +9,91 @@ const hrefFor = (slide) => {
       <p class="eyebrow">Zakres</p>
       <h2>Co można tu ułożyć</h2>
     </header>
-    <div class="format-row">
+    <div class="format-tabs" role="tablist" aria-label="Warianty">
       {slides.map((slide, index) => (
-        <article class:list={["format-panel", index === 0 && "is-open"]} data-format-panel>
-          <button
-            type="button"
-            class="format-panel-tab"
-            aria-expanded={index === 0 ? "true" : "false"}
-            aria-controls={`format-body-${index}`}
-            id={`format-tab-${index}`}
-          >
-            <img src={slide.zdjecie} alt="" width="800" height="1000" />
-            <span>{slide.tytul}</span>
-          </button>
-          <div class="format-panel-body" id={`format-body-${index}`}>
-            <div class="format-photo">
-              <img src={slide.zdjecie} alt="" width="1600" height="1100" />
-            </div>
-            <div class="format-copy">
-              <h3>{slide.tytul}</h3>
-              <p>{slide.opis}</p>
-              <ul class="format-facts">
-                {slide.fakty.map((fact) => (
-                  <li><Icon name={fact.ikona} /><span>{fact.tekst}</span></li>
-                ))}
-              </ul>
-              <a class="btn btn-primary" href={hrefFor(slide)}>Zapytaj o ten format</a>
-            </div>
+        <button
+          type="button"
+          role="tab"
+          id={`format-tab-${index}`}
+          aria-selected={index === 0 ? "true" : "false"}
+          aria-controls={`format-panel-${index}`}
+          tabindex={index === 0 ? 0 : -1}
+        >{slide.tytul}</button>
+      ))}
+    </div>
+    <div class="format-stage" data-format-stage>
+      {slides.map((slide, index) => (
+        <div
+          class:list={["format-panel-text", index === 0 && "is-active"]}
+          id={`format-panel-${index}`}
+          role="tabpanel"
+          aria-labelledby={`format-tab-${index}`}
+          hidden={index === 0 ? undefined : true}
+        >
+          <p class="lead event-lead">{slide.opis}</p>
+          <div class="event-offers">
+            {cardsFor(slide).map((card, cardIndex) => (
+              <article class="event-card">
+                <p class="event-num">{String(cardIndex + 1).padStart(2, "0")}</p>
+                <h3>{card.tytul}</h3>
+                <p>{card.opis}</p>
+              </article>
+            ))}
           </div>
-        </article>
+        </div>
       ))}
     </div>
   </div>
 </section>
 
 <script>
-  const fine = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
   const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   document.querySelectorAll("[data-format]").forEach((root) => {
-    const panels = [...root.querySelectorAll("[data-format-panel]")];
-    if (!panels.length) return;
-    let index = Math.max(0, panels.findIndex((panel) => panel.classList.contains("is-open")));
+    const tabs = [...root.querySelectorAll('[role="tab"]')];
+    const panels = [...root.querySelectorAll('[role="tabpanel"]')];
+    const stage = root.querySelector("[data-format-stage]");
+    if (!tabs.length || !stage) return;
+    let index = Math.max(0, tabs.findIndex((tab) => tab.getAttribute("aria-selected") === "true"));
 
-    const open = (next, moveFocus = false) => {
-      index = Math.max(0, Math.min(panels.length - 1, next));
+    const paint = (next) => {
+      index = Math.max(0, Math.min(tabs.length - 1, next));
+      tabs.forEach((tab, i) => {
+        const on = i === index;
+        tab.setAttribute("aria-selected", on ? "true" : "false");
+        tab.tabIndex = on ? 0 : -1;
+      });
       panels.forEach((panel, i) => {
         const on = i === index;
-        panel.classList.toggle("is-open", on);
-        panel.querySelector(".format-panel-tab")?.setAttribute("aria-expanded", on ? "true" : "false");
+        panel.hidden = !on;
+        panel.classList.toggle("is-active", on);
       });
-      if (!moveFocus) return;
-      const tab = panels[index].querySelector(".format-panel-tab");
-      const cta = panels[index].querySelector(".btn");
-      if (tab instanceof HTMLElement && tab.offsetParent) tab.focus();
-      else if (cta instanceof HTMLElement) cta.focus();
     };
 
-    panels.forEach((panel, i) => {
-      const tab = panel.querySelector(".format-panel-tab");
-      tab?.addEventListener("click", () => open(i));
-      if (fine) panel.addEventListener("mouseenter", () => open(i));
-    });
+    const select = (next, focusTab = false) => {
+      const target = Math.max(0, Math.min(tabs.length - 1, next));
+      if (target === index) return;
+      const apply = () => {
+        paint(target);
+        stage.classList.remove("is-swap");
+        if (focusTab) tabs[target].focus();
+      };
+      if (reduce) {
+        apply();
+        return;
+      }
+      stage.classList.add("is-swap");
+      window.setTimeout(apply, 180);
+    };
 
-    root.addEventListener("keydown", (event) => {
-      if (event.key !== "ArrowRight" && event.key !== "ArrowLeft" && event.key !== "ArrowDown" && event.key !== "ArrowUp") return;
-      if (event.target instanceof HTMLInputElement || event.target instanceof HTMLTextAreaElement) return;
-      const forward = event.key === "ArrowRight" || event.key === "ArrowDown";
-      event.preventDefault();
-      open(index + (forward ? 1 : -1), true);
+    tabs.forEach((tab, i) => {
+      tab.addEventListener("click", () => select(i));
+      tab.addEventListener("keydown", (event) => {
+        if (event.key !== "ArrowRight" && event.key !== "ArrowLeft" && event.key !== "Home" && event.key !== "End") return;
+        event.preventDefault();
+        if (event.key === "Home") select(0, true);
+        else if (event.key === "End") select(tabs.length - 1, true);
+        else select(index + (event.key === "ArrowRight" ? 1 : -1), true);
+      });
     });
 
     if (reduce) root.classList.add("is-instant");

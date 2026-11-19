@@ -22,40 +22,44 @@ co_mozna:
 formaty:
   - tytul: "Konferencja"
     opis: "Rano sala, po południu taras, wieczorem kolacja, jeśli tak ułożycie dzień. Prezentacje, lunch i afterparty nie wymagają drugiej lokalizacji."
-    zdjecie: "/img/gallery/mm12.jpg"
     rodzaj: "konferencja"
-    fakty:
-      - { ikona: users, tekst: "Scenariusz z afterparty dla 50 osób" }
-      - { ikona: terrace, tekst: "Małe Miejsce, Duże na wieczór" }
-      - { ikona: clock, tekst: "Wynajem Małego Miejsca od 5 godzin" }
-      - { ikona: check, tekst: "Rzutnik, ekran i mikrofony są w Małym Miejscu" }
+    karty:
+      - tytul: "Goście"
+        opis: "Scenariusz z afterparty dla 50 osób"
+      - tytul: "Sale"
+        opis: "Małe Miejsce, Duże na wieczór"
+      - tytul: "Technika"
+        opis: "Rzutnik, ekran i mikrofony są w Małym Miejscu. Wynajem od 5 godzin"
   - tytul: "Szkolenie i warsztat"
     opis: "Cichsza sala z tarasem i kolacja dla małego grona. Duże Miejsce dochodzi, kiedy wieczór ma zejść na parkiet."
-    zdjecie: "/img/gallery/mm16.jpg"
     rodzaj: "szkolenie"
-    fakty:
-      - { ikona: users, tekst: "Scenariusz szkolenia dla 25 osób" }
-      - { ikona: terrace, tekst: "Małe Miejsce" }
-      - { ikona: clock, tekst: "Popołudnie pracy i wieczór przy stole" }
-      - { ikona: utensils, tekst: "Catering i kolacja są w scenariuszu" }
+    karty:
+      - tytul: "Goście"
+        opis: "Scenariusz szkolenia dla 25 osób"
+      - tytul: "Sala"
+        opis: "Małe Miejsce"
+      - tytul: "Dzień"
+        opis: "Popołudnie pracy i wieczór przy stole. Catering i kolacja są w scenariuszu"
   - tytul: "Spotkanie zarządu"
     opis: "Kameralna sala nad wodą, bez dużej sceny. Podstawowe AV jest na miejscu, większe ekrany wyceniamy osobno."
-    zdjecie: "/img/gallery/mm10.jpg"
     rodzaj: "konferencja"
-    fakty:
-      - { ikona: users, tekst: "Małe grono, liczbę potwierdzamy pod układ" }
-      - { ikona: terrace, tekst: "Małe Miejsce i taras" }
-      - { ikona: clock, tekst: "Wynajem od 5 godzin" }
-      - { ikona: info, tekst: "Rzutnik, ekran i mikrofony są w sali" }
+    karty:
+      - tytul: "Goście"
+        opis: "Małe grono, liczbę potwierdzamy pod układ"
+      - tytul: "Sala"
+        opis: "Małe Miejsce i taras"
+      - tytul: "Technika"
+        opis: "Rzutnik, ekran i mikrofony są w sali. Wynajem od 5 godzin"
   - tytul: "Networking i afterparty"
     opis: "Po sali zejście na parkiet w tym samym adresie. Afterparty może zostać na barce, bez wychodzenia do ogrodu."
-    zdjecie: "/img/gallery/dm20.jpg"
     rodzaj: "konferencja"
-    fakty:
-      - { ikona: users, tekst: "Scenariusz opisany dla 50 osób" }
-      - { ikona: terrace, tekst: "Małe Miejsce i Duże Miejsce" }
-      - { ikona: clock, tekst: "Wieczór po części konferencyjnej" }
-      - { ikona: glass, tekst: "Bar wyceniamy osobno" }
+    karty:
+      - tytul: "Goście"
+        opis: "Scenariusz opisany dla 50 osób"
+      - tytul: "Sale"
+        opis: "Małe Miejsce i Duże Miejsce"
+      - tytul: "Wieczór"
+        opis: "Wieczór po części konferencyjnej. Bar wyceniamy osobno"
 dla_ilu: "Szkolenie w małym gronie układamy od około 25 osób. Scenariusz konferencji z afterparty jest opisany dla 50 osób. Wynajem Małego Miejsca zaczyna się od 3 000 zł netto za 5 godzin"
 przestrzenie:
   - "nowe-miejsce"

@@ -22,40 +22,44 @@ co_mozna:
 formaty:
   - tytul: "Premiera produktu"
     opis: "Taras, kolacja i bar, bez sali wykładowej w tle. Scenariusz premiery jest opisany dla 40 osób, większe wydarzenie idzie na cały kompleks."
-    zdjecie: "/img/gallery/kn08.jpg"
     rodzaj: "premiera"
-    fakty:
-      - { ikona: users, tekst: "40 osób w scenariuszu, większe do 350 latem, z ogrodem" }
-      - { ikona: terrace, tekst: "Duże Miejsce albo cały kompleks" }
-      - { ikona: clock, tekst: "Wieczór, wynajem od 5 godzin" }
-      - { ikona: glass, tekst: "Koktajl, kolacja i open bar od 150 zł netto" }
+    karty:
+      - tytul: "Goście"
+        opis: "40 osób w scenariuszu, większe do 350 latem, z ogrodem"
+      - tytul: "Miejsce"
+        opis: "Duże Miejsce albo cały kompleks"
+      - tytul: "Wieczór"
+        opis: "Wynajem od 5 godzin. Koktajl, kolacja i open bar od 150 zł netto"
   - tytul: "Spotkanie dla klientów"
     opis: "Kolacja na tarasie dla gości marki. Menu od 180 zł netto za osobę, bar ustalamy w ofercie."
-    zdjecie: "/img/gallery/dm22.jpg"
     rodzaj: "premiera"
-    fakty:
-      - { ikona: users, tekst: "Kameralnie albo 350, cały kompleks latem, z ogrodem" }
-      - { ikona: terrace, tekst: "Taras nad wodą" }
-      - { ikona: clock, tekst: "Wieczór" }
-      - { ikona: utensils, tekst: "Menu od 180 zł netto za osobę" }
+    karty:
+      - tytul: "Goście"
+        opis: "Kameralnie albo 350, cały kompleks latem, z ogrodem"
+      - tytul: "Taras"
+        opis: "Taras nad wodą"
+      - tytul: "Menu"
+        opis: "Menu od 180 zł netto za osobę. Wieczór"
   - tytul: "Prezentacja marki"
     opis: "Nabrzeże i barki jako tło marki. Były tu m.in. ELLE i The Voice of Poland."
-    zdjecie: "/img/gallery/kn01.jpg"
     rodzaj: "premiera"
-    fakty:
-      - { ikona: users, tekst: "Od kameralnej grupy po 350, cały kompleks latem, z ogrodem" }
-      - { ikona: terrace, tekst: "Całe Miejsce" }
-      - { ikona: check, tekst: "ELLE i The Voice of Poland, produkcje na nabrzeżu" }
-      - { ikona: info, tekst: "Światło i streaming wyceniamy osobno" }
+    karty:
+      - tytul: "Skala"
+        opis: "Od kameralnej grupy po 350, cały kompleks latem, z ogrodem"
+      - tytul: "Miejsce"
+        opis: "Całe Miejsce"
+      - tytul: "Produkcja"
+        opis: "ELLE i The Voice of Poland, produkcje na nabrzeżu. Światło i streaming wyceniamy osobno"
   - tytul: "Plan zdjęciowy i produkcja"
     opis: "Wnętrza i nabrzeże pod zdjęcia i produkcje. Zaplecze i prąd są na miejscu. Czas planu potwierdzamy w ofercie."
-    zdjecie: "/img/gallery/cm04.jpg"
     rodzaj: "premiera"
-    fakty:
-      - { ikona: users, tekst: "Ekipa i plan dnia ustalamy osobno" }
-      - { ikona: terrace, tekst: "Barki i nabrzeże, także pod dachem" }
-      - { ikona: clock, tekst: "Czas zdjęć potwierdzamy w ofercie" }
-      - { ikona: check, tekst: "Zaplecze i prąd są na miejscu" }
+    karty:
+      - tytul: "Ekipa"
+        opis: "Ekipa i plan dnia ustalamy osobno"
+      - tytul: "Plan"
+        opis: "Barki i nabrzeże, także pod dachem"
+      - tytul: "Zaplecze"
+        opis: "Zaplecze i prąd są na miejscu. Czas zdjęć potwierdzamy w ofercie"
 dla_ilu: "Scenariusz premiery jest opisany dla 40 osób. Większe wydarzenie marki idzie na cały kompleks latem, z ogrodem, do 350 gości"
 przestrzenie:
   - "cale-miejsce"

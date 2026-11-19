@@ -22,40 +22,44 @@ co_mozna:
 formaty:
   - tytul: "Wesele nad wodą"
     opis: "Ceremonia, stół i taniec są w jednym kompleksie nad Wisłą. Altana i parkiet leżą obok siebie."
-    zdjecie: "/img/gallery/ws01.jpg"
     rodzaj: "wesele"
-    fakty:
-      - { ikona: users, tekst: "50–250 gości, zależnie od formuły" }
-      - { ikona: terrace, tekst: "Duże Miejsce, altana i parkiet" }
-      - { ikona: clock, tekst: "Wynajem od 5 godzin" }
-      - { ikona: utensils, tekst: "Menu, bar i zespół wyceniamy osobno" }
+    karty:
+      - tytul: "Goście"
+        opis: "50–250 gości, zależnie od formuły"
+      - tytul: "Altana i parkiet"
+        opis: "Duże Miejsce. Altana i parkiet leżą obok siebie"
+      - tytul: "Osobno w ofercie"
+        opis: "Wynajem od 5 godzin. Menu, bar i zespół wyceniamy osobno"
   - tytul: "Przyjęcie urodzinowe"
     opis: "Kameralny wieczór albo większe przyjęcie, bez sali szkoleniowej w tle. To dzień stołu, nie konferencji."
-    zdjecie: "/img/gallery/og25.jpg"
     rodzaj: "wesele"
-    fakty:
-      - { ikona: users, tekst: "Liczbę gości układamy pod salę" }
-      - { ikona: terrace, tekst: "Duże Miejsce albo Miejscowy Ogród" }
-      - { ikona: clock, tekst: "Wynajem od 5 godzin" }
-      - { ikona: utensils, tekst: "Menu od 180 zł netto za osobę" }
+    karty:
+      - tytul: "Goście"
+        opis: "Liczbę gości układamy pod salę"
+      - tytul: "Sala"
+        opis: "Duże Miejsce albo Miejscowy Ogród"
+      - tytul: "Menu"
+        opis: "Menu od 180 zł netto za osobę. Wynajem od 5 godzin"
   - tytul: "Jubileusz"
     opis: "Dłuższy wieczór przy stole, z parkietem na tej samej barce. Mniejsze przyjęcie zostaje w Dużym Miejscu, większe idzie na cały kompleks."
-    zdjecie: "/img/gallery/dm20.jpg"
     rodzaj: "wesele"
-    fakty:
-      - { ikona: users, tekst: "Do 250 gości w formule przyjęcia, większe w całym miejscu" }
-      - { ikona: terrace, tekst: "Duże Miejsce albo cały kompleks" }
-      - { ikona: clock, tekst: "Od kolacji do tańca, wynajem od 5 h" }
-      - { ikona: check, tekst: "Zakres potwierdzamy w ofercie" }
+    karty:
+      - tytul: "Goście"
+        opis: "Do 250 gości w formule przyjęcia, większe w całym miejscu"
+      - tytul: "Miejsce"
+        opis: "Duże Miejsce albo cały kompleks"
+      - tytul: "Wieczór"
+        opis: "Od kolacji do tańca, wynajem od 5 h. Zakres potwierdzamy w ofercie"
   - tytul: "Kolacja dla gości"
     opis: "Stół dla mniejszego grona, nad wodą. Wynajem, menu i bar liczymy osobno. Na stronie nie ma jednej ceny przyjęcia."
-    zdjecie: "/img/gallery/dm06.jpg"
     rodzaj: "wesele"
-    fakty:
-      - { ikona: users, tekst: "Małe grono, liczbę potwierdzamy pod układ" }
-      - { ikona: terrace, tekst: "Małe albo Duże Miejsce" }
-      - { ikona: clock, tekst: "Wieczór, wynajem od 5 godzin" }
-      - { ikona: glass, tekst: "Menu i bar ustalamy w ofercie" }
+    karty:
+      - tytul: "Goście"
+        opis: "Małe grono, liczbę potwierdzamy pod układ"
+      - tytul: "Sala"
+        opis: "Małe albo Duże Miejsce"
+      - tytul: "Wieczór"
+        opis: "Wynajem od 5 godzin. Menu i bar ustalamy w ofercie"
 dla_ilu: "Liczba gości zależy od formuły: od 50 do 250. Mniejsze przyjęcie układamy na Dużym Miejscu, większe w ogrodzie albo w całym kompleksie"
 przestrzenie:
   - "duze-miejsce"
