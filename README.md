@@ -24,6 +24,8 @@ npm run test:budzet
 
 `npm run build` zostawia podgląd z `noindex`. Prawdziwy deploy na miejsce.to odpala `npm run build:prod`. Fakty o obiekcie są w `src/content/ustawienia/fakty.json`. Nierozstrzygnięte zostają tylko metraż Dużego Miejsca (80 + 120 m² wobec 250 m²) i opis ogrodu jako osobnej przestrzeni.
 
+Wdrożenie na własny serwer (nginx, formularz, OAuth Sveltii, przebudowa po pushu) jest w `HANDOVER.md`. Przykładowy workflow, niepodpięty, jest w `docs/deploy-example.yml`.
+
 ## Deploy na Netlify (nowa witryna)
 
 1. W Netlify: **Add new site → Import an existing project** i wskaż to repozytorium na GitHubie. Nie zmieniaj ustawień istniejącego szkicu.

@@ -1,0 +1,25 @@
+# Przykład. Nie działa, dopóki nie skopiujecie pliku do .github/workflows/.
+# Krok wdrożenia (rsync, scp, obraz) dopisujecie sami. Nie trzymajcie tu sekretów.
+name: Build statyczny
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+        env:
+          SITE_ENV: production
+      - uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: dist

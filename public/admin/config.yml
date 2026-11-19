@@ -1,17 +1,17 @@
-# Panel treści MIEJSCA. Logowanie opisane w README.
-# GitHub OAuth przez Netlify (Ustawienia → Security → OAuth), nie przez Netlify Identity.
-local_backend: true
-locale: pl
+# Panel treści MIEJSCA. Wdrożenie i logowanie: HANDOVER.md.
 site_url: https://miejsce.to
 display_url: https://miejsce.to
-logo_url: /img/wordmark.png
+logo:
+  src: /img/wordmark.png
 media_folder: public/img
 public_folder: /img
 
 backend:
   name: github
+  # Te dwie linie wskazuje się na repozytorium, do którego Sveltia commituje.
   repo: waleriajaskowiak-jpg/miejsce-strona
   branch: main
+  # base_url: https://TWOJ-WORKER.workers.dev
   commit_messages:
     create: "Treść: dodano {{collection}} „{{slug}}”"
     update: "Treść: zmieniono {{collection}} „{{slug}}”"
@@ -2255,8 +2255,7 @@ collections:
           - label: Karty
             name: karty
             widget: list
-            min: 3
-            max: 3
+            hint: "Dokładnie trzy karty. Build odrzuca inną liczbę."
             fields:
               - { label: Tytuł, name: tytul, widget: string }
               - { label: Tekst, name: opis, widget: text }
