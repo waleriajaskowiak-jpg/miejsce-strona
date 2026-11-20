@@ -10,7 +10,9 @@ public_folder: /img
 
 backend:
   name: github
-  repo: waleriajaskowiak-jpg/miejsce-strona
+  # Jeśli konto albo repozytorium zmieni nazwę, popraw linię `repo` (właściciel/nazwa).
+  # Jeśli CMS ma zapisywać na inną gałąź, popraw linię `branch`.
+  repo: maciekmiejsce/miejsce-strona
   branch: main
   commit_messages:
     create: "Treść: dodano {{collection}} „{{slug}}”"
