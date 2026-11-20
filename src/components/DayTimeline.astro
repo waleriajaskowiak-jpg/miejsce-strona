@@ -1,16 +1,9 @@
 ---
+import { etykiety } from "../lib/copy.js";
+
 const { kategorie, scenariusze } = Astro.props;
-const short = {
-  "eventy-firmowe-i-integracje": "Integracje",
-  "konferencje-i-szkolenia": "Konferencje",
-  "wesela-i-przyjecia-prywatne": "Wesela",
-  "premiery-i-wydarzenia-specjalne": "Premiery",
-};
-const shots = {
-  day: "/img/gallery/og16.jpg",
-  dusk: "/img/gallery/dm20.jpg",
-  night: "/img/gallery/dm22.jpg",
-};
+const short = Object.fromEntries(etykiety.dzien.skroty.map((item) => [item.id, item.etykieta]));
+const shots = Object.fromEntries(etykiety.dzien.zdjecia.map((item) => [item.pora, item.zdjecie]));
 const mood = (time, title) => {
   const hour = parseInt(String(time), 10);
   const blob = `${time} ${title}`.toLowerCase();
@@ -26,16 +19,8 @@ const mood = (time, title) => {
 const panels = kategorie.map((cat) => {
   const scen = scenariusze.find((item) => item.data.kategorie?.includes(cat.id));
   return {
-    id: cat.id,
-    label: short[cat.id] || cat.data.nav_label,
-    href: scen ? `/scenariusze/${scen.id}/` : "/scenariusze/",
-    steps: (scen?.data.program || []).map((point) => ({
-      time: point.godzina,
-      title: point.tytul,
-      text: String(point.opis || "").replace(/\.\s*$/, ""),
-      photo: shots[mood(point.godzina, point.tytul)],
-    })),
-  };
+    id: cat.id, label: short[cat.id] || cat.data.nav_label, href: scen ? `/scenariusze/${scen.id}/` : "/scenariusze/", steps: (scen?.data.program || []).map((point) => ({
+      time: point.godzina, title: point.tytul, text: String(point.opis || "").replace(/\.\s*$/, ""), photo: shots[mood(point.godzina, point.tytul)], })), };
 });
 const payload = JSON.stringify(panels).replace(/</g, "\\u003c");
 ---
@@ -57,7 +42,7 @@ const payload = JSON.stringify(panels).replace(/</g, "\\u003c");
         <ol data-daysteps></ol>
       </div>
       <div class="snap-dots" data-daydots aria-hidden="true"></div>
-      <p class="btn-row"><a class="text-link" data-daylink href="/scenariusze/">Zobacz scenariusz</a></p>
+      <p class="btn-row"><a class="text-link" data-daylink href="/scenariusze/">{etykiety.dzien.cta}</a></p>
     </div>
   </div>
 </div>

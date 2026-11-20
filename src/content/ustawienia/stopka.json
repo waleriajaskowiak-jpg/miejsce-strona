@@ -1,0 +1,25 @@
+{
+  "logo": "/img/logo-ecru.svg",
+  "aria_marka": "MIEJSCE",
+  "wydarzenia": "Wydarzenia",
+  "miejsce": "Miejsce",
+  "miejsce_linki": [
+    { "href": "/przestrzenie/", "etykieta": "Przestrzenie" },
+    { "href": "/ceny/", "etykieta": "Ceny" },
+    { "href": "/realizacje/", "etykieta": "Realizacje" },
+    { "href": "/galeria/", "etykieta": "Galeria" }
+  ],
+  "plan": "Plan",
+  "plan_linki": [
+    { "href": "/scenariusze/", "etykieta": "Scenariusze" },
+    { "href": "/jedzenie-i-bar/", "etykieta": "Jedzenie i bar" },
+    { "href": "/poradnik/", "etykieta": "Poradnik" },
+    { "href": "/warto-wiedziec/", "etykieta": "Warto wiedzieć" }
+  ],
+  "kontakt": "Kontakt",
+  "kontakt_linki": [
+    { "href": "/kontakt/", "etykieta": "Napisz do nas" },
+    { "href": "/mapa-strony/", "etykieta": "Mapa strony" }
+  ],
+  "linia": "MIEJSCE · eventy nad wodą · Port Czerniakowski · miejsce.to"
+}

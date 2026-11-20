@@ -1,12 +1,17 @@
 ---
 import { getCollection, getEntry, render } from "astro:content";
 import Base from "../../layouts/Base.astro";
-import PageHero from "../../components/PageHero.astro";
+import Crumbs from "../../components/Crumbs.astro";
+import FormatSlider from "../../components/FormatSlider.astro";
+import SpaceSlider from "../../components/SpaceSlider.astro";
 import NextBand from "../../components/NextBand.astro";
-import SectionHeader from "../../components/SectionHeader.astro";
 import StatRow from "../../components/StatRow.astro";
 import Slider from "../../components/Slider.astro";
-import { crumbsJsonLd, sortByOrder } from "../../lib/nav.js";
+import { etykiety, podstrony, crumb } from "../../lib/copy.js";
+import { crumbsJsonLd, sortByOrder, zloty } from "../../lib/nav.js";
+
+const page = podstrony.event;
+const slow = etykiety.fakty_slow;
 
 export async function getStaticPaths() {
   const entries = await getCollection("kategorie");
@@ -23,14 +28,32 @@ for (const item of faqAll) {
   const rendered = await render(item);
   faq.push({ item, Content: rendered.Content });
 }
-const sekcje = entry.id === "premiery-i-wydarzenia-specjalne" ? (await getEntry("ustawienia", "sekcje"))?.data : null;
+const sekcje = entry.id === "premiery-i-eventy-marek" ? (await getEntry("ustawienia", "sekcje"))?.data : null;
 const crumbs = [
-  { href: "/eventy/", label: "Wydarzenia" },
-  { label: entry.data.nav_label },
-];
+  { href: "/eventy/", label: crumb("/eventy/") }, { label: entry.data.nav_label }, ];
 const typ = pierwszy?.data.typ_budzetu || "firmowy";
 const budzetHref = `/ceny/?typ=${typ}${pierwszy?.data.goscie ? `&osoby=${pierwszy.data.goscie}` : ""}#estymator`;
 const kontaktHref = `/kontakt/?typ=${entry.id}`;
+const fakty = (await getEntry("ustawienia", "fakty"))!.data.przestrzenie;
+const factKey = {
+  "duze-miejsce": "duze", "nowe-miejsce": "male", ogrod: "ogrod", "cale-miejsce": "cale", };
+const orderedSpaces = entry.data.przestrzenie.map((id) => przestrzenie.find((space) => space.id === id)).filter(Boolean);
+const spaceSlides = orderedSpaces.map((space, index) => {
+  const fact = fakty[factKey[space.id]] || {};
+  const facts = [];
+  const nb = (value, unit) => `${value}\u00A0${unit}`;
+  if (fact.wnetrze_m2) facts.push({ ikona: "ruler", tekst: `${nb(fact.wnetrze_m2, "m²")} ${slow.wnetrze}${fact.taras_m2 ? ` + ${nb(fact.taras_m2, "m²")} ${slow.tarasu}` : ""}` });
+  if (fact.powierzchnia_m2) facts.push({ ikona: "ruler", tekst: `${nb(fact.powierzchnia_m2, "m²")}${fact.sezon ? ` · ${fact.sezon}` : ""}` });
+  if (fact.zima_osob) facts.push({ ikona: "users", tekst: `${slow.zima} ${fact.zima_osob}` });
+  if (fact.gosci) facts.push({ ikona: "users", tekst: fact.gosci_tekst || nb(fact.gosci, slow.goscie) });
+  if (fact.maks_osob) facts.push({ ikona: "users", tekst: `${slow.do} ${nb(fact.maks_osob, slow.goscie)}, ${fact.maks_kiedy || podstrony.przestrzen.fallback_kiedy}` });
+  if (fact.czas) facts.push({ ikona: "clock", tekst: `${slow.wynajem} ${fact.czas.replace(/^(\d+)\s+/, "$1\u00A0")}` });
+  const price = typeof fact.cena_od === "number"
+    ? `${etykiety.od} ${zloty(fact.cena_od)}`
+    : etykiety.wycena_indywidualna;
+  return {
+    title: space.data.title, photo: space.data.cover, href: `/przestrzenie/${space.id}/`, recommended: index === 0, price, facts: facts.slice(0, 4), };
+});
 ---
 
 <Base
@@ -38,116 +61,94 @@ const kontaktHref = `/kontakt/?typ=${entry.id}`;
   description={entry.data.seo_description}
   image={entry.data.cover}
   robots={entry.data.szkic ? "noindex,follow" : "index,follow"}
-  jsonLd={[crumbsJsonLd([{ href: "/", label: "MIEJSCE" }, { href: "/eventy/", label: "Wydarzenia" }, { href: `/eventy/${entry.id}/`, label: entry.data.title }])]}
+  jsonLd={[crumbsJsonLd([{ href: "/", label: crumb("/") }, { href: "/eventy/", label: crumb("/eventy/") }, { href: `/eventy/${entry.id}/`, label: entry.data.title }])]}
+  eventColor={entry.data.kolor}
+  eventOn={entry.data.kolor_tekst}
 >
-  <PageHero
-    crumbs={crumbs}
-    kicker={entry.data.nav_label}
-    title={entry.data.title}
-    lede={entry.data.lead}
-    image={entry.data.cover}
-    imageAlt={entry.data.title}
-  />
-  <section class="band band-ink tight-top" aria-label="W skrócie">
-    <div class="wrap stack">
-      <nav class="pills" aria-label="Zakres">
+  <header class="event-hero">
+    <div class="event-hero-band">
+      <div class="event-wash" aria-hidden="true"><span></span><span></span></div>
+      <div class="wrap event-hero-grid">
+        <div class="event-hero-copy">
+          <Crumbs items={crumbs} />
+          <p class="kicker">{entry.data.nav_label}</p>
+          <h1>{entry.data.title}</h1>
+          <p class="lede">{entry.data.lead}</p>
+        </div>
+        <figure class="event-hero-photo">
+          <img src={entry.data.cover} alt={entry.data.title} width="1600" height="1100" />
+        </figure>
+      </div>
+    </div>
+  </header>
+  <section class="event-sheet" aria-label={page.skrot}>
+    <div class="wrap">
+      <nav class="pills" aria-label={page.zakres}>
         {entry.data.tagi.map((tag) => <a class="pill" href="#co-mozna">{tag}</a>)}
       </nav>
       <StatRow
         items={entry.data.fakty.map((fact) => ({
-          value: fact.wartosc,
-          count: fact.liczba,
-          label: fact.opis,
-        }))}
+          value: fact.wartosc, count: fact.liczba, label: fact.opis, }))}
       />
     </div>
   </section>
-  <section class="band tight-top" aria-labelledby="co-mozna">
-    <div class="wrap">
-      <div class="sec-top sec-top-pills">
-        <div>
-          <p class="eyebrow">Zakres</p>
-          <h2 id="co-mozna">Co można tu ułożyć</h2>
-        </div>
-        <ul class="pills">
-          {entry.data.co_mozna.map((item) => <li>{item}</li>)}
-        </ul>
-      </div>
-      {entry.body?.trim() && <p class="lead section-lead">{entry.body.trim().replace(/\.\s*$/, "")}</p>}
-      <div class="cards-3">
-        {entry.data.korzysci.map((item, index) => (
-          <article class="info-card">
-            <p class="eyebrow">0{index + 1}</p>
-            <h3>{item.tytul}</h3>
-            <p>{item.opis}</p>
-          </article>
-        ))}
-      </div>
-    </div>
-  </section>
-  <section class="band band-surface" aria-labelledby="miejsca">
-    <div class="wrap">
-      <SectionHeader eyebrow="Przestrzeń" title="Dobierzmy do tego właściwe MIEJSCE" lead={entry.data.dla_ilu} />
-      <div class="cards-3" id="miejsca">
-        {przestrzenie.map((space) => (
-          <article class="media-card">
-            <a href={`/przestrzenie/${space.id}/`}>
-              <img src={space.data.cover} alt="" />
-              <div class="card-body">
-                <h3>{space.data.title}</h3>
-                <p>{space.data.lead}</p>
-                <span class="btn btn-ghost">Zobacz {space.data.title}</span>
-              </div>
-            </a>
-          </article>
-        ))}
-      </div>
-    </div>
-  </section>
+  <FormatSlider slides={entry.data.formaty} />
+  {spaceSlides.length > 0 && <SpaceSlider slides={spaceSlides} lead={entry.data.dla_ilu} />}
   {pierwszy && (
-    <section class="band" aria-labelledby="scenariusz">
-      <div class="wrap split">
+    <section class="event-story reveal" aria-labelledby="scenariusz">
+      <div class="wrap event-story-grid">
+        <figure class="event-story-photo">
+          <img src={pierwszy.data.cover} alt="" width="1400" height="1000" />
+        </figure>
         <div>
-          <SectionHeader eyebrow={pierwszy.data.title} title="Przykładowy scenariusz" lead={pierwszy.data.lead} />
-          <ol class="included" id="scenariusz">
-            {pierwszy.data.program.map((punkt) => <li>{punkt.tytul}</li>)}
+          <p class="eyebrow">{pierwszy.data.title}</p>
+          <h2 id="scenariusz">{page.scenariusz}</h2>
+          <p class="lead">{pierwszy.data.lead}</p>
+          <ol class="event-steps">
+            {pierwszy.data.program.map((punkt, index) => (
+              <li><b>0{index + 1}</b><span>{punkt.tytul}</span></li>
+            ))}
           </ol>
-          <p class="fine">Godziny i zakres dopasowujemy do Waszego wydarzenia</p>
-          <p class="btn-row"><a class="btn btn-primary" href={`/scenariusze/${pierwszy.id}/`}>Zobacz cały scenariusz</a></p>
+          <p class="fine">{page.godziny}</p>
+          <p class="btn-row"><a class="btn btn-primary" href={`/scenariusze/${pierwszy.id}/`}>{page.zobacz}</a></p>
         </div>
-        <img src={pierwszy.data.cover} alt="" />
       </div>
     </section>
   )}
-  <section class="band band-dark" aria-labelledby="menu-kat">
-    <div class="wrap split">
+  <section class="event-feast reveal" aria-labelledby="menu-kat">
+    <div class="wrap event-feast-grid">
       <div>
-        <SectionHeader eyebrow="Kuchnia" title="Jedzenie, bar i dobry plan" lead={entry.data.jedzenie_bar} />
+        <p class="eyebrow">{page.kuchnia}</p>
+        <h2 id="menu-kat">{page.menu}</h2>
+        <p class="lead">{entry.data.jedzenie_bar}</p>
         <p>{entry.data.atrakcje}</p>
-        <p>{entry.data.plan_b}</p>
-        <p class="fine">Dodatkowe AV, DJ i oprawa wyceniamy osobno, poza kwotą „od”</p>
+        <p class="fine">{page.osobno}</p>
         <div class="btn-row">
-          <a class="btn btn-ghost" href="/jedzenie-i-bar/">Jedzenie i bar</a>
-          <a class="btn btn-primary" href={budzetHref}>Porozmawiajmy o budżecie</a>
+          <a class="btn btn-ghost" href="/jedzenie-i-bar/">{page.jedzenie}</a>
+          <a class="btn btn-primary" href={budzetHref}>{page.budzet}</a>
         </div>
       </div>
-      <div id="menu-kat">
-        <p class="eyebrow">Plan B</p>
+      <aside class="event-note">
+        <p class="eyebrow">{page.plan}</p>
         <p class="lead">{entry.data.plan_b}</p>
-      </div>
+      </aside>
     </div>
   </section>
   {sekcje && (
     <Slider
       title={sekcje.film_h}
       note={sekcje.film_body}
-      items={sekcje.film_zdjecia.map((src, index) => ({ src, alt: `${sekcje.film_h}, zdjęcie ${index + 1}`, title: sekcje.film_note }))}
+      items={sekcje.film_zdjecia.map((src, index) => ({ src, alt: page.zdjecie_szablon.replace("{tytul}", sekcje.film_h).replace("{n}", String(index + 1)), title: sekcje.film_note }))}
     />
   )}
-  <section class="band" aria-labelledby="faq-kat">
-    <div class="wrap">
-      <SectionHeader eyebrow="Pytania" title="Zanim napiszesz" lead="Deszcz, godziny, dojazd i menu. Resztę doprecyzujemy w briefie" />
-      <div id="faq-kat">
+  <section class="event-faq event-tint reveal" aria-labelledby="faq-kat">
+    <div class="wrap event-faq-grid">
+      <header class="event-head">
+        <p class="eyebrow">{page.pytania}</p>
+        <h2 id="faq-kat">{page.faq}</h2>
+        <p class="lead">{page.faq_lead}</p>
+      </header>
+      <div>
         {faq.map(({ item, Content }) => (
           <details class="acc">
             <summary>{item.data.pytanie}</summary>
@@ -160,10 +161,7 @@ const kontaktHref = `/kontakt/?typ=${entry.id}`;
   <NextBand
     title={entry.data.cta}
     links={[
-      { href: budzetHref, label: "Sprawdź budżet" },
-      { href: "/przestrzenie/", label: "Wszystkie przestrzenie" },
-      { href: kontaktHref, label: entry.data.cta },
-    ]}
+      { href: budzetHref, label: page.sprawdz }, { href: "/przestrzenie/", label: page.przestrzenie }, { href: kontaktHref, label: entry.data.cta }, ]}
     cta={entry.data.cta}
     href={kontaktHref}
   />

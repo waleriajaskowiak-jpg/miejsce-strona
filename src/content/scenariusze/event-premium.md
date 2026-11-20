@@ -1,7 +1,7 @@
 ---
 title: "Event dla klientów / premiera"
 adres_url: event-premium
-kategorie: ["premiery-i-wydarzenia-specjalne"]
+kategorie: ["premiery-i-eventy-marek"]
 goscie: 40
 typ_budzetu: premiera
 seo_title: "Premiera i event dla klientów | MIEJSCE"

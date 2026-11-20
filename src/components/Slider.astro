@@ -1,4 +1,6 @@
 ---
+import { etykiety } from "../lib/copy.js";
+
 const { title, note = "", items = [] } = Astro.props;
 ---
 
@@ -9,8 +11,8 @@ const { title, note = "", items = [] } = Astro.props;
       {note && <p class="lead">{note}</p>}
     </div>
     <div class="reel-nav">
-      <button type="button" class="reel-btn" data-prev aria-label="Poprzednie"></button>
-      <button type="button" class="reel-btn reel-next" data-next aria-label="Następne"></button>
+      <button type="button" class="reel-btn" data-prev aria-label={etykiety.slider.poprzednie}></button>
+      <button type="button" class="reel-btn reel-next" data-next aria-label={etykiety.slider.nastepne}></button>
     </div>
   </div>
   <div class="wrap">

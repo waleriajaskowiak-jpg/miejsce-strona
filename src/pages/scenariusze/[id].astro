@@ -4,7 +4,10 @@ import Base from "../../layouts/Base.astro";
 import PageHero from "../../components/PageHero.astro";
 import NextBand from "../../components/NextBand.astro";
 import SectionHeader from "../../components/SectionHeader.astro";
+import { etykiety, podstrony, crumb } from "../../lib/copy.js";
 import { crumbsJsonLd, sortByOrder } from "../../lib/nav.js";
+
+const page = podstrony.scenariusze;
 
 export async function getStaticPaths() {
   const entries = await getCollection("scenariusze");
@@ -15,19 +18,15 @@ const { entry } = Astro.props;
 const { Content } = await render(entry);
 const inne = sortByOrder(await getCollection("scenariusze")).filter((item) => item.id !== entry.id);
 const crumbs = [
-  { href: "/scenariusze/", label: "Scenariusze" },
-  { label: entry.data.title },
-];
+  { href: "/scenariusze/", label: crumb("/scenariusze/") }, { label: entry.data.title }, ];
 const typ = entry.data.typ_budzetu || "firmowy";
 const osoby = entry.data.goscie || "";
 const budzetHref = `/ceny/?typ=${typ}${osoby ? `&osoby=${osoby}` : ""}#estymator`;
 const kontaktHref = `/kontakt/?typ=${typ}${osoby ? `&osoby=${osoby}` : ""}`;
-const spaceLinks = [];
 const gdzie = entry.data.przestrzen;
-if (/całe|cale/i.test(gdzie)) spaceLinks.push({ href: "/przestrzenie/cale-miejsce/", label: "Całe Miejsce" });
-if (/małe|male|nowe/i.test(gdzie)) spaceLinks.push({ href: "/przestrzenie/nowe-miejsce/", label: "Małe Miejsce" });
-if (/duże|duze/i.test(gdzie)) spaceLinks.push({ href: "/przestrzenie/duze-miejsce/", label: "Duże Miejsce" });
-if (/ogród|ogrod/i.test(gdzie)) spaceLinks.push({ href: "/przestrzenie/ogrod/", label: "Ogród" });
+const spaceLinks = page.przestrzenie_nazwy
+  .filter((item) => new RegExp(item.wzor, "i").test(gdzie))
+  .map((item) => ({ href: item.href, label: item.etykieta }));
 const kategoria = entry.data.kategorie?.[0];
 ---
 
@@ -35,7 +34,7 @@ const kategoria = entry.data.kategorie?.[0];
   title={entry.data.seo_title || `${entry.data.title} | MIEJSCE`}
   description={entry.data.seo_description || entry.data.opis_seo}
   image={entry.data.cover}
-  jsonLd={[crumbsJsonLd([{ href: "/", label: "MIEJSCE" }, { href: "/scenariusze/", label: "Scenariusze" }, { href: `/scenariusze/${entry.id}/`, label: entry.data.title }])]}
+  jsonLd={[crumbsJsonLd([{ href: "/", label: crumb("/") }, { href: "/scenariusze/", label: crumb("/scenariusze/") }, { href: `/scenariusze/${entry.id}/`, label: entry.data.title }])]}
 >
   <PageHero
     crumbs={crumbs}
@@ -49,9 +48,9 @@ const kategoria = entry.data.kategorie?.[0];
   <section class="band" aria-labelledby="przebieg">
     <div class="wrap split">
       <div class="stack">
-        <p class="meta">{osoby ? `${osoby} osób · przykładowy scenariusz` : entry.data.tag}</p>
+        <p class="meta">{osoby ? `${osoby} ${page.osob}` : entry.data.tag}</p>
         <div class="prose"><Content /></div>
-        <SectionHeader eyebrow="Dzień" title="Przebieg wydarzenia" />
+        <SectionHeader eyebrow={page.dzien} title={page.przebieg} />
         <ol class="timeline" id="przebieg">
           {
             entry.data.program.map((punkt) => (
@@ -67,25 +66,25 @@ const kategoria = entry.data.kategorie?.[0];
         </ol>
       </div>
       <aside class="card stack pad">
-        <p class="eyebrow">Co możemy połączyć</p>
+        <p class="eyebrow">{page.polacz}</p>
         <h3>{entry.data.przestrzen}</h3>
         <ul class="included">
           {entry.data.zakres.map((item) => <li>{item}</li>)}
         </ul>
-        <p class="fine">Przykładowy przebieg nie oznacza, że wszystkie elementy są w cenie wynajmu. Zakres, czas i koszty potwierdzamy w indywidualnej ofercie.</p>
+        <p class="fine">{page.zastrzezenie}</p>
         <div class="text-links">
           {spaceLinks.map((link) => <a class="text-link" href={link.href}>{link.label}</a>)}
-          {kategoria && <a class="text-link" href={`/eventy/${kategoria}/`}>Wróć do rodzaju wydarzenia</a>}
-          <a class="text-link" href={kontaktHref}>Porozmawiajmy o tym planie</a>
+          {kategoria && <a class="text-link" href={`/eventy/${kategoria}/`}>{page.wroc}</a>}
+          <a class="text-link" href={kontaktHref}>{page.plan}</a>
         </div>
-        <a class="btn btn-primary" href={budzetHref}>Dopasuj do budżetu</a>
+        <a class="btn btn-primary" href={budzetHref}>{page.dopasuj}</a>
       </aside>
     </div>
   </section>
 
   <section class="band band-dark" aria-labelledby="galeria-scen">
     <div class="wrap stack-lg">
-      <SectionHeader eyebrow="Galeria" title="Tak to wygląda" lead="Zdjęcia z tej przestrzeni i podobnych wieczorów." />
+      <SectionHeader eyebrow={page.brew_galeria} title={page.tak} lead={page.zdjecia} />
       <div class="gallery-row" id="galeria-scen">
         {entry.data.zdjecia.slice(0, 3).map((src) => <img src={src} alt="" />)}
       </div>
@@ -94,7 +93,7 @@ const kategoria = entry.data.kategorie?.[0];
 
   <section class="band">
     <div class="wrap">
-      <SectionHeader eyebrow="Inne układy" title="Zobacz też" />
+      <SectionHeader eyebrow={page.inne} title={page.tez} />
       <div class="cards-3">
         {
           inne.slice(0, 3).map((event) => (
@@ -104,7 +103,7 @@ const kategoria = entry.data.kategorie?.[0];
                 <div class="card-body">
                   <p class="eyebrow">{event.data.tag}</p>
                   <h3>{event.data.title}</h3>
-                  <span class="btn btn-ghost">Zobacz scenariusz</span>
+                  <span class="btn btn-ghost">{page.zobacz}</span>
                 </div>
               </a>
             </article>
@@ -115,13 +114,10 @@ const kategoria = entry.data.kategorie?.[0];
   </section>
 
   <NextBand
-    title="Policz budżet albo napisz"
+    title={page.policz}
     links={[
-      { href: budzetHref, label: "Sprawdź budżet dla tego układu" },
-      { href: "/przestrzenie/", label: "Zobacz przestrzenie" },
-      { href: "/jedzenie-i-bar/", label: "Jedzenie i bar" },
-    ]}
-    cta="Zaplanuj event"
+      { href: budzetHref, label: page.sprawdz }, { href: "/przestrzenie/", label: page.link_przestrzenie }, { href: "/jedzenie-i-bar/", label: etykiety.jedzenie_i_bar }, ]}
+    cta={page.cta}
     href={kontaktHref}
   />
 </Base>

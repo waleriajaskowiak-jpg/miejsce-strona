@@ -1,5 +1,7 @@
 ---
 import { getCollection, getEntry } from "astro:content";
+import Icon from "./Icon.astro";
+import { stopka } from "../lib/copy.js";
 import { sortByOrder } from "../lib/nav.js";
 
 const kontakt = (await getEntry("ustawienia", "kontakt"))?.data;
@@ -9,19 +11,15 @@ const kategorie = sortByOrder(await getCollection("kategorie"));
 <footer class="site-foot">
   <div class="wrap foot-grid">
     <div>
-      <a class="brand" href="/" aria-label="MIEJSCE">
-        <img src="/img/wordmark.png" alt="" width="900" height="258" />
+      <a class="brand" href="/" aria-label={stopka.aria_marka}>
+        <img src={stopka.logo} alt="" width="440" height="86" />
       </a>
-      <p>
-        {kontakt?.ulica}<br />
-        {kontakt?.kod} {kontakt?.miasto}<br />
-        {kontakt?.dzielnica}
-      </p>
-      <p><a href={`mailto:${kontakt?.email}`}>{kontakt?.email}</a></p>
-      <p><a href={`tel:${kontakt?.telefon_href}`}>{kontakt?.telefon_wyswietlany}</a></p>
+      <p class="icon-line"><Icon name="pin" /><span>{kontakt?.ulica}, {kontakt?.kod} {kontakt?.miasto}</span></p>
+      <p class="icon-line"><Icon name="mail" /><a href={`mailto:${kontakt?.email}`}>{kontakt?.email}</a></p>
+      <p class="icon-line"><Icon name="phone" /><a href={`tel:${kontakt?.telefon_href}`}>{kontakt?.telefon_wyswietlany}</a></p>
     </div>
     <div>
-      <p class="foot-label">Wydarzenia</p>
+      <p class="foot-label">{stopka.wydarzenia}</p>
       <ul>
         {kategorie.map((item) => (
           <li><a href={`/eventy/${item.id}/`}>{item.data.nav_label}</a></li>
@@ -29,32 +27,25 @@ const kategorie = sortByOrder(await getCollection("kategorie"));
       </ul>
     </div>
     <div>
-      <p class="foot-label">Miejsce</p>
+      <p class="foot-label">{stopka.miejsce}</p>
       <ul>
-        <li><a href="/przestrzenie/">Przestrzenie</a></li>
-        <li><a href="/ceny/">Ceny</a></li>
-        <li><a href="/realizacje/">Realizacje</a></li>
-        <li><a href="/galeria/">Galeria</a></li>
+        {stopka.miejsce_linki.map((link) => <li><a href={link.href}>{link.etykieta}</a></li>)}
       </ul>
     </div>
     <div>
-      <p class="foot-label">Plan</p>
+      <p class="foot-label">{stopka.plan}</p>
       <ul>
-        <li><a href="/scenariusze/">Scenariusze</a></li>
-        <li><a href="/jedzenie-i-bar/">Jedzenie i bar</a></li>
-        <li><a href="/poradnik/">Poradnik</a></li>
-        <li><a href="/warto-wiedziec/">Warto wiedzieć</a></li>
+        {stopka.plan_linki.map((link) => <li><a href={link.href}>{link.etykieta}</a></li>)}
       </ul>
     </div>
     <div>
-      <p class="foot-label">Kontakt</p>
+      <p class="foot-label">{stopka.kontakt}</p>
       <ul>
-        <li><a href="/kontakt/">Napisz do nas</a></li>
-        <li><a href="/mapa-strony/">Mapa strony</a></li>
+        {stopka.kontakt_linki.map((link) => <li><a href={link.href}>{link.etykieta}</a></li>)}
       </ul>
     </div>
   </div>
   <div class="wrap foot-note">
-    <p>MIEJSCE · eventy nad wodą · Port Czerniakowski · miejsce.to</p>
+    <p>{stopka.linia}</p>
   </div>
 </footer>

@@ -1,5 +1,5 @@
 ---
-title: "Ogród"
+title: "Miejscowy Ogród"
 adres_url: ogrod
 kolejnosc: 3
 lead: "300 m² zieleni, własny bar i trochę mniej formalności"

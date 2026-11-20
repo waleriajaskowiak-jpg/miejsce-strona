@@ -4,36 +4,39 @@ import Base from "../../layouts/Base.astro";
 import PageHero from "../../components/PageHero.astro";
 import NextBand from "../../components/NextBand.astro";
 import SectionHeader from "../../components/SectionHeader.astro";
+import { podstrony, crumb } from "../../lib/copy.js";
 import { crumbsJsonLd, sortByOrder } from "../../lib/nav.js";
+
+const page = podstrony.eventy;
 
 const kategorie = sortByOrder(await getCollection("kategorie"));
 const scenariusze = sortByOrder(await getCollection("scenariusze")).slice(0, 3);
-const crumbs = [{ href: "/eventy/", label: "Wydarzenia" }];
+const crumbs = [{ href: "/eventy/", label: crumb("/eventy/") }];
 ---
 
 <Base
-  title="Rodzaje eventów nad wodą w Warszawie | MIEJSCE"
-  description="Cztery rodzaje wydarzeń nad Wisłą: firma, konferencja, wesele i premiera. Każdy ma własną stronę i scenariusz"
-  jsonLd={[crumbsJsonLd([{ href: "/", label: "MIEJSCE" }, ...crumbs])]}
+  title={page.tytul}
+  description={page.opis}
+  jsonLd={[crumbsJsonLd([{ href: "/", label: crumb("/") }, ...crumbs])]}
 >
   <PageHero
     crumbs={crumbs}
-    kicker="Wybierz potrzebę"
-    title="Co planujesz?"
-    lede="Najpierw rodzaj wydarzenia, potem przestrzeń i scenariusz"
-    image="/img/gallery/dm20.jpg"
-    imageAlt="Wieczór na barce"
+    kicker={page.brew}
+    title={page.h}
+    lede={page.lead}
+    image={page.zdjecie}
+    imageAlt={page.alt}
   />
   <section class="band" aria-labelledby="rodzaje">
     <div class="wrap">
-      <SectionHeader eyebrow="Wydarzenia" title="Cztery drogi" lead="Każda karta prowadzi do jednej strony. Tam są przestrzenie, scenariusz i link do budżetu." />
+      <SectionHeader eyebrow={page.brew_karty} title={page.karty_h} lead={page.karty_lead} />
       <div class="cards-2" id="rodzaje">
         {kategorie.map((item) => (
           <article class="media-card">
             <a href={`/eventy/${item.id}/`}>
               <img src={item.data.cover} alt="" />
               <div class="card-body">
-                <p class="eyebrow">{item.data.nav_label}</p>
+                <p class="event-tag" style={`--event-color:${item.data.kolor};--event-on:${item.data.kolor_tekst}`}>{item.data.nav_label}</p>
                 <h3>{item.data.title}</h3>
                 <p>{item.data.lead}</p>
                 <span class="btn btn-primary">{item.data.cta}</span>
@@ -46,7 +49,7 @@ const crumbs = [{ href: "/eventy/", label: "Wydarzenia" }];
   </section>
   <section class="band band-surface" aria-labelledby="gotowe">
     <div class="wrap">
-      <SectionHeader eyebrow="Albo od końca" title="A może gotowy scenariusz?" lead="Trzy przykłady. Reszta jest na liście scenariuszy." />
+      <SectionHeader eyebrow={page.albo} title={page.scenariusz_h} lead={page.scenariusz_lead} />
       <div class="cards-3" id="gotowe">
         {scenariusze.map((event) => (
           <article class="media-card">
@@ -55,21 +58,18 @@ const crumbs = [{ href: "/eventy/", label: "Wydarzenia" }];
               <div class="card-body">
                 <p class="eyebrow">{event.data.tag}</p>
                 <h3>{event.data.title}</h3>
-                <span class="btn btn-ghost">Zobacz scenariusz</span>
+                <span class="btn btn-ghost">{page.zobacz}</span>
               </div>
             </a>
           </article>
         ))}
       </div>
-      <p class="btn-row"><a class="btn btn-ghost" href="/scenariusze/">Wszystkie scenariusze</a></p>
+      <p class="btn-row"><a class="btn btn-ghost" href="/scenariusze/">{page.wszystkie}</a></p>
     </div>
   </section>
   <NextBand
-    title="Zobacz przestrzeń albo policz budżet"
+    title={page.nastepny}
     links={[
-      { href: "/przestrzenie/", label: "Zobacz przestrzenie" },
-      { href: "/ceny/#estymator", label: "Sprawdź budżet" },
-      { href: "/kontakt/", label: "Zaplanuj event" },
-    ]}
+      { href: "/przestrzenie/", label: page.link_przestrzenie }, { href: "/ceny/#estymator", label: page.link_budzet }, { href: "/kontakt/", label: page.cta }, ]}
   />
 </Base>

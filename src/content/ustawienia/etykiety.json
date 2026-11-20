@@ -1,0 +1,314 @@
+{
+  "og_obraz": "/img/pdf/hero-main.jpg",
+  "polecane": "Polecane",
+  "za_malo_miejsca": "Za mało miejsca",
+  "zobacz": "Zobacz",
+  "lato": "Lato",
+  "zima_deszcz": "Zima i deszcz",
+  "zapytaj": "zapytaj",
+  "uklady": "Układy",
+  "wycena_indywidualna": "wycena indywidualna",
+  "od": "od",
+  "serwis_krotki": "5 h · netto · +10% serwisu",
+  "jedzenie_i_bar": "Jedzenie i bar",
+  "sciezka": "MIEJSCE",
+  "nastepny_krok": "Następny krok",
+  "sprawdz_budzet": "Sprawdź budżet",
+  "wyslij_brief": "Wyślij brief",
+  "formularz": {
+    "imie": "Imię",
+    "email": "E-mail",
+    "telefon": "Telefon",
+    "termin": "Termin",
+    "osoby": "Liczba osób",
+    "placeholder_termin": "np. czerwiec 2026",
+    "placeholder_wizyta": "Kiedy chcesz wpaść",
+    "wyslij": "Wyślij zapytanie",
+    "wiecej": "Chcę podać więcej szczegółów",
+    "szybie": "Szybkie pytanie",
+    "honeypot": "Nie wypełniaj tego pola",
+    "doprecyzuj": "Doprecyzuj brief",
+    "rodzaj": "Rodzaj wydarzenia",
+    "wybierz": "Wybierz",
+    "budzet": "Budżet",
+    "placeholder_budzet": "np. 40 000",
+    "netto_brutto": "Netto czy brutto",
+    "netto": "netto",
+    "brutto": "brutto",
+    "wiadomosc": "Wiadomość",
+    "placeholder_wiadomosc": "Podaj to, co już wiesz. Resztę ustalimy razem.",
+    "placeholder_wizyta_msg": "Napisz, kiedy chcesz nas odwiedzić.",
+    "umow": "Umów oględziny",
+    "stopka": "Odezwiemy się z terminem albo propozycją oględzin. Wiadomość idzie na eventy@miejsce.to",
+    "h_ogledziny": "Zobacz MIEJSCE. Wyobraź sobie resztę",
+    "lead_ogledziny": "Napisz, kiedy chcesz nas odwiedzić. Termin wizyty potwierdzimy indywidualnie.",
+    "placeholder_termin_pelny": "np. czwartek, czerwiec 2026",
+    "pytasz": "Pytasz o:"
+  },
+  "estymator": {
+    "krok_po_kroku": "Krok po kroku",
+    "lead": "Porównujemy Twój budżet z rzeczywistymi cenami przestrzeni, menu i baru. Wynik jest orientacyjny — dokładna oferta zależy od terminu, czasu wydarzenia, obsługi i dodatków.",
+    "aria_kroki": "Kroki kalkulatora",
+    "aria_rodzaj": "Rodzaj eventu",
+    "kroki": [
+      {
+        "numer": "1",
+        "etykieta": "Rodzaj",
+        "podpowiedz": "Wybierz rodzaj wydarzenia"
+      },
+      {
+        "numer": "2",
+        "etykieta": "Goście",
+        "podpowiedz": "Przesuń suwak"
+      },
+      {
+        "numer": "3",
+        "etykieta": "Termin",
+        "podpowiedz": "Wybierz dzień i miesiąc"
+      },
+      {
+        "numer": "4",
+        "etykieta": "Budżet",
+        "podpowiedz": "Przesuń suwak"
+      },
+      {
+        "numer": "5",
+        "etykieta": "Wynik",
+        "podpowiedz": "Orientacja, nie wycena co do złotówki"
+      }
+    ],
+    "liczba_gosci": "Liczba gości",
+    "osob": "osób",
+    "dzien": "Dzień tygodnia",
+    "miesiac": "Miesiąc",
+    "budzet_netto": "Budżet netto",
+    "zl": "zł",
+    "wynik": "Wynik",
+    "uzupelnij": "Uzupełnij poprzednie kroki",
+    "cta": "Wyślij zapytanie z tymi danymi",
+    "wstecz": "Wstecz",
+    "dalej": "Dalej",
+    "zobacz_wynik": "Zobacz wynik",
+    "dopisek": "Porównanie nie dolicza 10% serwisu ani obsługi kelnerskiej. Serwis dopisujemy przy cenach. Trochę ciasno z budżetem? Dzień tygodnia, termin, inna przestrzeń albo zmiana menu i baru mogą zmienić wiele.",
+    "blad_rodzaj": "Wybierz rodzaj wydarzenia.",
+    "blad_termin": "Wybierz dzień i miesiąc.",
+    "wycena": "Wycena",
+    "odpowiedz": "Odpowiedź",
+    "brief_tytul": "Brief z modułu budżetu",
+    "dni_skrot": [
+      {
+        "id": "pn",
+        "skrot": "Pn"
+      },
+      {
+        "id": "wt",
+        "skrot": "Wt"
+      },
+      {
+        "id": "sr",
+        "skrot": "Śr"
+      },
+      {
+        "id": "czw",
+        "skrot": "Czw"
+      },
+      {
+        "id": "pt",
+        "skrot": "Pt"
+      },
+      {
+        "id": "sb",
+        "skrot": "Sb"
+      },
+      {
+        "id": "nd",
+        "skrot": "Nd"
+      }
+    ],
+    "zdjecia": [
+      {
+        "id": "firmowy",
+        "zdjecie": "/img/gallery/dm22.jpg"
+      },
+      {
+        "id": "konferencja",
+        "zdjecie": "/img/gallery/mm12.jpg"
+      },
+      {
+        "id": "szkolenie",
+        "zdjecie": "/img/gallery/mm16.jpg"
+      },
+      {
+        "id": "integracja",
+        "zdjecie": "/img/gallery/og16.jpg"
+      },
+      {
+        "id": "premiera",
+        "zdjecie": "/img/gallery/kn08.jpg"
+      },
+      {
+        "id": "wesele",
+        "zdjecie": "/img/gallery/ws01.jpg"
+      },
+      {
+        "id": "garden-party",
+        "zdjecie": "/img/gallery/og25.jpg"
+      },
+      {
+        "id": "inne",
+        "zdjecie": "/img/gallery/cm04.jpg"
+      }
+    ],
+    "bledy": {
+      "rodzaj": "Wybierz rodzaj wydarzenia.",
+      "osoby": "Podaj liczbę osób.",
+      "dzien": "Wybierz dzień tygodnia.",
+      "miesiac": "Wybierz miesiąc.",
+      "budzet": "Podaj budżet w złotych.",
+      "brak_cen": "Brakuje cen w konfiguracji. Uzupełnij cennik w CMS.",
+      "brak_tresci": "Brakuje treści odpowiedzi w CMS."
+    },
+    "wycena_tytul": "Wycena indywidualna",
+    "wycena_tresc": "Całe Miejsce nie ma ceny „od”. Napisz, ile osób i jaki dzień — ułożymy ofertę za 5 godzin. Do opublikowanych cen jedzenia i baru doliczamy 10% serwisu. Obsługa kelnerska jest osobno.",
+    "cale": "Całe Miejsce",
+    "brief_rodzaj": "Rodzaj",
+    "brief_termin": "Termin",
+    "brief_osoby": "Liczba osób",
+    "brief_budzet": "Budżet",
+    "brief_wynik": "Wynik",
+    "brief_przestrzen": "Przestrzeń, na którą patrzy moduł"
+  },
+  "slider": {
+    "zakres": "Zakres",
+    "co_mozna": "Co można tu ułożyć",
+    "przestrzen": "Przestrzeń",
+    "dobierz": "Dobierzmy do tego właściwe MIEJSCE",
+    "poprzednia": "Poprzednia przestrzeń",
+    "nastepna": "Następna przestrzeń",
+    "poprzednie": "Poprzednie",
+    "nastepne": "Następne"
+  },
+  "plan": {
+    "duze": "Duże",
+    "male": "Małe",
+    "ogrod": "Miejscowy Ogród",
+    "cale": "Całe",
+    "kicker": "Plan kompleksu",
+    "tytul": "Wybierz strefę",
+    "lead": "Najedź albo stuknij fragment planu. Podświetli się barka, ogród albo cały kompleks.",
+    "cta": "Zobacz przestrzeń",
+    "zdjecie": "/img/plan.png",
+    "alt": "Rzut kompleksu MIEJSCE: dwie barki i ogród",
+    "alt_cale": "Całe Miejsce",
+    "alt_duze": "Duże Miejsce",
+    "alt_male": "Małe Miejsce",
+    "alt_ogrod": "Miejscowy Ogród",
+    "nazwy": {
+      "duze": "Duże Miejsce",
+      "male": "Małe Miejsce",
+      "ogrod": "Miejscowy Ogród",
+      "cale": "Całe Miejsce"
+    }
+  },
+  "picker": {
+    "brew": "02 · Przestrzenie",
+    "tytul": "Jedno Miejsce. Trzy przestrzenie",
+    "pytanie": "Ilu będzie gości?",
+    "pasuje": "Pasuje:",
+    "zdjecia": "Zdjęcia",
+    "plan": "Plan",
+    "cta": "Zobacz przestrzeń",
+    "podpis": "Plan kompleksu",
+  "wiersze": [
+    {
+      "id": "duze",
+      "kick": "Pierwsza barka, z kontenerów morskich",
+      "kpi_3_wartosc": "~120",
+      "kpi": [
+        "m² wnętrza",
+        "m² tarasu",
+        "osób zimą"
+      ]
+    },
+    {
+      "id": "male",
+      "kick": "Sala konferencyjna i zadaszony taras",
+      "capt": "do {n}\u00A0osób",
+      "kpi": [
+        "m² sali",
+        "m² tarasu",
+        "osób"
+      ]
+    },
+      {
+        "id": "ogrod",
+        "kick": "Miejscowy Ogród, wycena indywidualna",
+        "kpi_2_wartosc": "~100",
+        "kpi_3_wartosc": "V–IX",
+        "kpi": [
+          "m² ogrodu",
+          "osób",
+          "sezon"
+        ]
+      },
+      {
+      "id": "all",
+      "kick": "Cały kompleks",
+      "capt": "{n}\u00A0gości",
+        "kpi": [
+          "gości latem",
+          "bary",
+          "barki"
+        ]
+      }
+    ]
+  },
+  "dzien": {
+    "cta": "Zobacz scenariusz",
+    "skroty": [
+      {
+        "id": "eventy-firmowe-i-integracje",
+        "etykieta": "Integracje"
+      },
+      {
+        "id": "konferencje-i-szkolenia",
+        "etykieta": "Konferencje"
+      },
+      {
+        "id": "wesela-i-przyjecia-prywatne",
+        "etykieta": "Wesela"
+      },
+      {
+        "id": "premiery-i-eventy-marek",
+        "etykieta": "Eventy marek"
+      }
+    ],
+    "zdjecia": [
+      {
+        "pora": "day",
+        "zdjecie": "/img/gallery/og16.jpg"
+      },
+      {
+        "pora": "dusk",
+        "zdjecie": "/img/gallery/dm20.jpg"
+      },
+      {
+        "pora": "night",
+        "zdjecie": "/img/gallery/dm22.jpg"
+      }
+    ]
+  },
+  "galeria_ui": {
+    "wszystkie": "Wszystkie",
+    "zobacz": "Zobacz wszystkie zdjęcia",
+    "wroc": "Wróć do siatki"
+  },
+  "fakty_slow": {
+    "wnetrze": "wnętrza",
+    "tarasu": "tarasu",
+    "zima": "Zimą",
+    "do": "Do",
+    "wynajem": "Wynajem",
+    "goscie": "gości"
+  }
+}

@@ -1,6 +1,8 @@
 ---
 title: "Konferencje i szkolenia"
 nav_label: "Konferencje"
+kolor: "#6B7A5E"
+kolor_tekst: "#FFFFFF"
 kolejnosc: 2
 szkic: false
 seo_title: "Konferencje i szkolenia nad wodą | MIEJSCE"
@@ -17,6 +19,47 @@ co_mozna:
   - "Szkolenie i warsztat"
   - "Spotkanie zarządu"
   - "Networking i afterparty"
+formaty:
+  - tytul: "Konferencja"
+    opis: "Rano sala, po południu taras, wieczorem kolacja, jeśli tak ułożycie dzień. Prezentacje, lunch i afterparty nie wymagają drugiej lokalizacji."
+    rodzaj: "konferencja"
+    karty:
+      - tytul: "Goście"
+        opis: "Scenariusz z afterparty dla 50 osób"
+      - tytul: "Sale"
+        opis: "Małe Miejsce, Duże na wieczór"
+      - tytul: "Technika"
+        opis: "Rzutnik, ekran i mikrofony są w Małym Miejscu. Wynajem od 5 godzin"
+  - tytul: "Szkolenie i warsztat"
+    opis: "Cichsza sala z tarasem i kolacja dla małego grona. Duże Miejsce dochodzi, kiedy wieczór ma zejść na parkiet."
+    rodzaj: "szkolenie"
+    karty:
+      - tytul: "Goście"
+        opis: "Scenariusz szkolenia dla 25 osób"
+      - tytul: "Sala"
+        opis: "Małe Miejsce"
+      - tytul: "Dzień"
+        opis: "Popołudnie pracy i wieczór przy stole. Catering i kolacja są w scenariuszu"
+  - tytul: "Spotkanie zarządu"
+    opis: "Kameralna sala nad wodą, bez dużej sceny. Podstawowe AV jest na miejscu, większe ekrany wyceniamy osobno."
+    rodzaj: "konferencja"
+    karty:
+      - tytul: "Goście"
+        opis: "Małe grono, liczbę potwierdzamy pod układ"
+      - tytul: "Sala"
+        opis: "Małe Miejsce i taras"
+      - tytul: "Technika"
+        opis: "Rzutnik, ekran i mikrofony są w sali. Wynajem od 5 godzin"
+  - tytul: "Networking i afterparty"
+    opis: "Po sali zejście na parkiet w tym samym adresie. Afterparty może zostać na barce, bez wychodzenia do ogrodu."
+    rodzaj: "konferencja"
+    karty:
+      - tytul: "Goście"
+        opis: "Scenariusz opisany dla 50 osób"
+      - tytul: "Sale"
+        opis: "Małe Miejsce i Duże Miejsce"
+      - tytul: "Wieczór"
+        opis: "Wieczór po części konferencyjnej. Bar wyceniamy osobno"
 dla_ilu: "Szkolenie w małym gronie układamy od około 25 osób. Scenariusz konferencji z afterparty jest opisany dla 50 osób. Wynajem Małego Miejsca zaczyna się od 3 000 zł netto za 5 godzin"
 przestrzenie:
   - "nowe-miejsce"

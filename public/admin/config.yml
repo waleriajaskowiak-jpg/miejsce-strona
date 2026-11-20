@@ -10,7 +10,9 @@ public_folder: /img
 
 backend:
   name: github
-  repo: waleriajaskowiak-jpg/miejsce-strona
+  # Jeśli konto albo repozytorium zmieni nazwę, popraw linię `repo` (właściciel/nazwa).
+  # Jeśli CMS ma zapisywać na inną gałąź, popraw linię `branch`.
+  repo: maciekmiejsce/miejsce-strona
   branch: main
   commit_messages:
     create: "Treść: dodano {{collection}} „{{slug}}”"
@@ -39,7 +41,15 @@ collections:
           - { label: "Hero — marka", name: hero_marka, widget: string }
           - { label: "Hero — nagłówek", name: hero_h1, widget: string }
           - { label: "Hero — lead", name: hero_lead, widget: text }
-          - { label: "Hero — zdjęcie", name: hero_zdjecie, widget: image }
+          - label: "Hero — slajdy"
+            name: hero_slajdy
+            widget: list
+            summary: "{{fields.alt}}"
+            hint: "Kolejność to kolejność pokazu. Pierwsze zdjęcie jest od razu."
+            fields:
+              - { label: Zdjęcie, name: src, widget: image }
+              - { label: Opis zdjęcia, name: alt, widget: string }
+          - { label: "Hero — zdjęcie", name: hero_zdjecie, widget: image, hint: "Główne zdjęcie hero. Przy sliderze jest pierwszym slajdem. Nie powiększaj pliku ponad oryginał." }
           - { label: "Hero — opis zdjęcia", name: hero_zdjecie_alt, widget: string }
           - { label: "Hero — drugie zdjęcie", name: hero_zdjecie_2, widget: image }
           - { label: "Hero — opis drugiego zdjęcia", name: hero_zdjecie_2_alt, widget: string }
@@ -72,6 +82,8 @@ collections:
           - { label: "Nagłówek „zaufali nam”", name: zaufali_h, widget: string }
           - { label: Nagłówek kontaktu, name: kontakt_h, widget: string }
           - { label: Lead kontaktu, name: kontakt_lead, widget: text }
+          - { label: "Hero — tryb", name: hero_tryb, widget: select, options: ["zdjecie", "slider", "wideo"], hint: "zdjecie, slider albo wideo. Starsza wartość foto też pokazuje zdjęcie." }
+          - { label: "Hero — plik wideo", name: hero_wideo, widget: string, required: false }
 
       - name: kontakt
         label: Kontakt
@@ -91,6 +103,160 @@ collections:
           - { label: Parking, name: parking, widget: text }
           - { label: Oględziny, name: ogledziny, widget: text }
           - { label: Opis SEO, name: opis_seo, widget: text }
+          - { label: "Adres formularza", name: formularz_endpoint, widget: string, required: false }
+          - { label: "Fallback Netlify Forms", name: formularz_netlify, widget: boolean, default: true }
+
+      - name: fakty
+        label: Liczby i pojemności
+        file: src/content/ustawienia/fakty.json
+        format: json
+        fields:
+          - label: Adres
+            name: adres
+            widget: object
+            fields:
+              - { label: Ulica, name: ulica, widget: string }
+              - { label: Kod, name: kod, widget: string }
+              - { label: Miasto, name: miasto, widget: string }
+              - { label: Dzielnica, name: dzielnica, widget: string }
+          - label: Kontakt w faktach
+            name: kontakt
+            widget: object
+            fields:
+              - { label: Telefon wyświetlany, name: telefon_wyswietlany, widget: string }
+              - { label: Telefon do linku, name: telefon_href, widget: string }
+              - { label: E-mail, name: email, widget: string }
+          - label: Działamy od
+            name: dzialamy_od
+            widget: object
+            fields:
+              - { label: Tekst, name: tekst, widget: string }
+              - { label: Rok, name: rok, widget: number, value_type: int }
+          - label: Lokalizacja
+            name: lokalizacja
+            widget: object
+            fields:
+              - { label: Tekst, name: tekst, widget: string }
+              - { label: Przystanek, name: przystanek, widget: string }
+              - { label: Parking, name: parking, widget: text }
+              - { label: Dojście, name: dojscie, widget: text }
+          - { label: Dostępność, name: dostepnosc, widget: text }
+          - label: Przestrzenie
+            name: przestrzenie
+            widget: object
+            fields:
+              - label: Duże Miejsce
+                name: duze
+                widget: object
+                fields:
+                  - { label: Nazwa, name: nazwa, widget: string }
+                  - { label: "Wnętrze, m²", name: wnetrze_m2, widget: number, value_type: int }
+                  - { label: "Taras, m²", name: taras_m2, widget: number, value_type: int }
+                  - { label: Zima, tekst, name: zima_osob, widget: string }
+                  - { label: Zima, liczba, name: zima_liczba, widget: number, value_type: int }
+                  - { label: Lato do potwierdzenia, name: lato_do_potwierdzenia, widget: text }
+                  - { label: Cena od, name: cena_od, widget: number, value_type: int }
+                  - { label: Czas, name: czas, widget: string }
+                  - { label: Kontenery, name: kontenery, widget: boolean }
+                  - { label: Notatka, name: do_potwierdzenia, widget: text }
+              - label: Małe Miejsce
+                name: male
+                widget: object
+                fields:
+                  - { label: Nazwa, name: nazwa, widget: string }
+                  - { label: Id, name: id, widget: string }
+                  - { label: Goście, name: gosci, widget: number, value_type: int }
+                  - { label: "Wnętrze, m²", name: wnetrze_m2, widget: number, value_type: int }
+                  - { label: "Taras, m²", name: taras_m2, widget: number, value_type: int }
+                  - { label: Cena od, name: cena_od, widget: number, value_type: int }
+                  - { label: Czas, name: czas, widget: string }
+              - label: Ogród
+                name: ogrod
+                widget: object
+                fields:
+                  - { label: Nazwa, name: nazwa, widget: string }
+                  - { label: "Powierzchnia, m²", name: powierzchnia_m2, widget: number, value_type: int }
+                  - { label: Sezon, name: sezon, widget: string }
+                  - { label: Cena, name: cena, widget: string }
+                  - { label: Goście, name: gosci, widget: number, value_type: int }
+                  - { label: Goście, tekst, name: gosci_tekst, widget: string }
+                  - { label: Notatka, name: do_potwierdzenia, widget: text }
+              - label: Całe Miejsce
+                name: cale
+                widget: object
+                fields:
+                  - { label: Nazwa, name: nazwa, widget: string }
+                  - { label: "Goście latem", name: maks_osob, widget: number, value_type: int, hint: "350 tylko jako cały kompleks latem, z ogrodem" }
+                  - { label: Kiedy dotyczy liczba, name: maks_kiedy, widget: string }
+                  - { label: Cena, name: cena, widget: string }
+                  - { label: Czas, name: czas, widget: string }
+          - label: Układy stołów
+            name: uklady
+            widget: object
+            fields:
+              - label: Duże Miejsce
+                name: duze
+                widget: list
+                fields:
+                  - { label: Id, name: id, widget: string }
+                  - { label: Nazwa, name: nazwa, widget: string }
+                  - { label: Zima, name: zima, widget: number, value_type: int, required: false, hint: "Puste pole oznacza zapytaj" }
+                  - { label: Lato, name: lato, widget: number, value_type: int, required: false }
+              - label: Małe Miejsce
+                name: male
+                widget: list
+                fields:
+                  - { label: Id, name: id, widget: string }
+                  - { label: Nazwa, name: nazwa, widget: string }
+                  - { label: Zima, name: zima, widget: number, value_type: int, required: false }
+                  - { label: Lato, name: lato, widget: number, value_type: int, required: false }
+              - label: Ogród
+                name: ogrod
+                widget: list
+                fields:
+                  - { label: Id, name: id, widget: string }
+                  - { label: Nazwa, name: nazwa, widget: string }
+                  - { label: Zima, name: zima, widget: number, value_type: int, required: false }
+                  - { label: Lato, name: lato, widget: number, value_type: int, required: false }
+              - label: Całe Miejsce
+                name: cale
+                widget: list
+                fields:
+                  - { label: Id, name: id, widget: string }
+                  - { label: Nazwa, name: nazwa, widget: string }
+                  - { label: Zima, name: zima, widget: number, value_type: int, required: false, hint: "Zostaw puste, dopóki nie ma potwierdzonej liczby na deszcz i zimę" }
+                  - { label: Lato, name: lato, widget: number, value_type: int, required: false }
+          - { label: "Tekst, gdy brak liczby", name: niepogoda_brak, widget: string }
+          - label: Ceny skrót
+            name: ceny
+            widget: object
+            fields:
+              - label: Menu
+                name: menu
+                widget: list
+                field: { label: Kwota, name: kwota, widget: number, value_type: int }
+              - label: Open bar
+                name: open_bar
+                widget: list
+                field: { label: Kwota, name: kwota, widget: number, value_type: int }
+              - { label: Czas open baru, name: open_bar_czas, widget: string }
+              - { label: Serwis, procent, name: oplata_serwisowa_proc, widget: number, value_type: int }
+              - { label: Netto, name: netto, widget: boolean }
+              - { label: Źródło, name: zrodlo, widget: string }
+          - { label: Godziny, name: godziny, widget: string }
+          - { label: Wesela, goście, name: wesela_goscie, widget: string }
+          - { label: Logotypy do publikacji, name: logotypy_do_publikacji, widget: boolean }
+          - label: Bary
+            name: bary
+            widget: object
+            fields:
+              - { label: Stałe, name: stale, widget: number, value_type: int }
+              - { label: Mobilny, name: mobilny, widget: boolean }
+              - { label: Tekst, name: tekst, widget: string }
+          - label: Profile
+            name: same_as
+            widget: list
+            field: { label: Adres, name: adres, widget: string }
 
       - name: cennik
         label: Ceny i budżet
@@ -109,7 +275,11 @@ collections:
           - { label: Nagłówek dodatków, name: dodatki_h, widget: string }
           - { label: Lead dodatków, name: dodatki_lead, widget: text }
           - { label: Nagłówek modułu budżetu, name: budzet_h, widget: string }
-          - { label: "Informacja „ceny netto”", name: netto_info, widget: text }
+          - { label: "Informacja „ceny netto”", name: netto_info, widget: text, hint: "Dłuższy opis do oferty. Na stronie wstęp korzysta z listy uwag." }
+          - label: "Uwagi pod wstępem"
+            name: uwagi
+            widget: list
+            field: { label: Uwaga, name: tekst, widget: string }
           - { label: Plik PDF oferty, name: pdf, widget: string }
           - { label: Podpis linku PDF, name: pdf_etykieta, widget: string }
           - { label: "Jak porównujemy budżet (tekst na stronie)", name: jak_porownujemy, widget: text }
@@ -234,6 +404,15 @@ collections:
           - { label: Bary, name: bary, widget: string }
           - { label: Ścieżka PDF, name: pdf, widget: string }
           - { label: Podpis PDF, name: pdf_etykieta, widget: string }
+          - label: Menu PDF
+            name: menu_pdf
+            widget: file
+            required: false
+            media_folder: public/uploads/menu
+            public_folder: /uploads/menu
+            hint: "Karta menu do pobrania. Puste pole — zdjęcie nie jest linkiem."
+          - { label: Podpis przycisku menu, name: menu_pdf_etykieta, widget: string, required: false }
+          - { label: Zdjęcie karty menu, name: menu_karta, widget: image, required: false }
           - label: Zdjęcia
             name: zdjecia
             widget: list
@@ -321,6 +500,1738 @@ collections:
             widget: list
             field: { label: Zdjęcie, name: zdjecie, widget: image }
 
+      - name: nawigacja
+        label: "Ustawienia globalne — nawigacja"
+        file: src/content/ustawienia/nawigacja.json
+        format: json
+        fields:
+          - label: "Aria marka"
+            name: aria_marka
+            widget: string
+          - label: "Aria logo"
+            name: aria_logo
+            widget: string
+          - label: "Aria glowna"
+            name: aria_glowna
+            widget: string
+          - label: "Aria menu"
+            name: aria_menu
+            widget: string
+          - label: "Aria zamknij"
+            name: aria_zamknij
+            widget: string
+          - label: "Aria mobilna"
+            name: aria_mobilna
+            widget: string
+          - label: "Logo"
+            name: logo
+            widget: image
+          - label: "Logo noc"
+            name: logo_noc
+            widget: image
+          - label: "Wydarzenia"
+            name: wydarzenia
+            widget: string
+          - label: "Przestrzenie"
+            name: przestrzenie
+            widget: string
+          - label: "Ceny"
+            name: ceny
+            widget: string
+          - label: "Realizacje"
+            name: realizacje
+            widget: string
+          - label: "Kontakt"
+            name: kontakt
+            widget: string
+          - label: "Przycisk"
+            name: cta
+            widget: string
+          - label: "Cta mobile"
+            name: cta_mobile
+            widget: string
+          - label: "Zadzwon"
+            name: zadzwon
+            widget: string
+          - label: "Instagram"
+            name: instagram
+            widget: string
+          - label: "Instagram url"
+            name: instagram_url
+            widget: string
+          - label: "Pomin"
+            name: pomin
+            widget: string
+          - label: "Krotkie przestrzenie"
+            name: krotkie_przestrzenie
+            widget: list
+            fields:
+              - label: "Identyfikator"
+                name: id
+                widget: string
+              - label: "Etykieta"
+                name: etykieta
+                widget: string
+          - label: "Menu mobilne"
+            name: menu_mobilne
+            widget: list
+            fields:
+              - label: "Adres"
+                name: href
+                widget: string
+              - label: "Etykieta"
+                name: etykieta
+                widget: string
+              - label: "Numer"
+                name: numer
+                widget: string
+      - name: stopka
+        label: "Ustawienia globalne — stopka"
+        file: src/content/ustawienia/stopka.json
+        format: json
+        fields:
+          - label: "Logo"
+            name: logo
+            widget: image
+          - label: "Aria marka"
+            name: aria_marka
+            widget: string
+          - label: "Wydarzenia"
+            name: wydarzenia
+            widget: string
+          - label: "Miejsce"
+            name: miejsce
+            widget: string
+          - label: "Miejsce linki"
+            name: miejsce_linki
+            widget: list
+            fields:
+              - label: "Adres"
+                name: href
+                widget: string
+              - label: "Etykieta"
+                name: etykieta
+                widget: string
+          - label: "Plan"
+            name: plan
+            widget: string
+          - label: "Plan linki"
+            name: plan_linki
+            widget: list
+            fields:
+              - label: "Adres"
+                name: href
+                widget: string
+              - label: "Etykieta"
+                name: etykieta
+                widget: string
+          - label: "Kontakt"
+            name: kontakt
+            widget: string
+          - label: "Kontakt linki"
+            name: kontakt_linki
+            widget: list
+            fields:
+              - label: "Adres"
+                name: href
+                widget: string
+              - label: "Etykieta"
+                name: etykieta
+                widget: string
+          - label: "Linia"
+            name: linia
+            widget: string
+      - name: strona-sekcje
+        label: "Strona główna — sekcje"
+        file: src/content/ustawienia/strona-sekcje.json
+        format: json
+        fields:
+          - label: "Hero cta"
+            name: hero_cta
+            widget: string
+          - label: "Hero drugi"
+            name: hero_drugi
+            widget: string
+          - label: "Hero slajd 3"
+            name: hero_slajd_3
+            widget: image
+          - label: "Hero slajd 3 alt"
+            name: hero_slajd_3_alt
+            widget: string
+          - label: "Atuty"
+            name: atuty
+            widget: list
+            fields:
+              - label: "Ikona"
+                name: ikona
+                widget: string
+              - label: "Tytuł"
+                name: tytul
+                widget: string
+              - label: "Opis"
+                name: opis
+                widget: string
+          - label: "Wydarzenia brew"
+            name: wydarzenia_brew
+            widget: string
+          - label: "Wydarzenia h"
+            name: wydarzenia_h
+            widget: string
+          - label: "Przestrzenie brew"
+            name: przestrzenie_brew
+            widget: string
+          - label: "Przestrzenie h"
+            name: przestrzenie_h
+            widget: string
+          - label: "Przestrzenie lead"
+            name: przestrzenie_lead
+            widget: string
+          - label: "Serwisy"
+            name: serwisy
+            widget: string
+          - label: "Jedzenie zdjecie"
+            name: jedzenie_zdjecie
+            widget: image
+          - label: "Jedzenie alt"
+            name: jedzenie_alt
+            widget: string
+          - label: "Jedzenie brew"
+            name: jedzenie_brew
+            widget: string
+          - label: "Jedzenie link"
+            name: jedzenie_link
+            widget: string
+          - label: "Inspiracje brew"
+            name: inspiracje_brew
+            widget: string
+          - label: "Inspiracje h"
+            name: inspiracje_h
+            widget: string
+          - label: "Inspiracje h opublikowane"
+            name: inspiracje_h_opublikowane
+            widget: string
+          - label: "Inspiracje lead"
+            name: inspiracje_lead
+            widget: text
+          - label: "Inspiracje lead opublikowane"
+            name: inspiracje_lead_opublikowane
+            widget: string
+          - label: "Inspiracja"
+            name: inspiracja
+            widget: string
+          - label: "Zaplanuj brew"
+            name: zaplanuj_brew
+            widget: string
+          - label: "Zaplanuj h"
+            name: zaplanuj_h
+            widget: string
+          - label: "Zaplanuj lead"
+            name: zaplanuj_lead
+            widget: string
+          - label: "Zaplanuj cta"
+            name: zaplanuj_cta
+            widget: string
+          - label: "Karty"
+            name: karty
+            widget: list
+            fields:
+              - label: "Identyfikator"
+                name: id
+                widget: string
+              - label: "Tytuł"
+                name: tytul
+                widget: string
+              - label: "Adres"
+                name: href
+                widget: string
+              - label: "Zdjęcie"
+                name: zdjecie
+                widget: image
+              - label: "Dopisek"
+                name: dopisek
+                widget: text
+              - label: "Meta"
+                name: meta
+                widget: string
+              - label: "Skrót na planie"
+                name: skrot
+                widget: string
+                required: false
+      - name: etykiety
+        label: "Etykiety, formularz i estymator"
+        file: src/content/ustawienia/etykiety.json
+        format: json
+        fields:
+          - label: "Obraz Open Graph"
+            name: og_obraz
+            widget: image
+          - label: "Odznaka „Polecane”"
+            name: polecane
+            widget: string
+          - label: "Odznaka „Za mało miejsca”"
+            name: za_malo_miejsca
+            widget: string
+          - label: "Zobacz"
+            name: zobacz
+            widget: string
+          - label: "Lato"
+            name: lato
+            widget: string
+          - label: "Zima deszcz"
+            name: zima_deszcz
+            widget: string
+          - label: "Zapytaj"
+            name: zapytaj
+            widget: string
+          - label: "Uklady"
+            name: uklady
+            widget: string
+          - label: "Wycena indywidualna"
+            name: wycena_indywidualna
+            widget: string
+          - label: "Od"
+            name: od
+            widget: string
+          - label: "Serwis krotki"
+            name: serwis_krotki
+            widget: string
+          - label: "Jedzenie i bar"
+            name: jedzenie_i_bar
+            widget: string
+          - label: "Sciezka"
+            name: sciezka
+            widget: string
+          - label: "Nastepny krok"
+            name: nastepny_krok
+            widget: string
+          - label: "Sprawdz budzet"
+            name: sprawdz_budzet
+            widget: string
+          - label: "Wyslij brief"
+            name: wyslij_brief
+            widget: string
+          - label: "Formularz"
+            name: formularz
+            widget: object
+            fields:
+              - label: "Imie"
+                name: imie
+                widget: string
+              - label: "Email"
+                name: email
+                widget: string
+              - label: "Telefon"
+                name: telefon
+                widget: string
+              - label: "Termin"
+                name: termin
+                widget: string
+              - label: "Osoby"
+                name: osoby
+                widget: string
+              - label: "Placeholder termin"
+                name: placeholder_termin
+                widget: string
+              - label: "Placeholder wizyta"
+                name: placeholder_wizyta
+                widget: string
+              - label: "Wyslij"
+                name: wyslij
+                widget: string
+              - label: "Wiecej"
+                name: wiecej
+                widget: string
+              - label: "Szybie"
+                name: szybie
+                widget: string
+              - label: "Honeypot"
+                name: honeypot
+                widget: string
+              - label: "Doprecyzuj"
+                name: doprecyzuj
+                widget: string
+              - label: "Rodzaj"
+                name: rodzaj
+                widget: string
+              - label: "Wybierz"
+                name: wybierz
+                widget: string
+              - label: "Budzet"
+                name: budzet
+                widget: string
+              - label: "Placeholder budzet"
+                name: placeholder_budzet
+                widget: string
+              - label: "Netto brutto"
+                name: netto_brutto
+                widget: string
+              - label: "Netto"
+                name: netto
+                widget: string
+              - label: "Brutto"
+                name: brutto
+                widget: string
+              - label: "Wiadomosc"
+                name: wiadomosc
+                widget: string
+              - label: "Placeholder wiadomosc"
+                name: placeholder_wiadomosc
+                widget: string
+              - label: "Placeholder wizyta msg"
+                name: placeholder_wizyta_msg
+                widget: string
+              - label: "Umow"
+                name: umow
+                widget: string
+              - label: "Stopka"
+                name: stopka
+                widget: string
+              - label: "H ogledziny"
+                name: h_ogledziny
+                widget: string
+              - label: "Lead ogledziny"
+                name: lead_ogledziny
+                widget: string
+              - label: "Placeholder termin pelny"
+                name: placeholder_termin_pelny
+                widget: string
+              - label: "Pytasz"
+                name: pytasz
+                widget: string
+          - label: "Estymator"
+            name: estymator
+            widget: object
+            fields:
+              - label: "Krok po kroku"
+                name: krok_po_kroku
+                widget: string
+              - label: "Lead"
+                name: lead
+                widget: text
+              - label: "Aria kroki"
+                name: aria_kroki
+                widget: string
+              - label: "Aria rodzaj"
+                name: aria_rodzaj
+                widget: string
+              - label: "Kroki"
+                name: kroki
+                widget: list
+                fields:
+                  - label: "Numer"
+                    name: numer
+                    widget: string
+                  - label: "Etykieta"
+                    name: etykieta
+                    widget: string
+                  - label: "Podpowiedz"
+                    name: podpowiedz
+                    widget: string
+              - label: "Liczba gosci"
+                name: liczba_gosci
+                widget: string
+              - label: "Osob"
+                name: osob
+                widget: string
+              - label: "Dzien"
+                name: dzien
+                widget: string
+              - label: "Miesiac"
+                name: miesiac
+                widget: string
+              - label: "Budzet netto"
+                name: budzet_netto
+                widget: string
+              - label: "Zl"
+                name: zl
+                widget: string
+              - label: "Wynik"
+                name: wynik
+                widget: string
+              - label: "Uzupelnij"
+                name: uzupelnij
+                widget: string
+              - label: "Przycisk"
+                name: cta
+                widget: string
+              - label: "Wstecz"
+                name: wstecz
+                widget: string
+              - label: "Dalej"
+                name: dalej
+                widget: string
+              - label: "Zobacz wynik"
+                name: zobacz_wynik
+                widget: string
+              - label: "Dopisek"
+                name: dopisek
+                widget: text
+              - label: "Blad rodzaj"
+                name: blad_rodzaj
+                widget: string
+              - label: "Blad termin"
+                name: blad_termin
+                widget: string
+              - label: "Wycena"
+                name: wycena
+                widget: string
+              - label: "Odpowiedz"
+                name: odpowiedz
+                widget: string
+              - label: "Brief tytul"
+                name: brief_tytul
+                widget: string
+              - label: "Dni skrot"
+                name: dni_skrot
+                widget: list
+                fields:
+                  - label: "Identyfikator"
+                    name: id
+                    widget: string
+                  - label: "Skrot"
+                    name: skrot
+                    widget: string
+              - label: "Zdjecia"
+                name: zdjecia
+                widget: list
+                fields:
+                  - label: "Identyfikator"
+                    name: id
+                    widget: string
+                  - label: "Zdjęcie"
+                    name: zdjecie
+                    widget: image
+              - label: "Bledy"
+                name: bledy
+                widget: object
+                fields:
+                  - label: "Rodzaj"
+                    name: rodzaj
+                    widget: string
+                  - label: "Osoby"
+                    name: osoby
+                    widget: string
+                  - label: "Dzien"
+                    name: dzien
+                    widget: string
+                  - label: "Miesiac"
+                    name: miesiac
+                    widget: string
+                  - label: "Budzet"
+                    name: budzet
+                    widget: string
+                  - label: "Brak cen"
+                    name: brak_cen
+                    widget: string
+                  - label: "Brak tresci"
+                    name: brak_tresci
+                    widget: string
+              - label: "Wycena tytul"
+                name: wycena_tytul
+                widget: string
+              - label: "Wycena tresc"
+                name: wycena_tresc
+                widget: text
+              - label: "Cale"
+                name: cale
+                widget: string
+              - label: "Brief rodzaj"
+                name: brief_rodzaj
+                widget: string
+              - label: "Brief termin"
+                name: brief_termin
+                widget: string
+              - label: "Brief osoby"
+                name: brief_osoby
+                widget: string
+              - label: "Brief budzet"
+                name: brief_budzet
+                widget: string
+              - label: "Brief wynik"
+                name: brief_wynik
+                widget: string
+              - label: "Brief przestrzen"
+                name: brief_przestrzen
+                widget: string
+          - label: "Slider"
+            name: slider
+            widget: object
+            fields:
+              - label: "Zakres"
+                name: zakres
+                widget: string
+              - label: "Co mozna"
+                name: co_mozna
+                widget: string
+              - label: "Przestrzen"
+                name: przestrzen
+                widget: string
+              - label: "Dobierz"
+                name: dobierz
+                widget: string
+              - label: "Poprzednia"
+                name: poprzednia
+                widget: string
+              - label: "Nastepna"
+                name: nastepna
+                widget: string
+              - label: "Poprzednie"
+                name: poprzednie
+                widget: string
+              - label: "Nastepne"
+                name: nastepne
+                widget: string
+          - label: "Plan"
+            name: plan
+            widget: object
+            fields:
+              - label: "Duze"
+                name: duze
+                widget: string
+              - label: "Male"
+                name: male
+                widget: string
+              - label: "Ogrod"
+                name: ogrod
+                widget: string
+              - label: "Cale"
+                name: cale
+                widget: string
+              - label: "Brew"
+                name: kicker
+                widget: string
+              - label: "Tytuł"
+                name: tytul
+                widget: string
+              - label: "Lead"
+                name: lead
+                widget: string
+              - label: "Przycisk"
+                name: cta
+                widget: string
+              - label: "Zdjęcie"
+                name: zdjecie
+                widget: image
+              - label: "Tekst alternatywny"
+                name: alt
+                widget: string
+              - label: "Alt cale"
+                name: alt_cale
+                widget: string
+              - label: "Alt duze"
+                name: alt_duze
+                widget: string
+              - label: "Alt male"
+                name: alt_male
+                widget: string
+              - label: "Alt ogrod"
+                name: alt_ogrod
+                widget: string
+              - label: "Nazwy"
+                name: nazwy
+                widget: object
+                fields:
+                  - label: "Duze"
+                    name: duze
+                    widget: string
+                  - label: "Male"
+                    name: male
+                    widget: string
+                  - label: "Ogrod"
+                    name: ogrod
+                    widget: string
+                  - label: "Cale"
+                    name: cale
+                    widget: string
+          - label: "Picker"
+            name: picker
+            widget: object
+            fields:
+              - label: "Brew"
+                name: brew
+                widget: string
+              - label: "Tytuł"
+                name: tytul
+                widget: string
+              - label: "Pytanie"
+                name: pytanie
+                widget: string
+              - label: "Pasuje"
+                name: pasuje
+                widget: string
+              - label: "Zdjecia"
+                name: zdjecia
+                widget: string
+              - label: "Plan"
+                name: plan
+                widget: string
+              - label: "Przycisk"
+                name: cta
+                widget: string
+              - label: "Podpis"
+                name: podpis
+                widget: string
+              - label: "Wiersze"
+                name: wiersze
+                widget: list
+                fields:
+                  - label: "Identyfikator"
+                    name: id
+                    widget: string
+                  - label: "Kick"
+                    name: kick
+                    widget: string
+                  - label: "Kpi 3 wartosc"
+                    name: kpi_3_wartosc
+                    widget: string
+                  - label: "Etykiety liczb"
+                    name: kpi
+                    widget: list
+                    field: { label: "Etykieta", name: wartosc, widget: string }
+                  - label: "Capt"
+                    name: capt
+                    widget: string
+                  - label: "Kpi 2 wartosc"
+                    name: kpi_2_wartosc
+                    widget: string
+          - label: "Dzien"
+            name: dzien
+            widget: object
+            fields:
+              - label: "Przycisk"
+                name: cta
+                widget: string
+              - label: "Skroty"
+                name: skroty
+                widget: list
+                fields:
+                  - label: "Identyfikator"
+                    name: id
+                    widget: string
+                  - label: "Etykieta"
+                    name: etykieta
+                    widget: string
+              - label: "Zdjecia"
+                name: zdjecia
+                widget: list
+                fields:
+                  - label: "Pora"
+                    name: pora
+                    widget: string
+                  - label: "Zdjęcie"
+                    name: zdjecie
+                    widget: image
+          - label: "Galeria ui"
+            name: galeria_ui
+            widget: object
+            fields:
+              - label: "Wszystkie"
+                name: wszystkie
+                widget: string
+              - label: "Zobacz"
+                name: zobacz
+                widget: string
+              - label: "Wroc"
+                name: wroc
+                widget: string
+          - label: "Fakty slow"
+            name: fakty_slow
+            widget: object
+            fields:
+              - label: "Wnetrze"
+                name: wnetrze
+                widget: string
+              - label: "Tarasu"
+                name: tarasu
+                widget: string
+              - label: "Zima"
+                name: zima
+                widget: string
+              - label: "Do"
+                name: do
+                widget: string
+              - label: "Wynajem"
+                name: wynajem
+                widget: string
+              - label: "Goscie"
+                name: goscie
+                widget: string
+      - name: podstrony
+        label: "Podstrony"
+        file: src/content/ustawienia/podstrony.json
+        format: json
+        fields:
+          - label: "Brak"
+            name: brak
+            widget: object
+            fields:
+              - label: "Tytuł"
+                name: tytul
+                widget: string
+              - label: "Opis"
+                name: opis
+                widget: string
+              - label: "Brew"
+                name: kicker
+                widget: string
+              - label: "Nagłówek"
+                name: h1
+                widget: string
+              - label: "Lead"
+                name: lead
+                widget: string
+              - label: "Home"
+                name: home
+                widget: string
+              - label: "Przestrzenie"
+                name: przestrzenie
+                widget: string
+          - label: "Dziekujemy"
+            name: dziekujemy
+            widget: object
+            fields:
+              - label: "Tytuł"
+                name: tytul
+                widget: string
+              - label: "Opis"
+                name: opis
+                widget: string
+              - label: "Brew"
+                name: kicker
+                widget: string
+              - label: "Nagłówek"
+                name: h1
+                widget: string
+              - label: "Lead"
+                name: lead
+                widget: string
+              - label: "Przycisk"
+                name: cta
+                widget: string
+          - label: "Kontakt"
+            name: kontakt
+            widget: object
+            fields:
+              - label: "Tytul wizyta"
+                name: tytul_wizyta
+                widget: string
+              - label: "Opis wizyta"
+                name: opis_wizyta
+                widget: string
+              - label: "H wizyta"
+                name: h_wizyta
+                widget: string
+              - label: "Lead wizyta"
+                name: lead_wizyta
+                widget: string
+              - label: "Lead brief"
+                name: lead_brief
+                widget: string
+              - label: "Sekcja"
+                name: sekcja
+                widget: string
+              - label: "Telefon"
+                name: telefon
+                widget: string
+              - label: "Mail"
+                name: mail
+                widget: string
+              - label: "Skrzynka"
+                name: skrzynka
+                widget: string
+              - label: "Adres"
+                name: adres
+                widget: string
+              - label: "Dojazd"
+                name: dojazd
+                widget: string
+              - label: "Jak"
+                name: jak
+                widget: string
+              - label: "Trasa"
+                name: trasa
+                widget: string
+              - label: "Osm"
+                name: osm
+                widget: string
+              - label: "Mapa alt"
+                name: mapa_alt
+                widget: string
+              - label: "Tytuł"
+                name: tytul
+                widget: string
+              - label: "Brew"
+                name: kicker
+                widget: string
+              - label: "Zdjęcie"
+                name: zdjecie
+                widget: image
+              - label: "Tekst alternatywny"
+                name: alt
+                widget: string
+              - label: "Brew"
+                name: brew
+                widget: string
+              - label: "Typy"
+                name: typy
+                widget: list
+                fields:
+                  - label: "Identyfikator"
+                    name: id
+                    widget: string
+                  - label: "Nazwa"
+                    name: nazwa
+                    widget: string
+          - label: "Ceny"
+            name: ceny
+            widget: object
+            fields:
+              - label: "Tytuł"
+                name: tytul
+                widget: string
+              - label: "Tekst alternatywny"
+                name: alt
+                widget: string
+              - label: "Brew"
+                name: brew
+                widget: string
+              - label: "Nagłówek"
+                name: h
+                widget: string
+              - label: "Lead"
+                name: lead
+                widget: string
+              - label: "Serwis"
+                name: serwis
+                widget: string
+              - label: "Estymator"
+                name: estymator
+                widget: string
+              - label: "Krok"
+                name: krok
+                widget: string
+              - label: "Goscie"
+                name: goscie
+                widget: string
+              - label: "Osob"
+                name: osob
+                widget: string
+              - label: "Catering"
+                name: catering
+                widget: string
+              - label: "Bar etykieta"
+                name: bar_etykieta
+                widget: string
+              - label: "Bar"
+                name: bar
+                widget: list
+                field: { label: "Zdjęcie", name: zdjecie, widget: image }
+              - label: "Wstecz"
+                name: wstecz
+                widget: string
+              - label: "Dalej"
+                name: dalej
+                widget: string
+              - label: "Orientacyjnie"
+                name: orientacyjnie
+                widget: string
+              - label: "Serwis dlugi"
+                name: serwis_dlugi
+                widget: string
+              - label: "Serwis cale"
+                name: serwis_cale
+                widget: text
+              - label: "Etykieta wynajem od"
+                name: wynajem_od
+                widget: string
+              - label: "Nota wynajmu indywidualnego"
+                name: wynajem_nota
+                widget: string
+              - label: "Dopisek wyniku Całego Miejsca"
+                name: wynik_cale
+                widget: string
+              - label: "Cale"
+                name: cale
+                widget: string
+              - label: "Wycena"
+                name: wycena
+                widget: string
+              - label: "Od zera"
+                name: od_zera
+                widget: string
+              - label: "Faq h"
+                name: faq_h
+                widget: string
+              - label: "Faq lead"
+                name: faq_lead
+                widget: string
+              - label: "Nastepny"
+                name: nastepny
+                widget: string
+              - label: "Link menu"
+                name: link_menu
+                widget: string
+              - label: "Link eventy"
+                name: link_eventy
+                widget: string
+              - label: "Link przestrzenie"
+                name: link_przestrzenie
+                widget: string
+              - label: "Przycisk"
+                name: cta
+                widget: string
+              - label: "Brew"
+                name: kicker
+                widget: string
+              - label: "Zdjęcie"
+                name: zdjecie
+                widget: image
+              - label: "Brew pakiet"
+                name: brew_pakiet
+                widget: string
+              - label: "Brew bar"
+                name: brew_bar
+                widget: string
+              - label: "Brew dodatki"
+                name: brew_dodatki
+                widget: string
+              - label: "Brew pytania"
+                name: brew_pytania
+                widget: string
+              - label: "Krok szablon"
+                name: krok_szablon
+                widget: string
+              - label: "Karty"
+                name: karty
+                widget: list
+                fields:
+                  - label: "Identyfikator"
+                    name: id
+                    widget: string
+                  - label: "Zdjęcie"
+                    name: zdjecie
+                    widget: image
+              - label: "Menu"
+                name: menu
+                widget: list
+                field: { label: "Zdjęcie", name: zdjecie, widget: image }
+          - label: "Jedzenie"
+            name: jedzenie
+            widget: object
+            fields:
+              - label: "Catering"
+                name: catering
+                widget: string
+              - label: "Bar"
+                name: bar
+                widget: string
+              - label: "Przelicz"
+                name: przelicz
+                widget: string
+              - label: "Dla"
+                name: dla
+                widget: string
+              - label: "Osob"
+                name: osob
+                widget: string
+              - label: "Kuchnia"
+                name: kuchnia
+                widget: string
+              - label: "Nagłówek"
+                name: h
+                widget: string
+              - label: "Specjalizacja"
+                name: specjalizacja
+                widget: string
+              - label: "Nastepny"
+                name: nastepny
+                widget: string
+              - label: "Lead"
+                name: lead
+                widget: string
+              - label: "Ceny"
+                name: ceny
+                widget: string
+              - label: "Scenariusze"
+                name: scenariusze
+                widget: string
+              - label: "Brief"
+                name: brief
+                widget: string
+              - label: "Tytuł"
+                name: tytul
+                widget: string
+              - label: "Brew"
+                name: kicker
+                widget: string
+              - label: "Tekst alternatywny"
+                name: alt
+                widget: string
+              - label: "Alt jedzenie"
+                name: alt_jedzenie
+                widget: string
+              - label: "Alt bar"
+                name: alt_bar
+                widget: string
+              - label: "Dla start"
+                name: dla_start
+                widget: string
+              - label: "Linia"
+                name: linia
+                widget: string
+              - label: "Menu"
+                name: menu
+                widget: list
+                field: { label: "Zdjęcie", name: zdjecie, widget: image }
+              - label: "Bar zdjecia"
+                name: bar_zdjecia
+                widget: list
+                field: { label: "Zdjęcie", name: zdjecie, widget: image }
+          - label: "Galeria"
+            name: galeria
+            widget: object
+            fields:
+              - label: "Tekst alternatywny"
+                name: alt
+                widget: string
+              - label: "Nastepny"
+                name: nastepny
+                widget: string
+              - label: "Link"
+                name: link
+                widget: string
+              - label: "Wszystkie"
+                name: wszystkie
+                widget: string
+              - label: "Zamknij"
+                name: zamknij
+                widget: string
+              - label: "Wroc"
+                name: wroc
+                widget: string
+              - label: "Zobacz wszystkie"
+                name: zobacz_wszystkie
+                widget: string
+              - label: "Tytuł"
+                name: tytul
+                widget: string
+              - label: "Brew"
+                name: kicker
+                widget: string
+              - label: "Zdjęcie"
+                name: zdjecie
+                widget: image
+              - label: "Link przestrzenie"
+                name: link_przestrzenie
+                widget: string
+              - label: "Przycisk"
+                name: cta
+                widget: string
+          - label: "Mapa"
+            name: mapa
+            widget: object
+            fields:
+              - label: "Tytuł"
+                name: tytul
+                widget: string
+              - label: "Nagłówek"
+                name: h
+                widget: string
+              - label: "Opis"
+                name: opis
+                widget: text
+              - label: "Lead"
+                name: lead
+                widget: string
+              - label: "Tekst alternatywny"
+                name: alt
+                widget: string
+              - label: "Strona"
+                name: strona
+                widget: string
+              - label: "Home"
+                name: home
+                widget: string
+              - label: "Rodzaje"
+                name: rodzaje
+                widget: string
+              - label: "Scenariusze"
+                name: scenariusze
+                widget: string
+              - label: "Oferta"
+                name: oferta
+                widget: string
+              - label: "Przestrzenie"
+                name: przestrzenie
+                widget: string
+              - label: "Ceny"
+                name: ceny
+                widget: string
+              - label: "Estymator"
+                name: estymator
+                widget: string
+              - label: "Jedzenie"
+                name: jedzenie
+                widget: string
+              - label: "Galeria"
+                name: galeria
+                widget: string
+              - label: "Wiedza"
+                name: wiedza
+                widget: string
+              - label: "Realizacje"
+                name: realizacje
+                widget: string
+              - label: "Warto"
+                name: warto
+                widget: string
+              - label: "Poradnik"
+                name: poradnik
+                widget: string
+              - label: "Kontakt"
+                name: kontakt
+                widget: string
+              - label: "Ogledziny"
+                name: ogledziny
+                widget: string
+              - label: "Nastepny"
+                name: nastepny
+                widget: string
+              - label: "Brew"
+                name: kicker
+                widget: string
+              - label: "Zdjęcie"
+                name: zdjecie
+                widget: image
+              - label: "Link rodzaje"
+                name: link_rodzaje
+                widget: string
+              - label: "Link budzet"
+                name: link_budzet
+                widget: string
+              - label: "Przycisk"
+                name: cta
+                widget: string
+          - label: "Poradnik"
+            name: poradnik
+            widget: object
+            fields:
+              - label: "Tekst alternatywny"
+                name: alt
+                widget: string
+              - label: "Nastepny"
+                name: nastepny
+                widget: string
+              - label: "Przycisk"
+                name: cta
+                widget: string
+              - label: "Link"
+                name: link
+                widget: string
+              - label: "Tytuł"
+                name: tytul
+                widget: string
+              - label: "Brew"
+                name: kicker
+                widget: string
+              - label: "Zdjęcie"
+                name: zdjecie
+                widget: image
+              - label: "Kicker artykul"
+                name: kicker_artykul
+                widget: string
+              - label: "Zdjecie artykul"
+                name: zdjecie_artykul
+                widget: image
+              - label: "Pusty"
+                name: pusty
+                widget: string
+              - label: "Nastepny artykul"
+                name: nastepny_artykul
+                widget: string
+              - label: "Link tematy"
+                name: link_tematy
+                widget: string
+              - label: "Link budzet"
+                name: link_budzet
+                widget: string
+          - label: "Realizacje"
+            name: realizacje
+            widget: object
+            fields:
+              - label: "Opis"
+                name: opis
+                widget: string
+              - label: "Wkrotce"
+                name: wkrotce
+                widget: string
+              - label: "Lead tak"
+                name: lead_tak
+                widget: string
+              - label: "Lead nie"
+                name: lead_nie
+                widget: string
+              - label: "Zobacz"
+                name: zobacz
+                widget: string
+              - label: "Otworz"
+                name: otworz
+                widget: string
+              - label: "Nastepny"
+                name: nastepny
+                widget: string
+              - label: "Galeria"
+                name: galeria
+                widget: string
+              - label: "Podobny"
+                name: podobny
+                widget: string
+              - label: "Przestrzenie"
+                name: przestrzenie
+                widget: string
+              - label: "Jedzenie"
+                name: jedzenie
+                widget: string
+              - label: "Bar"
+                name: bar
+                widget: string
+              - label: "Atrakcje"
+                name: atrakcje
+                widget: string
+              - label: "Klatki"
+                name: klatki
+                widget: string
+              - label: "Pytanie"
+                name: pytanie
+                widget: string
+              - label: "Tytuł"
+                name: tytul
+                widget: string
+              - label: "Tytul wpis"
+                name: tytul_wpis
+                widget: string
+              - label: "Opis szkic"
+                name: opis_szkic
+                widget: string
+              - label: "Nagłówek"
+                name: h
+                widget: string
+              - label: "Alt pusty"
+                name: alt_pusty
+                widget: string
+              - label: "Zdjecie puste"
+                name: zdjecie_puste
+                widget: image
+              - label: "Wszystkie"
+                name: wszystkie
+                widget: string
+              - label: "Scenariusze"
+                name: scenariusze
+                widget: string
+              - label: "Ceny"
+                name: ceny
+                widget: string
+              - label: "Przycisk"
+                name: cta
+                widget: string
+              - label: "Zdjęcie"
+                name: zdjecie
+                widget: image
+              - label: "Brew zdjecia"
+                name: brew_zdjecia
+                widget: string
+          - label: "Scenariusze"
+            name: scenariusze
+            widget: object
+            fields:
+              - label: "Opis"
+                name: opis
+                widget: text
+              - label: "Brew"
+                name: brew
+                widget: string
+              - label: "Nagłówek"
+                name: h
+                widget: string
+              - label: "Lead"
+                name: lead
+                widget: string
+              - label: "Tekst alternatywny"
+                name: alt
+                widget: string
+              - label: "Lista"
+                name: lista
+                widget: string
+              - label: "Przyklad"
+                name: przyklad
+                widget: string
+              - label: "Godziny"
+                name: godziny
+                widget: string
+              - label: "Zobacz"
+                name: zobacz
+                widget: string
+              - label: "Nastepny"
+                name: nastepny
+                widget: string
+              - label: "Rodzaje"
+                name: rodzaje
+                widget: string
+              - label: "Dzien"
+                name: dzien
+                widget: string
+              - label: "Przebieg"
+                name: przebieg
+                widget: string
+              - label: "Polacz"
+                name: polacz
+                widget: string
+              - label: "Zastrzezenie"
+                name: zastrzezenie
+                widget: text
+              - label: "Wroc"
+                name: wroc
+                widget: string
+              - label: "Plan"
+                name: plan
+                widget: string
+              - label: "Dopasuj"
+                name: dopasuj
+                widget: string
+              - label: "Osob"
+                name: osob
+                widget: string
+              - label: "Tak"
+                name: tak
+                widget: string
+              - label: "Brew galeria"
+                name: brew_galeria
+                widget: string
+              - label: "Zdjecia"
+                name: zdjecia
+                widget: string
+              - label: "Inne"
+                name: inne
+                widget: string
+              - label: "Tez"
+                name: tez
+                widget: string
+              - label: "Policz"
+                name: policz
+                widget: string
+              - label: "Sprawdz"
+                name: sprawdz
+                widget: string
+              - label: "Tytuł"
+                name: tytul
+                widget: string
+              - label: "Zdjęcie"
+                name: zdjecie
+                widget: image
+              - label: "Link budzet"
+                name: link_budzet
+                widget: string
+              - label: "Link przestrzenie"
+                name: link_przestrzenie
+                widget: string
+              - label: "Przycisk"
+                name: cta
+                widget: string
+              - label: "Nastepny wpis"
+                name: nastepny_wpis
+                widget: string
+              - label: "Przestrzenie nazwy"
+                name: przestrzenie_nazwy
+                widget: list
+                fields:
+                  - label: "Identyfikator"
+                    name: id
+                    widget: string
+                  - label: "Wzor"
+                    name: wzor
+                    widget: string
+                  - label: "Etykieta"
+                    name: etykieta
+                    widget: string
+                  - label: "Adres"
+                    name: href
+                    widget: string
+          - label: "Warto"
+            name: warto
+            widget: object
+            fields:
+              - label: "Opis"
+                name: opis
+                widget: text
+              - label: "Brew"
+                name: brew
+                widget: string
+              - label: "Nagłówek"
+                name: h
+                widget: string
+              - label: "Lead"
+                name: lead
+                widget: text
+              - label: "Tekst alternatywny"
+                name: alt
+                widget: string
+              - label: "Nastepny"
+                name: nastepny
+                widget: string
+              - label: "Tytuł"
+                name: tytul
+                widget: string
+              - label: "Temat domyslny"
+                name: temat_domyslny
+                widget: string
+              - label: "Zdjęcie"
+                name: zdjecie
+                widget: image
+              - label: "Link budzet"
+                name: link_budzet
+                widget: string
+              - label: "Link przestrzenie"
+                name: link_przestrzenie
+                widget: string
+              - label: "Przycisk"
+                name: cta
+                widget: string
+          - label: "Eventy"
+            name: eventy
+            widget: object
+            fields:
+              - label: "Tytuł"
+                name: tytul
+                widget: string
+              - label: "Opis"
+                name: opis
+                widget: text
+              - label: "Brew"
+                name: brew
+                widget: string
+              - label: "Nagłówek"
+                name: h
+                widget: string
+              - label: "Lead"
+                name: lead
+                widget: string
+              - label: "Tekst alternatywny"
+                name: alt
+                widget: string
+              - label: "Karty h"
+                name: karty_h
+                widget: string
+              - label: "Karty lead"
+                name: karty_lead
+                widget: string
+              - label: "Albo"
+                name: albo
+                widget: string
+              - label: "Scenariusz h"
+                name: scenariusz_h
+                widget: string
+              - label: "Scenariusz lead"
+                name: scenariusz_lead
+                widget: string
+              - label: "Zobacz"
+                name: zobacz
+                widget: string
+              - label: "Wszystkie"
+                name: wszystkie
+                widget: string
+              - label: "Nastepny"
+                name: nastepny
+                widget: string
+              - label: "Zdjęcie"
+                name: zdjecie
+                widget: image
+              - label: "Brew karty"
+                name: brew_karty
+                widget: string
+              - label: "Link przestrzenie"
+                name: link_przestrzenie
+                widget: string
+              - label: "Link budzet"
+                name: link_budzet
+                widget: string
+              - label: "Przycisk"
+                name: cta
+                widget: string
+          - label: "Event"
+            name: event
+            widget: object
+            fields:
+              - label: "Skrot"
+                name: skrot
+                widget: string
+              - label: "Zakres"
+                name: zakres
+                widget: string
+              - label: "Scenariusz"
+                name: scenariusz
+                widget: string
+              - label: "Godziny"
+                name: godziny
+                widget: string
+              - label: "Zobacz"
+                name: zobacz
+                widget: string
+              - label: "Kuchnia"
+                name: kuchnia
+                widget: string
+              - label: "Menu"
+                name: menu
+                widget: string
+              - label: "Osobno"
+                name: osobno
+                widget: string
+              - label: "Jedzenie"
+                name: jedzenie
+                widget: string
+              - label: "Budzet"
+                name: budzet
+                widget: string
+              - label: "Plan"
+                name: plan
+                widget: string
+              - label: "Pytania"
+                name: pytania
+                widget: string
+              - label: "Faq"
+                name: faq
+                widget: string
+              - label: "Faq lead"
+                name: faq_lead
+                widget: string
+              - label: "Sprawdz"
+                name: sprawdz
+                widget: string
+              - label: "Przestrzenie"
+                name: przestrzenie
+                widget: string
+              - label: "Zdjecie szablon"
+                name: zdjecie_szablon
+                widget: string
+          - label: "Przestrzen"
+            name: przestrzen
+            widget: object
+            fields:
+              - label: "Brew"
+                name: kicker
+                widget: string
+              - label: "Inne"
+                name: inne
+                widget: string
+              - label: "Ceny"
+                name: ceny
+                widget: string
+              - label: "Wycena"
+                name: wycena
+                widget: string
+              - label: "Mozliwosci"
+                name: mozliwosci
+                widget: string
+              - label: "Najlepiej"
+                name: najlepiej
+                widget: string
+              - label: "Skrot"
+                name: skrot
+                widget: string
+              - label: "Pozostale"
+                name: pozostale
+                widget: string
+              - label: "Zobacz"
+                name: zobacz
+                widget: string
+              - label: "Nastepny"
+                name: nastepny
+                widget: string
+              - label: "Pytanie"
+                name: pytanie
+                widget: string
+              - label: "Zdjęcie"
+                name: zdjecie
+                widget: image
+              - label: "Notatki"
+                name: notatki
+                widget: object
+                fields:
+                  - label: "Duze-miejsce"
+                    name: duze-miejsce
+                    widget: text
+                  - label: "Nowe-miejsce"
+                    name: nowe-miejsce
+                    widget: string
+                  - label: "Ogrod"
+                    name: ogrod
+                    widget: string
+                  - label: "Cale-miejsce"
+                    name: cale-miejsce
+                    widget: string
+              - label: "Wynajem"
+                name: wynajem
+                widget: string
+              - label: "Wynajem bez ceny"
+                name: wynajem_bez_ceny
+                widget: string
+              - label: "Zapytaj o"
+                name: zapytaj_o
+                widget: string
+              - label: "Chce"
+                name: chce
+                widget: string
+              - label: "Scenariusze"
+                name: scenariusze
+                widget: string
+              - label: "Sprawdz"
+                name: sprawdz
+                widget: string
+              - label: "Fallback kiedy"
+                name: fallback_kiedy
+                widget: string
+          - label: "Przestrzenie"
+            name: przestrzenie
+            widget: object
+            fields:
+              - label: "Tytuł"
+                name: tytul
+                widget: string
+              - label: "Opis"
+                name: opis
+                widget: text
+              - label: "Nastepny"
+                name: nastepny
+                widget: string
+              - label: "Eventy"
+                name: eventy
+                widget: string
+              - label: "Ceny"
+                name: ceny
+                widget: string
+              - label: "Ogledziny"
+                name: ogledziny
+                widget: string
+              - label: "Zobacz"
+                name: zobacz
+                widget: string
+              - label: "Przycisk"
+                name: cta
+                widget: string
+          - label: "Dzien"
+            name: dzien
+            widget: object
+            fields:
+              - label: "Przycisk"
+                name: cta
+                widget: string
+          - label: "Galeria widget"
+            name: galeria_widget
+            widget: object
+            fields:
+              - label: "Filtr"
+                name: filtr
+                widget: string
+
   - name: kategorie
     label: Rodzaje wydarzeń
     label_singular: Rodzaj
@@ -334,12 +2245,31 @@ collections:
     fields:
       - { label: Tytuł, name: title, widget: string }
       - { label: Etykieta w menu, name: nav_label, widget: string }
+      - { label: Kolor wydarzenia, name: kolor, widget: color, hint: "Tło akcentu. Wesela #D9C8B4, firma #B15E3E, konferencje #6B7A5E, premiery #375C6B" }
+      - { label: Tekst na kolorze, name: kolor_tekst, widget: color, hint: "Musi mieć kontrast AA z kolorem wydarzenia" }
       - { label: Kolejność, name: kolejnosc, widget: number, value_type: int }
       - { label: "Szkic (noindex)", name: szkic, widget: boolean, default: false }
       - { label: Tytuł SEO, name: seo_title, widget: string }
       - { label: Opis SEO, name: seo_description, widget: text }
       - { label: Lead, name: lead, widget: text }
       - { label: Tekst przycisku, name: cta, widget: string }
+      - label: Formaty
+        name: formaty
+        widget: list
+        summary: "{{fields.tytul}}"
+        hint: "Każdy punkt to zakładka w sekcji „Co można tu ułożyć”: wstęp i trzy karty tekstowe, bez zdjęcia"
+        fields:
+          - { label: Tytuł zakładki, name: tytul, widget: string }
+          - { label: Wstęp, name: opis, widget: text }
+          - { label: Rodzaj w formularzu, name: rodzaj, widget: string, hint: "id z cennika: wesele, integracja, firmowy, garden-party, konferencja, szkolenie, premiera", required: false }
+          - label: Karty
+            name: karty
+            widget: list
+            min: 3
+            max: 3
+            fields:
+              - { label: Tytuł, name: tytul, widget: string }
+              - { label: Tekst, name: opis, widget: text }
       - { label: "Do uzupełnienia (nie publikować w produkcji)", name: do_uzupelnienia, widget: text, required: false }
       - { label: Wstęp, name: body, widget: markdown }
 
@@ -432,6 +2362,8 @@ collections:
       - { label: Kolejność, name: kolejnosc, widget: number, value_type: int }
       - { label: "Szkic (ukryty przed Google)", name: szkic, widget: boolean, default: true }
       - { label: Typ, name: typ, widget: string }
+      - { label: "Liczba gości", name: goscie, widget: number, value_type: int, required: false }
+      - { label: Zakres, name: zakres, widget: text, required: false }
       - { label: Metka, name: meta, widget: string }
       - { label: "Lead / opis SEO", name: lead, widget: text }
       - { label: Opis SEO, name: opis_seo, widget: text }

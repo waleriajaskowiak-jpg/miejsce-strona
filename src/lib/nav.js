@@ -1,3 +1,5 @@
+import { etykiety } from "./copy.js";
+
 export const NAV = [
   { href: "/eventy/", label: "Wydarzenia" },
   { href: "/przestrzenie/", label: "Przestrzenie" },
@@ -17,8 +19,15 @@ export const FOOTER_PAGES = [
   { href: "/kontakt/", label: "Kontakt" },
 ];
 
+export function plNumber(n) {
+  const value = Math.round(Number(n));
+  if (!Number.isFinite(value)) return "";
+  const sign = value < 0 ? "-" : "";
+  return sign + String(Math.abs(value)).replace(/\B(?=(\d{3})+(?!\d))/g, "\u00A0");
+}
+
 export function zloty(n) {
-  return `${new Intl.NumberFormat("pl-PL", { useGrouping: true }).format(n)}\u00a0zł`;
+  return `${plNumber(n)}\u00A0zł`;
 }
 
 export function sortByOrder(entries) {
@@ -33,7 +42,7 @@ export function venueJsonLd(kontakt, opis, fakty) {
     name: "MIEJSCE",
     description: opis,
     url: "https://miejsce.to/",
-    image: ["https://miejsce.to/img/pdf/hero-main.jpg"],
+    image: [new URL(etykiety.og_obraz, "https://miejsce.to").href],
     telephone: kontakt.telefon_href,
     email: kontakt.email,
     address: {
@@ -45,7 +54,6 @@ export function venueJsonLd(kontakt, opis, fakty) {
     },
     areaServed: "Warszawa",
     parentOrganization: { "@id": "https://miejsce.to/#org" },
-    maximumAttendeeCapacity: fakty?.przestrzenie?.cale?.maks_osob || 350,
   };
   const org = {
     "@type": "Organization",

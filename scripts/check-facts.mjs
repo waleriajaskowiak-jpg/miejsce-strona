@@ -25,6 +25,10 @@ const needles = [
   "Nowego Miejsca",
   "52.2196114",
   "21.0473079",
+  "także w deszczu",
+  "także gdy pada",
+  "także wtedy, gdy pada",
+  "Premiery i wydarzenia specjalne",
 ];
 
 async function files(dir, out = []) {

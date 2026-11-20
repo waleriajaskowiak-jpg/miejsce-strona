@@ -1,0 +1,104 @@
+---
+import { etykiety } from "../lib/copy.js";
+
+const { slides = [] } = Astro.props;
+const cardsFor = (slide) => (slide.karty || []).slice(0, 3);
+const ui = etykiety.slider;
+---
+
+<section class="event-format event-tint reveal" id="co-mozna" data-format>
+  <div class="wrap">
+    <header class="event-head">
+      <p class="eyebrow">{ui.zakres}</p>
+      <h2>{ui.co_mozna}</h2>
+    </header>
+    <div class="format-tabs" role="tablist" aria-label="Warianty">
+      {slides.map((slide, index) => (
+        <button
+          type="button"
+          role="tab"
+          id={`format-tab-${index}`}
+          aria-selected={index === 0 ? "true" : "false"}
+          aria-controls={`format-panel-${index}`}
+          tabindex={index === 0 ? 0 : -1}
+        >{slide.tytul}</button>
+      ))}
+    </div>
+    <div class="format-stage" data-format-stage>
+      {slides.map((slide, index) => (
+        <div
+          class:list={["format-panel-text", index === 0 && "is-active"]}
+          id={`format-panel-${index}`}
+          role="tabpanel"
+          aria-labelledby={`format-tab-${index}`}
+          hidden={index === 0 ? undefined : true}
+        >
+          <p class="lead event-lead">{slide.opis}</p>
+          <div class="event-offers">
+            {cardsFor(slide).map((card, cardIndex) => (
+              <article class="event-card">
+                <p class="event-num">{String(cardIndex + 1).padStart(2, "0")}</p>
+                <h3>{card.tytul}</h3>
+                <p>{card.opis}</p>
+              </article>
+            ))}
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<script>
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  document.querySelectorAll("[data-format]").forEach((root) => {
+    const tabs = [...root.querySelectorAll('[role="tab"]')];
+    const panels = [...root.querySelectorAll('[role="tabpanel"]')];
+    const stage = root.querySelector("[data-format-stage]");
+    if (!tabs.length || !stage) return;
+    let index = Math.max(0, tabs.findIndex((tab) => tab.getAttribute("aria-selected") === "true"));
+
+    const paint = (next) => {
+      index = Math.max(0, Math.min(tabs.length - 1, next));
+      tabs.forEach((tab, i) => {
+        const on = i === index;
+        tab.setAttribute("aria-selected", on ? "true" : "false");
+        tab.tabIndex = on ? 0 : -1;
+      });
+      panels.forEach((panel, i) => {
+        const on = i === index;
+        panel.hidden = !on;
+        panel.classList.toggle("is-active", on);
+      });
+    };
+
+    const select = (next, focusTab = false) => {
+      const target = Math.max(0, Math.min(tabs.length - 1, next));
+      if (target === index) return;
+      const apply = () => {
+        paint(target);
+        stage.classList.remove("is-swap");
+        if (focusTab) tabs[target].focus();
+      };
+      if (reduce) {
+        apply();
+        return;
+      }
+      stage.classList.add("is-swap");
+      window.setTimeout(apply, 180);
+    };
+
+    tabs.forEach((tab, i) => {
+      tab.addEventListener("click", () => select(i));
+      tab.addEventListener("keydown", (event) => {
+        if (event.key !== "ArrowRight" && event.key !== "ArrowLeft" && event.key !== "Home" && event.key !== "End") return;
+        event.preventDefault();
+        if (event.key === "Home") select(0, true);
+        else if (event.key === "End") select(tabs.length - 1, true);
+        else select(index + (event.key === "ArrowRight" ? 1 : -1), true);
+      });
+    });
+
+    if (reduce) root.classList.add("is-instant");
+  });
+</script>

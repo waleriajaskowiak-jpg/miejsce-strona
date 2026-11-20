@@ -1,15 +1,18 @@
 ---
 import Base from "../layouts/Base.astro";
+import { podstrony } from "../lib/copy.js";
+
+const page = podstrony.brak;
 ---
 
-<Base title="Nie ma takiej strony | MIEJSCE" description="Ta strona nie istnieje." robots="noindex,follow">
+<Base title={page.tytul} description={page.opis} robots="noindex,follow">
   <header class="wrap page-hero">
-    <p class="kicker">404</p>
-    <h1>Tu nic nie stoi</h1>
-    <p class="lede">Sprawdź adres albo wróć do przestrzeni i cen.</p>
+    <p class="kicker">{page.kicker}</p>
+    <h1>{page.h1}</h1>
+    <p class="lede">{page.lead}</p>
     <div class="btn-row">
-      <a class="btn" href="/">Strona główna</a>
-      <a class="btn ghost" href="/przestrzenie/">Przestrzenie</a>
+      <a class="btn" href="/">{page.home}</a>
+      <a class="btn ghost" href="/przestrzenie/">{page.przestrzenie}</a>
     </div>
   </header>
 </Base>

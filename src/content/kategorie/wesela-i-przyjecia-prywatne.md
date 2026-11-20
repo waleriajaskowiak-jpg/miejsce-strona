@@ -1,6 +1,8 @@
 ---
 title: "Wesela i przyjęcia prywatne"
 nav_label: "Wesela i przyjęcia"
+kolor: "#D9C8B4"
+kolor_tekst: "#2B2B2B"
 kolejnosc: 3
 szkic: false
 seo_title: "Wesela i przyjęcia nad wodą w Warszawie | MIEJSCE"
@@ -17,6 +19,47 @@ co_mozna:
   - "Przyjęcie urodzinowe"
   - "Jubileusz"
   - "Kolacja dla gości"
+formaty:
+  - tytul: "Wesele nad wodą"
+    opis: "Ceremonia, stół i taniec są w jednym kompleksie nad Wisłą. Altana i parkiet leżą obok siebie."
+    rodzaj: "wesele"
+    karty:
+      - tytul: "Goście"
+        opis: "50–250 gości, zależnie od formuły"
+      - tytul: "Altana i parkiet"
+        opis: "Duże Miejsce. Altana i parkiet leżą obok siebie"
+      - tytul: "Osobno w ofercie"
+        opis: "Wynajem od 5 godzin. Menu, bar i zespół wyceniamy osobno"
+  - tytul: "Przyjęcie urodzinowe"
+    opis: "Kameralny wieczór albo większe przyjęcie, bez sali szkoleniowej w tle. To dzień stołu, nie konferencji."
+    rodzaj: "wesele"
+    karty:
+      - tytul: "Goście"
+        opis: "Liczbę gości układamy pod salę"
+      - tytul: "Sala"
+        opis: "Duże Miejsce albo Miejscowy Ogród"
+      - tytul: "Menu"
+        opis: "Menu od 180 zł netto za osobę. Wynajem od 5 godzin"
+  - tytul: "Jubileusz"
+    opis: "Dłuższy wieczór przy stole, z parkietem na tej samej barce. Mniejsze przyjęcie zostaje w Dużym Miejscu, większe idzie na cały kompleks."
+    rodzaj: "wesele"
+    karty:
+      - tytul: "Goście"
+        opis: "Do 250 gości w formule przyjęcia, większe w całym miejscu"
+      - tytul: "Miejsce"
+        opis: "Duże Miejsce albo cały kompleks"
+      - tytul: "Wieczór"
+        opis: "Od kolacji do tańca, wynajem od 5 h. Zakres potwierdzamy w ofercie"
+  - tytul: "Kolacja dla gości"
+    opis: "Stół dla mniejszego grona, nad wodą. Wynajem, menu i bar liczymy osobno. Na stronie nie ma jednej ceny przyjęcia."
+    rodzaj: "wesele"
+    karty:
+      - tytul: "Goście"
+        opis: "Małe grono, liczbę potwierdzamy pod układ"
+      - tytul: "Sala"
+        opis: "Małe albo Duże Miejsce"
+      - tytul: "Wieczór"
+        opis: "Wynajem od 5 godzin. Menu i bar ustalamy w ofercie"
 dla_ilu: "Liczba gości zależy od formuły: od 50 do 250. Mniejsze przyjęcie układamy na Dużym Miejscu, większe w ogrodzie albo w całym kompleksie"
 przestrzenie:
   - "duze-miejsce"

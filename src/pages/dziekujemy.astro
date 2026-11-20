@@ -1,14 +1,17 @@
 ---
 import Base from "../layouts/Base.astro";
+import { podstrony } from "../lib/copy.js";
+
+const page = podstrony.dziekujemy;
 ---
 
-<Base title="Dziękujemy | MIEJSCE" description="Brief dotarł do MIEJSCA." robots="noindex,follow">
+<Base title={page.tytul} description={page.opis} robots="noindex,follow">
   <header class="wrap page-hero">
-    <p class="kicker">Brief wysłany</p>
-    <h1>Dziękujemy</h1>
-    <p class="lede">Dostaliśmy wiadomość. Odezwiemy się z terminem albo propozycją oględzin.</p>
+    <p class="kicker">{page.kicker}</p>
+    <h1>{page.h1}</h1>
+    <p class="lede">{page.lead}</p>
     <div class="btn-row">
-      <a class="btn" href="/">Wróć na stronę</a>
+      <a class="btn" href="/">{page.cta}</a>
     </div>
   </header>
 </Base>

@@ -1,69 +1,36 @@
 ---
+import { etykiety, podstrony } from "../lib/copy.js";
+
 const { fakty, spaces, heading = "h2" } = Astro.props;
+const ui = etykiety.picker;
+const copy = Object.fromEntries(ui.wiersze.map((row) => [row.id, row]));
 const Title = heading;
 const byId = Object.fromEntries(spaces.map((space) => [space.id, space]));
 const f = fakty.przestrzenie;
 const rows = [
   {
-    id: "duze",
-    slug: "duze-miejsce",
-    cap: f.duze.zima_liczba,
-    capt: f.duze.zima_osob,
-    meta: `${f.duze.wnetrze_m2} m² + ${f.duze.taras_m2} m²`,
-    kick: "Pierwsza barka, z kontenerów morskich",
-    kpis: [[String(f.duze.wnetrze_m2), "m² wnętrza"], [String(f.duze.taras_m2), "m² tarasu"], ["~120", "osób zimą"]],
-  },
-  {
-    id: "male",
-    slug: "nowe-miejsce",
-    cap: f.male.gosci,
-    capt: `do ${f.male.gosci} osób`,
-    meta: `${f.male.wnetrze_m2} m² + ${f.male.taras_m2} m² tarasu`,
-    kick: "Sala konferencyjna i zadaszony taras",
-    kpis: [[String(f.male.wnetrze_m2), "m² sali"], [String(f.male.taras_m2), "m² tarasu"], [String(f.male.gosci), "osób"]],
-  },
-  {
-    id: "ogrod",
-    slug: "ogrod",
-    cap: f.ogrod.gosci,
-    capt: f.ogrod.gosci_tekst,
-    meta: `${f.ogrod.powierzchnia_m2} m² · ${f.ogrod.sezon}`,
-    kick: "Ogród, wycena indywidualna",
-    kpis: [[String(f.ogrod.powierzchnia_m2), "m² ogrodu"], ["~100", "osób"], ["V–IX", "sezon"]],
-  },
-  {
-    id: "all",
-    slug: "cale-miejsce",
-    cap: f.cale.maks_osob,
-    capt: `do ${f.cale.maks_osob} osób`,
-    meta: "2 barki + ogród, także w deszczu",
-    kick: "Cały kompleks",
-    kpis: [[String(f.cale.maks_osob), "gości"], [String(fakty.bary.stale), "bary"], ["2", "barki"]],
-  },
-].map((row) => {
+    id: "duze", slug: "duze-miejsce", cap: f.duze.zima_liczba, capt: f.duze.zima_osob, meta: `${f.duze.wnetrze_m2}\u00A0m² + ${f.duze.taras_m2}\u00A0m²`, kick: copy.duze.kick, kpis: [[String(f.duze.wnetrze_m2), copy.duze.kpi[0]], [String(f.duze.taras_m2), copy.duze.kpi[1]], [copy.duze.kpi_3_wartosc, copy.duze.kpi[2]]], }, {
+    id: "male", slug: "nowe-miejsce", cap: f.male.gosci, capt: copy.male.capt.replace("{n}", String(f.male.gosci)), meta: `${f.male.wnetrze_m2}\u00A0m² + ${f.male.taras_m2}\u00A0m² tarasu`, kick: copy.male.kick, kpis: [[String(f.male.wnetrze_m2), copy.male.kpi[0]], [String(f.male.taras_m2), copy.male.kpi[1]], [String(f.male.gosci), copy.male.kpi[2]]], }, {
+    id: "ogrod", slug: "ogrod", cap: f.ogrod.gosci, capt: f.ogrod.gosci_tekst, meta: `${f.ogrod.powierzchnia_m2}\u00A0m² · ${f.ogrod.sezon}`, kick: copy.ogrod.kick, kpis: [[String(f.ogrod.powierzchnia_m2), copy.ogrod.kpi[0]], [copy.ogrod.kpi_2_wartosc, copy.ogrod.kpi[1]], [copy.ogrod.kpi_3_wartosc, copy.ogrod.kpi[2]]], }, {
+    id: "all", slug: "cale-miejsce", cap: f.cale.maks_osob, capt: copy.all.capt.replace("{n}", String(f.cale.maks_osob)), meta: f.cale.maks_kiedy || podstrony.przestrzen.fallback_kiedy, kick: copy.all.kick, kpis: [[String(f.cale.maks_osob), copy.all.kpi[0]], [String(fakty.bary.stale), copy.all.kpi[1]], ["2", copy.all.kpi[2]]], }, ].map((row) => {
   const space = byId[row.slug];
   return {
-    ...row,
-    name: space?.data.title || row.slug,
-    lead: space?.data.lead || "",
-    cover: space?.data.cover || "",
-    href: `/przestrzenie/${row.slug}/`,
-  };
+    ...row, name: space?.data.title || row.slug, lead: space?.data.lead || "", cover: space?.data.cover || "", href: `/przestrzenie/${row.slug}/`, };
 });
 const payload = JSON.stringify(rows).replace(/</g, "\\u003c");
 ---
 
-<div class="picker" data-picker>
+<div class="picker" data-picker data-pasuje={ui.pasuje} data-zobacz={etykiety.zobacz} style={`--za-malo:${JSON.stringify(etykiety.za_malo_miejsca)}`}>
   <script type="application/json" class="picker-data" set:html={payload} />
   <div class="picker-top">
     <div>
-      <p class="eyebrow">02 · Przestrzenie</p>
-      <Title>Jedno Miejsce. Trzy przestrzenie</Title>
+      <p class="eyebrow">{ui.brew}</p>
+      <Title>{ui.tytul}</Title>
     </div>
     <div class="guests">
-      <label>Ilu będzie gości? <output data-gout>120</output></label>
+      <label>{ui.pytanie} <output data-gout>120</output></label>
       <input data-grange type="range" min="20" max={f.cale.maks_osob} step="10" value="120" />
-      <p data-gfit>Pasuje: <b></b></p>
+      <p data-gfit>{ui.pasuje} <b></b></p>
     </div>
   </div>
   <div class="ex">
@@ -75,17 +42,17 @@ const payload = JSON.stringify(rows).replace(/</g, "\\u003c");
       <img class="ph" data-ph alt="" width="1800" height="1200" />
       <div class="grain"></div>
       <div class="tabs" role="tablist">
-        <button type="button" class="on" data-tab="photo">Zdjęcia</button>
-        <button type="button" data-tab="plan">Plan</button>
+        <button type="button" class="on" data-tab="photo">{ui.zdjecia}</button>
+        <button type="button" data-tab="plan">{ui.plan}</button>
       </div>
       <div class="st-cap">
         <small data-kick></small>
         <p data-lead></p>
-        <a class="btn btn-primary" data-go href="/przestrzenie/duze-miejsce/"><span data-golabel>Zobacz przestrzeń</span></a>
+        <a class="btn btn-primary" data-go href="/przestrzenie/duze-miejsce/"><span data-golabel>{ui.cta}</span></a>
       </div>
       <div class="mini">
         <div class="pl">
-          <img src="/img/plan.png" alt="" width="2000" height="1325" />
+          <img src={etykiety.plan.zdjecie} alt="" width="2000" height="1325" />
           <svg viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
             <rect class="zone" data-z="all" x="6.5" y="0.5" width="91" height="94" rx="1.4"></rect>
             <polygon class="zone" data-z="duze" points="31.2,5.6 51.8,5.6 51.8,1.2 83.3,1.2 83.3,50.2 63.8,50.2 63.8,58.8 53.2,58.8 53.2,47.4 31.2,47.4"></polygon>
@@ -93,8 +60,9 @@ const payload = JSON.stringify(rows).replace(/</g, "\\u003c");
             <polygon class="zone" data-z="ogrod" points="44.8,58.8 93.6,58.8 93.6,73.8 44.8,73.8"></polygon>
           </svg>
         </div>
-        <p><span>Plan kompleksu</span><span data-mz></span></p>
+        <p><span>{ui.podpis}</span><span data-mz></span></p>
       </div>
+      <button type="button" class="plan-close" data-plan-close aria-label={podstrony.galeria.zamknij}>×</button>
     </div>
   </div>
 </div>
@@ -119,7 +87,7 @@ const payload = JSON.stringify(rows).replace(/</g, "\\u003c");
       const go = root.querySelector("[data-go]");
       go.href = row.href;
       const label = go.querySelector("[data-golabel]");
-      if (label) label.textContent = `Zobacz ${row.name}`;
+      if (label) label.textContent = `${root.getAttribute("data-zobacz")} ${row.name}`;
       root.querySelectorAll(".mini .zone").forEach((zone) => zone.classList.toggle("on", zone.dataset.z === id));
       root.querySelector("[data-kpis]").innerHTML = row.kpis.map(([value, label]) => `<div><b>${value}</b><span>${label}</span></div>`).join("");
     };
@@ -131,7 +99,7 @@ const payload = JSON.stringify(rows).replace(/</g, "\\u003c");
         const row = rows.find((entry) => entry.id === item.dataset.id);
         item.classList.toggle("off", row.cap < guests);
       });
-      root.querySelector("[data-gfit]").innerHTML = `Pasuje: <b>${ok.map((row) => row.name).join(", ")}</b>`;
+      root.querySelector("[data-gfit]").innerHTML = `${root.getAttribute("data-pasuje")} <b>${ok.map((row) => row.name).join(", ")}</b>`;
       if (!ok.find((row) => row.id === current) && ok[0]) paint(ok[0].id);
     };
     list.querySelectorAll(".item").forEach((item) => {
@@ -140,11 +108,30 @@ const payload = JSON.stringify(rows).replace(/</g, "\\u003c");
       item.addEventListener("click", () => paint(item.dataset.id));
     });
     range.addEventListener("input", fit);
+    const stage = root.querySelector(".stage");
+    const closePlan = () => {
+      if (!stage?.classList.contains("show-plan")) return;
+      stage.classList.remove("show-plan");
+      root.querySelectorAll("[data-tab]").forEach((peer) => peer.classList.toggle("on", peer.dataset.tab === "photo"));
+      root.querySelector('[data-tab="plan"]')?.focus();
+    };
     root.querySelectorAll("[data-tab]").forEach((tab) => {
       tab.addEventListener("click", () => {
         root.querySelectorAll("[data-tab]").forEach((peer) => peer.classList.toggle("on", peer === tab));
-        root.querySelector(".stage").classList.toggle("show-plan", tab.dataset.tab === "plan");
+        stage?.classList.toggle("show-plan", tab.dataset.tab === "plan");
       });
+    });
+    root.querySelector("[data-plan-close]")?.addEventListener("click", (event) => {
+      event.stopPropagation();
+      closePlan();
+    });
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") closePlan();
+    });
+    document.addEventListener("click", (event) => {
+      if (!stage?.classList.contains("show-plan")) return;
+      if (stage.contains(event.target)) return;
+      closePlan();
     });
     paint("duze");
     fit();

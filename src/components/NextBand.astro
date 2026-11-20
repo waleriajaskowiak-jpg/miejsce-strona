@@ -1,5 +1,7 @@
 ---
-const { kicker = "Następny krok", title, links = [], cta = "Zaplanuj event", href = "/kontakt/" } = Astro.props;
+import { etykiety, nawigacja } from "../lib/copy.js";
+
+const { kicker = etykiety.nastepny_krok, title, lead = "", links = [], cta = nawigacja.cta_mobile, href = "/kontakt/" } = Astro.props;
 ---
 
 <section class="next-band">
@@ -7,6 +9,7 @@ const { kicker = "Następny krok", title, links = [], cta = "Zaplanuj event", hr
     <div class="next-copy">
       <p class="kicker">{kicker}</p>
       <h2>{title}</h2>
+      {lead && <p class="lead">{lead}</p>}
     </div>
     <div class="next-actions">
       <div class="btn-row">

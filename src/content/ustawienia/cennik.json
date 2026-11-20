@@ -1,6 +1,12 @@
 {
   "naglowek": "Ile kosztuje event w MIEJSCU?",
-  "lead": "Zależy, co robimy. Ale nie musisz wysyłać zapytania, żeby dowiedzieć się, czy mówimy o 20 czy 100 tysiącach",
+  "lead": "Zależy, co robimy. Nie musisz wysyłać zapytania, żeby zobaczyć, czy mówimy o 20 czy o 100 tysiącach.",
+  "uwagi": [
+    "Ceny netto",
+    "Za 5 godzin",
+    "Do kwoty doliczamy 10% serwisu",
+    "Widełki „od”, nie wycena końcowa"
+  ],
   "opis_seo": "Orientacyjne ceny wynajmu, cateringu i open baru w MIEJSCU. Moduł budżetu odpowiada słownie, bez kwoty co do złotówki",
   "wynajem_h": "Przestrzeń",
   "wynajem_lead": "Orientacyjnie:",
@@ -32,9 +38,9 @@
     },
     {
       "id": "cale",
-      "nazwa": "Cały kompleks + ogród",
+      "nazwa": "Całe Miejsce",
       "cena_od": null,
-      "dopisek": "Duże Miejsce, Małe Miejsce i Ogród",
+      "dopisek": "Duże Miejsce, Małe Miejsce i Miejscowy Ogród",
       "czas": "5 h"
     }
   ],
@@ -105,31 +111,38 @@
   "typy_eventu": [
     {
       "id": "firmowy",
-      "nazwa": "Event firmowy"
+      "nazwa": "Event firmowy",
+      "kategoria": "eventy-firmowe-i-integracje"
     },
     {
       "id": "konferencja",
-      "nazwa": "Konferencja"
+      "nazwa": "Konferencja",
+      "kategoria": "konferencje-i-szkolenia"
     },
     {
       "id": "szkolenie",
-      "nazwa": "Szkolenie"
+      "nazwa": "Szkolenie",
+      "kategoria": "konferencje-i-szkolenia"
     },
     {
       "id": "integracja",
-      "nazwa": "Integracja"
+      "nazwa": "Integracja",
+      "kategoria": "eventy-firmowe-i-integracje"
     },
     {
       "id": "premiera",
-      "nazwa": "Premiera / event dla klientów"
+      "nazwa": "Premiera / event dla klientów",
+      "kategoria": "premiery-i-eventy-marek"
     },
     {
       "id": "wesele",
-      "nazwa": "Wesele"
+      "nazwa": "Wesele",
+      "kategoria": "wesela-i-przyjecia-prywatne"
     },
     {
       "id": "garden-party",
-      "nazwa": "Garden party"
+      "nazwa": "Garden party",
+      "kategoria": "eventy-firmowe-i-integracje"
     },
     {
       "id": "inne",

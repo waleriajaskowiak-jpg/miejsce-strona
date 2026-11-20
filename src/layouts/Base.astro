@@ -1,22 +1,18 @@
 ---
+import "../styles/fonts.css";
 import "../styles/tokens.css";
 import "../styles/system.css";
 import "../styles/harbour.css";
 import "../styles/mobile.css";
+import "../styles/rebrand.css";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 import { IS_PROD } from "../lib/env.js";
+import { etykiety, nawigacja } from "../lib/copy.js";
+import { toneIsLight, eventInk, eventNum } from "../lib/event-color.js";
 
 const {
-  title,
-  description,
-  image = "/img/pdf/hero-main.jpg",
-  robots = "index,follow",
-  jsonLd = [],
-  overlay = false,
-  ogType = "website",
-  preload = false,
-} = Astro.props;
+  title, description, image = etykiety.og_obraz, robots = "index,follow", jsonLd = [], overlay = false, ogType = "website", preload = false, preloadSrcset, preloadHref, preloadType, eventColor = "", eventOn = "", } = Astro.props;
 
 const canonical = new URL(Astro.url.pathname, Astro.site);
 const absImage = new URL(image, Astro.site).href;
@@ -33,15 +29,20 @@ const jsonBlocks = jsonLd.map((obj) => JSON.stringify(obj).replace(/</g, "\\u003
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical.href} />
     <meta name="robots" content={robotsFinal} />
-    {preload && <link rel="preload" as="image" href={image} />}
+    <link rel="preload" href="/fonts/bebas-neue-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/bebas-neue-latin-ext.woff2" as="font" type="font/woff2" crossorigin />
+    {preload && (
+      <link
+        rel="preload"
+        as="image"
+        href={preloadHref || (preloadSrcset ? image : image)}
+        imagesrcset={preloadSrcset}
+        imagesizes={preloadSrcset ? "100vw" : undefined}
+        type={preloadType}
+      />
+    )}
     <meta name="theme-color" content="#ffffff" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Stencil+Display:wght@700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
-      rel="stylesheet"
-    />
     <meta property="og:type" content={ogType} />
     <meta property="og:locale" content="pl_PL" />
     <meta property="og:site_name" content="MIEJSCE" />
@@ -62,8 +63,11 @@ const jsonBlocks = jsonLd.map((obj) => JSON.stringify(obj).replace(/</g, "\\u003
       }
     </script>
   </head>
-  <body class:list={[overlay && "has-overlay"]}>
-    <a class="skip" href="#main">Przejdź do treści</a>
+  <body
+    class:list={[overlay && "has-overlay", eventColor && "has-event", eventColor && toneIsLight(eventColor) && "tone-light"]}
+    style={eventColor ? `--event-color:${eventColor};--event-on:${eventOn};--event-ink:${eventInk(eventColor)};--event-num:${eventNum(eventColor)}` : undefined}
+  >
+    <a class="skip" href="#main">{nawigacja.pomin}</a>
     <Header />
     <div class="page-scroll">
       <main id="main" tabindex="-1">
@@ -71,31 +75,39 @@ const jsonBlocks = jsonLd.map((obj) => JSON.stringify(obj).replace(/</g, "\\u003
       </main>
       <Footer />
     </div>
-    <a class="mob-cta btn btn-primary" href="/kontakt/" hidden>Zaplanuj event</a>
+    <a class="mob-cta btn btn-primary" href="/kontakt/" hidden>{nawigacja.cta_mobile}</a>
     <script>
       const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-      const nodes = document.querySelectorAll(".reveal");
-      if (reduce) {
-        nodes.forEach((el) => el.classList.add("is-in"));
+      const nodes = [...document.querySelectorAll(".reveal")];
+      const show = (el) => el.classList.add("is-in");
+      if (reduce || !("IntersectionObserver" in window)) {
+        nodes.forEach(show);
       } else {
+        const scroller = document.querySelector(".page-scroll");
+        const scrolls = scroller && getComputedStyle(scroller).overflowY !== "visible";
         const io = new IntersectionObserver(
           (entries) => {
             for (const entry of entries) {
               if (!entry.isIntersecting) continue;
-              entry.target.classList.add("is-in");
+              show(entry.target);
               io.unobserve(entry.target);
             }
-          },
-          { threshold: 0.12, rootMargin: "0px 0px -8% 0px" },
-        );
+          }, { root: scrolls ? scroller : null, threshold: 0, rootMargin: "0px" }, );
         nodes.forEach((el) => io.observe(el));
+        const finish = () => nodes.forEach(show);
+        window.addEventListener("load", finish, { once: true });
+        window.setTimeout(finish, 1200);
       }
 
       const root = document.querySelector("main");
       const skip = new Set(["SCRIPT", "STYLE", "TEXTAREA", "INPUT", "SELECT"]);
+      const glueText = (value) => value
+        .replace(/(\d)[ \u00A0\u202F]+(?=\d{3}(?:\D|$))/g, "$1\u00A0")
+        .replace(/(\d)[ \u00A0\u202F]+(zł|m²|osób|osoby|osoba|h)(?![A-Za-zÀ-ž])/gi, "$1\u00A0$2")
+        .replace(/(^|[\s\u00A0])([aiouwzAIOUWZ])[ \t]+/g, "$1$2\u00A0");
       const glue = (node) => {
         if (node.nodeType === 3 && node.nodeValue) {
-          node.nodeValue = node.nodeValue.replace(/(^|\s)([aiouwzAIOUWZ])\s+/g, "$1$2\u00A0");
+          node.nodeValue = glueText(node.nodeValue);
           return;
         }
         if (node.nodeType === 1 && !skip.has(node.nodeName)) {
@@ -125,7 +137,14 @@ const jsonBlocks = jsonLd.map((obj) => JSON.stringify(obj).replace(/</g, "\\u003
           return box.top < window.innerHeight - 80 && box.bottom > 120;
         });
         const phone = window.matchMedia("(max-width: 800px)").matches;
-        const show = phone && !onKontakt && !drawer && !ctaInView && !footNear && !formNear && scrollY() > 280;
+        const y = scrollY();
+        const down = y > (onScroll.lastY || 0) + 6;
+        const up = y < (onScroll.lastY || 0) - 6;
+        onScroll.lastY = y;
+        if (!phone || onKontakt || drawer || y < 160) onScroll.want = false;
+        else if (down || footNear || formNear) onScroll.want = false;
+        else if (up) onScroll.want = true;
+        const show = Boolean(onScroll.want);
         bar.hidden = !show;
         bar.classList.remove("is-quiet");
         document.body.classList.toggle("has-bar", show);

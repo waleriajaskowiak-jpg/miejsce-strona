@@ -1,43 +1,66 @@
 ---
-import { getCollection, render } from "astro:content";
+import { getCollection, getEntry, render } from "astro:content";
 import Base from "../../layouts/Base.astro";
+import Icon from "../../components/Icon.astro";
+import CapacityTabs from "../../components/CapacityTabs.astro";
 import PageHero from "../../components/PageHero.astro";
 import NextBand from "../../components/NextBand.astro";
+import { etykiety, podstrony, crumb } from "../../lib/copy.js";
 import { crumbsJsonLd, sortByOrder, zloty } from "../../lib/nav.js";
+
+const page = podstrony.przestrzen;
 
 export async function getStaticPaths() {
   const entries = await getCollection("przestrzenie");
   return entries.map((entry) => ({ params: { id: entry.id }, props: { entry } }));
 }
 
+const specIcon = (text) => {
+  const t = text.toLowerCase();
+  if (t.includes("osób") || t.includes("osob") || t.includes("gości")) return "users";
+  if (t.includes("taras")) return "terrace";
+  if (t.includes("m²") || t.includes("m2")) return "ruler";
+  return "check";
+};
+const specRank = (name) => (name === "users" ? 0 : name === "ruler" || name === "terrace" ? 1 : 2);
+const specChips = (text) =>
+  String(text || "")
+    .split("·")
+    .map((part) => part.trim())
+    .filter(Boolean)
+    .map((label) => ({ label, name: specIcon(label) }));
 const { entry } = Astro.props;
+const fakty = (await getEntry("ustawienia", "fakty"))!.data;
+const ukladKey = { "duze-miejsce": "duze", "nowe-miejsce": "male", ogrod: "ogrod", "cale-miejsce": "cale" }[entry.id];
+const kiedy = fakty.przestrzenie?.cale?.maks_kiedy || page.fallback_kiedy;
+const configNote = (page.notatki[entry.id] || "").replaceAll("{kiedy}", kiedy);
 const { Content } = await render(entry);
 const wszystkie = sortByOrder(await getCollection("przestrzenie"));
 const inne = wszystkie.filter((item) => item.id !== entry.id);
 const crumbs = [
-  { href: "/przestrzenie/", label: "Przestrzenie" },
-  { label: entry.data.title },
-];
+  { href: "/przestrzenie/", label: crumb("/przestrzenie/") }, { label: entry.data.title }, ];
 ---
 
 <Base
   title={`${entry.data.title} | MIEJSCE`}
   description={entry.data.opis_seo}
   image={entry.data.cover}
-  jsonLd={[crumbsJsonLd([{ href: "/", label: "MIEJSCE" }, { href: "/przestrzenie/", label: "Przestrzenie" }, { href: `/przestrzenie/${entry.id}/`, label: entry.data.title }])]}
+  jsonLd={[crumbsJsonLd([{ href: "/", label: crumb("/") }, { href: "/przestrzenie/", label: crumb("/przestrzenie/") }, { href: `/przestrzenie/${entry.id}/`, label: entry.data.title }])]}
 >
   <PageHero
     crumbs={crumbs}
-    kicker="Przestrzeń"
+    kicker={page.kicker}
     title={entry.data.title}
-    lede={`${entry.data.lead} ${entry.data.meta}`}
+    lede={entry.data.lead}
     image={entry.data.cover}
     imageAlt={entry.data.title}
-  />
+  >
+    {entry.data.meta && <p class="meta">{entry.data.meta}</p>}
+  </PageHero>
 
   <section class="band">
     <div class="wrap">
-      <nav class="sibling-nav" aria-label="Inne przestrzenie">
+      <nav class="sibling-nav" aria-label={page.inne}>
         {wszystkie.map((space) => (
           <a class:list={["btn", space.id === entry.id ? "btn-primary" : "btn-ghost"]} href={`/przestrzenie/${space.id}/`} aria-current={space.id === entry.id ? "page" : undefined}>{space.data.title}</a>
         ))}
@@ -49,31 +72,36 @@ const crumbs = [
         {
           entry.data.cena_od ? (
             <p>
-              Wynajem {entry.data.cena_etykieta || `od ${zloty(entry.data.cena_od)}`} za 5 h, netto. Do ceny doliczamy 10% serwisu.{" "}
-              <a href="/ceny/">Zobacz ceny</a>
+              {page.wynajem.replace("{cena}", entry.data.cena_etykieta || `${etykiety.od} ${zloty(entry.data.cena_od)}`)}{" "}
+              <a href="/ceny/">{page.ceny}</a>
             </p>
           ) : entry.data.cena_etykieta ? (
             <p>
-              Wynajem: {entry.data.cena_etykieta}. Do cen jedzenia i baru doliczamy 10% serwisu.{" "}
-              <a href={`/kontakt/?przestrzen=${encodeURIComponent(entry.data.title)}`}>Poproś o wycenę</a>
+              {page.wynajem_bez_ceny.replace("{etykieta}", entry.data.cena_etykieta)}{" "}
+              <a href={`/kontakt/?przestrzen=${encodeURIComponent(entry.data.title)}`}>{page.wycena}</a>
             </p>
           ) : null
         }
+        <CapacityTabs rows={fakty.uklady?.[ukladKey] || []} note={configNote} />
         <div class="btn-row">
           <a class="btn" href={`/kontakt/?przestrzen=${encodeURIComponent(entry.data.title)}`}>
-            Zapytaj o {entry.data.title}
+            {page.zapytaj_o} {entry.data.title}
           </a>
-          <a class="btn btn-ghost" href="/ceny/">Ceny i możliwości</a>
+          <a class="btn btn-ghost" href="/ceny/">{page.mozliwosci}</a>
         </div>
       </div>
       <div>
-        <p class="kicker">Najlepiej sprawdza się na</p>
+        <p class="kicker">{page.najlepiej}</p>
         <ul class="tags">
           {entry.data.najlepiej.map((item) => <li>{item}</li>)}
         </ul>
-        <p class="eyebrow">W skrócie</p>
-        <ul class="spec-list">
-          {entry.data.w_skrocie.map((item) => <li>{item}</li>)}
+        <p class="eyebrow">{page.skrot}</p>
+        <ul class="spec-chips">
+          {[...entry.data.w_skrocie]
+            .sort((a, b) => specRank(specIcon(a)) - specRank(specIcon(b)))
+            .map((item) => (
+              <li><Icon name={specIcon(item)} /><span>{item}</span></li>
+            ))}
         </ul>
       </div>
     </div>
@@ -84,7 +112,7 @@ const crumbs = [
       {
         entry.data.zdjecia.slice(0, 3).map((src, index) => (
           <figure class:list={["print", index === 0 ? "big tilt-l land" : index === 1 ? "tilt-r" : "tilt-s"]}>
-            <img src={src} alt={`${entry.data.title}, zdjęcie ${index + 1}`} loading="lazy" />
+            <img src={src} alt={`${entry.data.title}, ${page.zdjecie} ${index + 1}`} loading="lazy" />
           </figure>
         ))
       }
@@ -93,34 +121,34 @@ const crumbs = [
 
   <section class="band">
     <div class="wrap">
-      <h2>Pozostałe przestrzenie</h2>
-      <ul class="scenario-index">
+      <h2>{page.pozostale}</h2>
+      <div class="more-spaces">
         {
           inne.map((space, index) => (
-            <li>
-              <a href={`/przestrzenie/${space.id}/`}>
+            <a class="more-card" href={`/przestrzenie/${space.id}/`}>
+              <img src={space.data.cover} alt="" loading="lazy" />
+              <span class="more-body">
                 <span class="num">0{index + 1}</span>
-                <span>
-                  <strong>{space.data.title}</strong>
-                  <em>{space.data.meta}</em>
-                </span>
-                <img src={space.data.cover} alt="" loading="lazy" />
-              </a>
-            </li>
+                <h3>{space.data.title}</h3>
+                <ul class="spec-chips">
+                  {specChips(space.data.meta).map((chip) => (
+                    <li><Icon name={chip.name} /><span>{chip.label}</span></li>
+                  ))}
+                </ul>
+                <span class="go">{page.zobacz} <Icon name="arrow" /></span>
+              </span>
+            </a>
           ))
         }
-      </ul>
+      </div>
     </div>
   </section>
   <NextBand
-    kicker="Następny krok"
-    title="Sprawdź, czy budżet się mieści"
+    kicker={etykiety.nastepny_krok}
+    title={page.nastepny}
     links={[
-      { href: "/ceny/#estymator", label: "Sprawdź budżet" },
-      { href: "/eventy/", label: "Scenariusze" },
-      { href: "/jedzenie-i-bar/", label: "Jedzenie i bar" },
-    ]}
-    cta={`Zapytaj o ${entry.data.title}`}
-    href={`/kontakt/?wiadomosc=${encodeURIComponent("Chcę zapytać o " + entry.data.title)}#brief`}
+      { href: "/ceny/#estymator", label: page.sprawdz }, { href: "/eventy/", label: page.scenariusze }, { href: "/jedzenie-i-bar/", label: etykiety.jedzenie_i_bar }, ]}
+    cta={`${page.zapytaj_o} ${entry.data.title}`}
+    href={`/kontakt/?wiadomosc=${encodeURIComponent(page.chce + " " + entry.data.title)}#brief`}
   />
 </Base>
